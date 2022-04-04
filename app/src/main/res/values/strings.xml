@@ -10,6 +10,9 @@
     <string name="err_code_1008">Mã xác nhận đã hết hạn!</string>
     <string name="err_code_1009">Mã này đã được sử dụng!</string>
     <string name="err_code_1010">Mã xác nhận được gửi trước đó vẫn còn khả dụng!</string>
+    <string name="err_code_1011">Đã tồn tại!</string>
+    <string name="err_code_1012">Không có dữ liệu!</string>
+    <string name="err_code_1013">Vui lòng nhập đủ dữ liệu!</string>
     <string name="mail_description">Mail reset mật khẩu đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
 
 </resources>

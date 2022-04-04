@@ -23,6 +23,9 @@ public class Constrants {
         public static final int ERROR_1008 = 1008;
         public static final int ERROR_1009 = 1009;
         public static final int ERROR_1010 = 1010;
+        public static final int ERROR_1011 = 1011;
+        public static final int ERROR_1012 = 1012;
+        public static final int ERROR_1013 = 1013;
 
     }
 
