@@ -1,6 +1,6 @@
 package com.example.client.app;
 
-public class Constrants {
+public class Constants {
     public class MORE{
         public static final String CATEGORY = "CATEGORY";
         public static final String HIGHLIGHT = "HIGHLIGHT";
@@ -32,4 +32,9 @@ public class Constrants {
     public static final Double SECTION_1 = 1000000.0;
     public static final Double SECTION_2 = 2000000.0;
     public static final Double SECTION_5 = 5000000.0;
+
+    public enum RequestType{
+        REGISTER,
+        RESET_PASSWORD
+    }
 }

@@ -11,7 +11,7 @@ import com.example.client.models.profile.ProfileModel;
 import com.example.client.models.subject.SubjectModel;
 import com.example.client.models.transaction.TransactionModel;
 import com.example.client.screens.wallet.fragment.IWalletView;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,34 +34,34 @@ public class WalletPresent implements IWalletPresent{
 
     @Override
     public void onShowTransaction(String label, int user) {
-        if(label.equals(Constrants.TRANSACTION.INPUT)){
+        if(label.equals(Constants.TRANSACTION.INPUT)){
             RechargeService service = ApiClient.getInstance().create(RechargeService.class);
             service.getByUser(user).enqueue(new Callback<List<TransactionModel>>() {
                 @Override
                 public void onResponse(Call<List<TransactionModel>> call, Response<List<TransactionModel>> response) {
-                    wView.showTransaction(response.body(), Constrants.TRANSACTION.INPUT);
+                    wView.showTransaction(response.body(), Constants.TRANSACTION.INPUT);
 
                 }
 
                 @Override
                 public void onFailure(Call<List<TransactionModel>> call, Throwable t) {
-                    wView.showTransaction(new ArrayList<>(), Constrants.TRANSACTION.INPUT);
+                    wView.showTransaction(new ArrayList<>(), Constants.TRANSACTION.INPUT);
 
                 }
             });
         }
-        if(label.equals(Constrants.TRANSACTION.OUPUT)){
+        if(label.equals(Constants.TRANSACTION.OUPUT)){
             TransactionService service = ApiClient.getInstance().create(TransactionService.class);
             service.getByUser(user).enqueue(new Callback<List<TransactionModel>>() {
                 @Override
                 public void onResponse(Call<List<TransactionModel>> call, Response<List<TransactionModel>> response) {
-                    wView.showTransaction(response.body(), Constrants.TRANSACTION.OUPUT);
+                    wView.showTransaction(response.body(), Constants.TRANSACTION.OUPUT);
 
                 }
 
                 @Override
                 public void onFailure(Call<List<TransactionModel>> call, Throwable t) {
-                    wView.showTransaction(new ArrayList<>(), Constrants.TRANSACTION.OUPUT);
+                    wView.showTransaction(new ArrayList<>(), Constants.TRANSACTION.OUPUT);
 
                 }
             });

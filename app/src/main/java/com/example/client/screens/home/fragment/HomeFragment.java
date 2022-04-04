@@ -2,7 +2,6 @@ package com.example.client.screens.home.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.client.R;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 import com.example.client.app.Preferences;
 import com.example.client.models.banner.BannerModel;
 import com.example.client.models.home.HomeIconModel;
@@ -33,7 +32,6 @@ import com.example.client.screens.home.present.HomePresent;
 import com.example.client.screens.profile.manager_info.ManagerInfoActivity;
 import com.example.client.screens.subject.activity.SubjectMoreActivity;
 import com.example.client.screens.subject.item.SubjectVerticalItem;
-import com.google.android.gms.common.util.NumberUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -41,8 +39,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener, IHomeView {
@@ -133,13 +129,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
             case R.id.moreHightLight:
                 Intent intentHightLight = new Intent(getActivity(), SubjectMoreActivity.class);
                 intentHightLight.putExtra("name",titleHightLight.getText().toString());
-                intentHightLight.putExtra("method", Constrants.MORE.HIGHLIGHT);
+                intentHightLight.putExtra("method", Constants.MORE.HIGHLIGHT);
                 startActivity(intentHightLight);
                 break;
             case R.id.moreNew:
                 Intent intentNew = new Intent(getActivity(), SubjectMoreActivity.class);
                 intentNew.putExtra("name",titleNew.getText().toString());
-                intentNew.putExtra("method", Constrants.MORE.NEW);
+                intentNew.putExtra("method", Constants.MORE.NEW);
                 startActivity(intentNew);
                 break;
             case R.id.profile:

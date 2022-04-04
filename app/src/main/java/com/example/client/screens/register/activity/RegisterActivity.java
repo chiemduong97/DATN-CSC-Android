@@ -18,8 +18,9 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.example.client.R;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 import com.example.client.dialog.PrimaryDialog;
+import com.example.client.dialog.VertificationDialog;
 import com.example.client.models.message.MessageModel;
 import com.example.client.screens.login.activity.LoginEmailActivity;
 import com.example.client.screens.main.activity.MainActivity;
@@ -27,19 +28,21 @@ import com.example.client.screens.register.present.RegisterPresent;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, IRegisterView {
     private ScrollView scrollView;
-    private EditText fullname,email,password,confirm;
-    private ToggleButton eyePassword,eyeConfirm;
+    private EditText phone, email, password, confirm;
+    private ToggleButton eyePassword, eyeConfirm;
     private ImageView back;
     private TextView register;
-    private TextView error_fullname,error_email,error_password,error_confirm;
+    private TextView error_phone, error_email, error_password, error_confirm;
     private RegisterPresent rPresent;
     private ProgressBar progressBar;
     private PrimaryDialog dialog;
+    private VertificationDialog vertificationDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        fullname = findViewById(R.id.fullname);
+        phone = findViewById(R.id.phone);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         confirm = findViewById(R.id.confirm);
@@ -47,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         eyeConfirm = findViewById(R.id.eyeConfirm);
         back = findViewById(R.id.back);
         register = findViewById(R.id.register);
-        error_fullname = findViewById(R.id.error_fullname);
+        error_phone = findViewById(R.id.error_phone);
         error_email = findViewById(R.id.error_email);
         error_password = findViewById(R.id.error_password);
         error_confirm = findViewById(R.id.error_confirm);
@@ -57,32 +60,29 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         rPresent = new RegisterPresent(this);
         dialog = new PrimaryDialog();
         dialog.getInstance(this);
-
         password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         eyePassword.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked){
+            if (isChecked) {
                 password.setInputType(InputType.TYPE_CLASS_TEXT);
                 password.setSelection(password.getText().length());
-            }
-            else {
+            } else {
                 password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 password.setSelection(password.getText().length());
             }
         });
 
         eyeConfirm.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked){
+            if (isChecked) {
                 confirm.setInputType(InputType.TYPE_CLASS_TEXT);
                 confirm.setSelection(confirm.getText().length());
-            }
-            else {
+            } else {
                 confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 confirm.setSelection(confirm.getText().length());
             }
         });
 
-        fullname.addTextChangedListener(new TextWatcher() {
+        phone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -90,16 +90,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 6){
-                    error_fullname.setText("*Họ và tên < 6 ký tự");
-                    error_fullname.setVisibility(View.VISIBLE);
-                    checkButton();
+                String regex = "^(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b";
+                if (phone.getText().toString().matches(regex)) {
+                    error_phone.setText("");
+                    error_phone.setVisibility(View.GONE);
+                } else {
+                    error_phone.setText("*Số điện thoại chưa đúng");
+                    error_phone.setVisibility(View.VISIBLE);
                 }
-                else {
-                    error_fullname.setText("");
-                    error_fullname.setVisibility(View.GONE);
-                    checkButton();
-                }
+                checkButton();
             }
 
             @Override
@@ -116,24 +115,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 6){
+                if (s.length() < 6) {
                     error_email.setText("*Email < 6 ký tự");
                     error_email.setVisibility(View.VISIBLE);
-                    checkButton();
-                }
-                else {
+                } else {
                     String regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-                    if(email.getText().toString().matches(regex)){
+                    if (email.getText().toString().matches(regex)) {
                         error_email.setText("");
                         error_email.setVisibility(View.GONE);
-                        checkButton();
-                    }
-                    else {
+                    } else {
                         error_email.setText("*Email chưa đúng định dạng");
                         error_email.setVisibility(View.VISIBLE);
-                        checkButton();
                     }
                 }
+                checkButton();
             }
 
             @Override
@@ -150,16 +145,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 6){
+                if (s.length() < 6) {
                     error_password.setText("*Password < 6 ký tự");
                     error_password.setVisibility(View.VISIBLE);
-                    checkButton();
-                }
-                else {
+                } else {
                     error_password.setText("");
                     error_password.setVisibility(View.GONE);
-                    checkButton();
                 }
+                checkButton();
             }
 
             @Override
@@ -176,13 +169,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!password.getText().toString().equals(confirm.getText().toString())){
+                if (!password.getText().toString().equals(confirm.getText().toString())) {
                     error_confirm.setText("*Xác nhận mật khẩu chưa chính xác");
                     error_confirm.setVisibility(View.VISIBLE);
                     checkButton();
-                    scrollView.post(() -> scrollView.scrollTo(0,scrollView.getHeight()));
-                }
-                else {
+                    scrollView.post(() -> scrollView.scrollTo(0, scrollView.getHeight()));
+                } else {
                     error_confirm.setText("");
                     error_confirm.setVisibility(View.GONE);
                     checkButton();
@@ -200,20 +192,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    public void checkButton(){
-        if(error_fullname.getText().toString().length()==0&&
-                error_email.getText().toString().length()==0&&
-                error_password.getText().toString().length()==0&&
-                error_confirm.getText().toString().length()==0)
-        {
-            setButton(true,R.drawable.bg_btn);
-        }
-        else {
-            setButton(false,R.drawable.bg_btn_disable);
+    public void checkButton() {
+        if (error_phone.getText().toString().length() == 0 &&
+                error_email.getText().toString().length() == 0 &&
+                error_password.getText().toString().length() == 0 &&
+                error_confirm.getText().toString().length() == 0) {
+            setButton(true, R.drawable.bg_btn);
+        } else {
+            setButton(false, R.drawable.bg_btn_disable);
         }
     }
 
-    public void setButton(boolean enable, int background){
+    public void setButton(boolean enable, int background) {
 
         register.setEnabled(enable);
         register.setBackgroundResource(background);
@@ -221,45 +211,44 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 onBackPressed();
                 break;
             case R.id.register:
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                if(getCurrentFocus()!=null){
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (getCurrentFocus() != null) {
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 }
-                rPresent.onRegister(fullname.getText().toString().trim(),
-                        email.getText().toString().trim(),
-                        password.getText().toString().trim());
+
+                rPresent.sendEmail(email.getText().toString());
                 break;
         }
     }
 
     @Override
     public void register(MessageModel message) {
-        if(message.isStatus()){
+        if (message.isStatus()) {
             dialog.setDescription("Đăng ký thành công");
             dialog.hideBtnCancel();
             dialog.show();
-            dialog.setOKListener(()->{
+            dialog.setOKListener(() -> {
                 finish();
                 LoginEmailActivity.loginEmailActivity.finish();
                 startActivity(new Intent(this, MainActivity.class));
             });
-        }
-        else {
-            switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+        } else {
+            switch (message.getCode()) {
+                case Constants.ErrorCode.ERROR_1001:
                     dialog.setDescription(getString(R.string.err_code_1001));
                     break;
-                case Constrants.ErrorCode.ERROR_1003:
+                case Constants.ErrorCode.ERROR_1003:
                     dialog.setDescription(getString(R.string.err_code_1003));
                     break;
             }
-            dialog.setOKListener(()->{});
+            dialog.setOKListener(() -> {
+            });
             dialog.hideBtnCancel();
             dialog.show();
         }
@@ -279,5 +268,49 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         register.setBackgroundResource(R.drawable.bg_btn);
         register.setText("Đăng ký");
         register.setEnabled(true);
+    }
+
+    @Override
+    public void showDialog(MessageModel message) {
+        if (message.isStatus()) {
+            vertificationDialog = new VertificationDialog();
+            vertificationDialog.getInstance(this);
+            vertificationDialog.show();
+            vertificationDialog.setOKListener(() -> rPresent.vertification(email.getText().toString(), VertificationDialog.vertificationCode));
+            vertificationDialog.setCancelListener(null);
+        } else {
+            switch (message.getCode()) {
+                case Constants.ErrorCode.ERROR_1001:
+                    dialog.setDescription(getString(R.string.err_code_1001));
+                    break;
+                case Constants.ErrorCode.ERROR_1003:
+                    dialog.setDescription(getString(R.string.err_code_1003));
+                    break;
+                case Constants.ErrorCode.ERROR_1010:
+                    dialog.setDescription(getString(R.string.err_code_1010));
+                    break;
+            }
+            dialog.setOKListener(() -> {
+            });
+            dialog.hideBtnCancel();
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void toRegister(MessageModel message) {
+        if (message.isStatus()) {
+            rPresent.onRegister(phone.getText().toString(), email.getText().toString(), password.getText().toString());
+        } else {
+            switch (message.getCode()) {
+                case Constants.ErrorCode.ERROR_1001:
+                    dialog.setDescription(getString(R.string.err_code_1001));
+                    break;
+            }
+            dialog.setOKListener(() -> {
+            });
+            dialog.hideBtnCancel();
+            dialog.show();
+        }
     }
 }

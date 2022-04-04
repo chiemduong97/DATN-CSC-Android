@@ -1,5 +1,6 @@
 package com.example.client.api.service;
 
+import com.example.client.app.Constants;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.ProfileModel;
 
@@ -13,51 +14,50 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface UserService {
-    @GET("views/user/checkEmail.php")
+    @GET("api/user/checkEmail.php")
     Call<MessageModel> checkEmail(@Query("email") String email);
 
     @FormUrlEncoded
-    @POST("views/user/register.php")
-    Call<MessageModel> register(@Field("fullname") String fullname,
+    @POST("api/user/register.php")
+    Call<MessageModel> register(@Field("phone") String phone,
                                 @Field("email") String email,
                                 @Field("password") String password);
-
     @FormUrlEncoded
-    @POST("views/user/login.php")
+    @POST("api/user/login.php")
     Call<MessageModel> login(@Field("email") String email,
                              @Field("password") String password);
 
-    @GET("views/user/getUserByEmail.php")
+    @GET("api/user/getUserByEmail.php")
     Call<ProfileModel> getUserByEmail(@Query("email") String email);
 
-    @POST("views/user/updateInfo.php")
+    @POST("api/user/updateInfo.php")
     Call<MessageModel> updateInfo(@Body ProfileModel user);
 
     @FormUrlEncoded
-    @POST("views/user/updatePass.php")
+    @POST("api/user/updatePass.php")
     Call<MessageModel> udpatePass(@Field("email") String email,
                                   @Field("oldpassword") String oldpassword,
                                   @Field("newpassword") String newpassword);
 
     @FormUrlEncoded
-    @POST("views/user/updateAvatar.php")
+    @POST("api/user/updateAvatar.php")
     Call<MessageModel> updateAvatar(@Field("email") String email,
                                     @Field("avatar") String avatar);
 
     @FormUrlEncoded
-    @POST("views/user/updateDeviceToken.php")
+    @POST("api/user/updateDeviceToken.php")
     Call<MessageModel> updateDeviceToken(@Field("email") String email,
                                          @Field("deviceToken") String deviceToken);
 
-    @GET("views/user/sendEmail.php")
-    Call<MessageModel> sendEmail(@Query("email") String email);
+    @GET("api/user/sendEmail.php")
+    Call<MessageModel> sendEmail(@Query("email") String email, @Query("requestType") Constants.RequestType requestType);
 
     @FormUrlEncoded
-    @POST("views/user/vertification.php")
+    @POST("api/user/vertification.php")
     Call<MessageModel> vertification(@Field("email") String email,
                                      @Field("code") String code);
     @FormUrlEncoded
-    @POST("views/user/resetPassword.php")
+    @POST("api/user/resetPassword.php")
     Call<MessageModel> resetPassword(@Field("email") String email,
                                      @Field("password") String password);
 }

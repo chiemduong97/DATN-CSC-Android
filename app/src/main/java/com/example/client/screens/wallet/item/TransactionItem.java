@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.client.R;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 import com.example.client.models.transaction.TransactionModel;
 import com.example.client.screens.wallet.activity.TransactionDetailActivity;
 import com.example.client.utils.OnDeleteItemClick;
@@ -64,14 +64,14 @@ public class TransactionItem extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TransactionModel item = items.get(position);
         ((MyViewHolder)holder).createAt.setText(item.getCreateAt());
         ((MyViewHolder)holder).orderCode.setText("#"+item.getOrdercode());
-        if(method.equals(Constrants.TRANSACTION.INPUT)){
+        if(method.equals(Constants.TRANSACTION.INPUT)){
             ((MyViewHolder)holder).label.setText("Nạp tiền");
             Locale localeVN = new Locale("vi","VN");
             NumberFormat format = NumberFormat.getCurrencyInstance(localeVN);
             ((MyViewHolder)holder).amount.setText("+" + format.format(item.getAmount()));
             ((MyViewHolder)holder).amount.setTextColor(Color.GREEN);
         }
-        if(method.equals(Constrants.TRANSACTION.OUPUT)){
+        if(method.equals(Constants.TRANSACTION.OUPUT)){
             ((MyViewHolder)holder).label.setText("Đăng ký khóa học");
             Locale localeVN = new Locale("vi","VN");
             NumberFormat format = NumberFormat.getCurrencyInstance(localeVN);

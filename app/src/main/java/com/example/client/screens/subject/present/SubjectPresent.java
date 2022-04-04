@@ -3,7 +3,7 @@ package com.example.client.screens.subject.present;
 import com.example.client.api.ApiClient;
 import com.example.client.api.service.SubjectService;
 import com.example.client.api.service.TransactionService;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.subject.SubjectModel;
 import com.example.client.screens.subject.activity.ISubjectView;
@@ -56,7 +56,7 @@ public class SubjectPresent implements ISubjectPresent{
     @Override
     public void onShowMoreSubjects(int id, String method) {
 
-        if(method.equals(Constrants.MORE.CATEGORY)){
+        if(method.equals(Constants.MORE.CATEGORY)){
             SubjectService service = ApiClient.getInstance().create(SubjectService.class);
             service.getByCategory(id,1000).enqueue(new Callback<List<SubjectModel>>() {
                 @Override
@@ -70,7 +70,7 @@ public class SubjectPresent implements ISubjectPresent{
                 }
             });
         }
-        if(method.equals(Constrants.MORE.HIGHLIGHT)){
+        if(method.equals(Constants.MORE.HIGHLIGHT)){
             SubjectService service = ApiClient.getInstance().create(SubjectService.class);
             service.getHighLight(1000).enqueue(new Callback<List<SubjectModel>>() {
                 @Override
@@ -85,7 +85,7 @@ public class SubjectPresent implements ISubjectPresent{
                 }
             });
         }
-        if(method.equals(Constrants.MORE.NEW)){
+        if(method.equals(Constants.MORE.NEW)){
             SubjectService service = ApiClient.getInstance().create(SubjectService.class);
             service.getNew(1000).enqueue(new Callback<List<SubjectModel>>() {
                 @Override
