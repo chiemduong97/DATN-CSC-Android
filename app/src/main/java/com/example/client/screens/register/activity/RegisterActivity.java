@@ -60,6 +60,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         rPresent = new RegisterPresent(this);
         dialog = new PrimaryDialog();
         dialog.getInstance(this);
+        vertificationDialog = new VertificationDialog();
+        vertificationDialog.getInstance(this);
         password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         eyePassword.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -247,8 +249,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     dialog.setDescription(getString(R.string.err_code_1003));
                     break;
             }
-            dialog.setOKListener(() -> {
-            });
+            dialog.setOKListener(null);
             dialog.hideBtnCancel();
             dialog.show();
         }
@@ -273,27 +274,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void showDialog(MessageModel message) {
         if (message.isStatus()) {
-            vertificationDialog = new VertificationDialog();
-            vertificationDialog.getInstance(this);
             vertificationDialog.show();
+            vertificationDialog.hideDescription();
             vertificationDialog.setOKListener(() -> rPresent.vertification(email.getText().toString(), VertificationDialog.vertificationCode));
-            vertificationDialog.setCancelListener(null);
+            vertificationDialog.setCancelListener(() -> {});
         } else {
+            vertificationDialog.hideBtnCancel();
+            vertificationDialog.hideViewCode();
+            vertificationDialog.enableBtnOK();
+            vertificationDialog.setOKListener(() -> { });
             switch (message.getCode()) {
                 case Constants.ErrorCode.ERROR_1001:
-                    dialog.setDescription(getString(R.string.err_code_1001));
+                    vertificationDialog.setDescription(getString(R.string.err_code_1001));
                     break;
                 case Constants.ErrorCode.ERROR_1003:
-                    dialog.setDescription(getString(R.string.err_code_1003));
+                    vertificationDialog.setDescription(getString(R.string.err_code_1003));
                     break;
                 case Constants.ErrorCode.ERROR_1010:
-                    dialog.setDescription(getString(R.string.err_code_1010));
+                    vertificationDialog.showBtnCancel();
+                    vertificationDialog.showViewCode();
+                    vertificationDialog.setCancelListener(() -> { });
+                    vertificationDialog.setDescription(getString(R.string.err_code_1010));
+                    vertificationDialog.setOKListener(() -> rPresent.vertification(email.getText().toString(), VertificationDialog.vertificationCode));
                     break;
             }
-            dialog.setOKListener(() -> {
-            });
-            dialog.hideBtnCancel();
-            dialog.show();
+            vertificationDialog.show();
         }
     }
 
