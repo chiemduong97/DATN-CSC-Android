@@ -2,7 +2,6 @@ package com.example.client.api.service;
 
 import com.example.client.models.banner.BannerModel;
 import com.example.client.models.category.CategoryModel;
-import com.example.client.models.nhanvien.NhanVienModel;
 
 import java.util.List;
 
@@ -17,10 +16,4 @@ public interface BannerService {
     @GET("views/nhanvien/getDepartment.php")
     Call<List<String>> getDepartment();
 
-
-    @GET("views/nhanvien/getByDepartment.php")
-    Call<List<NhanVienModel>> getByDepartment(@Query("department") String deparment);
-
-    @GET("views/nhanvien/getBySalary.php")
-    Call<List<NhanVienModel>> getBySalary();
 }
