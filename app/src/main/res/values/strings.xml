@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Client</string>
+    <string name="err_code_1001">Đã xảy ra lỗi, vui lòng thử lại!</string>
+    <string name="err_code_1002">Email chưa được đăng ký, vui lòng thử lại!</string>
+    <string name="err_code_1003">Email đã được đăng ký!</string>
+    <string name="err_code_1004">Mật khẩu chưa chính xác!</string>
+    <string name="err_code_1005">Tài khoản đã bị khóa, vui lòng liên hệ admin để mở khóa!</string>
+    <string name="err_code_1006">Mật khẩu cũ chưa chính xác!</string>
+    <string name="err_code_1007">Mã xác nhận chưa chính xác!</string>
+    <string name="err_code_1008">Mã xác nhận đã hết hạn!</string>
+    <string name="err_code_1009">Mã này đã được sử dụng!</string>
+    <string name="err_code_1010">Mã xác nhận được gửi trước đó vẫn còn khả dụng!</string>
+    <string name="mail_description">Mail reset mật khẩu đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
+
+</resources>

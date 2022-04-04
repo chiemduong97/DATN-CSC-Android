@@ -1,0 +1,10 @@
+<resources>
+    <style name="CProgressbar.White" parent="@style/Theme.AppCompat">
+        <item name="colorAccent">@color/white</item>
+    </style>
+
+    <style name="CProgressbar.Red" parent="@style/Theme.AppCompat">
+        <item name="colorAccent">@color/red_light</item>
+    </style>
+
+</resources>
