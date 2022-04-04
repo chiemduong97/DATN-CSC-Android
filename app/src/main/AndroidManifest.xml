@@ -15,8 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Client">
-        <activity android:name=".screens.nhanvien.activity.NhanVienActivity"></activity>
-        <activity android:name=".screens.nhanvien.activity.DepartmentActivity" />
         <activity android:name=".screens.message.activity.MessageActivity" />
         <activity android:name=".screens.noti.activity.NotificationActivity" />
         <activity android:name=".screens.reset.activity.PasswordResetActivity" />
