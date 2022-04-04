@@ -16,8 +16,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.example.client.R;
-import com.example.client.app.Constrants;
-import com.example.client.app.Preferences;
+import com.example.client.app.Constants;
 import com.example.client.dialog.PrimaryDialog;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.ProfileModel;
@@ -240,10 +239,10 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
         }
         else {
             switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+                case Constants.ErrorCode.ERROR_1001:
                     dialog.setDescription(getString(R.string.err_code_1001));
                     break;
-                case Constrants.ErrorCode.ERROR_1006:
+                case Constants.ErrorCode.ERROR_1006:
                     dialog.setDescription(getString(R.string.err_code_1006));
                     break;
             }

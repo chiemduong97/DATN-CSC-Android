@@ -2,12 +2,11 @@ package com.example.client.screens.reset.present;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.widget.TextView;
 
 import com.example.client.api.ApiClient;
 import com.example.client.api.service.UserService;
+import com.example.client.app.Constants;
 import com.example.client.models.message.MessageModel;
 import com.example.client.screens.reset.activity.IPasswordResetView;
 
@@ -15,8 +14,6 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,19 +25,19 @@ public class PasswordResetPresent implements IPasswordResetPresent{
     }
 
     @Override
-    public void onVertification(String email, String code) {
+    public void vertification(String email, String code) {
         pView.showVertifiLoading();
         UserService service = ApiClient.getInstance().create(UserService.class);
         service.vertification(email,code).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
-                pView.verification(response.body());
+                pView.showViewPassword(response.body());
                 pView.hideVertifiLoading();
             }
 
             @Override
             public void onFailure(Call<MessageModel> call, Throwable t) {
-                pView.verification(new MessageModel(false,1001,null));
+                pView.showViewPassword(new MessageModel(false,1001,null));
                 pView.hideVertifiLoading();
             }
         });
@@ -70,7 +67,7 @@ public class PasswordResetPresent implements IPasswordResetPresent{
     public void onSendEmail(String email) {
         pView.showSendEmailLoading();
         UserService service = ApiClient.getInstance().create(UserService.class);
-        service.sendEmail(email).enqueue(new Callback<MessageModel>() {
+        service.sendEmail(email, Constants.RequestType.RESET_PASSWORD).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 pView.sendEmail(response.body());

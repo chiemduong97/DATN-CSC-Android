@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -20,14 +19,11 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.example.client.R;
-import com.example.client.app.Constrants;
-import com.example.client.app.Preferences;
+import com.example.client.app.Constants;
 import com.example.client.models.message.MessageModel;
-import com.example.client.models.profile.ProfileModel;
 import com.example.client.screens.login.present.LoginPresent;
 import com.example.client.screens.main.activity.MainActivity;
 import com.example.client.screens.reset.activity.PasswordResetActivity;
-import com.google.gson.Gson;
 
 public class LoginPasswordActivity extends AppCompatActivity implements View.OnClickListener, ILoginView {
     private EditText password;
@@ -137,13 +133,13 @@ public class LoginPasswordActivity extends AppCompatActivity implements View.OnC
         }
         else {
             switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+                case Constants.ErrorCode.ERROR_1001:
                     tv_error.setText(R.string.err_code_1001);
                     break;
-                case Constrants.ErrorCode.ERROR_1004:
+                case Constants.ErrorCode.ERROR_1004:
                     tv_error.setText(R.string.err_code_1004);
                     break;
-                case Constrants.ErrorCode.ERROR_1005:
+                case Constants.ErrorCode.ERROR_1005:
                     tv_error.setText(R.string.err_code_1005);
                     break;
             }

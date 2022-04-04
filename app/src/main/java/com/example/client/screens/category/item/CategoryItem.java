@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.client.R;
-import com.example.client.api.ApiClient;
-import com.example.client.api.service.SubjectService;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 import com.example.client.models.category.CategoryModel;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.subject.SubjectModel;
@@ -23,13 +21,8 @@ import com.example.client.screens.subject.activity.ISubjectView;
 import com.example.client.screens.subject.activity.SubjectMoreActivity;
 import com.example.client.screens.subject.item.SubjectVerticalItem;
 import com.example.client.screens.subject.present.SubjectPresent;
-import com.example.client.utils.OnShowSubjects;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CategoryItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<CategoryModel> items;
@@ -117,7 +110,7 @@ public class CategoryItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             Intent intent = new Intent(context, SubjectMoreActivity.class);
             intent.putExtra("id", item.getId());
             intent.putExtra("name",item.getName());
-            intent.putExtra("method", Constrants.MORE.CATEGORY);
+            intent.putExtra("method", Constants.MORE.CATEGORY);
             context.startActivity(intent);
         });
     }

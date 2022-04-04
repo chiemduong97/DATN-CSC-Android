@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.client.R;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 import com.example.client.app.Preferences;
 import com.example.client.dialog.PrimaryDialog;
 import com.example.client.models.message.MessageModel;
@@ -26,7 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class UpdateInfoActivity extends AppCompatActivity implements View.OnClickListener, IManagerInfoView {
-    private EditText fullname,birthday,address,phone;
+    private EditText fullname,birthday,phone;
     private TextView update;
     private ImageView back;
     private ManagerInfoPresent mPresent;
@@ -39,7 +39,6 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_update_info);
         fullname = findViewById(R.id.fullname);
         birthday = findViewById(R.id.birthday);
-        address = findViewById(R.id.address);
         phone = findViewById(R.id.phone);
         update = findViewById(R.id.update);
         back = findViewById(R.id.back);
@@ -73,7 +72,6 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
                 else {
                     user.setFullname(fullname.getText().toString().trim());
                     user.setBirthday(birthday.getText().toString().trim());
-                    user.setAddress(address.getText().toString().trim());
                     user.setPhone(phone.getText().toString().trim());
                     mPresent.onUpdateInfo(user);
                 }
@@ -103,7 +101,6 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
         this.user = user;
         fullname.setText(user.getFullname());
         birthday.setText(user.getBirthday());
-        address.setText(user.getAddress());
         phone.setText(user.getPhone());
     }
 
@@ -125,7 +122,7 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
         }
         else {
             switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+                case Constants.ErrorCode.ERROR_1001:
                     dialog.setDescription(getString(R.string.err_code_1001));
                     break;
             }
