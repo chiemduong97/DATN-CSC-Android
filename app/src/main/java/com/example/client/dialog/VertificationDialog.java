@@ -42,8 +42,7 @@ public class VertificationDialog implements View.OnClickListener {
         btnOK.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
 
-        btnOK.setEnabled(false);
-        btnOK.setBackgroundResource(R.drawable.bg_btn_disable);
+        disableBtnOk();
 
         code.setOtpListener(new OTPListener() {
             @Override
@@ -65,10 +64,12 @@ public class VertificationDialog implements View.OnClickListener {
             case R.id.btnOK:
                 oKListener.onCallback();
                 dialog.dismiss();
+                code.setOTP("");
                 break;
             case R.id.btnCancel:
                 cancelListener.onCallback();
                 dialog.dismiss();
+                code.setOTP("");
                 break;
 
         }
@@ -88,6 +89,11 @@ public class VertificationDialog implements View.OnClickListener {
 
     public void hideBtnCancel() {
         btnCancel.setVisibility(View.GONE);
+    }
+
+    public void disableBtnOk() {
+        btnOK.setEnabled(false);
+        btnOK.setBackgroundResource(R.drawable.bg_btn_disable);
     }
 
     public void enableBtnOK(){

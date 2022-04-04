@@ -293,6 +293,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 case Constants.ErrorCode.ERROR_1010:
                     vertificationDialog.showBtnCancel();
                     vertificationDialog.showViewCode();
+                    vertificationDialog.disableBtnOk();
                     vertificationDialog.setCancelListener(() -> { });
                     vertificationDialog.setDescription(getString(R.string.err_code_1010));
                     vertificationDialog.setOKListener(() -> rPresent.vertification(email.getText().toString(), VertificationDialog.vertificationCode));
@@ -310,6 +311,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             switch (message.getCode()) {
                 case Constants.ErrorCode.ERROR_1001:
                     dialog.setDescription(getString(R.string.err_code_1001));
+                    break;
+                case Constants.ErrorCode.ERROR_1007:
+                    dialog.setDescription(getString(R.string.err_code_1007));
+                    break;
+                case Constants.ErrorCode.ERROR_1008:
+                    dialog.setDescription(getString(R.string.err_code_1008));
+                    break;
+                case Constants.ErrorCode.ERROR_1009:
+                    dialog.setDescription(getString(R.string.err_code_1009));
                     break;
             }
             dialog.setOKListener(() -> {
