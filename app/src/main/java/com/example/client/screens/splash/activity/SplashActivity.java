@@ -64,14 +64,12 @@ public class SplashActivity extends AppCompatActivity implements ISplashView{
                     if(pagerSplash.getCurrentItem()==2){
                         finish();
                         String token = Preferences.getInstance().getAccessToken();
-                        startActivity(new Intent(SplashActivity.this, LoginEmailActivity.class));
-
-//                        if(token.equals("")){
-//                            startActivity(new Intent(SplashActivity.this, LoginEmailActivity.class));
-//                        }
-//                        else {
-//                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//                        }
+                        if(token.equals("")){
+                            startActivity(new Intent(SplashActivity.this, LoginEmailActivity.class));
+                        }
+                        else {
+                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        }
                     }
                     else
                         pagerSplash.setCurrentItem(pagerSplash.getCurrentItem()+1);
