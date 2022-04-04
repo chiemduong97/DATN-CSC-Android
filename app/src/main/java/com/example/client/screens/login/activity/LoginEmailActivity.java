@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -17,11 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.client.R;
-import com.example.client.app.Preferences;
 import com.example.client.models.message.MessageModel;
 import com.example.client.screens.login.present.LoginPresent;
 import com.example.client.screens.register.activity.RegisterActivity;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 
 public class LoginEmailActivity extends AppCompatActivity implements View.OnClickListener, ILoginView{
     private TextView next,tv_error,register;
@@ -118,10 +116,10 @@ public class LoginEmailActivity extends AppCompatActivity implements View.OnClic
         }
         else {
             switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+                case Constants.ErrorCode.ERROR_1001:
                     tv_error.setText(getString(R.string.err_code_1001));
                     break;
-                case Constrants.ErrorCode.ERROR_1002:
+                case Constants.ErrorCode.ERROR_1002:
                     tv_error.setText(getString(R.string.err_code_1002));
                     break;
             }

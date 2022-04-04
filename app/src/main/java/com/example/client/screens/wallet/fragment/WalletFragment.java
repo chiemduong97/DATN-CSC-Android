@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.client.R;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 import com.example.client.dialog.PrimaryDialog;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.ProfileModel;
@@ -58,7 +58,7 @@ public class WalletFragment extends Fragment implements IWalletView, View.OnClic
         refreshLayout.setOnRefreshListener(() -> {
             wPresent.onRefeshUserActive(user.getEmail());
             tabLayout.selectTab(tabLayout.getTabAt(0));
-            wPresent.onShowTransaction(Constrants.TRANSACTION.INPUT, user.getId());
+            wPresent.onShowTransaction(Constants.TRANSACTION.INPUT, user.getId());
         });
 
         tabLayout.addTab(tabLayout.newTab().setText("NẠP TIỀN"));
@@ -70,10 +70,10 @@ public class WalletFragment extends Fragment implements IWalletView, View.OnClic
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition()==0){
-                    wPresent.onShowTransaction(Constrants.TRANSACTION.INPUT, user.getId());
+                    wPresent.onShowTransaction(Constants.TRANSACTION.INPUT, user.getId());
                 }
                 else {
-                    wPresent.onShowTransaction(Constrants.TRANSACTION.OUPUT, user.getId());
+                    wPresent.onShowTransaction(Constants.TRANSACTION.OUPUT, user.getId());
                 }
 
             }
@@ -96,7 +96,7 @@ public class WalletFragment extends Fragment implements IWalletView, View.OnClic
     public void onResume() {
         super.onResume();
         wPresent.onShowInfoUser();
-        wPresent.onShowTransaction(Constrants.TRANSACTION.INPUT, user.getId());
+        wPresent.onShowTransaction(Constants.TRANSACTION.INPUT, user.getId());
         tabLayout.selectTab(tabLayout.getTabAt(0));
     }
 
@@ -150,7 +150,7 @@ public class WalletFragment extends Fragment implements IWalletView, View.OnClic
         }
         else {
             switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+                case Constants.ErrorCode.ERROR_1001:
                     dialog.setDescription(getString(R.string.err_code_1001));
                     break;
             }

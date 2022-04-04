@@ -1,7 +1,5 @@
 package com.example.client.screens.profile.manager_info;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +11,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +19,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.client.R;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 import com.example.client.app.Preferences;
 import com.example.client.dialog.PrimaryDialog;
 import com.example.client.models.message.MessageModel;
@@ -34,7 +31,7 @@ import com.example.client.screens.profile.manager_info.update.UpdatePasswordActi
 
 public class ManagerInfoActivity extends AppCompatActivity implements View.OnClickListener,IManagerInfoView {
     private ImageView change_avatar,back,avatar;
-    private TextView change_info,fullname,email,birthday,address,phone;
+    private TextView change_info,fullname,email,birthday,phone;
     private LinearLayout change_password;
     private ManagerInfoPresent mPresent;
     private ActivityResultLauncher<Intent> intentActivityResultLauncher;
@@ -54,7 +51,6 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
         fullname = findViewById(R.id.fullname);
         email = findViewById(R.id.email);
         birthday = findViewById(R.id.birthday);
-        address = findViewById(R.id.address);
         phone = findViewById(R.id.phone);
         change_password = findViewById(R.id.change_password);
         cardView = findViewById(R.id.cardView);
@@ -137,7 +133,6 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
         fullname.setText(user.getFullname());
         email.setText(user.getEmail());
         birthday.setText(user.getBirthday()==null||user.getBirthday().equals("")?"Chưa đặt":user.getBirthday());
-        address.setText(user.getAddress()==null||user.getAddress().equals("")?"Chưa đặt":user.getAddress());
         phone.setText(user.getPhone()==null||user.getPhone().equals("")?"Chưa đặt":user.getPhone());
     }
 
@@ -163,7 +158,7 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
         }
         else {
             switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+                case Constants.ErrorCode.ERROR_1001:
                     dialog.setDescription(getString(R.string.err_code_1001));
                     break;
             }

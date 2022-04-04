@@ -17,7 +17,7 @@ public class ApiClient {
     private static Retrofit retrofit;
     public static Retrofit getInstance(){
         String token = Preferences.getInstance().getAccessToken();
-        String baseUrl = "http://10.82.128.55:8585/";
+        String baseUrl = "http://10.82.179.33:8585/";
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {
             Request request = chain.request().newBuilder()
                     .addHeader("Authorization","Bearer "+token)

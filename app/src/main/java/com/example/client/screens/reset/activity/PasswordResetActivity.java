@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -21,14 +20,13 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.client.R;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 import com.example.client.dialog.PrimaryDialog;
 import com.example.client.models.message.MessageModel;
 import com.example.client.screens.login.activity.LoginEmailActivity;
 import com.example.client.screens.login.activity.LoginPasswordActivity;
 import com.example.client.screens.reset.present.PasswordResetPresent;
 import com.jakewharton.rxbinding2.view.RxView;
-import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.concurrent.TimeUnit;
 
@@ -119,7 +117,7 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
 
             @Override
             public void onOTPComplete(String otp) {
-                pPresent.onVertification(getIntent().getStringExtra("email"),otp);
+                pPresent.vertification(getIntent().getStringExtra("email"),otp);
             }
         });
 
@@ -143,7 +141,7 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void verification(MessageModel message) {
+    public void showViewPassword(MessageModel message) {
 
         if(message.isStatus()){
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -157,16 +155,16 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
         else {
             code.showError();
             switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+                case Constants.ErrorCode.ERROR_1001:
                     Toast.makeText(this,getString(R.string.err_code_1001),Toast.LENGTH_SHORT).show();
                     break;
-                case Constrants.ErrorCode.ERROR_1007:
+                case Constants.ErrorCode.ERROR_1007:
                     Toast.makeText(this,getString(R.string.err_code_1007),Toast.LENGTH_SHORT).show();
                     break;
-                case Constrants.ErrorCode.ERROR_1008:
+                case Constants.ErrorCode.ERROR_1008:
                     Toast.makeText(this,getString(R.string.err_code_1008),Toast.LENGTH_SHORT).show();
                     break;
-                case Constrants.ErrorCode.ERROR_1009:
+                case Constants.ErrorCode.ERROR_1009:
                     Toast.makeText(this,getString(R.string.err_code_1009),Toast.LENGTH_SHORT).show();
                     break;
             }
@@ -193,7 +191,7 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
         }
         else {
             switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+                case Constants.ErrorCode.ERROR_1001:
                     dialog.setDescription(getString(R.string.err_code_1001));
                     break;
             }
@@ -213,11 +211,11 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
         }
         else {
             switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+                case Constants.ErrorCode.ERROR_1001:
                     tv_error.setText(R.string.err_code_1001);
                     view_code.setVisibility(View.INVISIBLE);
                     break;
-                case Constrants.ErrorCode.ERROR_1010:
+                case Constants.ErrorCode.ERROR_1010:
                     tv_error.setText(R.string.err_code_1010);
                     view_code.setVisibility(View.VISIBLE);
                     code.setOTP("");

@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.client.R;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 import com.example.client.dialog.PrimaryDialog;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.ProfileModel;
@@ -69,7 +69,7 @@ public class RechargeActivity extends AppCompatActivity implements View.OnClickL
                 wPresent.onRequestRecharge(user.getId(),amount);
                 break;
             case R.id.section_1:
-                amount = Constrants.SECTION_1;
+                amount = Constants.SECTION_1;
                 section_1.setBackgroundResource(R.drawable.bg_btn);
                 section_1.setTextColor(Color.WHITE);
                 section_2.setBackgroundResource(R.drawable.border_item);
@@ -80,7 +80,7 @@ public class RechargeActivity extends AppCompatActivity implements View.OnClickL
                 request.setEnabled(true);
                 break;
             case R.id.section_2:
-                amount = Constrants.SECTION_2;
+                amount = Constants.SECTION_2;
                 section_2.setBackgroundResource(R.drawable.bg_btn);
                 section_2.setTextColor(Color.WHITE);
                 section_1.setBackgroundResource(R.drawable.border_item);
@@ -91,7 +91,7 @@ public class RechargeActivity extends AppCompatActivity implements View.OnClickL
                 request.setEnabled(true);
                 break;
             case R.id.section_5:
-                amount = Constrants.SECTION_5;
+                amount = Constants.SECTION_5;
                 section_5.setBackgroundResource(R.drawable.bg_btn);
                 section_5.setTextColor(Color.WHITE);
                 section_2.setBackgroundResource(R.drawable.border_item);
@@ -146,7 +146,7 @@ public class RechargeActivity extends AppCompatActivity implements View.OnClickL
         }
         else {
             switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+                case Constants.ErrorCode.ERROR_1001:
                     dialog.setDescription(getString(R.string.err_code_1001));
                     break;
             }

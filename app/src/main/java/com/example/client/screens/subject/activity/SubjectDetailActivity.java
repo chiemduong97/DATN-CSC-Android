@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.client.R;
-import com.example.client.app.Constrants;
+import com.example.client.app.Constants;
 import com.example.client.app.Preferences;
 import com.example.client.dialog.PrimaryDialog;
 import com.example.client.models.category.CategoryModel;
@@ -129,7 +129,7 @@ public class SubjectDetailActivity extends AppCompatActivity implements View.OnC
                 Intent intentNew = new Intent(this, SubjectMoreActivity.class);
                 intentNew.putExtra("name", categoryModel.getName());
                 intentNew.putExtra("id", categoryModel.getId());
-                intentNew.putExtra("method", Constrants.MORE.CATEGORY);
+                intentNew.putExtra("method", Constants.MORE.CATEGORY);
                 startActivity(intentNew);
                 break;
             case R.id.register:
@@ -217,7 +217,7 @@ public class SubjectDetailActivity extends AppCompatActivity implements View.OnC
         }
         else {
             switch (message.getCode()){
-                case Constrants.ErrorCode.ERROR_1001:
+                case Constants.ErrorCode.ERROR_1001:
                     dialog.setDescription(getString(R.string.err_code_1001));
                     break;
             }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.example.client.api.ApiClient;
 import com.example.client.api.service.UserService;
+import com.example.client.app.Constants;
 import com.example.client.app.MyFirebaseService;
 import com.example.client.app.Preferences;
 import com.example.client.models.message.MessageModel;
@@ -22,12 +23,12 @@ public class RegisterPresent implements IRegisterPresent{
     }
     @SuppressLint("CheckResult")
     @Override
-    public void onRegister(String fullname,String email, String password) {
+    public void onRegister(String phone, String email, String password) {
         rView.showLoading();
         MyFirebaseService myFirebaseService =new MyFirebaseService();
         myFirebaseService.getToken().subscribe(o -> {
             UserService service = ApiClient.getInstance().create(UserService.class);
-            service.register(fullname,email,password).enqueue(new Callback<MessageModel>() {
+            service.register(phone,email,password).enqueue(new Callback<MessageModel>() {
                 @Override
                 public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                     onGetUserActive(email, response.body());
@@ -77,6 +78,44 @@ public class RegisterPresent implements IRegisterPresent{
             @Override
             public void onFailure(Call<MessageModel> call, Throwable t) {
 
+            }
+        });
+    }
+
+    @Override
+    public void sendEmail(String email) {
+        rView.showLoading();
+        UserService service = ApiClient.getInstance().create(UserService.class);
+        service.sendEmail(email, Constants.RequestType.REGISTER).enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+                rView.showDialog(response.body());
+                rView.hideLoading();
+            }
+
+            @Override
+            public void onFailure(Call<MessageModel> call, Throwable t) {
+                rView.showDialog(new MessageModel(false,1001,null));
+                rView.hideLoading();
+            }
+        });
+    }
+
+    @Override
+    public void vertification(String email, String code) {
+        rView.showLoading();
+        UserService service = ApiClient.getInstance().create(UserService.class);
+        service.vertification(email,code).enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+                rView.toRegister(response.body());
+                rView.hideLoading();
+            }
+
+            @Override
+            public void onFailure(Call<MessageModel> call, Throwable t) {
+                rView.showDialog(new MessageModel(false,1001,null));
+                rView.hideLoading();
             }
         });
     }
