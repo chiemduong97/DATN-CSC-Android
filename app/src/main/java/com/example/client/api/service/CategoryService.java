@@ -9,8 +9,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface CategoryService {
-    @GET("views/category/getAll.php")
+    @GET("api/category/category_getAll.php")
     Call<List<CategoryModel>> getAll();
-    @GET("views/category/getById.php")
+    @GET("api/category/category_getById.php")
     Call<CategoryModel> getById(@Query("id") int id);
 }

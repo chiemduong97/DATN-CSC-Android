@@ -7,12 +7,12 @@
     android:gravity="center"
     android:padding="10dp">
     <ImageView
-        android:id="@+id/icon"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:id="@+id/avatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@drawable/icon_default"/>
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đang chờ..."

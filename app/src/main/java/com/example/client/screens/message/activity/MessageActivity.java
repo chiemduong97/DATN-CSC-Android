@@ -5,12 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -18,9 +16,6 @@ import com.example.client.R;
 import com.example.client.models.message.MessengerModel;
 import com.example.client.screens.message.items.MessengerItem;
 import com.example.client.screens.message.present.MessagePresent;
-import com.example.client.screens.search.activity.SearchActivity;
-import com.example.client.screens.subject.item.SubjectHorizontalItem;
-import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

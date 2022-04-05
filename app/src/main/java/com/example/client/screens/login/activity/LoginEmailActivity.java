@@ -16,10 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.client.R;
-import com.example.client.models.message.MessageModel;
 import com.example.client.screens.login.present.LoginPresent;
 import com.example.client.screens.register.activity.RegisterActivity;
-import com.example.client.app.Constants;
 
 public class LoginEmailActivity extends AppCompatActivity implements View.OnClickListener, ILoginView{
     private TextView next,tv_error,register;
@@ -91,8 +89,12 @@ public class LoginEmailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.next:
-
-                lPresent.onNext(email.getText().toString());
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(getCurrentFocus()!=null){
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    email.clearFocus();
+                }
+                lPresent.checkEmail(email.getText().toString());
                 break;
             case R.id.register:
                 startActivity(new Intent(LoginEmailActivity.this, RegisterActivity.class));
@@ -101,35 +103,15 @@ public class LoginEmailActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public void next(MessageModel message) {
-
-        if(message.isStatus()){
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            if(getCurrentFocus()!=null){
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                email.clearFocus();
-            }
-            view_error.setVisibility(View.GONE);
-            Intent intent = new Intent(LoginEmailActivity.this,LoginPasswordActivity.class);
-            intent.putExtra("email",email.getText().toString().trim());
-            startActivity(intent);
-        }
-        else {
-            switch (message.getCode()){
-                case Constants.ErrorCode.ERROR_1001:
-                    tv_error.setText(getString(R.string.err_code_1001));
-                    break;
-                case Constants.ErrorCode.ERROR_1002:
-                    tv_error.setText(getString(R.string.err_code_1002));
-                    break;
-            }
-            view_error.setVisibility(View.VISIBLE);
-        }
-
+    public void next() {
+        view_error.setVisibility(View.GONE);
+        Intent intent = new Intent(LoginEmailActivity.this,LoginPasswordActivity.class);
+        intent.putExtra("email",email.getText().toString().trim());
+        startActivity(intent);
     }
 
     @Override
-    public void login(MessageModel message) {
+    public void login() {
 
     }
 
@@ -147,6 +129,12 @@ public class LoginEmailActivity extends AppCompatActivity implements View.OnClic
         next.setBackgroundResource(R.drawable.bg_btn);
         next.setText("Tiếp");
         next.setEnabled(true);
+    }
+
+    @Override
+    public void showErrorMessage(int errMessage) {
+        tv_error.setText(getString(errMessage));
+        view_error.setVisibility(View.VISIBLE);
     }
 
 }

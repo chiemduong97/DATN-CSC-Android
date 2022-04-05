@@ -7,15 +7,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.example.client.R;
 import com.example.client.utils.ICallBack;
 
 import in.aabhasjindal.otptextview.OTPListener;
 import in.aabhasjindal.otptextview.OtpTextView;
 
-public class VertificationDialog implements View.OnClickListener {
+public class VerificationDialog implements View.OnClickListener {
     private TextView btnOK, btnCancel;
     private AlertDialog dialog;
     private ICallBack oKListener;
@@ -23,14 +21,14 @@ public class VertificationDialog implements View.OnClickListener {
     private OtpTextView code;
     private TextView description;
     private LinearLayout viewCode;
-    public static String vertificationCode;
+    public static String verificationCode;
 
-    public VertificationDialog() {
+    public VerificationDialog() {
     }
 
     public void getInstance(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_vertification, null);
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_verification, null);
         builder.setView(dialogView);
         code = dialogView.findViewById(R.id.code);
         btnOK = dialogView.findViewById(R.id.btnOK);
@@ -53,7 +51,7 @@ public class VertificationDialog implements View.OnClickListener {
             @Override
             public void onOTPComplete(String otp) {
                 enableBtnOK();
-                vertificationCode = otp;
+                verificationCode = otp;
             }
         });
     }
@@ -112,6 +110,10 @@ public class VertificationDialog implements View.OnClickListener {
 
     public void hideDescription() {
         description.setVisibility(View.GONE);
+    }
+
+    public void showDescription() {
+        description.setVisibility(View.VISIBLE);
     }
 
     public void showViewCode() {

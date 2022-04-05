@@ -1,7 +1,6 @@
 package com.example.client.screens.category.item;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,24 +12,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.client.R;
-import com.example.client.app.Constants;
 import com.example.client.models.category.CategoryModel;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.subject.SubjectModel;
 import com.example.client.screens.subject.activity.ISubjectView;
-import com.example.client.screens.subject.activity.SubjectMoreActivity;
 import com.example.client.screens.subject.item.SubjectVerticalItem;
 import com.example.client.screens.subject.present.SubjectPresent;
+import com.example.client.utils.OnClickCategoryItemListener;
 
 import java.util.List;
 
 public class CategoryItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<CategoryModel> items;
     private Context context;
+    private OnClickCategoryItemListener listener;
 
-    public CategoryItem(List<CategoryModel> items, Context context){
+    public CategoryItem(List<CategoryModel> items, Context context, OnClickCategoryItemListener listener){
         this.items = items;
         this.context = context;
+        this.listener = listener;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder implements ISubjectView{
@@ -106,13 +106,7 @@ public class CategoryItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         CategoryModel item = items.get(position);
         ((MyViewHolder)holder).name.setText(item.getName());
         ((MyViewHolder)holder).showSubjects(item.getId());
-        ((MyViewHolder)holder).more.setOnClickListener(v -> {
-            Intent intent = new Intent(context, SubjectMoreActivity.class);
-            intent.putExtra("id", item.getId());
-            intent.putExtra("name",item.getName());
-            intent.putExtra("method", Constants.MORE.CATEGORY);
-            context.startActivity(intent);
-        });
+        ((MyViewHolder)holder).more.setOnClickListener(v -> listener.onClickCategoryItem(item));
     }
 
     @Override

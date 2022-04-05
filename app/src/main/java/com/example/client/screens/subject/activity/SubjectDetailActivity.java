@@ -126,11 +126,12 @@ public class SubjectDetailActivity extends AppCompatActivity implements View.OnC
                 onBackPressed();
                 break;
             case R.id.more:
-                Intent intentNew = new Intent(this, SubjectMoreActivity.class);
-                intentNew.putExtra("name", categoryModel.getName());
-                intentNew.putExtra("id", categoryModel.getId());
-                intentNew.putExtra("method", Constants.MORE.CATEGORY);
-                startActivity(intentNew);
+                Intent intent = new Intent(this, SubjectMoreActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.CATEGORY_MODEL, categoryModel);
+                intent.putExtras(bundle);
+                intent.putExtra("method", Constants.MORE.CATEGORY);
+                startActivity(intent);
                 break;
             case R.id.register:
                 if(user.getWallet()<subject.getPrice()){

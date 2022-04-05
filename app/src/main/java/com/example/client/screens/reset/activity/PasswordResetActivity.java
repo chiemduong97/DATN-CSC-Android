@@ -16,13 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.client.R;
-import com.example.client.app.Constants;
 import com.example.client.dialog.PrimaryDialog;
-import com.example.client.models.message.MessageModel;
 import com.example.client.screens.login.activity.LoginEmailActivity;
 import com.example.client.screens.login.activity.LoginPasswordActivity;
 import com.example.client.screens.reset.present.PasswordResetPresent;
@@ -108,7 +105,7 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
         RxView.clicks(sendEmail)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(res -> pPresent.onSendEmail(getIntent().getStringExtra("email")), Throwable::printStackTrace);
+                .subscribe(res -> pPresent.sendRequest(getIntent().getStringExtra("email")), Throwable::printStackTrace);
         code.setOtpListener(new OTPListener() {
             @Override
             public void onInteractionListener() {
@@ -117,7 +114,11 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
 
             @Override
             public void onOTPComplete(String otp) {
-                pPresent.vertification(getIntent().getStringExtra("email"),otp);
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(getCurrentFocus()!=null){
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
+                pPresent.verification(getIntent().getStringExtra("email"),otp);
             }
         });
 
@@ -135,94 +136,41 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
                 onBackPressed();
                 break;
             case R.id.reset:
-                pPresent.onResetPassword(getIntent().getStringExtra("email"),password.getText().toString());
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(getCurrentFocus()!=null){
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
+                pPresent.resetPass(getIntent().getStringExtra("email"),password.getText().toString());
                 break;
         }
     }
 
     @Override
-    public void showViewPassword(MessageModel message) {
-
-        if(message.isStatus()){
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            if(getCurrentFocus()!=null){
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-            }
-            code.showSuccess();
-            code.clearFocus();
-            view_password.setVisibility(View.VISIBLE);
-        }
-        else {
-            code.showError();
-            switch (message.getCode()){
-                case Constants.ErrorCode.ERROR_1001:
-                    Toast.makeText(this,getString(R.string.err_code_1001),Toast.LENGTH_SHORT).show();
-                    break;
-                case Constants.ErrorCode.ERROR_1007:
-                    Toast.makeText(this,getString(R.string.err_code_1007),Toast.LENGTH_SHORT).show();
-                    break;
-                case Constants.ErrorCode.ERROR_1008:
-                    Toast.makeText(this,getString(R.string.err_code_1008),Toast.LENGTH_SHORT).show();
-                    break;
-                case Constants.ErrorCode.ERROR_1009:
-                    Toast.makeText(this,getString(R.string.err_code_1009),Toast.LENGTH_SHORT).show();
-                    break;
-            }
-            view_password.setVisibility(View.INVISIBLE);
-        }
+    public void showViewPassword() {
+        code.showSuccess();
+        code.clearFocus();
+        view_password.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void resetPassword(MessageModel message) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(getCurrentFocus()!=null){
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
-        if(message.isStatus()){
-            dialog.setDescription("Reset mật khẩu thành công");
-            dialog.hideBtnCancel();
-            dialog.show();
-            dialog.setOKListener(()->{
-                finish();
-                LoginEmailActivity.loginEmailActivity.finish();
-                LoginPasswordActivity.loginPasswordActivity.finish();
-                startActivity(new Intent(this,LoginEmailActivity.class));
-            });
-        }
-        else {
-            switch (message.getCode()){
-                case Constants.ErrorCode.ERROR_1001:
-                    dialog.setDescription(getString(R.string.err_code_1001));
-                    break;
-            }
-            dialog.setOKListener(()->{});
-            dialog.hideBtnCancel();
-            dialog.show();
-        }
+    public void onConfirmReset() {
+        dialog.setDescription("Reset mật khẩu thành công");
+        dialog.hideBtnCancel();
+        dialog.show();
+        dialog.setOKListener(()->{
+            finish();
+            LoginEmailActivity.loginEmailActivity.finish();
+            LoginPasswordActivity.loginPasswordActivity.finish();
+            startActivity(new Intent(this,LoginEmailActivity.class));
+        });
     }
 
     @Override
-    public void sendEmail(MessageModel message) {
-        if(message.isStatus()){
-            tv_error.setVisibility(View.GONE);
-            view_code.setVisibility(View.VISIBLE);
-            code.setOTP("");
-            pPresent.onCountDownTimer(sendEmail,300);
-        }
-        else {
-            switch (message.getCode()){
-                case Constants.ErrorCode.ERROR_1001:
-                    tv_error.setText(R.string.err_code_1001);
-                    view_code.setVisibility(View.INVISIBLE);
-                    break;
-                case Constants.ErrorCode.ERROR_1010:
-                    tv_error.setText(R.string.err_code_1010);
-                    view_code.setVisibility(View.VISIBLE);
-                    code.setOTP("");
-                    break;
-            }
-            tv_error.setVisibility(View.VISIBLE);
-        }
+    public void sendRequestComplete() {
+        tv_error.setVisibility(View.GONE);
+        view_code.setVisibility(View.VISIBLE);
+        code.setOTP("");
+        pPresent.onCountDownTimer(sendEmail,300);
     }
 
     @Override
@@ -240,13 +188,13 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void showVertifiLoading() {
+    public void showVerifyLoading() {
         progressBar3.setVisibility(View.VISIBLE);
         view_password.setVisibility(View.INVISIBLE);
     }
 
     @Override
-    public void hideVertifiLoading() {
+    public void hideVerifyLoading() {
         progressBar3.setVisibility(View.GONE);
     }
 
@@ -264,6 +212,16 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
         reset.setBackgroundResource(R.drawable.bg_btn);
         reset.setText("Reset mật khẩu");
         reset.setEnabled(true);
+    }
+
+    @Override
+    public void showErrorMessage(int errMessage) {
+        dialog.setDescription(getString(errMessage));
+        dialog.setOKListener(() -> {
+        });
+        dialog.hideBtnCancel();
+        dialog.show();
+        code.setOTP("");
     }
 
 }

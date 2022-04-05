@@ -19,7 +19,8 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("api/user/register.php")
-    Call<MessageModel> register(@Field("phone") String phone,
+    Call<MessageModel> register(@Field("fullname") String fullname,
+                                @Field("phone") String phone,
                                 @Field("email") String email,
                                 @Field("password") String password);
     @FormUrlEncoded
@@ -53,9 +54,9 @@ public interface UserService {
     Call<MessageModel> sendEmail(@Query("email") String email, @Query("requestType") Constants.RequestType requestType);
 
     @FormUrlEncoded
-    @POST("api/user/vertification.php")
-    Call<MessageModel> vertification(@Field("email") String email,
-                                     @Field("code") String code);
+    @POST("api/user/verification.php")
+    Call<MessageModel> verification(@Field("email") String email,
+                                    @Field("code") String code);
     @FormUrlEncoded
     @POST("api/user/resetPassword.php")
     Call<MessageModel> resetPassword(@Field("email") String email,

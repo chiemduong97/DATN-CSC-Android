@@ -16,7 +16,7 @@ public interface SubjectService {
     Call<SubjectModel> getById(@Query("id") int id);
 
     @GET("views/subject/getByCategory.php")
-    Call<List<SubjectModel>> getByCategory(@Query("id") int id,@Query("limit") int limit);
+    Call<List<SubjectModel>> getByCategory(@Query("id") int id, @Query("limit") int limit);
 
     @GET("views/subject/getHighLight.php")
     Call<List<SubjectModel>> getHighLight(@Query("limit") int limit);

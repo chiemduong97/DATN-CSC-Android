@@ -5,16 +5,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
 import com.example.client.R;
+import com.example.client.app.Constants;
 import com.example.client.models.category.CategoryModel;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.subject.SubjectModel;
@@ -22,14 +20,10 @@ import com.example.client.screens.category.item.CategoryItem;
 import com.example.client.screens.category.present.CategoryPresent;
 import com.example.client.screens.search.activity.SearchActivity;
 import com.example.client.screens.subject.activity.ISubjectView;
+import com.example.client.screens.subject.activity.SubjectMoreActivity;
 import com.example.client.screens.subject.present.SubjectPresent;
 
 import java.util.List;
-
-import io.reactivex.Observable;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class CategoryActivity extends AppCompatActivity implements View.OnClickListener,ICategoryView, ISubjectView {
     private ImageView back;
@@ -97,7 +91,14 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
             recyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(CategoryActivity.this,LinearLayoutManager.VERTICAL,false);
             recyclerView.setLayoutManager(manager);
-            CategoryItem item = new CategoryItem(items,CategoryActivity.this);
+            CategoryItem item = new CategoryItem(items,CategoryActivity.this, (categoryModel) -> {
+                Intent intent = new Intent(this, SubjectMoreActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.CATEGORY_MODEL, categoryModel);
+                intent.putExtras(bundle);
+                intent.putExtra("method", Constants.MORE.CATEGORY);
+                startActivity(intent);
+            });
             recyclerView.setAdapter(item);
         }
 

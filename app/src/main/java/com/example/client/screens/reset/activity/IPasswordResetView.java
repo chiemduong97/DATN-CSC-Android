@@ -1,15 +1,14 @@
 package com.example.client.screens.reset.activity;
 
-import com.example.client.models.message.MessageModel;
-
 public interface IPasswordResetView {
-    void showViewPassword(MessageModel message);
-    void resetPassword(MessageModel message);
-    void sendEmail(MessageModel message);
+    void showViewPassword();
+    void onConfirmReset();
+    void sendRequestComplete();
     void showSendEmailLoading();
     void hideSendEmailLoading();
-    void showVertifiLoading();
-    void hideVertifiLoading();
+    void showVerifyLoading();
+    void hideVerifyLoading();
     void showResetLoading();
     void hideResetLoading();
+    void showErrorMessage(int errMessage);
 }
