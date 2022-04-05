@@ -42,7 +42,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:textColor="@color/black"
-                android:text="@string/mail_description"
+                android:text="@string/mail_description_register"
                 android:textSize="16dp" />
             <in.aabhasjindal.otptextview.OtpTextView
                 android:id="@+id/code"

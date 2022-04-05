@@ -1,6 +1,9 @@
 package com.example.client.app;
 
 public class Constants {
+    public static String CATEGORY_MODEL = "CATEGORY_MODEL";
+    public static String PRODUCT_MODEL = "PRODUCT_MODEL";
+
     public class MORE{
         public static final String CATEGORY = "CATEGORY";
         public static final String HIGHLIGHT = "HIGHLIGHT";

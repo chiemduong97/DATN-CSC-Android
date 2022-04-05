@@ -1,5 +1,5 @@
 package com.example.client.utils;
 
-public interface OnDeleteItemClick {
+public interface OnDeleteItemListener {
     void onDeleteRecharge(String ordercode);
 }

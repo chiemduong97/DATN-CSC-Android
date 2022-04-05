@@ -21,7 +21,7 @@ import com.example.client.R;
 import com.example.client.app.Preferences;
 import com.example.client.dialog.PrimaryDialog;
 import com.example.client.models.banner.BannerModel;
-import com.example.client.models.home.HomeIconModel;
+import com.example.client.models.category.CategoryModel;
 import com.example.client.models.profile.ProfileModel;
 import com.example.client.models.subject.SubjectModel;
 import com.example.client.screens.home.fragment.IHomeView;
@@ -86,7 +86,7 @@ public class ProfileFragment extends Fragment implements IHomeView, IProfileView
     }
 
     @Override
-    public void showIcons(List<HomeIconModel> icons) {
+    public void showCategories(List<CategoryModel> items) {
 
     }
 

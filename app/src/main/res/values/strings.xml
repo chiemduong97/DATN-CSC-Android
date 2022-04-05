@@ -13,6 +13,9 @@
     <string name="err_code_1011">Đã tồn tại!</string>
     <string name="err_code_1012">Không có dữ liệu!</string>
     <string name="err_code_1013">Vui lòng nhập đủ dữ liệu!</string>
-    <string name="mail_description">Mail reset mật khẩu đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
+    <string name="mail_description_reset">Mail reset mật khẩu đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
+    <string name="mail_description_register">Mail đăng ký tài khoản đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
+    <string name="password_invalid">*Xác nhận mật khẩu chưa chính xác</string>
+    <string name="send_email_verification">Gửi mail xác thực</string>
 
 </resources>

@@ -13,6 +13,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.client.R;
+import com.example.client.app.Constants;
+import com.example.client.models.category.CategoryModel;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.subject.SubjectModel;
 import com.example.client.screens.search.activity.SearchActivity;
@@ -21,7 +23,7 @@ import com.example.client.screens.subject.present.SubjectPresent;
 
 import java.util.List;
 
-public class SubjectMoreActivity extends AppCompatActivity implements View.OnClickListener, ISubjectView{
+public class SubjectMoreActivity extends AppCompatActivity implements View.OnClickListener, ISubjectView {
     private TextView title;
     private ImageView back;
     private RecyclerView recyclerView;
@@ -30,6 +32,8 @@ public class SubjectMoreActivity extends AppCompatActivity implements View.OnCli
     private ImageView empty;
     private SearchView searchView;
     private SwipeRefreshLayout refreshLayout;
+    private CategoryModel categoryModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,14 +44,16 @@ public class SubjectMoreActivity extends AppCompatActivity implements View.OnCli
         empty = findViewById(R.id.empty);
         searchView = findViewById(R.id.searchView);
         refreshLayout = findViewById(R.id.container);
-        refreshLayout.setOnRefreshListener(()-> refreshLayout.setRefreshing(false));
+        refreshLayout.setOnRefreshListener(() -> refreshLayout.setRefreshing(false));
         sPresent = new SubjectPresent(this);
 
-        title.setText(getIntent().getStringExtra("name"));
+        categoryModel = (CategoryModel) getIntent().getExtras().getSerializable(Constants.CATEGORY_MODEL);
+
+        title.setText(categoryModel != null ? categoryModel.getName() : getIntent().getStringExtra("name"));
         method = getIntent().getStringExtra("method");
         back.setOnClickListener(this);
         searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus){
+            if (hasFocus) {
                 startActivity(new Intent(this, SearchActivity.class));
                 searchView.clearFocus();
             }
@@ -57,12 +63,12 @@ public class SubjectMoreActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
-        sPresent.onShowMoreSubjects(getIntent().getIntExtra("id",-1), method);
+        sPresent.onShowMoreSubjects(getIntent().getIntExtra("id", -1), method);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 onBackPressed();
@@ -83,16 +89,15 @@ public class SubjectMoreActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void showMoreSubjects(List<SubjectModel> items) {
-        if(items == null || items.size() == 0){
+        if (items == null || items.size() == 0) {
             empty.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             empty.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-            LinearLayoutManager manager = new LinearLayoutManager(SubjectMoreActivity.this,LinearLayoutManager.VERTICAL,false);
+            LinearLayoutManager manager = new LinearLayoutManager(SubjectMoreActivity.this, LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(manager);
-            SubjectHorizontalItem item = new SubjectHorizontalItem(items,SubjectMoreActivity.this);
+            SubjectHorizontalItem item = new SubjectHorizontalItem(items, SubjectMoreActivity.this);
             recyclerView.setAdapter(item);
         }
 

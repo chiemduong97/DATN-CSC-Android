@@ -20,7 +20,6 @@ import android.widget.ToggleButton;
 
 import com.example.client.R;
 import com.example.client.app.Constants;
-import com.example.client.models.message.MessageModel;
 import com.example.client.screens.login.present.LoginPresent;
 import com.example.client.screens.main.activity.MainActivity;
 import com.example.client.screens.reset.activity.PasswordResetActivity;
@@ -99,6 +98,11 @@ public class LoginPasswordActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.login:
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(getCurrentFocus()!=null){
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    password.clearFocus();
+                }
                 lPresent.onLogin(getIntent().getStringExtra("email"), password.getText().toString().trim());
                 break;
             case R.id.back:
@@ -114,37 +118,16 @@ public class LoginPasswordActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void next(MessageModel message) {
+    public void next() {
 
     }
 
     @Override
-    public void login(MessageModel message) {
-        if(message.isStatus()){
-            view_error.setVisibility(View.GONE);
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            if(getCurrentFocus()!=null){
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                password.clearFocus();
-            }
-            finish();
-            LoginEmailActivity.loginEmailActivity.finish();
-            startActivity(new Intent(LoginPasswordActivity.this, MainActivity.class));
-        }
-        else {
-            switch (message.getCode()){
-                case Constants.ErrorCode.ERROR_1001:
-                    tv_error.setText(R.string.err_code_1001);
-                    break;
-                case Constants.ErrorCode.ERROR_1004:
-                    tv_error.setText(R.string.err_code_1004);
-                    break;
-                case Constants.ErrorCode.ERROR_1005:
-                    tv_error.setText(R.string.err_code_1005);
-                    break;
-            }
-            view_error.setVisibility(View.VISIBLE);
-        }
+    public void login() {
+        view_error.setVisibility(View.GONE);
+        finish();
+        LoginEmailActivity.loginEmailActivity.finish();
+        startActivity(new Intent(LoginPasswordActivity.this, MainActivity.class));
     }
 
     @Override
@@ -161,6 +144,12 @@ public class LoginPasswordActivity extends AppCompatActivity implements View.OnC
         login.setBackgroundResource(R.drawable.bg_btn);
         login.setText("Đăng nhập");
         login.setEnabled(true);
+    }
+
+    @Override
+    public void showErrorMessage(int errMessage) {
+        tv_error.setText(getString(errMessage));
+        view_error.setVisibility(View.VISIBLE);
     }
 
 }

@@ -1,11 +1,11 @@
 package com.example.client.screens.home.present;
 
-import com.example.client.R;
 import com.example.client.api.ApiClient;
 import com.example.client.api.service.BannerService;
+import com.example.client.api.service.CategoryService;
 import com.example.client.api.service.SubjectService;
 import com.example.client.models.banner.BannerModel;
-import com.example.client.models.home.HomeIconModel;
+import com.example.client.models.category.CategoryModel;
 import com.example.client.models.subject.SubjectModel;
 import com.example.client.screens.home.fragment.IHomeView;
 
@@ -19,27 +19,25 @@ import retrofit2.Response;
 public class HomePresent implements IHomePresent {
     private IHomeView hView;
 
-    public HomePresent(IHomeView hView){
+    public HomePresent(IHomeView hView) {
         this.hView = hView;
     }
 
 
     @Override
-    public void onShowIcons() {
-        List<HomeIconModel> icons = new ArrayList<>();
-        HomeIconModel icon = new HomeIconModel(R.drawable.icon_default,"Đang chờ...");
-        icons.add(new HomeIconModel(R.drawable.subject,"Môn học"));
-        icons.add(icon);
-        icons.add(icon);
-        icons.add(icon);
-        icons.add(icon);
-        icons.add(icon);
-        icons.add(icon);
-        icons.add(icon);
-        icons.add(icon);
-        icons.add(icon);
-        icons.add(icon);
-        hView.showIcons(icons);
+    public void getCategoriesFromService() {
+        CategoryService service = ApiClient.getInstance().create(CategoryService.class);
+        service.getAll().enqueue(new Callback<List<CategoryModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoryModel>> call, Response<List<CategoryModel>> response) {
+                hView.showCategories(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoryModel>> call, Throwable t) {
+                hView.showCategories(new ArrayList<>());
+            }
+        });
     }
 
     @Override

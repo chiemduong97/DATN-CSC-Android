@@ -23,11 +23,11 @@ import com.example.client.R;
 import com.example.client.app.Constants;
 import com.example.client.app.Preferences;
 import com.example.client.models.banner.BannerModel;
-import com.example.client.models.home.HomeIconModel;
+import com.example.client.models.category.CategoryModel;
 import com.example.client.models.profile.ProfileModel;
 import com.example.client.models.subject.SubjectModel;
 import com.example.client.screens.home.item.BannerItem;
-import com.example.client.screens.home.item.HomeIconItem;
+import com.example.client.screens.home.item.HomeCategoryItem;
 import com.example.client.screens.home.present.HomePresent;
 import com.example.client.screens.profile.manager_info.ManagerInfoActivity;
 import com.example.client.screens.subject.activity.SubjectMoreActivity;
@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
         moreHightLight.setOnClickListener(this);
         moreNew.setOnClickListener(this);
         profile.setOnClickListener(this);
-        hPresent.onShowIcons();
+        hPresent.getCategoriesFromService();
         hPresent.onShowBanners();
 
         return view;
@@ -145,11 +145,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
     }
 
     @Override
-    public void showIcons(List<HomeIconModel> icons) {
-        GridLayoutManager managerIcon = new GridLayoutManager(getContext(),4);
-        recyclerViewIcon.setLayoutManager(managerIcon);
-        HomeIconItem homeIconItem = new HomeIconItem(getContext(),icons);
-        recyclerViewIcon.setAdapter(homeIconItem);
+    public void showCategories(List<CategoryModel> items) {
+        GridLayoutManager manager = new GridLayoutManager(getContext(),3);
+        recyclerViewIcon.setLayoutManager(manager);
+        HomeCategoryItem homeCategoryItem = new HomeCategoryItem(getContext(), items, (item) -> {
+            Intent intent = new Intent(getActivity(), SubjectMoreActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constants.CATEGORY_MODEL, item);
+            intent.putExtras(bundle);
+            intent.putExtra("method", Constants.MORE.CATEGORY);
+            startActivity(intent);
+        });
+        recyclerViewIcon.setAdapter(homeCategoryItem);
     }
 
     @Override
