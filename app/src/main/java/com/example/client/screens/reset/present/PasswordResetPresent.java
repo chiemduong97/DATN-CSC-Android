@@ -42,14 +42,14 @@ public class PasswordResetPresent implements IPasswordResetPresent{
                 if (response.body().isStatus()) {
                     pView.showViewPassword();
                 } else {
-                    pView.showErrorMessage(getErrorMessage(response.body()));
+                    pView.showErrorMessage(getErrorMessage(response.body().getCode()));
                 }
                 pView.hideVerifyLoading();
             }
 
             @Override
             public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
-                pView.showErrorMessage(1001);
+                pView.showErrorMessage(getErrorMessage(1001));
                 pView.hideVerifyLoading();
             }
         });
@@ -70,14 +70,14 @@ public class PasswordResetPresent implements IPasswordResetPresent{
                 if (response.body().isStatus()) {
                     pView.onConfirmReset();
                 } else {
-                    pView.showErrorMessage(getErrorMessage(response.body()));
+                    pView.showErrorMessage(getErrorMessage(response.body().getCode()));
                 }
                 pView.hideResetLoading();
             }
 
             @Override
             public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
-                pView.showErrorMessage(1001);
+                pView.showErrorMessage(getErrorMessage(1001));
                 pView.hideResetLoading();
             }
         });
@@ -99,14 +99,14 @@ public class PasswordResetPresent implements IPasswordResetPresent{
                 } else {
                     if(response.body().getCode() == 1010)
                         pView.sendRequestComplete();
-                    pView.showErrorMessage(getErrorMessage(response.body()));
+                    pView.showErrorMessage(getErrorMessage(response.body().getCode()));
                 }
                 pView.hideSendEmailLoading();
             }
 
             @Override
             public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
-                pView.showErrorMessage(1001);
+                pView.showErrorMessage(getErrorMessage(1001));
                 pView.hideSendEmailLoading();
             }
         });
@@ -134,9 +134,9 @@ public class PasswordResetPresent implements IPasswordResetPresent{
                 });
     }
 
-    private int getErrorMessage(MessageModel message) {
+    private int getErrorMessage(int errorCode) {
         int errMessage = -1;
-        switch (message.getCode()) {
+        switch (errorCode) {
             case Constants.ErrorCode.ERROR_1001:
                 errMessage = R.string.err_code_1001;
                 break;

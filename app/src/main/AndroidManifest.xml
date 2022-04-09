@@ -15,6 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Client">
+        <activity android:name=".screens.cart.activity.CartActivity"></activity>
+        <activity android:name=".screens.branch.BranchActivity" />
+        <activity android:name=".screens.product.detail.ProductDetailActivity" />
+        <activity android:name=".screens.product.activity.ProductActivity" />
         <activity
             android:name=".screens.message.activity.MessageActivity"
             android:exported="true" />
@@ -47,15 +51,10 @@
             android:exported="true" />
         <activity
             android:name=".screens.register.activity.RegisterActivity"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".screens.category.activity.CategoryActivity"
-            android:exported="true" >
-
-        </activity>
-
+            android:exported="true" />
         <activity
             android:name=".screens.subject.activity.SubjectDetailActivity"
             android:exported="true" />
@@ -79,8 +78,7 @@
         </activity>
         <activity
             android:name=".screens.main.activity.MainActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
 
         <service
             android:name=".app.MyFirebaseService"

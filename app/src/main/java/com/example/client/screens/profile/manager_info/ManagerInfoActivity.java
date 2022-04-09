@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,13 +21,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.client.R;
 import com.example.client.app.Constants;
-import com.example.client.app.Preferences;
 import com.example.client.dialog.PrimaryDialog;
-import com.example.client.models.message.MessageModel;
+import com.example.client.models.event.Event;
 import com.example.client.models.profile.ProfileModel;
 import com.example.client.screens.profile.manager_info.present.ManagerInfoPresent;
 import com.example.client.screens.profile.manager_info.update.UpdateInfoActivity;
 import com.example.client.screens.profile.manager_info.update.UpdatePasswordActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 
 public class ManagerInfoActivity extends AppCompatActivity implements View.OnClickListener,IManagerInfoView {
@@ -65,7 +69,7 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
         change_password.setOnClickListener(this);
         back.setOnClickListener(this);
 
-
+        mPresent.getUserFromRes();
         intentActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -76,15 +80,15 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
                             Bundle bundle=data.getExtras();
                             Bitmap bitmap=(Bitmap)bundle.get("data");
                             avatar.setImageBitmap(bitmap);
-                            mPresent.onUpdateAvatar(user.getEmail(),bitmap);
+                            mPresent.updateAvatar(user.getEmail(),bitmap);
                         }
                         else {
                             Uri uri=data.getData();
                             Bitmap bitmap= MediaStore.Images.Media.getBitmap(ManagerInfoActivity.this.getContentResolver(),uri);
                             avatar.setImageBitmap(bitmap);
-                            mPresent.onUpdateAvatar(user.getEmail(),bitmap);
+                            mPresent.updateAvatar(user.getEmail(),bitmap);
                         }
-                    }catch (Exception ex){
+                    }catch (Exception ignored){
 
                     }
                 }
@@ -93,9 +97,25 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mPresent.onShowInfoUser();
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(Event event) {
+        switch (event.getKey()) {
+            case Constants.EventKey.UPDATE_PROFILE_INFO:
+                mPresent.getUserFromRes();
+                break;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -122,7 +142,7 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void showInfoUser(ProfileModel user) {
+    public void showUserInfo(ProfileModel user) {
         this.user = new ProfileModel();
         this.user = user;
         Glide.with(this)
@@ -137,35 +157,22 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void updateInfo(MessageModel message) {
+    public void updateInfo() {
 
     }
 
     @Override
-    public void updatePass(MessageModel message) {
+    public void updatePass() {
 
     }
 
     @Override
-    public void updateAvatar(MessageModel message) {
-        if(message.isStatus()){
-            Preferences.getInstance().setProfile(user);
-            dialog.setDescription("Thay đổi avatar thành công");
-            dialog.hideBtnCancel();
-            dialog.show();
-            dialog.setOKListener(()->{});
-            mPresent.onShowInfoUser();
-        }
-        else {
-            switch (message.getCode()){
-                case Constants.ErrorCode.ERROR_1001:
-                    dialog.setDescription(getString(R.string.err_code_1001));
-                    break;
-            }
-            dialog.setOKListener(()->{});
-            dialog.hideBtnCancel();
-            dialog.show();
-        }
+    public void updateAvatar() {
+        dialog.setDescription("Thay đổi avatar thành công");
+        dialog.hideBtnCancel();
+        dialog.show();
+        dialog.setOKListener(()->{});
+        mPresent.getUserFromRes();
     }
 
     @Override
@@ -178,5 +185,13 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
     public void hideLoading() {
         cardView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showErrorMessage(int errMessage) {
+        dialog.setDescription(getString(errMessage));
+        dialog.setOKListener(()->{});
+        dialog.hideBtnCancel();
+        dialog.show();
     }
 }

@@ -3,18 +3,22 @@ package com.example.client.screens.profile.manager_info.present;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import com.example.client.R;
 import com.example.client.api.ApiClient;
 import com.example.client.api.service.UserService;
+import com.example.client.app.Constants;
 import com.example.client.app.Firebase;
 import com.example.client.app.Preferences;
-import com.example.client.dialog.PrimaryDialog;
+import com.example.client.models.event.Event;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.ProfileModel;
 import com.example.client.screens.profile.manager_info.IManagerInfoView;
 
-import com.google.android.gms.common.api.Api;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import org.greenrobot.eventbus.EventBus;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 
@@ -29,51 +33,71 @@ public class ManagerInfoPresent implements IManagerInfoPresent{
         this.mView = mView;
     }
     @Override
-    public void onShowInfoUser() {
+    public void getUserFromRes() {
         user = Preferences.getInstance().getProfile();
-        mView.showInfoUser(user);
+        mView.showUserInfo(user);
     }
 
     @Override
-    public void onUpdateInfo(ProfileModel user) {
+    public void updateProfile(ProfileModel user) {
         mView.showLoading();
         UserService service = ApiClient.getInstance().create(UserService.class);
         service.updateInfo(user).enqueue(new Callback<MessageModel>() {
             @Override
-            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
-                mView.updateInfo(response.body());
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                if (response.body() == null) {
+                    mView.showErrorMessage(getErrorMessage(1001));
+                    mView.hideLoading();
+                    return;
+                }
+                if (response.body().isStatus()) {
+                    mView.updateInfo();
+//                    RxBus.getInstance().onNext(new Event(Constants.EventKey.UPDATE_PROFILE_INFO));
+                    EventBus.getDefault().post(new Event(Constants.EventKey.UPDATE_PROFILE_INFO));
+                } else {
+                    mView.showErrorMessage(response.body().getCode());
+                }
                 mView.hideLoading();
             }
 
             @Override
-            public void onFailure(Call<MessageModel> call, Throwable t) {
-                mView.updateInfo(new MessageModel(false,1001,null));
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
+                mView.showErrorMessage(getErrorMessage(1001));
                 mView.hideLoading();
             }
         });
     }
 
     @Override
-    public void onUpdatePass(String email, String oldpassword, String newpassword) {
+    public void updatePassword(String email, String oldpassword, String newpassword) {
         mView.showLoading();
         UserService service = ApiClient.getInstance().create(UserService.class);
         service.udpatePass(email,oldpassword,newpassword).enqueue(new Callback<MessageModel>() {
             @Override
-            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
-                mView.updatePass(response.body());
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                if (response.body() == null) {
+                    mView.showErrorMessage(getErrorMessage(1001));
+                    mView.hideLoading();
+                    return;
+                }
+                if (response.body().isStatus()) {
+                    mView.updatePass();
+                } else {
+                    mView.showErrorMessage(response.body().getCode());
+                }
                 mView.hideLoading();
             }
 
             @Override
-            public void onFailure(Call<MessageModel> call, Throwable t) {
-                mView.updatePass(new MessageModel(false,1001,null));
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
+                mView.showErrorMessage(getErrorMessage(1001));
                 mView.hideLoading();
             }
         });
     }
 
     @Override
-    public void onUpdateAvatar(String email, Bitmap avatar) {
+    public void updateAvatar(String email, Bitmap avatar) {
         mView.showLoading();
         Firebase.createInstance();
         StorageReference ref = Firebase.getInstance().ref();
@@ -82,11 +106,11 @@ public class ManagerInfoPresent implements IManagerInfoPresent{
         byte[] data = baos.toByteArray();
         UploadTask uploadTask = ref.putBytes(data);
         uploadTask.addOnFailureListener(e ->{
-            mView.updateAvatar(new MessageModel(false,1001,null));
+            mView.showErrorMessage(getErrorMessage(1001));
             mView.hideLoading();
         }).addOnSuccessListener(taskSnapshot -> uploadTask.continueWithTask(task -> {
             if(!task.isSuccessful()){
-                mView.updateAvatar(new MessageModel(false,1001,null));
+                mView.showErrorMessage(getErrorMessage(1001));
                 mView.hideLoading();
                 throw task.getException();
             }
@@ -97,25 +121,81 @@ public class ManagerInfoPresent implements IManagerInfoPresent{
                 UserService service = ApiClient.getInstance().create(UserService.class);
                 service.updateAvatar(email,uri.toString()).enqueue(new Callback<MessageModel>() {
                     @Override
-                    public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
-                        user.setAvatar(uri.toString());
-                        Preferences.getInstance().setProfile(user);
-                        mView.updateAvatar(response.body());
+                    public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                        if (response.body() == null) {
+                            mView.showErrorMessage(getErrorMessage(1001));
+                            mView.hideLoading();
+                            return;
+                        }
+                        if (response.body().isStatus()) {
+                            user.setAvatar(uri.toString());
+                            Preferences.getInstance().setProfile(user);
+                            mView.updateAvatar();
+                            EventBus.getDefault().post(new Event(Constants.EventKey.UPDATE_PROFILE_AVATAR));
+                        } else {
+                            mView.showErrorMessage(response.body().getCode());
+                        }
                         mView.hideLoading();
                     }
 
                     @Override
-                    public void onFailure(Call<MessageModel> call, Throwable t) {
-                        mView.updateAvatar(new MessageModel(false,1001,null));
+                    public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
+                        mView.showErrorMessage(getErrorMessage(1001));
                         mView.hideLoading();
                     }
                 });
             }
             else {
-                mView.updateAvatar(new MessageModel(false,1001,null));
+                mView.showErrorMessage(getErrorMessage(1001));
                 mView.hideLoading();
             }
         }));
 
+    }
+
+    private int getErrorMessage(int errorCode) {
+        int errMessage = -1;
+        switch (errorCode) {
+            case Constants.ErrorCode.ERROR_1001:
+                errMessage = R.string.err_code_1001;
+                break;
+            case Constants.ErrorCode.ERROR_1002:
+                errMessage = R.string.err_code_1002;
+                break;
+            case Constants.ErrorCode.ERROR_1003:
+                errMessage = R.string.err_code_1003;
+                break;
+            case Constants.ErrorCode.ERROR_1004:
+                errMessage = R.string.err_code_1004;
+                break;
+            case Constants.ErrorCode.ERROR_1005:
+                errMessage = R.string.err_code_1005;
+                break;
+            case Constants.ErrorCode.ERROR_1006:
+                errMessage = R.string.err_code_1006;
+                break;
+            case Constants.ErrorCode.ERROR_1007:
+                errMessage = R.string.err_code_1007;
+                break;
+            case Constants.ErrorCode.ERROR_1008:
+                errMessage = R.string.err_code_1008;
+                break;
+            case Constants.ErrorCode.ERROR_1009:
+                errMessage = R.string.err_code_1009;
+                break;
+            case Constants.ErrorCode.ERROR_1010:
+                errMessage = R.string.err_code_1010;
+                break;
+            case Constants.ErrorCode.ERROR_1011:
+                errMessage = R.string.err_code_1011;
+                break;
+            case Constants.ErrorCode.ERROR_1012:
+                errMessage = R.string.err_code_1012;
+                break;
+            case Constants.ErrorCode.ERROR_1013:
+                errMessage = R.string.err_code_1013;
+                break;
+        }
+        return errMessage;
     }
 }

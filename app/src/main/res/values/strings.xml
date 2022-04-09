@@ -17,5 +17,21 @@
     <string name="mail_description_register">Mail đăng ký tài khoản đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
     <string name="password_invalid">*Xác nhận mật khẩu chưa chính xác</string>
     <string name="send_email_verification">Gửi mail xác thực</string>
+    <string name="title_search_view">Bạn muốn tìm sản phẩm?</string>
+    <string name="product_name_default">Tên sản phẩm</string>
+    <string name="branch_name_default">Tên chi nhánh</string>
+    <string name="branch_change">Đổi chi nhánh</string>
+    <string name="branch_address_default">Địa chỉ</string>
+    <string name="add_to_cart">Thêm vào giỏ</string>
+    <string name="add_to_cart_price">Thêm %s</string>
+    <string name="product_info">Thông tin sản phẩm</string>
+    <string name="product_category_default">Thể loại: Máy tính</string>
+    <string name="product_description_default">Mô tả sản phẩm</string>
+    <string name="product_same_category">Sản phẩm cùng loại</string>
+    <string name="see_more">Xem tất cả</string>
+    <string name="update_profile_success">Cập nhật thành công</string>
+    <string name="manager_profile">Quản lý hồ sơ</string>
+    <string name="your_cart">Giỏ hàng của bạn</string>
+    <string name="product_price_default">1.000.000đ</string>
 
 </resources>

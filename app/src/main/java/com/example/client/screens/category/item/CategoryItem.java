@@ -106,7 +106,7 @@ public class CategoryItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         CategoryModel item = items.get(position);
         ((MyViewHolder)holder).name.setText(item.getName());
         ((MyViewHolder)holder).showSubjects(item.getId());
-        ((MyViewHolder)holder).more.setOnClickListener(v -> listener.onClickCategoryItem(item));
+        ((MyViewHolder)holder).more.setOnClickListener(v -> listener.onClickItem(item));
     }
 
     @Override

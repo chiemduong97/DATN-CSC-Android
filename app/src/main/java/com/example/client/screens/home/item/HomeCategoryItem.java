@@ -51,7 +51,7 @@ public class HomeCategoryItem extends RecyclerView.Adapter<RecyclerView.ViewHold
         CategoryModel item = list.get(position);
         Glide.with(context).asBitmap().placeholder(R.drawable.icon_default).load(item.getAvatar()).into(((MyViewHolder) holder).avatar);
         ((MyViewHolder) holder).name.setText(item.getName());
-        ((MyViewHolder) holder).itemView.setOnClickListener(v -> listener.onClickCategoryItem(item));
+        ((MyViewHolder) holder).itemView.setOnClickListener(v -> listener.onClickItem(item));
     }
 
     @Override

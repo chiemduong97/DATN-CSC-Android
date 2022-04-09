@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".screens.main.activity.MainActivity"
-    android:orientation="vertical">
+    tools:context=".screens.main.activity.MainActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:layout_alignParentTop="true">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,23 +31,71 @@
 
         </FrameLayout>
     </androidx.appcompat.widget.Toolbar>
+
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/navigation"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
     </FrameLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray_dark" />
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigtion"
+        android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:menu="@menu/main_menu"
         android:background="@color/white"
-        app:layout_behavior=".BottomNavigationBehavior">
+        app:layout_behavior=".BottomNavigationBehavior"
+        android:layout_alignParentBottom="true">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/navigation"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_cart_place"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_margin="10dp"
+            android:elevation="4dp"
+            android:visibility="visible"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_cart_svg" />
+
+            <TextView
+                android:id="@+id/tv_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/lnl_info"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/bg_red_f7_radius_5"
+                android:gravity="center"
+                android:paddingLeft="6dp"
+                android:paddingTop="1dp"
+                android:paddingRight="6dp"
+                android:paddingBottom="1dp"
+                android:textColor="@color/white"
+                tools:text="20" />
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</RelativeLayout>

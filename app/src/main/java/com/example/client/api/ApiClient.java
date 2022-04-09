@@ -14,22 +14,20 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static Retrofit retrofit;
-    public static Retrofit getInstance(){
+    public static Retrofit getInstance() {
         String token = Preferences.getInstance().getAccessToken();
         String baseUrl = "http://192.168.1.4:8585/";
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {
             Request request = chain.request().newBuilder()
-                    .addHeader("Authorization","Bearer "+token)
+                    .addHeader("Authorization", "Bearer " + token)
                     .build();
             return chain.proceed(request);
         }).build();
-        retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .client(client)
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        return retrofit;
     }
 
 }

@@ -103,6 +103,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:padding="10dp"
+                    android:inputType="number"
                     android:textColor="@color/black"
                     android:background="@drawable/box_red"/>
                 <TextView
