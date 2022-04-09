@@ -4,6 +4,7 @@ import com.example.client.api.ApiClient;
 import com.example.client.api.service.BannerService;
 import com.example.client.api.service.CategoryService;
 import com.example.client.api.service.SubjectService;
+import com.example.client.app.Preferences;
 import com.example.client.models.banner.BannerModel;
 import com.example.client.models.category.CategoryModel;
 import com.example.client.models.subject.SubjectModel;
@@ -41,7 +42,7 @@ public class HomePresent implements IHomePresent {
     }
 
     @Override
-    public void onShowBanners() {
+    public void getListBannerFromService() {
         BannerService service = ApiClient.getInstance().create(BannerService.class);
         service.getAll().enqueue(new Callback<List<BannerModel>>() {
             @Override
@@ -58,7 +59,7 @@ public class HomePresent implements IHomePresent {
     }
 
     @Override
-    public void onShowHighLight() {
+    public void getProductsHighLightFromService() {
         SubjectService service = ApiClient.getInstance().create(SubjectService.class);
         service.getHighLight(10).enqueue(new Callback<List<SubjectModel>>() {
             @Override
@@ -74,7 +75,7 @@ public class HomePresent implements IHomePresent {
     }
 
     @Override
-    public void onShowNew() {
+    public void getProductNewFromService() {
         SubjectService service = ApiClient.getInstance().create(SubjectService.class);
         service.getNew(10).enqueue(new Callback<List<SubjectModel>>() {
             @Override
@@ -87,6 +88,16 @@ public class HomePresent implements IHomePresent {
                 hView.showNew(new ArrayList<>());
             }
         });
+    }
+
+    @Override
+    public void getBranchFromRes() {
+        hView.showBranchInfo(Preferences.getInstance().getBranchModel());
+    }
+
+    @Override
+    public void getUserFromRes() {
+        hView.showUserInfo(Preferences.getInstance().getProfile());
     }
 
 }

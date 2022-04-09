@@ -7,15 +7,20 @@ import com.example.client.R;
 import com.example.client.api.ApiClient;
 import com.example.client.api.service.UserService;
 import com.example.client.app.Preferences;
+import com.example.client.models.cart.CartModel;
 import com.example.client.models.profile.ProfileModel;
 import com.example.client.screens.home.fragment.HomeFragment;
 import com.example.client.screens.main.activity.IMainView;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainPresent implements IMainPresent {
+    private CartModel cart = Preferences.getInstance().getCarModel() != null ? Preferences.getInstance().getCarModel() : new CartModel(new ArrayList<>());
 
     private IMainView mView;
     private ProfileModel user;
@@ -55,5 +60,22 @@ public class MainPresent implements IMainPresent {
 
             }
         });
+    }
+
+    @Override
+    public void getCartFromRes() {
+        cart = Preferences.getInstance().getCarModel() != null ? Preferences.getInstance().getCarModel() : new CartModel(new ArrayList<>());
+        if (cart.getListProduct() != null) {
+            for (int i = cart.getListProduct().size() - 1; i >= 0; i--) {
+                if(cart.getListProduct().get(i).getQuantity() <= 0) {
+                    cart.getListProduct().remove(i);
+                }
+            }
+        }
+        if (cart != null && !Objects.requireNonNull(cart.getListProduct()).isEmpty()) {
+            mView.showCart(cart.getListProduct().size());
+        } else {
+            mView.hideCart();
+        }
     }
 }

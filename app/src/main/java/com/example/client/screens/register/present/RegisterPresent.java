@@ -35,7 +35,7 @@ public class RegisterPresent implements IRegisterPresent{
                 public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
                     if (response.body() == null) {
                         rView.hideLoading();
-                        rView.showErrorMessage(1001);
+                        rView.showErrorMessage(getErrorMessage(1001));
                         return;
                     }
                     if (response.body().isStatus()) {
@@ -46,7 +46,7 @@ public class RegisterPresent implements IRegisterPresent{
 
                 @Override
                 public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
-                    rView.showErrorMessage(1001);
+                    rView.showErrorMessage(getErrorMessage(1001));
                     rView.hideLoading();
                 }
             });
@@ -63,7 +63,7 @@ public class RegisterPresent implements IRegisterPresent{
             public void onResponse(@NotNull Call<ProfileModel> call, @NotNull Response<ProfileModel> response) {
                 if (response.body() == null) {
                     rView.hideLoading();
-                    rView.showErrorMessage(1001);
+                    rView.showErrorMessage(getErrorMessage(1001));
                     return;
                 }
                 Preferences.getInstance().setProfile(response.body());
@@ -73,7 +73,7 @@ public class RegisterPresent implements IRegisterPresent{
 
             @Override
             public void onFailure(@NotNull Call<ProfileModel> call, @NotNull Throwable t) {
-                rView.showErrorMessage(1001);
+                rView.showErrorMessage(getErrorMessage(1001));
                 rView.hideLoading();
             }
         });
@@ -88,13 +88,13 @@ public class RegisterPresent implements IRegisterPresent{
             public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
                 if (response.body() == null) {
                     rView.hideLoading();
-                    rView.showErrorMessage(1001);
+                    rView.showErrorMessage(getErrorMessage(1001));
                     return;
                 }
                 if (response.body().isStatus()) {
                     rView.register();
                 } else {
-                    rView.showErrorMessage(getErrorMessage(response.body()));
+                    rView.showErrorMessage(getErrorMessage(response.body().getCode()));
                 }
                 rView.hideLoading();
 
@@ -102,7 +102,7 @@ public class RegisterPresent implements IRegisterPresent{
 
             @Override
             public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
-                rView.showErrorMessage(1001);
+                rView.showErrorMessage(getErrorMessage(1001));
                 rView.hideLoading();
             }
         });
@@ -117,7 +117,7 @@ public class RegisterPresent implements IRegisterPresent{
             public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
                 if (response.body() == null) {
                     rView.hideLoading();
-                    rView.showErrorMessage(1001);
+                    rView.showErrorMessage(getErrorMessage(1001));
                     return;
                 }
                 if (response.body().isStatus()) {
@@ -125,14 +125,14 @@ public class RegisterPresent implements IRegisterPresent{
                 } else if (response.body().getCode() == 1010) {
                     rView.showVerificationDialog(true);
                 } else {
-                    rView.showErrorMessage(getErrorMessage(response.body()));
+                    rView.showErrorMessage(getErrorMessage(response.body().getCode()));
                 }
                 rView.hideLoading();
             }
 
             @Override
             public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
-                rView.showErrorMessage(1001);
+                rView.showErrorMessage(getErrorMessage(1001));
                 rView.hideLoading();
             }
         });
@@ -147,28 +147,28 @@ public class RegisterPresent implements IRegisterPresent{
             public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
                 if (response.body() == null) {
                     rView.hideLoading();
-                    rView.showErrorMessage(1001);
+                    rView.showErrorMessage(getErrorMessage(1001));
                     return;
                 }
                 if (response.body().isStatus()) {
                     onRegister(fullname, phone, email, password);
                 } else {
-                    rView.showErrorMessage(getErrorMessage(response.body()));
+                    rView.showErrorMessage(getErrorMessage(response.body().getCode()));
                     rView.hideLoading();
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
-                rView.showErrorMessage(1001);
+                rView.showErrorMessage(getErrorMessage(1001));
                 rView.hideLoading();
             }
         });
     }
 
-    private int getErrorMessage(MessageModel message) {
+    private int getErrorMessage(int errCode) {
         int errMessage = -1;
-        switch (message.getCode()) {
+        switch (errCode) {
             case Constants.ErrorCode.ERROR_1001:
                 errMessage = R.string.err_code_1001;
                 break;

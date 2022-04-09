@@ -16,9 +16,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.example.client.R;
-import com.example.client.app.Constants;
 import com.example.client.dialog.PrimaryDialog;
-import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.ProfileModel;
 import com.example.client.screens.profile.manager_info.IManagerInfoView;
 import com.example.client.screens.profile.manager_info.present.ManagerInfoPresent;
@@ -177,7 +175,7 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
     @Override
     protected void onResume() {
         super.onResume();
-        mPresent.onShowInfoUser();
+        mPresent.getUserFromRes();
     }
 
     public void checkButton(){
@@ -201,7 +199,11 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.update:
-                mPresent.onUpdatePass(email,old_password.getText().toString().trim(),
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(getCurrentFocus()!=null){
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
+                mPresent.updatePassword(email,old_password.getText().toString().trim(),
                         new_password.getText().toString().trim());
                 break;
             case R.id.back:
@@ -213,47 +215,28 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
     }
 
     @Override
-    public void showInfoUser(ProfileModel user) {
+    public void showUserInfo(ProfileModel user) {
         this.email = user.getEmail();
     }
 
     @Override
-    public void updateInfo(MessageModel message) {
+    public void updateInfo() {
 
     }
 
     @Override
-    public void updatePass(MessageModel message) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(getCurrentFocus()!=null){
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
-        if(message.isStatus()){
-            dialog.setDescription("Cập nhật thành công");
-            dialog.hideBtnCancel();
-            dialog.show();
-            dialog.setOKListener(()->{
-                finish();
-                onBackPressed();
-            });
-        }
-        else {
-            switch (message.getCode()){
-                case Constants.ErrorCode.ERROR_1001:
-                    dialog.setDescription(getString(R.string.err_code_1001));
-                    break;
-                case Constants.ErrorCode.ERROR_1006:
-                    dialog.setDescription(getString(R.string.err_code_1006));
-                    break;
-            }
-            dialog.setOKListener(()->{});
-            dialog.hideBtnCancel();
-            dialog.show();
-        }
+    public void updatePass() {
+        dialog.setDescription(getString(R.string.update_profile_success));
+        dialog.hideBtnCancel();
+        dialog.show();
+        dialog.setOKListener(()->{
+            finish();
+            onBackPressed();
+        });
     }
 
     @Override
-    public void updateAvatar(MessageModel message) {
+    public void updateAvatar() {
 
     }
 
@@ -271,5 +254,13 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
         update.setBackgroundResource(R.drawable.bg_btn);
         update.setText("Lưu thay đổi");
         update.setEnabled(true);
+    }
+
+    @Override
+    public void showErrorMessage(int errMessage) {
+        dialog.setDescription(getString(errMessage));
+        dialog.setOKListener(()->{});
+        dialog.hideBtnCancel();
+        dialog.show();
     }
 }

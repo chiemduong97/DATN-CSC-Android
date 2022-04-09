@@ -12,10 +12,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfliePresent implements IProfliePresent{
+public class ProfilePresent implements IProfilePresent {
     private IProfileView pView;
     private ProfileModel user;
-    public ProfliePresent(IProfileView pView) {
+    public ProfilePresent(IProfileView pView) {
         this.pView = pView;
         user = Preferences.getInstance().getProfile();
     }
@@ -44,5 +44,10 @@ public class ProfliePresent implements IProfliePresent{
                 pView.logout(false);
             }
         });
+    }
+
+    @Override
+    public void getUserFromRes() {
+        pView.showUserInfo(Preferences.getInstance().getProfile());
     }
 }

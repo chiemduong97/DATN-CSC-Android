@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 import com.example.client.models.profile.ProfileModel;
 
 public interface IManagerInfoPresent {
-    void onShowInfoUser();
-    void onUpdateInfo(ProfileModel user);
-    void onUpdatePass(String email,String oldpassword,String newpassword);
-    void onUpdateAvatar(String email, Bitmap avatar);
+    void getUserFromRes();
+    void updateProfile(ProfileModel user);
+    void updatePassword(String email, String oldpassword, String newpassword);
+    void updateAvatar(String email, Bitmap avatar);
 }

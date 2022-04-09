@@ -14,10 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.client.R;
-import com.example.client.app.Constants;
 import com.example.client.app.Preferences;
 import com.example.client.dialog.PrimaryDialog;
-import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.ProfileModel;
 import com.example.client.screens.profile.manager_info.IManagerInfoView;
 import com.example.client.screens.profile.manager_info.present.ManagerInfoPresent;
@@ -56,13 +54,17 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        mPresent.onShowInfoUser();
+        mPresent.getUserFromRes();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.update:
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(getCurrentFocus()!=null){
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
                 if(fullname.getText().toString().trim().equals("")){
                     dialog.setDescription("Không được để trống họ và tên");
                     dialog.setOKListener(()->{});
@@ -73,7 +75,7 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
                     user.setFullname(fullname.getText().toString().trim());
                     user.setBirthday(birthday.getText().toString().trim());
                     user.setPhone(phone.getText().toString().trim());
-                    mPresent.onUpdateInfo(user);
+                    mPresent.updateProfile(user);
                 }
                 break;
             case R.id.back:
@@ -96,7 +98,7 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public void showInfoUser(ProfileModel user) {
+    public void showUserInfo(ProfileModel user) {
         this.user = new ProfileModel();
         this.user = user;
         fullname.setText(user.getFullname());
@@ -105,40 +107,24 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public void updateInfo(MessageModel message) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(getCurrentFocus()!=null){
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
-        if(message.isStatus()){
-            Preferences.getInstance().setProfile(user);
-            dialog.setDescription("Cập nhật thành công");
-            dialog.hideBtnCancel();
-            dialog.show();
-            dialog.setOKListener(()->{
-                finish();
-                onBackPressed();
-            });
-        }
-        else {
-            switch (message.getCode()){
-                case Constants.ErrorCode.ERROR_1001:
-                    dialog.setDescription(getString(R.string.err_code_1001));
-                    break;
-            }
-            dialog.setOKListener(()->{});
-            dialog.hideBtnCancel();
-            dialog.show();
-        }
+    public void updateInfo() {
+        Preferences.getInstance().setProfile(user);
+        dialog.setDescription(getString(R.string.update_profile_success));
+        dialog.hideBtnCancel();
+        dialog.show();
+        dialog.setOKListener(()->{
+            finish();
+            onBackPressed();
+        });
     }
 
     @Override
-    public void updatePass(MessageModel message) {
+    public void updatePass() {
 
     }
 
     @Override
-    public void updateAvatar(MessageModel message) {
+    public void updateAvatar() {
 
     }
 
@@ -156,5 +142,13 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
         update.setBackgroundResource(R.drawable.bg_btn);
         update.setText("Lưu thay đổi");
         update.setEnabled(true);
+    }
+
+    @Override
+    public void showErrorMessage(int errMessage) {
+        dialog.setDescription(getString(errMessage));
+        dialog.setOKListener(()->{});
+        dialog.hideBtnCancel();
+        dialog.show();
     }
 }

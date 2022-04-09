@@ -32,21 +32,21 @@ public class LoginPresent implements ILoginPresent{
             @Override
             public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
                 if (response.body() == null) {
-                    lView.showErrorMessage(1001);
+                    lView.showErrorMessage(getErrorMessage(1001));;
                     lView.hideLoading();
                     return;
                 }
                 if (response.body().isStatus()) {
                     lView.next();
                 } else {
-                    lView.showErrorMessage(getErrorMessage(response.body()));
+                    lView.showErrorMessage(getErrorMessage(response.body().getCode()));
                     lView.hideLoading();
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
-                lView.showErrorMessage(1001);
+                lView.showErrorMessage(getErrorMessage(1001));;
                 lView.hideLoading();
             }
         });
@@ -63,7 +63,7 @@ public class LoginPresent implements ILoginPresent{
                 @Override
                 public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
                     if (response.body() == null) {
-                        lView.showErrorMessage(1001);
+                        lView.showErrorMessage(getErrorMessage(1001));;
                         lView.hideLoading();
                         return;
                     }
@@ -71,7 +71,7 @@ public class LoginPresent implements ILoginPresent{
                         Preferences.getInstance().setAccessToken(response.body().getAccessToken());
                         setUserActive(email);
                     } else {
-                        lView.showErrorMessage(getErrorMessage(response.body()));
+                        lView.showErrorMessage(getErrorMessage(response.body().getCode()));
                         lView.hideLoading();
                     }
 
@@ -79,7 +79,7 @@ public class LoginPresent implements ILoginPresent{
 
                 @Override
                 public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
-                    lView.showErrorMessage(1001);
+                    lView.showErrorMessage(getErrorMessage(1001));;
                     lView.hideLoading();
                 }
             });
@@ -92,7 +92,7 @@ public class LoginPresent implements ILoginPresent{
             @Override
             public void onResponse(@NotNull Call<ProfileModel> call, @NotNull Response<ProfileModel> response) {
                 if (response.body() == null) {
-                    lView.showErrorMessage(1001);
+                    lView.showErrorMessage(getErrorMessage(1001));;
                     lView.hideLoading();
                     return;
                 }
@@ -103,7 +103,7 @@ public class LoginPresent implements ILoginPresent{
 
             @Override
             public void onFailure(@NotNull Call<ProfileModel> call, @NotNull Throwable t) {
-                lView.showErrorMessage(1001);
+                lView.showErrorMessage(getErrorMessage(1001));;
                 lView.hideLoading();
             }
         });
@@ -116,14 +116,14 @@ public class LoginPresent implements ILoginPresent{
             @Override
             public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
                 if (response.body() == null) {
-                    lView.showErrorMessage(1001);
+                    lView.showErrorMessage(getErrorMessage(1001));;
                     lView.hideLoading();
                     return;
                 }
                 if (response.body().isStatus()) {
                     lView.login();
                 } else {
-                    lView.showErrorMessage(getErrorMessage(response.body()));
+                    lView.showErrorMessage(getErrorMessage(response.body().getCode()));
                 }
                 lView.hideLoading();
 
@@ -131,15 +131,15 @@ public class LoginPresent implements ILoginPresent{
 
             @Override
             public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
-                lView.showErrorMessage(1001);
+                lView.showErrorMessage(getErrorMessage(1001));;
                 lView.hideLoading();
             }
         });
     }
 
-    private int getErrorMessage(MessageModel message) {
+    private int getErrorMessage(int errorCode) {
         int errMessage = -1;
-        switch (message.getCode()) {
+        switch (errorCode) {
             case Constants.ErrorCode.ERROR_1001:
                 errMessage = R.string.err_code_1001;
                 break;

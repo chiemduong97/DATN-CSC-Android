@@ -1,5 +1,6 @@
 package com.example.client.screens.profile.present;
 
-public interface IProfliePresent {
+public interface IProfilePresent {
     void onLogout();
+    void getUserFromRes();
 }
