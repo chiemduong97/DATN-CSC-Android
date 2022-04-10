@@ -143,7 +143,6 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void showUserInfo(ProfileModel user) {
-        this.user = new ProfileModel();
         this.user = user;
         Glide.with(this)
                 .asBitmap()

@@ -27,15 +27,12 @@ import com.example.client.models.branch.BranchModel;
 import com.example.client.models.category.CategoryModel;
 import com.example.client.models.event.Event;
 import com.example.client.models.profile.ProfileModel;
-import com.example.client.models.subject.SubjectModel;
 import com.example.client.screens.branch.BranchActivity;
 import com.example.client.screens.home.item.BannerItem;
 import com.example.client.screens.home.item.HomeCategoryItem;
 import com.example.client.screens.home.present.HomePresent;
 import com.example.client.screens.product.activity.ProductActivity;
 import com.example.client.screens.profile.manager_info.ManagerInfoActivity;
-import com.example.client.screens.subject.activity.SubjectMoreActivity;
-import com.example.client.screens.subject.item.SubjectVerticalItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -155,16 +152,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.moreHightLight:
-                Intent intentHightLight = new Intent(getActivity(), SubjectMoreActivity.class);
-                intentHightLight.putExtra("name", titleHighLight.getText().toString());
-                intentHightLight.putExtra("method", Constants.MORE.HIGHLIGHT);
-                startActivity(intentHightLight);
+
                 break;
             case R.id.moreNew:
-                Intent intentNew = new Intent(getActivity(), SubjectMoreActivity.class);
-                intentNew.putExtra("name",titleNew.getText().toString());
-                intentNew.putExtra("method", Constants.MORE.NEW);
-                startActivity(intentNew);
+
                 break;
             case R.id.profile:
                 startActivity(new Intent(getActivity(), ManagerInfoActivity.class));
@@ -197,40 +188,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
             new TabLayoutMediator(tabDots,pagerBanner,(tab, position) -> {
 
             }).attach();
-        }
-
-    }
-
-    @Override
-    public void showHighLight(List<SubjectModel> items) {
-        if(items == null || items.size() == 0){
-            high_light_empty.setVisibility(View.VISIBLE);
-            recyclerViewHighLight.setVisibility(View.GONE);
-        }
-        else {
-            high_light_empty.setVisibility(View.GONE);
-            recyclerViewHighLight.setVisibility(View.VISIBLE);
-            LinearLayoutManager managerHightLight = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-            SubjectVerticalItem subjectVerticalItem = new SubjectVerticalItem(items,getContext());
-            recyclerViewHighLight.setLayoutManager(managerHightLight);
-            recyclerViewHighLight.setAdapter(subjectVerticalItem);
-        }
-
-    }
-
-    @Override
-    public void showNew(List<SubjectModel> items) {
-        if(items == null || items.size() == 0){
-            new_empty.setVisibility(View.VISIBLE);
-            recyclerViewNew.setVisibility(View.GONE);
-        }
-        else {
-            new_empty.setVisibility(View.GONE);
-            recyclerViewNew.setVisibility(View.VISIBLE);
-            LinearLayoutManager managerNew = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-            SubjectVerticalItem subjectVerticalItem = new SubjectVerticalItem(items,getContext());
-            recyclerViewNew.setLayoutManager(managerNew);
-            recyclerViewNew.setAdapter(subjectVerticalItem);
         }
 
     }

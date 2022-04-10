@@ -1,4 +1,4 @@
-package com.example.client.screens.cart.activity
+package com.example.client.screens.order.activity
 
 import android.content.Context
 import android.content.Intent
@@ -9,67 +9,81 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.client.R
 import com.example.client.app.Constants
+import com.example.client.dialog.PrimaryDialog
 import com.example.client.models.branch.BranchModel
 import com.example.client.models.cart.CartModel
 import com.example.client.models.event.Event
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.cart.item.CartProductItem
-import com.example.client.screens.cart.present.CartPresent
-import com.example.client.screens.order.activity.ReviewOrderActivity
-import kotlinx.android.synthetic.main.activity_cart.*
-import kotlinx.android.synthetic.main.activity_cart.imv_back
-import kotlinx.android.synthetic.main.activity_cart.imv_avatar
-import kotlinx.android.synthetic.main.activity_cart.recyclerView
-import kotlinx.android.synthetic.main.activity_product_detail.*
+import com.example.client.screens.order.present.ReviewOrderPresent
+import kotlinx.android.synthetic.main.activity_review_order.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.text.NumberFormat
 import java.util.*
 
-class CartActivity : AppCompatActivity(), ICartView, View.OnClickListener {
-    private var present: CartPresent? = null
-    companion object{
-        fun newInstance(context: Context?) : Intent{
-            return Intent(context, CartActivity::class.java)
+class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickListener {
+    private var cart: CartModel? = null
+    private var present: ReviewOrderPresent? = null
+    private var dialog: PrimaryDialog? = null
+
+    companion object {
+        fun newInstance(context: Context?): Intent {
+            return Intent(context, ReviewOrderActivity::class.java)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cart)
-        rll_change_branch.setOnClickListener(this)
+        setContentView(R.layout.activity_review_order)
+
         imv_back.setOnClickListener(this)
-        tv_order.setOnClickListener(this)
-        present = CartPresent(this)
+        tv_change_branch.setOnClickListener(this)
+        tv_change_product.setOnClickListener(this)
+        tv_send_order.setOnClickListener(this)
+
+        dialog = PrimaryDialog()
+        dialog?.getInstance(this)
+
+        present = ReviewOrderPresent(this)
         present?.let {
             it.getBranchFromRes()
-            it.getCartFromRes()
             it.getUserFromRes()
-            it.generationCart()
+            it.getCartFromRes()
         }
+
     }
 
     override fun onClick(v: View?) {
         v?.let {
-            when (it.id) {
-                R.id.rll_change_branch -> {
-                    startActivity(Intent(this, BranchActivity::class.java))
-                }
+            when (v.id) {
                 R.id.imv_back -> {
                     onBackPressed()
                     finish()
                 }
-                R.id.tv_order -> {
+                R.id.tv_change_product -> {
+                    onBackPressed()
                     finish()
-                    startActivity(ReviewOrderActivity.newInstance(this))
+                }
+                R.id.tv_change_branch -> {
+                    startActivity(Intent(this, BranchActivity::class.java))
+                }
+                R.id.tv_send_order -> {
+                    present?.createOrder();
                 }
                 else -> {
 
                 }
+
             }
         }
+    }
+
+    override fun showUserInfo(profile: ProfileModel) {
+        tv_profile_name.text = profile.fullname
+        Glide.with(this).asBitmap().placeholder(R.drawable.subject_default).load(profile.avatar).into(imv_profile_avatar)
     }
 
     override fun showBranchInfo(branch: BranchModel) {
@@ -79,12 +93,10 @@ class CartActivity : AppCompatActivity(), ICartView, View.OnClickListener {
         }
     }
 
-    override fun showUserInfo(profile: ProfileModel) {
-        tv_profile_name.text = profile.fullname
-        Glide.with(this).asBitmap().placeholder(R.drawable.subject_default).load(profile.avatar).into(imv_avatar)
-    }
-
     override fun showCartProduct(cart: CartModel) {
+        this.cart = cart
+        tv_shipping_fee_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(cart.getShippingFeeExpect())
+        tv_total_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(cart.getTotalPrice())
         cart.listProduct.let {
             if (it.isEmpty()) {
                 onBackPressed()
@@ -103,8 +115,29 @@ class CartActivity : AppCompatActivity(), ICartView, View.OnClickListener {
         updateTotalPrice(cart)
     }
 
-    override fun updateTotalPrice(cart: CartModel) {
-        tv_total_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(cart.getAmount())
+    override fun showLoading() {
+        rll_loading.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        rll_loading.visibility = View.GONE
+    }
+
+    override fun showErrorMessage(errMessage: Int) {
+        dialog?.apply {
+            setDescription(getString(errMessage))
+            setOKListener {}
+            hideBtnCancel()
+            show()
+        }
+    }
+
+    override fun toOrderDetailScreen(ordercode: String) {
+
+    }
+
+    private fun updateTotalPrice(cart: CartModel) {
+        tv_total_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(cart.getTotalPrice())
     }
 
     override fun onStart() {
@@ -119,6 +152,7 @@ class CartActivity : AppCompatActivity(), ICartView, View.OnClickListener {
                 present?.let {
                     it.getBranchFromRes()
                     it.generationCart()
+                    it.getCartFromRes()
                 }
             }
         }
@@ -128,4 +162,6 @@ class CartActivity : AppCompatActivity(), ICartView, View.OnClickListener {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
     }
+
+
 }

@@ -107,7 +107,7 @@ public class Preferences {
         editor.apply();
     }
 
-    public BranchModel getBranchModel()
+    public BranchModel getBranch()
     {
         String json = sharePreferences.getString(BRANCH_MODEL, "");
         if (TextUtils.isEmpty(json))
@@ -123,7 +123,7 @@ public class Preferences {
         }
     }
 
-    public void setBranchModel(BranchModel branch) {
+    public void setBranch(BranchModel branch) {
         Editor editor = sharePreferences.edit();
 
         Gson gson = new Gson();
@@ -138,7 +138,7 @@ public class Preferences {
         editor.apply();
     }
 
-    public CartModel getCarModel()
+    public CartModel getCart()
     {
         String json = sharePreferences.getString(CART_MODEL, "");
         if (TextUtils.isEmpty(json))
@@ -154,7 +154,7 @@ public class Preferences {
         }
     }
 
-    public void setCartModel(CartModel cart) {
+    public void setCart(CartModel cart) {
         Editor editor = sharePreferences.edit();
 
         Gson gson = new Gson();
@@ -166,6 +166,12 @@ public class Preferences {
         {
         }
         editor.putString(CART_MODEL, json);
+        editor.apply();
+    }
+
+    public void removeCart() {
+        Editor editor = sharePreferences.edit();
+        editor.remove(CART_MODEL);
         editor.apply();
     }
 }

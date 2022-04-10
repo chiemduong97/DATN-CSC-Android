@@ -9,10 +9,24 @@ import com.example.client.screens.cart.activity.ICartView
 import org.greenrobot.eventbus.EventBus
 
 class CartPresent(var view: ICartView?): ICartPresent {
-    private var cart = Preferences.getInstance().carModel ?: CartModel(arrayListOf())
+    private var cart = Preferences.getInstance().cart ?: CartModel(arrayListOf())
+    override fun generationCart() {
+        val profile = Preferences.getInstance().profile
+        val branch = Preferences.getInstance().branch
+        cart.apply {
+            order_latitude = profile.latitude
+            order_longitude = profile.longitude
+            order_address = profile.address
+            branch_latitude = branch.latitude
+            branch_longitude = branch.longitude
+            branch_address = branch.address
+        }
+        saveCart()
+
+    }
 
     override fun getBranchFromRes() {
-        view?.showBranchInfo(Preferences.getInstance().branchModel)
+        view?.showBranchInfo(Preferences.getInstance().branch)
     }
 
     override fun getUserFromRes() {
@@ -20,15 +34,15 @@ class CartPresent(var view: ICartView?): ICartPresent {
     }
 
     override fun getCartFromRes() {
-        cart = Preferences.getInstance().carModel ?: CartModel(arrayListOf())
-        cart.listProduct?.let {
+        cart = Preferences.getInstance().cart ?: CartModel(arrayListOf())
+        cart.listProduct.let {
             cart.listProduct = it.filter { cartProductModel -> cartProductModel.quantity != 0 } as ArrayList<CartProductModel>
         }
         view?.showCartProduct(cart)
     }
 
     override fun minus(cartProduct: CartProductModel) {
-        cart.listProduct?.let { list ->
+        cart.listProduct.let { list ->
             list.map {
                 if (it.product.id == cartProduct.product.id) {
                     it.quantity--
@@ -42,7 +56,7 @@ class CartPresent(var view: ICartView?): ICartPresent {
     }
 
     override fun plus(cartProduct: CartProductModel) {
-        cart.listProduct?.let { list ->
+        cart.listProduct.let { list ->
             list.map {
                 if (it.product.id == cartProduct.product.id) {
                     it.quantity++
@@ -53,8 +67,9 @@ class CartPresent(var view: ICartView?): ICartPresent {
     }
 
     private fun saveCart() {
-        Preferences.getInstance().setCartModel(cart)
+        Preferences.getInstance().cart = cart
         EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_CART))
+        view?.updateTotalPrice(cart)
     }
 
 }

@@ -4,11 +4,17 @@ public class Constants {
     public static String CATEGORY_MODEL = "CATEGORY_MODEL";
     public static String PRODUCT_MODEL = "PRODUCT_MODEL";
     public static String PRODUCT_BY = "PRODUCT_BY";
+    public static String CART_MODEL = "CART_MODEL";
 
     public static class MORE{
         public static final String CATEGORY = "CATEGORY";
         public static final String HIGHLIGHT = "HIGHLIGHT";
         public static final String NEW = "NEW";
+    }
+
+    public static class PAYMENT{
+        public static final String WALLET = "WALLET";
+        public static final String CASH = "CASH";
     }
 
     public static class EventKey{

@@ -16,7 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ProductDetailPresent(private var view: IProductDetailView?) : IProductDetailPresent {
-    private var cart = Preferences.getInstance().carModel ?: CartModel(arrayListOf())
+    private var cart = Preferences.getInstance().cart ?: CartModel(arrayListOf())
     override fun loadDataByCategory(category_id: Int) {
         view?.showLoading()
         val service = ApiClient.getInstance().create(ProductService::class.java)
@@ -50,7 +50,7 @@ class ProductDetailPresent(private var view: IProductDetailView?) : IProductDeta
     }
 
     override fun addToCart(cartProduct: CartProductModel) {
-        cart.listProduct?.let { list ->
+        cart.listProduct.let { list ->
             list.map {
                 if (it.product.id == cartProduct.product.id) {
                     it.quantity += cartProduct.quantity
@@ -67,17 +67,17 @@ class ProductDetailPresent(private var view: IProductDetailView?) : IProductDeta
     }
 
     private fun saveCart() {
-        Preferences.getInstance().setCartModel(cart)
+        Preferences.getInstance().cart = cart
         EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_CART))
     }
 
     override fun getCartFromRes() {
-        cart = Preferences.getInstance().carModel ?: CartModel(arrayListOf())
-        cart.listProduct?.let {
+        cart = Preferences.getInstance().cart ?: CartModel(arrayListOf())
+        cart.listProduct.let {
             cart.listProduct = it.filter { cartProductModel -> cartProductModel.quantity != 0 } as ArrayList<CartProductModel>
         }
         cart.let {
-            it.listProduct?.let { products ->
+            it.listProduct.let { products ->
                 if(products.isNotEmpty()) {
                     view?.showCart(products.size)
                 } else {

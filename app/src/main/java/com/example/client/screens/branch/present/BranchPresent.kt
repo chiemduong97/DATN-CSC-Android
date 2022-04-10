@@ -25,7 +25,7 @@ class BranchPresent (private var view: IBranchView?): IBranchPresent {
                             view?.showEmptyData()
                         }
                         else -> {
-                            view?.showData(it, Preferences.getInstance().branchModel.id)
+                            view?.showData(it, Preferences.getInstance().branch.id)
                         }
                     }
                     view?.hideLoading()
@@ -47,7 +47,7 @@ class BranchPresent (private var view: IBranchView?): IBranchPresent {
     }
 
     override fun saveBranch(branch: BranchModel) {
-        Preferences.getInstance().branchModel = branch
+        Preferences.getInstance().branch = branch
 //        RxBus.getInstance().onNext(Event(Constants.EventKey.CHANGE_BRANCH))
         EventBus.getDefault().post(Event(Constants.EventKey.CHANGE_BRANCH))
         loadDataFromRes()

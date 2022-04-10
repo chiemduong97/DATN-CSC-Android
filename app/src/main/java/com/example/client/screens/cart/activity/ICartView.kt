@@ -8,4 +8,5 @@ interface ICartView {
     fun showBranchInfo(branch: BranchModel)
     fun showUserInfo(profile: ProfileModel)
     fun showCartProduct(cart : CartModel)
+    fun updateTotalPrice(cart: CartModel)
 }

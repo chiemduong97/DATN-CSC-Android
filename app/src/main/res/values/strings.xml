@@ -20,8 +20,17 @@
     <string name="title_search_view">Bạn muốn tìm sản phẩm?</string>
     <string name="product_name_default">Tên sản phẩm</string>
     <string name="branch_name_default">Tên chi nhánh</string>
+    <string name="text_change">Thay đổi</string>
+    <string name="text_payment">Cách thanh toán</string>
+    <string name="text_order_location">Địa chỉ nhận hàng</string>
+
+    <string name="text_order_detail">Chi tiết đơn hàng</string>
+
+    <string name="text_order_location_branch">Nơi mua hàng</string>
+
     <string name="branch_change">Đổi chi nhánh</string>
-    <string name="branch_address_default">Địa chỉ</string>
+    <string name="branch_address_default">45/14/2 Đường 3, phường Long Trường, TP Thủ Đức</string>
+
     <string name="add_to_cart">Thêm vào giỏ</string>
     <string name="add_to_cart_price">Thêm %s</string>
     <string name="product_info">Thông tin sản phẩm</string>
@@ -32,6 +41,18 @@
     <string name="update_profile_success">Cập nhật thành công</string>
     <string name="manager_profile">Quản lý hồ sơ</string>
     <string name="your_cart">Giỏ hàng của bạn</string>
+    <string name="review_your_order">Đơn hàng của bạn</string>
     <string name="product_price_default">1.000.000đ</string>
+    <string name="btn_register">Đăng ký</string>
+    <string name="btn_order">Đặt đơn</string>
+    <string name="text_shipping_fee">Phí ship</string>
+    <string name="text_total">Tổng (tạm tính)</string>
+    <string name="text_total_expect">Tổng</string>
+    <string name="profile_name_default">Đỗ Chiếm Dương</string>
+    <string name="change_product">Thêm sản phẩm</string>
+    <string name="payment_method_default">Trả bằng tiền mặt khi nhận hàng</string>
+    <string name="promotion_code_default">HELLOWORLD</string>
+    <string name="add_promotion_code">Áp dụng mã giảm</string>
+    <string name="send_request_order">Đang gửi yêu cầu đặt hàng...</string>
 
 </resources>

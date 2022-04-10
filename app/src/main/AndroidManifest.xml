@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.client">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,8 +15,11 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Client">
-        <activity android:name=".screens.cart.activity.CartActivity"></activity>
+        android:theme="@style/Theme.Client"
+        tools:targetApi="n">
+        <activity android:name=".screens.order.detail.OrderDetailActivity" />
+        <activity android:name=".screens.order.activity.ReviewOrderActivity" />
+        <activity android:name=".screens.cart.activity.CartActivity" />
         <activity android:name=".screens.branch.BranchActivity" />
         <activity android:name=".screens.product.detail.ProductDetailActivity" />
         <activity android:name=".screens.product.activity.ProductActivity" />
@@ -38,9 +42,6 @@
             android:name=".screens.search.activity.SearchActivity"
             android:exported="true" />
         <activity
-            android:name=".screens.subject.activity.SubjectByUserActivity"
-            android:exported="true" />
-        <activity
             android:name=".screens.profile.manager_info.update.UpdatePasswordActivity"
             android:exported="true" />
         <activity
@@ -51,15 +52,6 @@
             android:exported="true" />
         <activity
             android:name=".screens.register.activity.RegisterActivity"
-            android:exported="true" />
-        <activity
-            android:name=".screens.category.activity.CategoryActivity"
-            android:exported="true" />
-        <activity
-            android:name=".screens.subject.activity.SubjectDetailActivity"
-            android:exported="true" />
-        <activity
-            android:name=".screens.subject.activity.SubjectMoreActivity"
             android:exported="true" />
         <activity
             android:name=".screens.login.activity.LoginPasswordActivity"
@@ -82,7 +74,7 @@
 
         <service
             android:name=".app.MyFirebaseService"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
