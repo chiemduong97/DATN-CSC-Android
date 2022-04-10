@@ -12,4 +12,5 @@ public interface IHomeView {
     void showBanners(List<BannerModel> items);
     void showBranchInfo(BranchModel branch);
     void showUserInfo(ProfileModel profile);
+    void toBranchScreen();
 }

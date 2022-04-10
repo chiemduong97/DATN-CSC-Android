@@ -16,7 +16,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainPresent implements IMainPresent {
-    private CartModel cart = Preferences.getInstance().getCart() != null ? Preferences.getInstance().getCart() : new CartModel(new ArrayList<>());
 
     private IMainView mView;
     private ProfileModel user;
@@ -60,14 +59,14 @@ public class MainPresent implements IMainPresent {
 
     @Override
     public void getCartFromRes() {
-        cart = Preferences.getInstance().getCart() != null ? Preferences.getInstance().getCart() : new CartModel(new ArrayList<>());
+        CartModel cart = Preferences.getInstance().getCart() != null ? Preferences.getInstance().getCart() : new CartModel(new ArrayList<>());
         cart.getListProduct();
         for (int i = cart.getListProduct().size() - 1; i >= 0; i--) {
             if(cart.getListProduct().get(i).getQuantity() <= 0) {
                 cart.getListProduct().remove(i);
             }
         }
-        if (cart != null && !Objects.requireNonNull(cart.getListProduct()).isEmpty()) {
+        if (!Objects.requireNonNull(cart.getListProduct()).isEmpty()) {
             mView.showCart(cart.getListProduct().size());
         } else {
             mView.hideCart();

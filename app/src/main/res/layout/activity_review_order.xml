@@ -124,7 +124,6 @@
                 android:id="@+id/rll_branch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="15dp"
                 android:paddingTop="10dp"

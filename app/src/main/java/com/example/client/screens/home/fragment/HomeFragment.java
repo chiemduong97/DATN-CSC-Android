@@ -219,4 +219,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
                 .into(avatar);
     }
 
+    @Override
+    public void toBranchScreen() {
+        startActivity(new Intent(getActivity(), BranchActivity.class));
+    }
+
 }

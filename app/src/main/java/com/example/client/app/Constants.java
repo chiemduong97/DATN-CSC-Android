@@ -5,6 +5,8 @@ public class Constants {
     public static String PRODUCT_MODEL = "PRODUCT_MODEL";
     public static String PRODUCT_BY = "PRODUCT_BY";
     public static String CART_MODEL = "CART_MODEL";
+    public static String ORDERCODE = "ORDERCODE";
+
 
     public static class MORE{
         public static final String CATEGORY = "CATEGORY";

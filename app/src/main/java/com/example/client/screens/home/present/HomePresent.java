@@ -68,6 +68,10 @@ public class HomePresent implements IHomePresent {
 
     @Override
     public void getBranchFromRes() {
+        if (Preferences.getInstance().getBranch() == null ) {
+            hView.toBranchScreen();
+            return;
+        }
         hView.showBranchInfo(Preferences.getInstance().getBranch());
     }
 

@@ -16,6 +16,7 @@ import com.example.client.models.event.Event
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.cart.item.CartProductItem
+import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.order.present.ReviewOrderPresent
 import kotlinx.android.synthetic.main.activity_review_order.*
 import org.greenrobot.eventbus.EventBus
@@ -133,7 +134,8 @@ class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickL
     }
 
     override fun toOrderDetailScreen(ordercode: String) {
-
+        finish()
+        startActivity(OrderDetailActivity.newInstance(this, ordercode))
     }
 
     private fun updateTotalPrice(cart: CartModel) {
