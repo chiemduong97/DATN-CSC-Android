@@ -11,8 +11,6 @@ import android.widget.ImageView;
 
 import com.example.client.R;
 import com.example.client.models.noti.Notification;
-import com.example.client.screens.category.activity.CategoryActivity;
-import com.example.client.screens.category.item.CategoryItem;
 import com.example.client.screens.noti.item.NotificationItem;
 import com.example.client.screens.noti.present.NotificationPresent;
 

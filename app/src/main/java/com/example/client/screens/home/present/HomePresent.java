@@ -3,11 +3,9 @@ package com.example.client.screens.home.present;
 import com.example.client.api.ApiClient;
 import com.example.client.api.service.BannerService;
 import com.example.client.api.service.CategoryService;
-import com.example.client.api.service.SubjectService;
 import com.example.client.app.Preferences;
 import com.example.client.models.banner.BannerModel;
 import com.example.client.models.category.CategoryModel;
-import com.example.client.models.subject.SubjectModel;
 import com.example.client.screens.home.fragment.IHomeView;
 
 import java.util.ArrayList;
@@ -60,39 +58,17 @@ public class HomePresent implements IHomePresent {
 
     @Override
     public void getProductsHighLightFromService() {
-        SubjectService service = ApiClient.getInstance().create(SubjectService.class);
-        service.getHighLight(10).enqueue(new Callback<List<SubjectModel>>() {
-            @Override
-            public void onResponse(Call<List<SubjectModel>> call, Response<List<SubjectModel>> response) {
-                hView.showHighLight(response.body());
-            }
 
-            @Override
-            public void onFailure(Call<List<SubjectModel>> call, Throwable t) {
-                hView.showHighLight(new ArrayList<>());
-            }
-        });
     }
 
     @Override
     public void getProductNewFromService() {
-        SubjectService service = ApiClient.getInstance().create(SubjectService.class);
-        service.getNew(10).enqueue(new Callback<List<SubjectModel>>() {
-            @Override
-            public void onResponse(Call<List<SubjectModel>> call, Response<List<SubjectModel>> response) {
-                hView.showNew(response.body());
-            }
 
-            @Override
-            public void onFailure(Call<List<SubjectModel>> call, Throwable t) {
-                hView.showNew(new ArrayList<>());
-            }
-        });
     }
 
     @Override
     public void getBranchFromRes() {
-        hView.showBranchInfo(Preferences.getInstance().getBranchModel());
+        hView.showBranchInfo(Preferences.getInstance().getBranch());
     }
 
     @Override

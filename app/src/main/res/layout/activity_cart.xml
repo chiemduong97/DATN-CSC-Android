@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="24dp"
+                android:layout_marginEnd="24dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/your_cart"
@@ -43,7 +43,8 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -139,7 +140,7 @@
                     app:cardCornerRadius="48dp">
 
                     <ImageView
-                        android:id="@+id/avatar"
+                        android:id="@+id/imv_avatar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
@@ -148,12 +149,12 @@
 
                 <TextView
                     android:id="@+id/tv_profile_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Đỗ Chiếm Dương"
+                    android:text="@string/profile_name_default"
                     android:textColor="@color/black"
                     android:textSize="16dp"
                     android:textStyle="bold" />
@@ -173,5 +174,48 @@
         </LinearLayout>
 
     </ScrollView>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_dark" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+        <TextView
+            android:id="@+id/tv_text_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_total"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:paddingBottom="10dp"
+            android:layout_alignParentTop="true"/>
+        <TextView
+            android:id="@+id/tv_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_price_default"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="14dp"
+            android:paddingBottom="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"/>
+        <TextView
+            android:id="@+id/tv_order"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="@string/btn_order"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_btn"
+            android:layout_below="@id/tv_text_total"/>
+    </RelativeLayout>
 </LinearLayout>

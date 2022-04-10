@@ -99,7 +99,6 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void showUserInfo(ProfileModel user) {
-        this.user = new ProfileModel();
         this.user = user;
         fullname.setText(user.getFullname());
         birthday.setText(user.getBirthday());

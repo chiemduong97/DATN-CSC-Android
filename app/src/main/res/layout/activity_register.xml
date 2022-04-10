@@ -258,7 +258,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:gravity="center"
-                android:text="Đăng ký"
+                android:text="@string/btn_register"
                 android:textSize="16dp"
                 android:textStyle="bold"
                 android:paddingLeft="15dp"
@@ -286,8 +286,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#51000000"
-        android:layout_below="@+id/toolbar"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
         <ProgressBar
             android:layout_width="20dp"
             android:layout_height="20dp"

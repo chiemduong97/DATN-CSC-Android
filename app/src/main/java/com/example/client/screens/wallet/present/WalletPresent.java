@@ -2,13 +2,11 @@ package com.example.client.screens.wallet.present;
 
 import com.example.client.api.ApiClient;
 import com.example.client.api.service.RechargeService;
-import com.example.client.api.service.SubjectService;
 import com.example.client.api.service.TransactionService;
 import com.example.client.api.service.UserService;
 import com.example.client.app.Preferences;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.ProfileModel;
-import com.example.client.models.subject.SubjectModel;
 import com.example.client.models.transaction.TransactionModel;
 import com.example.client.screens.wallet.fragment.IWalletView;
 import com.example.client.app.Constants;
@@ -86,18 +84,7 @@ public class WalletPresent implements IWalletPresent{
 
     @Override
     public void onGetSubject(int subject) {
-        SubjectService service = ApiClient.getInstance().create(SubjectService.class);
-        service.getById(subject).enqueue(new Callback<SubjectModel>() {
-            @Override
-            public void onResponse(Call<SubjectModel> call, Response<SubjectModel> response) {
-                wView.getSubject(response.body());
-            }
 
-            @Override
-            public void onFailure(Call<SubjectModel> call, Throwable t) {
-
-            }
-        });
     }
 
     @Override

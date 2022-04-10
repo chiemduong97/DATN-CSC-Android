@@ -114,6 +114,7 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
                     product?.let {
                         startActivity(ProductDetailActivity.newInstance(context, it))
                     }
+                    dismiss()
                 }
                 R.id.btn_minus -> {
                     product?.let {

@@ -1,6 +1,5 @@
 package com.example.client.screens.profile.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,7 +26,6 @@ import com.example.client.screens.login.activity.LoginEmailActivity;
 import com.example.client.screens.message.activity.MessageActivity;
 import com.example.client.screens.profile.manager_info.ManagerInfoActivity;
 import com.example.client.screens.profile.present.ProfilePresent;
-import com.example.client.screens.subject.activity.SubjectByUserActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -105,9 +103,7 @@ public class ProfileFragment extends Fragment implements  IProfileView,View.OnCl
                 dialog.show();
                 break;
             case R.id.subjects:
-                Intent intent = new Intent(getContext(), SubjectByUserActivity.class);
-                intent.putExtra("user",user.getId());
-                startActivity(intent);
+
                 break;
             case R.id.contact:
                 Intent i = new Intent(getContext(), MessageActivity.class);
