@@ -25,7 +25,11 @@ class BranchPresent (private var view: IBranchView?): IBranchPresent {
                             view?.showEmptyData()
                         }
                         else -> {
-                            view?.showData(it, Preferences.getInstance().branch.id)
+                            Preferences.getInstance().branch?.let { branch ->
+                                view?.showData(it, branch.id)
+                            } ?: kotlin.run{
+                                view?.showData(it, -1)
+                            }
                         }
                     }
                     view?.hideLoading()

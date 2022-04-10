@@ -55,7 +55,7 @@ class BranchActivity : AppCompatActivity(), IBranchView, View.OnClickListener{
     }
 
     override fun showErrorMessage(errMessage: Int) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onClick(v: View?) {

@@ -7,7 +7,7 @@ class OrderParam(
         var latitude: Double,
         var longitude: Double,
         var address: String,
-        var order_details: List<OrderDetailParam>,
+        var order_details: List<OrderDetailModel>,
         var branch_latitude: Double,
         var branch_longitude: Double,
         var branch_address: String,

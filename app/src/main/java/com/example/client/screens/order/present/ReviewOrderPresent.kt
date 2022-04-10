@@ -9,7 +9,7 @@ import com.example.client.models.cart.CartModel
 import com.example.client.models.cart.CartProductModel
 import com.example.client.models.event.Event
 import com.example.client.models.message.MessageModel
-import com.example.client.models.order.OrderDetailParam
+import com.example.client.models.order.OrderDetailModel
 import com.example.client.models.order.OrderParam
 import com.example.client.screens.order.activity.IReviewOrderView
 import org.greenrobot.eventbus.EventBus
@@ -125,7 +125,7 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
                 cart.order_latitude,
                 cart.order_longitude,
                 cart.order_address,
-                generationListOrderDetailParam(cart.listProduct),
+                generationListOrderDetail(cart.listProduct),
                 cart.branch_latitude,
                 cart.branch_longitude,
                 cart.branch_address,
@@ -134,10 +134,10 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
 
     }
 
-    private fun generationListOrderDetailParam(list: ArrayList<CartProductModel>): ArrayList<OrderDetailParam> {
-        val listOrderDetailParam = arrayListOf<OrderDetailParam>()
+    private fun generationListOrderDetail(list: ArrayList<CartProductModel>): ArrayList<OrderDetailModel> {
+        val listOrderDetailParam = arrayListOf<OrderDetailModel>()
         list.forEach {
-            listOrderDetailParam.add(OrderDetailParam(it.quantity, it.product.id))
+            listOrderDetailParam.add(OrderDetailModel(it.quantity, it.product.id, 0.0, it.product.name))
         }
         return listOrderDetailParam
     }

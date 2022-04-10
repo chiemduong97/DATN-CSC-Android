@@ -52,7 +52,13 @@
     <string name="change_product">Thêm sản phẩm</string>
     <string name="payment_method_default">Trả bằng tiền mặt khi nhận hàng</string>
     <string name="promotion_code_default">HELLOWORLD</string>
+    <string name="text_order_code_default">Mã đơn #ABC123</string>
+    <string name="text_order_code">Mã đơn #%s</string>
+    <string name="text_product_quantity">x%s</string>
     <string name="add_promotion_code">Áp dụng mã giảm</string>
     <string name="send_request_order">Đang gửi yêu cầu đặt hàng...</string>
+    <string name="text_status_default">Đang chờ</string>
+    <string name="text_rll_loading">Xin chờ một tí...</string>
+    <string name="text_quantity_default">x2</string>
 
 </resources>

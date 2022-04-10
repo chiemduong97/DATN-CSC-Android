@@ -2,10 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="20dp"
+    android:paddingLeft="15dp"
     android:paddingTop="10dp"
-    android:paddingRight="20dp"
-    android:paddingBottom="10dp">
+    android:paddingRight="15dp">
     <TextView
         android:id="@+id/tv_product_name"
         android:layout_width="wrap_content"
@@ -31,7 +30,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_below="@id/tv_product_name"
+        android:layout_below="@id/tv_price"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp">
         <ImageButton
@@ -70,6 +69,6 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray_dark"
+        android:background="@color/gray_light"
         android:layout_below="@id/lnl_quantity"/>
 </RelativeLayout>
