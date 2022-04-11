@@ -6,9 +6,12 @@ import com.example.client.api.service.BranchService
 import com.example.client.api.service.OrderService
 import com.example.client.app.Constants
 import com.example.client.models.branch.BranchModel
+import com.example.client.models.event.Event
+import com.example.client.models.message.MessageModel
 import com.example.client.models.order.OrderDetailModel
 import com.example.client.models.order.OrderModel
 import com.example.client.screens.order.detail.IOrderDetailView
+import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -90,6 +93,38 @@ class OrderDetailPresent(var view: IOrderDetailView?) : IOrderDetailPresent {
         })
     }
 
+    override fun destroyOrder(ordercode: String, status: Int) {
+        view?.showLoading()
+        val service = ApiClient.getInstance().create(OrderService::class.java)
+        service.destroy(ordercode, status).enqueue(object : Callback<MessageModel> {
+            override fun onResponse(call: Call<MessageModel>, response: Response<MessageModel>) {
+                response.body()?.let {
+                    when {
+                        it.isStatus -> {
+                            view?.onRefresh()
+                            EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_STATUS_ORDER))
+                        } else -> {
+                            view?.showErrorMessage(getErrorMessage(it.code))
+                        }
+                    }
+                    view?.hideLoading()
+                } ?: kotlin.run {
+                    view?.run {
+                        showErrorMessage(getErrorMessage(1001))
+                        hideLoading()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<MessageModel>, t: Throwable) {
+                view?.run {
+                    showErrorMessage(getErrorMessage(1001))
+                    hideLoading()
+                }
+            }
+        })
+    }
+
     private fun getErrorMessage(errCode: Int): Int {
         var errMessage = -1
         when (errCode) {
@@ -106,6 +141,7 @@ class OrderDetailPresent(var view: IOrderDetailView?) : IOrderDetailPresent {
             Constants.ErrorCode.ERROR_1011 -> errMessage = R.string.err_code_1011
             Constants.ErrorCode.ERROR_1012 -> errMessage = R.string.err_code_1012
             Constants.ErrorCode.ERROR_1013 -> errMessage = R.string.err_code_1013
+            Constants.ErrorCode.ERROR_1014 -> errMessage = R.string.err_code_1014
         }
         return errMessage
     }

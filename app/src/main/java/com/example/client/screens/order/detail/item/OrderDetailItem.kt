@@ -17,7 +17,7 @@ class OrderDetailItem(var context: Context, var order_details: List<OrderDetailM
     override fun onBindViewHolder(viewHolder: OrderDetailItemViewHolder, position: Int) {
         viewHolder.apply {
             val item = order_details[position]
-            tvQuantity?.text = context.getString(R.string.text_product_quantity).replace("%s", item.quantity.toString())
+            tvQuantity?.text = context.getString(R.string.text_cart_product_quantity).replace("%s", item.quantity.toString())
             tvProductName?.text = item.name
             tvPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.amount)
         }

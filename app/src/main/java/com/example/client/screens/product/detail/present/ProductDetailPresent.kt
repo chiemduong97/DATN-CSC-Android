@@ -20,7 +20,8 @@ class ProductDetailPresent(private var view: IProductDetailView?) : IProductDeta
     override fun loadDataByCategory(category_id: Int) {
         view?.showLoading()
         val service = ApiClient.getInstance().create(ProductService::class.java)
-        service.getByCategory(category_id).enqueue(object : Callback<List<ProductModel>> {
+        val branch = Preferences.getInstance().branch
+        service.getByCategory(category_id, branch.id).enqueue(object : Callback<List<ProductModel>> {
             override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>?>) {
                 response.body()?.let {
                     when {
@@ -59,9 +60,6 @@ class ProductDetailPresent(private var view: IProductDetailView?) : IProductDeta
                 }
             }
             list.add(cartProduct)
-            saveCart()
-        } ?: kotlin.run {
-            cart.listProduct = arrayListOf(cartProduct)
             saveCart()
         }
     }
@@ -111,6 +109,8 @@ class ProductDetailPresent(private var view: IProductDetailView?) : IProductDeta
             Constants.ErrorCode.ERROR_1011 -> errMessage = R.string.err_code_1011
             Constants.ErrorCode.ERROR_1012 -> errMessage = R.string.err_code_1012
             Constants.ErrorCode.ERROR_1013 -> errMessage = R.string.err_code_1013
+            Constants.ErrorCode.ERROR_1014 -> errMessage = R.string.err_code_1014
+
         }
         return errMessage
     }

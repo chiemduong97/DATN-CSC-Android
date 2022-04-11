@@ -11,4 +11,5 @@ interface IOrderDetailView {
     fun hideLoading()
     fun showErrorMessage(errMessage: Int)
     fun showListProduct(products: List<OrderDetailModel>)
+    fun onRefresh()
 }

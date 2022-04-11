@@ -40,12 +40,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp"
         android:layout_below="@+id/toolbar">
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            android:layout_margin="10dp">
             <ImageView
                 android:id="@+id/imv_product_avatar"
                 android:layout_width="140dp"
@@ -58,8 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_margin="10dp">
             <TextView
                 android:id="@+id/tv_product_name"
                 android:layout_width="match_parent"

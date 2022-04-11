@@ -24,6 +24,7 @@ public class Constants {
         public static final String UPDATE_PROFILE_INFO = "UPDATE_PROFILE_INFO";
         public static final String UPDATE_PROFILE_AVATAR = "UPDATE_PROFILE_AVATAR";
         public static final String UPDATE_CART = "UPDATE_CART";
+        public static final String UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER";
 
     }
 
@@ -46,7 +47,7 @@ public class Constants {
         public static final int ERROR_1011 = 1011;
         public static final int ERROR_1012 = 1012;
         public static final int ERROR_1013 = 1013;
-
+        public static final int ERROR_1014 = 1014;
     }
 
     public static final Double SECTION_1 = 1000000.0;

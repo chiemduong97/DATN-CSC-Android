@@ -166,7 +166,7 @@
                     android:src="@drawable/ic_next"/>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/subjects"
+                android:id="@+id/lnl_order_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -176,11 +176,11 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_order"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginEnd="10dp"/>
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Danh sách môn học"
+                    android:text="@string/title_order_history"
                     android:textSize="14dp"
                     android:textColor="@color/black"
                     android:layout_weight="1"

@@ -17,17 +17,17 @@ class OrderModel(
     fun getTotalPrice() : Double {
         return amount + shippingFee - (promotionValue ?: 0.0)
     }
-    private fun isWaiting() = status == 0
-    private fun isConfirm() = status == 1
-    private fun isDelivery() = status == 2
-    private fun isComplete() = status == 3
-    private fun isDestroy() = status == 4
+    fun isWaiting() = status == 0
+    fun isConfirm() = status == 1
+    fun isDelivery() = status == 2
+    fun isComplete() = status == 3
+    fun isDestroy() = status == 4
 
     fun getStatusString () : String {
         var string = ""
         when {
             isWaiting() -> {
-                string = "Đang chờ nhận đơn"
+                string = "Chờ xử lý"
             }
             isConfirm() -> {
                 string = "Đã nhận đơn"

@@ -179,6 +179,9 @@ public class LoginPresent implements ILoginPresent{
             case Constants.ErrorCode.ERROR_1013:
                 errMessage = R.string.err_code_1013;
                 break;
+            case Constants.ErrorCode.ERROR_1014:
+                errMessage = R.string.err_code_1014;
+                break;
         }
         return errMessage;
     }
