@@ -86,6 +86,7 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
                             view?.toOrderDetailScreen(it.ordercode)
                             Preferences.getInstance().removeCart()
                             EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_CART))
+                            EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_STATUS_ORDER))
                         }
                         else -> {
                             view?.showErrorMessage(it.code)
@@ -158,6 +159,8 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
             Constants.ErrorCode.ERROR_1011 -> errMessage = R.string.err_code_1011
             Constants.ErrorCode.ERROR_1012 -> errMessage = R.string.err_code_1012
             Constants.ErrorCode.ERROR_1013 -> errMessage = R.string.err_code_1013
+            Constants.ErrorCode.ERROR_1014 -> errMessage = R.string.err_code_1014
+
         }
         return errMessage
     }

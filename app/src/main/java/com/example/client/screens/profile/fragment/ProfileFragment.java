@@ -24,6 +24,7 @@ import com.example.client.models.event.Event;
 import com.example.client.models.profile.ProfileModel;
 import com.example.client.screens.login.activity.LoginEmailActivity;
 import com.example.client.screens.message.activity.MessageActivity;
+import com.example.client.screens.order.history.activity.OrderHistoryActivity;
 import com.example.client.screens.profile.manager_info.ManagerInfoActivity;
 import com.example.client.screens.profile.present.ProfilePresent;
 
@@ -35,7 +36,7 @@ public class ProfileFragment extends Fragment implements  IProfileView,View.OnCl
     private TextView tvVersion;
     private TextView updateInfo,fullname,email;
     private ImageView avatar;
-    private LinearLayout logout,subjects,contact;
+    private LinearLayout logout,lnlOderHistory,contact;
     private PrimaryDialog dialog;
     private SwipeRefreshLayout refreshLayout;
     private ProfilePresent pPresent;
@@ -53,13 +54,13 @@ public class ProfileFragment extends Fragment implements  IProfileView,View.OnCl
         updateInfo.setOnClickListener(this);
         avatar = view.findViewById(R.id.avatar);
         logout = view.findViewById(R.id.logout);
-        subjects = view.findViewById(R.id.subjects);
+        lnlOderHistory = view.findViewById(R.id.lnl_order_history);
         contact = view.findViewById(R.id.contact);
         refreshLayout = view.findViewById(R.id.container);
         refreshLayout.setOnRefreshListener(()-> refreshLayout.setRefreshing(false));
         dialog = new PrimaryDialog();
         dialog.getInstance(getContext());
-        subjects.setOnClickListener(this);
+        lnlOderHistory.setOnClickListener(this);
         logout.setOnClickListener(this);
         contact.setOnClickListener(this);
 
@@ -102,8 +103,8 @@ public class ProfileFragment extends Fragment implements  IProfileView,View.OnCl
                 dialog.setCancelListener(()->{});
                 dialog.show();
                 break;
-            case R.id.subjects:
-
+            case R.id.lnl_order_history:
+                startActivity(new Intent(getContext(), OrderHistoryActivity.class));
                 break;
             case R.id.contact:
                 Intent i = new Intent(getContext(), MessageActivity.class);

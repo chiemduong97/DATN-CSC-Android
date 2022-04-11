@@ -81,7 +81,7 @@ class CartActivity : AppCompatActivity(), ICartView, View.OnClickListener {
 
     override fun showUserInfo(profile: ProfileModel) {
         tv_profile_name.text = profile.fullname
-        Glide.with(this).asBitmap().placeholder(R.drawable.subject_default).load(profile.avatar).into(imv_avatar)
+        Glide.with(this).asBitmap().placeholder(R.drawable.avatar_default).load(profile.avatar).into(imv_avatar)
     }
 
     override fun showCartProduct(cart: CartModel) {

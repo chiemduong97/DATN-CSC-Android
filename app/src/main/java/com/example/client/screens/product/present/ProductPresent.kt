@@ -4,7 +4,8 @@ import com.example.client.R
 import com.example.client.api.ApiClient
 import com.example.client.api.service.ProductService
 import com.example.client.app.Constants
-import com.example.client.models.message.MessageModel
+import com.example.client.app.Preferences
+import com.example.client.models.cart.CartModel
 import com.example.client.models.product.ProductModel
 import com.example.client.screens.product.activity.IProductView
 import retrofit2.Call
@@ -17,7 +18,8 @@ class ProductPresent(private var view: IProductView?) : IProductPresent {
     override fun loadDataByCategory(category: Int) {
         view?.showLoading()
         val service = ApiClient.getInstance().create(ProductService::class.java)
-        service.getByCategory(category).enqueue(object : Callback<List<ProductModel>> {
+        val branch = Preferences.getInstance().branch
+        service.getByCategory(category, branch.id).enqueue(object : Callback<List<ProductModel>> {
             override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>?>) {
                 response.body()?.let {
                     when {
@@ -25,7 +27,7 @@ class ProductPresent(private var view: IProductView?) : IProductPresent {
                             view?.showEmptyData()
                         }
                         else -> {
-                            view?.showData(it)
+                            view?.showData(it, Preferences.getInstance().cart ?: CartModel(arrayListOf()))
                         }
                     }
                     view?.hideLoading()
@@ -62,6 +64,8 @@ class ProductPresent(private var view: IProductView?) : IProductPresent {
             Constants.ErrorCode.ERROR_1011 -> errMessage = R.string.err_code_1011
             Constants.ErrorCode.ERROR_1012 -> errMessage = R.string.err_code_1012
             Constants.ErrorCode.ERROR_1013 -> errMessage = R.string.err_code_1013
+            Constants.ErrorCode.ERROR_1014 -> errMessage = R.string.err_code_1014
+
         }
         return errMessage
     }

@@ -18,12 +18,16 @@ class ProductHorizontalItem(private var context: Context, private var items: Lis
     override fun onBindViewHolder(viewholder: ProductItemViewHolder, position: Int) {
         viewholder.apply {
             val item: ProductModel = items[position]
-            avatar?.let {
+            imvAvatar?.let {
                 Glide.with(context).asBitmap().placeholder(R.drawable.subject_default).load(item.avatar).into(it)
             }
-            name?.text = item.name
-            price?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.price)
-            rate.text = "5/5"
+            tvProductName?.text = item.name
+            tvProductPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.price)
+            if (item.quantity > 0) {
+                tvProductQuantity?.text = context.getString(R.string.text_product_quantity).replace("%s", item.quantity.toString())
+            } else {
+                tvProductPrice?.text = context.getString(R.string.text_product_quantity_0)
+            }
             itemView.setOnClickListener {
                 onClickItem.invoke(item)
             }

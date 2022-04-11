@@ -84,7 +84,7 @@ class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickL
 
     override fun showUserInfo(profile: ProfileModel) {
         tv_profile_name.text = profile.fullname
-        Glide.with(this).asBitmap().placeholder(R.drawable.subject_default).load(profile.avatar).into(imv_profile_avatar)
+        Glide.with(this).asBitmap().placeholder(R.drawable.avatar_default).load(profile.avatar).into(imv_profile_avatar)
     }
 
     override fun showBranchInfo(branch: BranchModel) {

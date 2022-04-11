@@ -73,6 +73,8 @@ class BranchPresent (private var view: IBranchView?): IBranchPresent {
             Constants.ErrorCode.ERROR_1011 -> errMessage = R.string.err_code_1011
             Constants.ErrorCode.ERROR_1012 -> errMessage = R.string.err_code_1012
             Constants.ErrorCode.ERROR_1013 -> errMessage = R.string.err_code_1013
+            Constants.ErrorCode.ERROR_1014 -> errMessage = R.string.err_code_1014
+
         }
         return errMessage
     }

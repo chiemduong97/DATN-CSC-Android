@@ -116,16 +116,15 @@
                 android:layout_marginRight="15dp"
                 android:textStyle="bold"/>
             <TextView
-                android:id="@+id/tv_rate"
+                android:id="@+id/tv_product_quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_rate"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:textSize="14dp"
                 android:textColor="@color/black"
-                android:text="4.5/5"
+                android:text="@string/text_product_quantity_default"
                 android:gravity="start|center"/>
             <TextView
                 android:id="@+id/tv_add_to_cart"

@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Client"
         tools:targetApi="n">
+        <activity android:name=".screens.order.history.activity.OrderHistoryActivity" />
         <activity android:name=".screens.order.detail.OrderDetailActivity" />
         <activity android:name=".screens.order.activity.ReviewOrderActivity" />
         <activity android:name=".screens.cart.activity.CartActivity" />

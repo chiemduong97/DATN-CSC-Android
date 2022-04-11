@@ -6,4 +6,5 @@ public interface IMainPresent {
     void replaceFragment(int id);
     void onSetUserActive();
     void getCartFromRes();
+    void getListOrderFromService();
 }

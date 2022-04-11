@@ -90,8 +90,17 @@ class ProductDetailActivity : AppCompatActivity(), IProductDetailView, View.OnCl
         tv_title.text = productModel.name
         tv_name.text = productModel.name
         tv_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(productModel.price)
-        tv_rate.text = "5/5"
+        tv_product_quantity.text = getString(R.string.text_product_quantity).replace("%s", productModel.quantity.toString())
         tv_description.text = productModel.description
+        if (productModel.quantity > 1) {
+            tv_add_to_cart.isEnabled = true
+            tv_add_to_cart.setBackgroundResource(R.drawable.bg_btn)
+            tv_product_quantity.text = getString(R.string.text_product_quantity).replace("%s", productModel.quantity.toString())
+        } else {
+            tv_add_to_cart.isEnabled = false
+            tv_add_to_cart.setBackgroundResource(R.drawable.bg_btn_disable)
+            tv_product_quantity.text = getString(R.string.text_product_quantity_0)
+        }
     }
 
     override fun showListProduct(items: List<ProductModel>) {

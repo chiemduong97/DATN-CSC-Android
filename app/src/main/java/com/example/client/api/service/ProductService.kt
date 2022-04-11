@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface ProductService {
     @GET("api/product/product_getByCategory.php")
-    fun getByCategory(@Query("category_id") id: Int): Call<List<ProductModel>>
+    fun getByCategory(@Query("category_id") category_id: Int,@Query("branch_id") branch_id: Int ): Call<List<ProductModel>>
 }

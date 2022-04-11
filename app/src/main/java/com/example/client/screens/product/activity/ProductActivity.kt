@@ -9,12 +9,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.dialog.PrimaryDialog
+import com.example.client.models.cart.CartModel
 import com.example.client.models.category.CategoryModel
+import com.example.client.models.event.Event
 import com.example.client.models.product.ProductModel
 import com.example.client.screens.product.detail.ProductDetailActivity
 import com.example.client.screens.product.item.ProductVerticalItem
 import com.example.client.screens.product.present.ProductPresent
 import kotlinx.android.synthetic.main.activity_product.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 class ProductActivity : AppCompatActivity(), IProductView, View.OnClickListener {
@@ -61,12 +66,12 @@ class ProductActivity : AppCompatActivity(), IProductView, View.OnClickListener 
         rll_loading.visibility = View.GONE
     }
 
-    override fun showData(items: List<ProductModel>) {
+    override fun showData(items: List<ProductModel>, cart: CartModel) {
         recyclerView.visibility = View.VISIBLE
         imv_empty.visibility = View.GONE
         val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = manager
-        val item = ProductVerticalItem(this, items) {
+        val item = ProductVerticalItem(this, items, cart.listProduct) {
             startActivity(ProductDetailActivity.newInstance(this, it))
         }
         recyclerView.adapter = item
@@ -88,8 +93,6 @@ class ProductActivity : AppCompatActivity(), IProductView, View.OnClickListener 
         }
     }
 
-
-
     override fun onClick(v: View?) {
         v?.let {
             when (it.id) {
@@ -99,5 +102,26 @@ class ProductActivity : AppCompatActivity(), IProductView, View.OnClickListener 
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event: Event) {
+        when (event.key) {
+            Constants.EventKey.UPDATE_CART -> {
+                categoryModel?.let {
+                    present?.loadDataByCategory(it.id)
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 }
