@@ -21,6 +21,7 @@ import com.example.client.models.order.OrderModel;
 import com.example.client.screens.cart.activity.CartActivity;
 import com.example.client.screens.home.fragment.HomeFragment;
 import com.example.client.screens.main.present.MainPresent;
+import com.example.client.screens.map.activity.MapsActivity;
 import com.example.client.screens.noti.activity.NotificationActivity;
 import com.example.client.screens.order.detail.OrderDetailActivity;
 import com.example.client.screens.order.history.activity.OrderHistoryActivity;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private MainPresent mPresent;
-    private ImageView notification;
+    private ImageView imvLocation;
     private CardView cvCartPlace;
     private TextView tvQuantity;
     private RelativeLayout rllCountOrder, rllOrder, rllLoading;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        notification = findViewById(R.id.notification);
+        imvLocation = findViewById(R.id.imv_location);
         navigation = findViewById(R.id.navigation);
         cvCartPlace = findViewById(R.id.cv_cart_place);
         tvQuantity = findViewById(R.id.tv_quantity);
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
             return true;
         });
 
-        notification.setOnClickListener(this);
+        imvLocation.setOnClickListener(this);
         cvCartPlace.setOnClickListener(this);
         tvSeeMore.setOnClickListener(this);
         tvSeeOrder.setOnClickListener(this);
@@ -174,8 +175,8 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.notification:
-                startActivity(new Intent(MainActivity.this, NotificationActivity.class));
+            case R.id.imv_location:
+                startActivity(new Intent(MainActivity.this, MapsActivity.class));
                 break;
             case R.id.cv_cart_place:
                 startActivity(new Intent(MainActivity.this, CartActivity.class));

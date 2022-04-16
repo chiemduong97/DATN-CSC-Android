@@ -20,11 +20,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/notification"
+                android:id="@+id/imv_location"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center|right"
-                android:src="@drawable/ic_notification" />
+                android:src="@drawable/ic_location_map" />
 
             <ImageView
                 android:layout_width="wrap_content"

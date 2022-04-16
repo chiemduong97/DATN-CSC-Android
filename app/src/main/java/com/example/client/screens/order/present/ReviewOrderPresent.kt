@@ -84,12 +84,12 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
                     when {
                         it.isStatus -> {
                             view?.toOrderDetailScreen(it.ordercode)
-                            Preferences.getInstance().removeCart()
+                            Preferences.getInstance().deleteCart()
                             EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_CART))
                             EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_STATUS_ORDER))
                         }
                         else -> {
-                            view?.showErrorMessage(it.code)
+                            view?.showErrorMessage(getErrorMessage(it.code))
                         }
                     }
                     view?.hideLoading()
@@ -130,7 +130,8 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
                 cart.branch_latitude,
                 cart.branch_longitude,
                 cart.branch_address,
-                cart.getShippingFeeExpect()
+                cart.getShippingFeeExpect(),
+                Preferences.getInstance().profile.phone
         )
 
     }

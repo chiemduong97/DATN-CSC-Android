@@ -46,6 +46,13 @@ public interface UserService {
                                     @Field("avatar") String avatar);
 
     @FormUrlEncoded
+    @POST("api/user/updateLocation.php")
+    Call<MessageModel> updateLocation(@Field("email") String email,
+                                    @Field("latitude") Double latitude,
+                                    @Field("longitude") Double longitude,
+                                    @Field("address") String address);
+
+    @FormUrlEncoded
     @POST("api/user/updateDeviceToken.php")
     Call<MessageModel> updateDeviceToken(@Field("email") String email,
                                          @Field("deviceToken") String deviceToken);

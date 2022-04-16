@@ -12,7 +12,8 @@ class OrderModel(
         var branch_id: Int,
         var promotion_id: Int?,
         var createdAt: String,
-        var branch_address: String
+        var branch_address: String,
+        var phone: String
 ) {
     fun getTotalPrice() : Double {
         return amount + shippingFee - (promotionValue ?: 0.0)

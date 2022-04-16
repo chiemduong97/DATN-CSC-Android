@@ -99,8 +99,12 @@ public class MainPresent implements IMainPresent {
                     mView.hideLoading();
                     return;
                 }
-                if (response.body().size() > 1) {
-                    mView.showOrderCount(response.body().size());
+                int count = 0;
+                for (OrderModel order: response.body()) {
+                    if (!order.isComplete() && !order.isDestroy()) count++;
+                }
+                if (count > 1) {
+                    mView.showOrderCount(count);
                 } else {
                     mView.hideOrderCount();
                 }
@@ -112,6 +116,8 @@ public class MainPresent implements IMainPresent {
                         return;
                     }
                 }
+                mView.hideOrder();
+
             }
 
             @Override
