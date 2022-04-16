@@ -12,4 +12,5 @@ class OrderParam(
         var branch_longitude: Double,
         var branch_address: String,
         var shipping_fee: Double,
+        var phone: String
 )

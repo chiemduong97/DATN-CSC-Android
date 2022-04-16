@@ -30,7 +30,7 @@ class CartModel (var listProduct: ArrayList<CartProductModel>) {
         return amount
     }
 
-    fun getDistance(): Double {
+    private fun getDistance(): Double {
         val radius = 6371.0
         val dLat: Double = (branch_latitude - order_latitude) * (Math.PI / 180)
         val dLon: Double = (branch_longitude - order_longitude) * (Math.PI / 180)
@@ -41,7 +41,7 @@ class CartModel (var listProduct: ArrayList<CartProductModel>) {
         return radius * c
     }
 
-    fun getShippingFee(): Double {
+    private fun getShippingFee(): Double {
         return getDistance() * 5000.0
     }
 

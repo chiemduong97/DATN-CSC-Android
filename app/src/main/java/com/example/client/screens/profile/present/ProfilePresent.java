@@ -32,6 +32,7 @@ public class ProfilePresent implements IProfilePresent {
                     Preferences.getInstance().deleteDeviceToken();
                     Preferences.getInstance().deleteProfile();
                     Preferences.getInstance().deleteAccessToken();
+                    Preferences.getInstance().deleteCart();
                     pView.logout(response.body().isStatus());
                 }
                 else {

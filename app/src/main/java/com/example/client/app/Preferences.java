@@ -169,7 +169,7 @@ public class Preferences {
         editor.apply();
     }
 
-    public void removeCart() {
+    public void deleteCart() {
         Editor editor = sharePreferences.edit();
         editor.remove(CART_MODEL);
         editor.apply();

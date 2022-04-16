@@ -25,6 +25,7 @@ public class Constants {
         public static final String UPDATE_PROFILE_AVATAR = "UPDATE_PROFILE_AVATAR";
         public static final String UPDATE_CART = "UPDATE_CART";
         public static final String UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER";
+        public static final String UPDATE_LOCATION = "UPDATE_LOCATION";
 
     }
 

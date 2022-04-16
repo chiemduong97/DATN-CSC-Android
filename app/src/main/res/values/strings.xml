@@ -77,5 +77,11 @@
     <string name="text_count_order">Bạn có %s đơn hàng chờ giao</string>
     <string name="text_see_more">Xem tất cả</string>
     <string name="text_see_order">Xem đơn hàng</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="text_get_location">Cập nhật vị trí nhận hàng</string>
+    <string name="default_info_title">Tiêu đề thông tin mặc định</string>
+    <string name="default_info_snippet">Thông tin đoạn trích mặc định</string>
+    <string name="pick_place">Chọn vị trí</string>
+    <string name="update_location_success">Cập nhật vị trí đặt hàng thành công</string>
 
 </resources>

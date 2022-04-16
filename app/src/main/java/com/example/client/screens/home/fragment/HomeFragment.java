@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
     private TabLayout tabDots;
     private ImageView avatar;
     private ImageView banner_empty,high_light_empty,new_empty;
-    private TextView tvBranchName, tvBranchAddress;
+    private TextView tvBranchName, tvBranchAddress, tvOrderAddress;
     private RelativeLayout rllChangeBranch;
 
     private HomePresent hPresent;
@@ -93,6 +93,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
         tvBranchName = view.findViewById(R.id.tv_branch_name);
         tvBranchAddress = view.findViewById(R.id.tv_branch_address);
         rllChangeBranch = view.findViewById(R.id.rll_change_branch);
+        tvOrderAddress = view.findViewById(R.id.tv_order_address);
 
         hPresent = new HomePresent(this);
 
@@ -136,6 +137,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
                 hPresent.getBranchFromRes();
                 break;
             case Constants.EventKey.UPDATE_PROFILE_AVATAR:
+            case Constants.EventKey.UPDATE_LOCATION:
             case Constants.EventKey.UPDATE_PROFILE_INFO:
                 hPresent.getUserFromRes();
                 break;
@@ -168,7 +170,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
 
     @Override
     public void showCategories(List<CategoryModel> items) {
-        GridLayoutManager manager = new GridLayoutManager(getContext(),3);
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false);
         recyclerViewIcon.setLayoutManager(manager);
         HomeCategoryItem item = new HomeCategoryItem(getContext(), items, categoryModel -> startActivity(ProductActivity.Companion.newInstance(getContext(),categoryModel, Constants.Method.CATEGORY)));
         recyclerViewIcon.setAdapter(item);
@@ -217,6 +219,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
                 .placeholder(R.drawable.avatar_default)
                 .load(profile.getAvatar())
                 .into(avatar);
+        tvOrderAddress.setText(profile.getAddress());
     }
 
     @Override
