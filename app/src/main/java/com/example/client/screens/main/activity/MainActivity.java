@@ -17,6 +17,7 @@ import com.example.client.R;
 
 import com.example.client.app.Constants;
 import com.example.client.models.event.Event;
+import com.example.client.models.noti.Notification;
 import com.example.client.models.order.OrderModel;
 import com.example.client.screens.cart.activity.CartActivity;
 import com.example.client.screens.home.fragment.HomeFragment;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private MainPresent mPresent;
-    private ImageView imvLocation;
+    private ImageView imvNoti;
     private CardView cvCartPlace;
     private TextView tvQuantity;
     private RelativeLayout rllCountOrder, rllOrder, rllLoading;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imvLocation = findViewById(R.id.imv_location);
+        imvNoti = findViewById(R.id.imv_noti);
         navigation = findViewById(R.id.navigation);
         cvCartPlace = findViewById(R.id.cv_cart_place);
         tvQuantity = findViewById(R.id.tv_quantity);
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
             return true;
         });
 
-        imvLocation.setOnClickListener(this);
+        imvNoti.setOnClickListener(this);
         cvCartPlace.setOnClickListener(this);
         tvSeeMore.setOnClickListener(this);
         tvSeeOrder.setOnClickListener(this);
@@ -175,8 +176,8 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.imv_location:
-                startActivity(new Intent(MainActivity.this, MapsActivity.class));
+            case R.id.imv_noti:
+                startActivity(new Intent(MainActivity.this, NotificationActivity.class));
                 break;
             case R.id.cv_cart_place:
                 startActivity(new Intent(MainActivity.this, CartActivity.class));
@@ -215,4 +216,5 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
 }

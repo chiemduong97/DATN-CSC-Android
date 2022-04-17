@@ -31,6 +31,7 @@ import com.example.client.screens.branch.BranchActivity;
 import com.example.client.screens.home.item.BannerItem;
 import com.example.client.screens.home.item.HomeCategoryItem;
 import com.example.client.screens.home.present.HomePresent;
+import com.example.client.screens.map.activity.MapsActivity;
 import com.example.client.screens.product.activity.ProductActivity;
 import com.example.client.screens.profile.manager_info.ManagerInfoActivity;
 import com.google.android.material.tabs.TabLayout;
@@ -66,7 +67,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
     private ImageView avatar;
     private ImageView banner_empty,high_light_empty,new_empty;
     private TextView tvBranchName, tvBranchAddress, tvOrderAddress;
-    private RelativeLayout rllChangeBranch;
+    private RelativeLayout rllChangeBranch,rllOrderLocation;
 
     private HomePresent hPresent;
     @Nullable
@@ -93,6 +94,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
         tvBranchName = view.findViewById(R.id.tv_branch_name);
         tvBranchAddress = view.findViewById(R.id.tv_branch_address);
         rllChangeBranch = view.findViewById(R.id.rll_change_branch);
+        rllOrderLocation = view.findViewById(R.id.rll_order_location);
         tvOrderAddress = view.findViewById(R.id.tv_order_address);
 
         hPresent = new HomePresent(this);
@@ -119,6 +121,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
         hPresent.getCategoriesFromService();
         hPresent.getListBannerFromService();
         rllChangeBranch.setOnClickListener(this);
+        rllOrderLocation.setOnClickListener(this);
 
         return view;
     }
@@ -164,6 +167,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
                 break;
             case R.id.rll_change_branch:
                 startActivity(new Intent(getActivity(), BranchActivity.class));
+                break;
+            case R.id.rll_order_location:
+                startActivity(MapsActivity.Companion.newInstance(getContext()));
                 break;
         }
     }
