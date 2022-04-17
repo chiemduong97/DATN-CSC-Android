@@ -2,7 +2,9 @@ package com.example.client.screens.map.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -15,7 +17,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.client.R
+import com.example.client.app.Constants
+import com.example.client.dialog.AddToCartDialog
 import com.example.client.dialog.PrimaryDialog
+import com.example.client.models.product.ProductModel
 import com.example.client.screens.map.present.MapsPresent
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -50,6 +55,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
 
     private var present: MapsPresent? = null
     private var dialog: PrimaryDialog? = null
+    companion object {
+        fun newInstance(from: Context?): Intent {
+            return Intent(from, MapsActivity::class.java)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,8 +93,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         toolbar.setOnMenuItemClickListener(this)
         imv_back.setOnClickListener(this)
         getLocationPermission()
-        updateLocationUI()
-        getDeviceLocation()
+        if (locationPermissionGranted) {
+            updateLocationUI()
+            getDeviceLocation()
+        }
     }
 
 
@@ -121,8 +133,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
 
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.isNotEmpty() &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     locationPermissionGranted = true
                 }
             }
