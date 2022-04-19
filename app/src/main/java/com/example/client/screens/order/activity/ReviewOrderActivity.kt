@@ -16,6 +16,7 @@ import com.example.client.models.event.Event
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.cart.item.CartProductItem
+import com.example.client.screens.map.activity.MapsActivity
 import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.order.present.ReviewOrderPresent
 import kotlinx.android.synthetic.main.activity_review_order.*
@@ -44,6 +45,7 @@ class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickL
         tv_change_branch.setOnClickListener(this)
         tv_change_product.setOnClickListener(this)
         tv_send_order.setOnClickListener(this)
+        tv_change_order_location.setOnClickListener(this)
 
         dialog = PrimaryDialog()
         dialog?.getInstance(this)
@@ -72,7 +74,10 @@ class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickL
                     startActivity(Intent(this, BranchActivity::class.java))
                 }
                 R.id.tv_send_order -> {
-                    present?.createOrder();
+                    present?.createOrder()
+                }
+                R.id.tv_change_order_location -> {
+                    startActivity(MapsActivity.newInstance(this))
                 }
                 else -> {
 
@@ -84,6 +89,7 @@ class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickL
 
     override fun showUserInfo(profile: ProfileModel) {
         tv_profile_name.text = profile.fullname
+        tv_order_address.text = profile.address
         Glide.with(this).asBitmap().placeholder(R.drawable.avatar_default).load(profile.avatar).into(imv_profile_avatar)
     }
 
@@ -156,6 +162,9 @@ class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickL
                     it.generationCart()
                     it.getCartFromRes()
                 }
+            }
+            Constants.EventKey.UPDATE_LOCATION -> {
+                present?.getUserFromRes()
             }
         }
     }
