@@ -164,7 +164,11 @@ class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickL
                 }
             }
             Constants.EventKey.UPDATE_LOCATION -> {
-                present?.getUserFromRes()
+                present?.let {
+                    it.getUserFromRes()
+                    it.generationCart()
+                    it.getCartFromRes()
+                }
             }
         }
     }
