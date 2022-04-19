@@ -8,12 +8,14 @@ import com.example.client.app.Preferences
 import com.example.client.models.event.Event
 import com.example.client.models.message.MessageModel
 import com.example.client.screens.map.activity.IMapsView
+import com.google.android.gms.maps.model.LatLng
 import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MapsPresent(var view: IMapsView): IMapsPresent {
+
     override fun updateLocation(latitude: Double, longitude: Double, address: String) {
         view.showLoading()
         val service = ApiClient.getInstance().create(UserService::class.java)
@@ -50,6 +52,11 @@ class MapsPresent(var view: IMapsView): IMapsPresent {
                 }
             }
         })
+    }
+
+    override fun getCurrentLocation(): LatLng {
+        val profile = Preferences.getInstance().profile
+        return LatLng(profile.latitude, profile.longitude)
     }
 
     private fun getErrorMessage(errCode: Int): Int {
