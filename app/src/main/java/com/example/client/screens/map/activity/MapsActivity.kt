@@ -39,7 +39,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
 
     private lateinit var mMap: GoogleMap
     private var fused: FusedLocationProviderClient? = null
-    private var lastLocation: Location? = null
+    private var lastLocation = Location("")
     private var locationPermissionGranted = false
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 999
     private val DEFAULT_ZOOM = 12
@@ -94,13 +94,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         getLocationPermission()
         if (locationPermissionGranted) {
             updateLocationUI()
-            getDeviceLocation()
+            present?.let {
+                lastLocation.apply {
+                    mMap.clear()
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it.getCurrentLocation(), DEFAULT_ZOOM.toFloat()))
+                    mMap.addMarker(MarkerOptions().position(it.getCurrentLocation()).title("It's me"))
+                    latitude = it.getCurrentLocation().latitude
+                    longitude = it.getCurrentLocation().longitude
+                }
+            }
         }
+
+
 
         mMap.setOnMapClickListener {
             mMap.clear()
             mMap.addMarker(MarkerOptions().position(it).title("It's me"))
-            lastLocation?.apply {
+            lastLocation.apply {
                 latitude = it.latitude
                 longitude = it.longitude
             }
@@ -112,15 +122,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         v?.let {
             when (v.id) {
                 R.id.tv_get_location -> {
-                    lastLocation?.let {
+                    lastLocation.let {
                         val geocoder = Geocoder(this, Locale.getDefault())
                         val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1);
                         val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                        val city = addresses[0].locality
-                        val state = addresses[0].adminArea
-                        val country = addresses[0].countryName
-                        val postalCode = addresses[0].postalCode
-                        val knownName = addresses[0].featureName
+//                        val city = addresses[0].locality
+//                        val state = addresses[0].adminArea
+//                        val country = addresses[0].countryName
+//                        val postalCode = addresses[0].postalCode
+//                        val knownName = addresses[0].featureName
                         present?.updateLocation(it.latitude, it.longitude, address)
                     }
                 }
@@ -170,7 +180,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
             } else {
                 mMap.isMyLocationEnabled = false
                 mMap.uiSettings.isMyLocationButtonEnabled = false
-                lastLocation = null
+                lastLocation = Location("")
                 getLocationPermission()
             }
         } catch (e: SecurityException) {
@@ -191,7 +201,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
                     if (task.isSuccessful) {
                         // Set the map's camera position to the current location of the device.
                         lastLocation = task.result
-                        lastLocation?.let {
+                        lastLocation.let {
                             mMap.clear()
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), DEFAULT_ZOOM.toFloat()))
                             mMap.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)).title("It's me"))
