@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -17,10 +18,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.client.R
-import com.example.client.app.Constants
-import com.example.client.dialog.AddToCartDialog
 import com.example.client.dialog.PrimaryDialog
-import com.example.client.models.product.ProductModel
 import com.example.client.screens.map.present.MapsPresent
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -34,6 +32,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import kotlinx.android.synthetic.main.activity_maps.*
+import java.util.*
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener, GoogleMap.OnMyLocationButtonClickListener, Toolbar.OnMenuItemClickListener, IMapsView {
@@ -105,7 +104,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
             when (v.id) {
                 R.id.tv_get_location -> {
                     lastLocation?.let {
-                        present?.updateLocation(it.latitude, it.longitude, "45/14/2 Đường 3, phường Long Trường, TP Thủ Đức")
+                        val geocoder = Geocoder(this, Locale.getDefault())
+                        val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1);
+                        val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                        val city = addresses[0].locality
+                        val state = addresses[0].adminArea
+                        val country = addresses[0].countryName
+                        val postalCode = addresses[0].postalCode
+                        val knownName = addresses[0].featureName
+                        present?.updateLocation(it.latitude, it.longitude, address)
                     }
                 }
                 R.id.imv_back -> {
@@ -176,6 +183,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
                         // Set the map's camera position to the current location of the device.
                         lastLocation = task.result
                         lastLocation?.let {
+                            mMap.clear()
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), DEFAULT_ZOOM.toFloat()))
                             mMap.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)).title("It's me"))
                         }
