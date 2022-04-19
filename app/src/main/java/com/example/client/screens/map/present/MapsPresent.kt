@@ -19,17 +19,17 @@ class MapsPresent(var view: IMapsView): IMapsPresent {
     override fun updateLocation(latitude: Double, longitude: Double, address: String) {
         view.showLoading()
         val service = ApiClient.getInstance().create(UserService::class.java)
-        val profile = Preferences.getInstance().profile.apply {
-            this.latitude = latitude
-            this.longitude = longitude
-            this.address = address
-        }
+        val profile = Preferences.getInstance().profile
         service.updateLocation(profile.email, latitude, longitude, address).enqueue(object: Callback<MessageModel> {
             override fun onResponse(call: Call<MessageModel>, response: Response<MessageModel>) {
                 response.body()?.let {
                     when {
                         it.isStatus -> {
-                            Preferences.getInstance().profile = profile
+                            Preferences.getInstance().profile = profile.apply {
+                                this.latitude = latitude
+                                this.longitude = longitude
+                                this.address = address
+                            }
                             EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_LOCATION))
                             view.showSuccess()
                         }
