@@ -96,6 +96,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
             updateLocationUI()
             getDeviceLocation()
         }
+
+        mMap.setOnMapClickListener {
+            mMap.clear()
+            mMap.addMarker(MarkerOptions().position(it).title("It's me"))
+            lastLocation?.apply {
+                latitude = it.latitude
+                longitude = it.longitude
+            }
+        }
     }
 
 
