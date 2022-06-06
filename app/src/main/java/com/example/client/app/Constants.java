@@ -26,6 +26,7 @@ public class Constants {
         public static final int ERROR_1011 = 1011;
         public static final int ERROR_1012 = 1012;
         public static final int ERROR_1013 = 1013;
+        public static final int ERROR_1014 = 1014;
 
     }
 
