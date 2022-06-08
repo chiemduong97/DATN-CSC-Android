@@ -1,4 +1,4 @@
-package com.example.client.screens.home.item;
+package com.example.client.screens.category.item;
 
 import android.content.Context;
 import android.view.LayoutInflater;

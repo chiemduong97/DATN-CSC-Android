@@ -26,8 +26,8 @@ class MapsPresent(var view: IMapsView): IMapsPresent {
                     when {
                         it.isStatus -> {
                             Preferences.getInstance().profile = profile.apply {
-                                this.latitude = latitude
-                                this.longitude = longitude
+                                this.lat = latitude
+                                this.lng = longitude
                                 this.address = address
                             }
                             EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_LOCATION))
@@ -56,7 +56,7 @@ class MapsPresent(var view: IMapsView): IMapsPresent {
 
     override fun getCurrentLocation(): LatLng {
         val profile = Preferences.getInstance().profile
-        return LatLng(profile.latitude, profile.longitude)
+        return LatLng(profile.lat, profile.lng)
     }
 
     private fun getErrorMessage(errCode: Int): Int {

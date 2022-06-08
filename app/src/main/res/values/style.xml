@@ -6,5 +6,16 @@
     <style name="CProgressbar.Red" parent="@style/Theme.AppCompat">
         <item name="colorAccent">@color/red_light</item>
     </style>
-
+    <style name="bold" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+    <style name="light" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+    <style name="italic" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/roboto_italic</item>
+    </style>
+    <style name="regular" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
 </resources>

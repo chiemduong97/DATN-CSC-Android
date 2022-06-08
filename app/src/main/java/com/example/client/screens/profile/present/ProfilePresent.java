@@ -25,26 +25,26 @@ public class ProfilePresent implements IProfilePresent {
         MyFirebaseService myFirebaseService = new MyFirebaseService();
         myFirebaseService.deleteToken();
         UserService service = ApiClient.getInstance().create(UserService.class);
-        service.updateDeviceToken(user.getEmail(),null).enqueue(new Callback<MessageModel>() {
-            @Override
-            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
-                if(response.body().isStatus()){
-                    Preferences.getInstance().deleteDeviceToken();
-                    Preferences.getInstance().deleteProfile();
-                    Preferences.getInstance().deleteAccessToken();
-                    Preferences.getInstance().deleteCart();
-                    pView.logout(response.body().isStatus());
-                }
-                else {
-                    pView.logout(false);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MessageModel> call, Throwable t) {
-                pView.logout(false);
-            }
-        });
+//        service.updateDeviceToken(user.getEmail(),null).enqueue(new Callback<MessageModel>() {
+//            @Override
+//            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+//                if(response.body().isStatus()){
+//                    Preferences.getInstance().deleteDeviceToken();
+//                    Preferences.getInstance().deleteProfile();
+//                    Preferences.getInstance().deleteAccessToken();
+//                    Preferences.getInstance().deleteCart();
+//                    pView.logout(response.body().isStatus());
+//                }
+//                else {
+//                    pView.logout(false);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MessageModel> call, Throwable t) {
+//                pView.logout(false);
+//            }
+//        });
     }
 
     @Override

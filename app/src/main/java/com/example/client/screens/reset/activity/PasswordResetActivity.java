@@ -159,8 +159,8 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
         dialog.show();
         dialog.setOKListener(()->{
             finish();
-            LoginEmailActivity.loginEmailActivity.finish();
-            LoginPasswordActivity.loginPasswordActivity.finish();
+//            LoginEmailActivity.loginEmailActivity.finish();
+//            LoginPasswordActivity.loginPasswordActivity.finish();
             startActivity(new Intent(this,LoginEmailActivity.class));
         });
     }

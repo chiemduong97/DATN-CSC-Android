@@ -54,7 +54,7 @@
             android:orientation="vertical">
             <View
                 android:layout_width="match_parent"
-                android:layout_height="12dp"
+                android:layout_height="10dp"
                 android:background="@color/gray_light" />
 
             <RelativeLayout
@@ -117,7 +117,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="12dp"
+                android:layout_height="10dp"
                 android:background="@color/gray_light" />
 
             <RelativeLayout
@@ -193,7 +193,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="12dp"
+                android:layout_height="10dp"
                 android:background="@color/gray_light" />
 
             <RelativeLayout
@@ -326,7 +326,7 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="12dp"
+                android:layout_height="10dp"
                 android:background="@color/gray_light" />
 
             <RelativeLayout
@@ -389,7 +389,7 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="12dp"
+                android:layout_height="10dp"
                 android:background="@color/gray_light" />
         </LinearLayout>
 

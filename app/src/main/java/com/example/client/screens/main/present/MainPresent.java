@@ -3,13 +3,13 @@ package com.example.client.screens.main.present;
 import com.example.client.R;
 import com.example.client.api.ApiClient;
 import com.example.client.api.service.OrderService;
-import com.example.client.api.service.UserService;
 import com.example.client.app.Constants;
 import com.example.client.app.Preferences;
 import com.example.client.models.cart.CartModel;
 import com.example.client.models.order.OrderModel;
 import com.example.client.models.profile.ProfileModel;
 import com.example.client.screens.main.activity.IMainView;
+import com.example.client.usecase.ProfileUseCase;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -17,12 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainPresent implements IMainPresent {
-
+    private final ProfileUseCase profileUseCase = ProfileUseCase.Companion.newInstance();
     private IMainView mView;
     private ProfileModel user;
 
@@ -49,18 +52,13 @@ public class MainPresent implements IMainPresent {
 
     @Override
     public void onSetUserActive() {
-        UserService service = ApiClient.getInstance().create(UserService.class);
-        service.getUserByEmail(user.getEmail()).enqueue(new Callback<ProfileModel>() {
-            @Override
-            public void onResponse(Call<ProfileModel> call, Response<ProfileModel> response) {
-                Preferences.getInstance().setProfile(response.body());
-            }
+        new CompositeDisposable().add(
+                profileUseCase.getUserByEmail("chiemduong.dp.cntt@gmail.com")
+                        .observeOn(Schedulers.io())
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe(res-> Preferences.getInstance().setProfile(res.getData().toProfileModel()), err -> {})
 
-            @Override
-            public void onFailure(Call<ProfileModel> call, Throwable t) {
-
-            }
-        });
+        );
     }
 
     @Override

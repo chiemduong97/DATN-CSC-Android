@@ -127,18 +127,18 @@ public class WalletPresent implements IWalletPresent{
     @Override
     public void onRefeshUserActive(String email) {
         UserService service = ApiClient.getInstance().create(UserService.class);
-        service.getUserByEmail(email).enqueue(new Callback<ProfileModel>() {
-            @Override
-            public void onResponse(Call<ProfileModel> call, Response<ProfileModel> response) {
-                Preferences.getInstance().setProfile(response.body());
-                wView.refreshUserActive(new MessageModel(true,-1,null));
-            }
-
-            @Override
-            public void onFailure(Call<ProfileModel> call, Throwable t) {
-                wView.refreshUserActive(new MessageModel(false,1001,null));
-
-            }
-        });
+//        service.getUserByEmail(email).enqueue(new Callback<ProfileModel>() {
+//            @Override
+//            public void onResponse(Call<ProfileModel> call, Response<ProfileModel> response) {
+//                Preferences.getInstance().setProfile(response.body());
+//                wView.refreshUserActive(new MessageModel(true,-1,null));
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProfileModel> call, Throwable t) {
+//                wView.refreshUserActive(new MessageModel(false,1001,null));
+//
+//            }
+//        });
     }
 }

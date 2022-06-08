@@ -23,8 +23,12 @@ class BranchItem (private var context: Context?,
             name?.text = item.name
             address?.text = item.address
             itemView.setOnClickListener {
-                onClick.invoke(item)
-                checkBox.isChecked = true
+                checkBox.run {
+                    if (!isChecked) {
+                        onClick.invoke(item)
+                        isChecked = true
+                    }
+                }
             }
             selected?.let {
                 checkBox.isChecked = it == item.id

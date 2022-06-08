@@ -8,10 +8,12 @@ import com.example.client.api.service.UserService;
 import com.example.client.app.Constants;
 import com.example.client.app.MyFirebaseService;
 import com.example.client.app.Preferences;
+import com.example.client.models.event.Event;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.ProfileModel;
 import com.example.client.screens.register.activity.IRegisterView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
@@ -58,54 +60,55 @@ public class RegisterPresent implements IRegisterPresent{
     public void onGetUserActive(String email) {
         rView.showLoading();
         UserService service = ApiClient.getInstance().create(UserService.class);
-        service.getUserByEmail(email).enqueue(new Callback<ProfileModel>() {
-            @Override
-            public void onResponse(@NotNull Call<ProfileModel> call, @NotNull Response<ProfileModel> response) {
-                if (response.body() == null) {
-                    rView.hideLoading();
-                    rView.showErrorMessage(getErrorMessage(1001));
-                    return;
-                }
-                Preferences.getInstance().setProfile(response.body());
-                String deviceToken = Preferences.getInstance().getDeviceToken();
-                onUpdateDeviceToken(email,deviceToken);
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<ProfileModel> call, @NotNull Throwable t) {
-                rView.showErrorMessage(getErrorMessage(1001));
-                rView.hideLoading();
-            }
-        });
+//        service.getUserByEmail(email).enqueue(new Callback<ProfileModel>() {
+//            @Override
+//            public void onResponse(@NotNull Call<ProfileModel> call, @NotNull Response<ProfileModel> response) {
+//                if (response.body() == null) {
+//                    rView.hideLoading();
+//                    rView.showErrorMessage(getErrorMessage(1001));
+//                    return;
+//                }
+//                Preferences.getInstance().setProfile(response.body());
+//                String deviceToken = Preferences.getInstance().getDeviceToken();
+//                onUpdateDeviceToken(email,deviceToken);
+//            }
+//
+//            @Override
+//            public void onFailure(@NotNull Call<ProfileModel> call, @NotNull Throwable t) {
+//                rView.showErrorMessage(getErrorMessage(1001));
+//                rView.hideLoading();
+//            }
+//        });
     }
 
     @Override
     public void onUpdateDeviceToken(String email, String token) {
         rView.showLoading();
         UserService service = ApiClient.getInstance().create(UserService.class);
-        service.updateDeviceToken(email,token).enqueue(new Callback<MessageModel>() {
-            @Override
-            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
-                if (response.body() == null) {
-                    rView.hideLoading();
-                    rView.showErrorMessage(getErrorMessage(1001));
-                    return;
-                }
-                if (response.body().isStatus()) {
-                    rView.register();
-                } else {
-                    rView.showErrorMessage(getErrorMessage(response.body().getCode()));
-                }
-                rView.hideLoading();
-
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
-                rView.showErrorMessage(getErrorMessage(1001));
-                rView.hideLoading();
-            }
-        });
+//        service.updateDeviceToken(email,token).enqueue(new Callback<MessageModel>() {
+//            @Override
+//            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+//                if (response.body() == null) {
+//                    rView.hideLoading();
+//                    rView.showErrorMessage(getErrorMessage(1001));
+//                    return;
+//                }
+//                if (response.body().isStatus()) {
+//                    rView.register();
+//                    EventBus.getDefault().post(new Event(Constants.EventKey.LOGIN_SUCCESS));
+//                } else {
+//                    rView.showErrorMessage(getErrorMessage(response.body().getCode()));
+//                }
+//                rView.hideLoading();
+//
+//            }
+//
+//            @Override
+//            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
+//                rView.showErrorMessage(getErrorMessage(1001));
+//                rView.hideLoading();
+//            }
+//        });
     }
 
     @Override

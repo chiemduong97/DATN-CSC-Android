@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
@@ -22,6 +21,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.client.R;
 import com.example.client.app.Constants;
+import com.example.client.base.BaseFragmentMVP;
 import com.example.client.models.banner.BannerModel;
 import com.example.client.models.branch.BranchModel;
 import com.example.client.models.category.CategoryModel;
@@ -29,7 +29,7 @@ import com.example.client.models.event.Event;
 import com.example.client.models.profile.ProfileModel;
 import com.example.client.screens.branch.BranchActivity;
 import com.example.client.screens.home.item.BannerItem;
-import com.example.client.screens.home.item.HomeCategoryItem;
+import com.example.client.screens.category.item.HomeCategoryItem;
 import com.example.client.screens.home.present.HomePresent;
 import com.example.client.screens.map.activity.MapsActivity;
 import com.example.client.screens.product.activity.ProductActivity;
@@ -40,6 +40,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -49,7 +50,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class HomeFragment extends Fragment implements View.OnClickListener, IHomeView {
+public class HomeFragment extends BaseFragmentMVP<HomePresent> implements View.OnClickListener, IHomeView {
     private RecyclerView recyclerViewIcon;
     private ViewPager2 pagerBanner;
     private SwipeRefreshLayout refreshLayout;
@@ -103,7 +104,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
             hPresent.getProductsHighLightFromService();
             hPresent.getProductNewFromService();
             hPresent.getBranchFromRes();
-            hPresent.getCategoriesFromService();
+            hPresent.getCategoriesParent();
             hPresent.getListBannerFromService();
             refreshLayout.setRefreshing(false);
         });
@@ -118,7 +119,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
         hPresent.getProductsHighLightFromService();
         hPresent.getProductNewFromService();
         hPresent.getBranchFromRes();
-        hPresent.getCategoriesFromService();
+        hPresent.getCategoriesParent();
         hPresent.getListBannerFromService();
         rllChangeBranch.setOnClickListener(this);
         rllOrderLocation.setOnClickListener(this);
@@ -126,15 +127,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!EventBus.getDefault().isRegistered(this))
-            EventBus.getDefault().register(this);
-    }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(Event event) {
+    @Override
+    protected void bindEventBus(@NotNull Event event) {
         switch (event.getKey()) {
             case Constants.EventKey.CHANGE_BRANCH:
                 hPresent.getBranchFromRes();
@@ -147,11 +142,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
 
     @Override
     public void onClick(View v) {
@@ -233,4 +223,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
         startActivity(new Intent(getActivity(), BranchActivity.class));
     }
 
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    protected HomePresent getPresenter() {
+        return new HomePresent(this);
+    }
+
+    @Override
+    public void onBackPress() {
+
+    }
 }

@@ -1,7 +1,7 @@
 package com.example.client.models.message;
 
 public class MessageModel {
-    private boolean status;
+    private boolean isError;
     private int code;
     private String accessToken;
     private String ordercode;
@@ -10,7 +10,7 @@ public class MessageModel {
     }
 
     public MessageModel(boolean status, int code, String accessToken) {
-        this.status = status;
+        this.isError = status;
         this.code = code;
         this.accessToken = accessToken;
     }
@@ -24,7 +24,7 @@ public class MessageModel {
     }
 
     public boolean isStatus() {
-        return status;
+        return isError;
     }
 
     public String getAccessToken() {
@@ -36,7 +36,7 @@ public class MessageModel {
     }
 
     public void setStatus(boolean status) {
-        this.status = status;
+        this.isError = status;
     }
 
     public String getOrdercode() {

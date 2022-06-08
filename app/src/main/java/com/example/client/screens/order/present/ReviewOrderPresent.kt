@@ -24,11 +24,11 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
         val profile = Preferences.getInstance().profile
         val branch = Preferences.getInstance().branch
         cart.apply {
-            order_latitude = profile.latitude
-            order_longitude = profile.longitude
+            order_latitude = profile.lat
+            order_longitude = profile.lng
             order_address = profile.address
-            branch_latitude = branch.latitude
-            branch_longitude = branch.longitude
+            branch_latitude = branch.lat
+            branch_longitude = branch.lng
             branch_address = branch.address
         }
         saveCart()

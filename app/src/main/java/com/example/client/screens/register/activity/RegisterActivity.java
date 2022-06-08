@@ -264,7 +264,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         dialog.show();
         dialog.setOKListener(() -> {
             finish();
-            LoginEmailActivity.loginEmailActivity.finish();
             startActivity(new Intent(this, MainActivity.class));
         });
     }
