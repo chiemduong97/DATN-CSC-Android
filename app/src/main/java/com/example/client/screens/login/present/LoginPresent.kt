@@ -10,13 +10,13 @@ import com.example.client.usecase.ProfileUseCase
 import org.greenrobot.eventbus.EventBus
 
 class LoginPresent(mView: ILoginView) : BasePresenter<ILoginView>(mView),ILoginPresent {
-    private val profileUseCase = ProfileUseCase.newInstance()
+    private val profileUseCase by lazy { ProfileUseCase.newInstance() }
     override fun checkEmail(email: String) {
         mView?.showLoading()
         subscribe(profileUseCase.checkEmail(email),{
             mView?.run {
 
-                if (it.isError) {
+                if (it.is_error) {
                     showErrorMessage(getErrorMessage(it.code))
                     hideLoading()
                     return@subscribe
@@ -38,12 +38,12 @@ class LoginPresent(mView: ILoginView) : BasePresenter<ILoginView>(mView),ILoginP
         add(myFirebaseService.token.subscribe {
             subscribe(profileUseCase.login(email, password), here@{
                 mView?.run {
-                    if (it.isError) {
+                    if (it.is_error) {
                         hideLoading()
                         showErrorMessage(getErrorMessage(it.code))
                         return@here
                     }
-                    Preferences.getInstance().accessToken = it.data.accessToken
+                    Preferences.getInstance().accessToken = it.data.access_token
                     setUserActive(email)
                 }
             },{
@@ -59,7 +59,7 @@ class LoginPresent(mView: ILoginView) : BasePresenter<ILoginView>(mView),ILoginP
     override fun setUserActive(email: String) {
         subscribe(profileUseCase.getUserByEmail(email),{
             mView?.run {
-                if (it.isError) {
+                if (it.is_error) {
                     hideLoading()
                     showErrorMessage(getErrorMessage(it.code))
                     return@subscribe
@@ -81,7 +81,7 @@ class LoginPresent(mView: ILoginView) : BasePresenter<ILoginView>(mView),ILoginP
         subscribe(profileUseCase.updateDeviceToken(email, device_token = token),{
             mView?.run {
                 hideLoading()
-                if (it.isError) {
+                if (it.is_error) {
                     showErrorMessage(getErrorMessage(it.code))
                     return@subscribe
                 }

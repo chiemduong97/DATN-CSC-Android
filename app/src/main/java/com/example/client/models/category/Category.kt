@@ -1,8 +1,8 @@
 package com.example.client.models.category
 
-import java.io.Serializable
+import com.example.client.base.BaseModel
 
-data class CategoryResponse(var id:Int?, var name: String?, var avatar: String?) : Serializable {
+data class CategoryResponse(var id:Int?, var name: String?, var avatar: String?) : BaseModel() {
     fun toCategoryModel() = CategoryModel(
             id = id ?: -1,
             name = name ?: "Tên thể loại",
@@ -10,7 +10,7 @@ data class CategoryResponse(var id:Int?, var name: String?, var avatar: String?)
     )
 }
 
-data class CategoryModel(var id:Int, var name: String, var avatar: String) : Serializable
+data class CategoryModel(var id:Int, var name: String, var avatar: String) : BaseModel()
 
 fun List<CategoryResponse>.toCategories(): List<CategoryModel> {
     val categories = arrayListOf<CategoryModel>()

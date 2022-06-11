@@ -18,36 +18,36 @@ import retrofit2.Response
 class ProductDetailPresent(private var view: IProductDetailView?) : IProductDetailPresent {
     private var cart = Preferences.getInstance().cart ?: CartModel(arrayListOf())
     override fun loadDataByCategory(category_id: Int) {
-        view?.showLoading()
-        val service = ApiClient.getInstance().create(ProductService::class.java)
-        val branch = Preferences.getInstance().branch
-        service.getByCategory(category_id, branch.id).enqueue(object : Callback<List<ProductModel>> {
-            override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>?>) {
-                response.body()?.let {
-                    when {
-                        it.isEmpty() -> {
-                            view?.showListEmpty()
-                        }
-                        else -> {
-                            view?.showListProduct(it)
-                        }
-                    }
-                    view?.hideLoading()
-                } ?: kotlin.run {
-                    view?.run {
-                        showListEmpty()
-                        hideLoading()
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<List<ProductModel>>, t: Throwable) {
-                view?.run {
-                    showListEmpty()
-                    hideLoading()
-                }
-            }
-        })
+//        view?.showLoading()
+//        val service = ApiClient.getInstance().create(ProductService::class.java)
+//        val branch = Preferences.getInstance().branch
+//        service.getByCategory(category_id, branch.id).enqueue(object : Callback<List<ProductModel>> {
+//            override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>?>) {
+//                response.body()?.let {
+//                    when {
+//                        it.isEmpty() -> {
+//                            view?.showListEmpty()
+//                        }
+//                        else -> {
+//                            view?.showListProduct(it)
+//                        }
+//                    }
+//                    view?.hideLoading()
+//                } ?: kotlin.run {
+//                    view?.run {
+//                        showListEmpty()
+//                        hideLoading()
+//                    }
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<List<ProductModel>>, t: Throwable) {
+//                view?.run {
+//                    showListEmpty()
+//                    hideLoading()
+//                }
+//            }
+//        })
     }
 
     override fun addToCart(cartProduct: CartProductModel) {

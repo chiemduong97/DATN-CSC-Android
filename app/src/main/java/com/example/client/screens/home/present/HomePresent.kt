@@ -16,14 +16,14 @@ import retrofit2.Response
 import java.util.*
 
 class HomePresent(mView: IHomeView) : BasePresenter<IHomeView>(mView), IHomePresent {
-    private val categoryUseCase = CategoryUseCase.newInstance()
+    private val categoryUseCase by lazy { CategoryUseCase.newInstance() }
 
     override fun getCategoriesParent() {
         add(categoryUseCase.getParents()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    if (it.isError) {
+                    if (it.is_error) {
                         mView?.showCategories(arrayListOf())
                         return@subscribe
                     }

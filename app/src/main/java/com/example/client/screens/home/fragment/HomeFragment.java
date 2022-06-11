@@ -168,7 +168,7 @@ public class HomeFragment extends BaseFragmentMVP<HomePresent> implements View.O
     public void showCategories(List<CategoryModel> items) {
         GridLayoutManager manager = new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false);
         recyclerViewIcon.setLayoutManager(manager);
-        HomeCategoryItem item = new HomeCategoryItem(getContext(), items, categoryModel -> startActivity(ProductActivity.Companion.newInstance(getContext(),categoryModel, Constants.Method.CATEGORY)));
+        HomeCategoryItem item = new HomeCategoryItem(getContext(), items, categoryModel -> startActivity(ProductActivity.Companion.newInstance(getActivity(), categoryModel)));
         recyclerViewIcon.setAdapter(item);
     }
 

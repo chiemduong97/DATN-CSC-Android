@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
-            android:text="@string/product_price_default"
+            android:text="@string/item_product_price"
             android:textColor="@color/black"
             android:textSize="14dp" />
 

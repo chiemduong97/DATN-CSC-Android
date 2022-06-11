@@ -97,7 +97,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/product_name_default"
+                android:text="@string/item_product_name"
                 android:textColor="@color/black"
                 android:textSize="16dp"
                 android:layout_marginTop="10dp"
@@ -124,7 +124,7 @@
                 android:layout_marginRight="15dp"
                 android:textSize="14dp"
                 android:textColor="@color/black"
-                android:text="@string/text_product_quantity_default"
+                android:text="@string/item_product_quantity"
                 android:gravity="start|center"/>
             <TextView
                 android:id="@+id/tv_add_to_cart"

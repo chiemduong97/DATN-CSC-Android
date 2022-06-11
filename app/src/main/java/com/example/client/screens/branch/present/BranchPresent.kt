@@ -11,7 +11,7 @@ import com.example.client.usecase.BranchUseCase
 import org.greenrobot.eventbus.EventBus
 
 class BranchPresent(mView: IBranchView): BaseCollectionPresenter<IBranchView>(mView), IBranchPresent {
-    private val branchUseCase = BranchUseCase.newInstance()
+    private val branchUseCase by lazy { BranchUseCase.newInstance() }
     override fun binData() {
         getBranches()
     }
@@ -21,7 +21,7 @@ class BranchPresent(mView: IBranchView): BaseCollectionPresenter<IBranchView>(mV
         subscribe(branchUseCase.getBranches(), {
             mView?.run {
                 hideLoading()
-                if (it.isError || it.data.isEmpty()) {
+                if (it.is_error || it.data.isEmpty()) {
                     showEmptyData()
                     return@subscribe
                 }

@@ -34,8 +34,11 @@
     <dimen name="dimen_36">36dp</dimen>
     <dimen name="dimen_48">48dp</dimen>
 
+    <dimen name="dimen_80">80dp</dimen>
+    <dimen name="dimen_100">100dp</dimen>
     <dimen name="dimen_180">180dp</dimen>
 
+    <dimen name="text_12">12sp</dimen>
     <dimen name="text_14">14sp</dimen>
     <dimen name="text_16">16sp</dimen>
 

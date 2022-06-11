@@ -47,4 +47,4 @@ data class ProfileResponse(
     )
 }
 
-data class DataResponse(var accessToken: String)
+data class DataResponse(var access_token: String)

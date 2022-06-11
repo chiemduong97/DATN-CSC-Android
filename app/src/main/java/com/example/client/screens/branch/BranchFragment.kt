@@ -8,9 +8,10 @@ import com.example.client.base.IBaseCollectionPresenter
 import com.example.client.models.branch.BranchModel
 import com.example.client.screens.branch.item.BranchItem
 import com.example.client.screens.branch.present.BranchPresent
+import com.example.client.screens.branch.present.IBranchPresent
 import kotlinx.android.synthetic.main.fragment_branch.*
 
-class BranchFragment: BaseCollectionFragment<IBaseCollectionPresenter>(), IBranchView, View.OnClickListener {
+class BranchFragment: BaseCollectionFragment<IBranchPresent>(), IBranchView, View.OnClickListener {
     private val manager by lazy { LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) }
 
     companion object {

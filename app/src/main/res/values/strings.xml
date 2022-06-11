@@ -19,7 +19,7 @@
     <string name="password_invalid">*Xác nhận mật khẩu chưa chính xác</string>
     <string name="send_email_verification">Gửi mail xác thực</string>
     <string name="title_search_view">Bạn muốn tìm sản phẩm?</string>
-    <string name="product_name_default">Tên sản phẩm</string>
+    <string name="item_product_name">Tên sản phẩm</string>
     <string name="branch_name_default">Tên chi nhánh</string>
     <string name="text_change">Thay đổi</string>
     <string name="text_payment">Cách thanh toán</string>
@@ -44,7 +44,7 @@
     <string name="your_cart">Giỏ hàng của bạn</string>
     <string name="review_your_order">Đơn hàng của bạn</string>
     <string name="destroy_order">Hủy đơn</string>
-    <string name="product_price_default">1.000.000đ</string>
+    <string name="item_product_price">1.000.000đ</string>
     <string name="text_order_total_price">Tổng tiền %s</string>
     <string name="btn_register">Đăng ký</string>
     <string name="btn_order">Đặt đơn</string>
@@ -58,14 +58,14 @@
     <string name="text_order_code_default">Mã đơn #ABC123</string>
     <string name="text_order_code">Mã đơn #%s</string>
     <string name="text_title_order_detail">Chi tiết đơn hàng #%s</string>
-    <string name="text_cart_product_quantity">x%s</string>
+    <string name="text_cart_product_quantity">x%d</string>
     <string name="add_promotion_code">Áp dụng mã giảm</string>
     <string name="send_request_order">Đang gửi yêu cầu đặt hàng…</string>
     <string name="text_status_default">Đang chờ</string>
     <string name="text_rll_loading">Xin chờ một tí…</string>
-    <string name="text_quantity_default">x2</string>
-    <string name="text_product_quantity_default">Tồn kho: 100</string>
-    <string name="text_product_quantity">Tồn kho: %s</string>
+    <string name="item_product_quantity_2">x2</string>
+    <string name="item_product_quantity">Tồn kho: 100</string>
+    <string name="text_product_quantity">Tồn kho: %d</string>
     <string name="text_product_quantity_0">(Tạm hết hàng)</string>
     <string name="order_status_0">Chờ xử lý</string>
     <string name="order_status_1">Đã nhận đơn</string>
