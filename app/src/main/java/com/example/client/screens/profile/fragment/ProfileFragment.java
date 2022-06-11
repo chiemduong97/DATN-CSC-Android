@@ -18,40 +18,35 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.example.client.BuildConfig;
 import com.example.client.R;
-import com.example.client.app.Preferences;
+import com.example.client.app.Constants;
 import com.example.client.dialog.PrimaryDialog;
-import com.example.client.models.banner.BannerModel;
-import com.example.client.models.home.HomeIconModel;
+import com.example.client.models.event.Event;
 import com.example.client.models.profile.ProfileModel;
-import com.example.client.models.subject.SubjectModel;
-import com.example.client.screens.home.fragment.IHomeView;
-import com.example.client.screens.home.present.HomePresent;
 import com.example.client.screens.login.activity.LoginEmailActivity;
 import com.example.client.screens.message.activity.MessageActivity;
+import com.example.client.screens.order.history.activity.OrderHistoryActivity;
 import com.example.client.screens.profile.manager_info.ManagerInfoActivity;
-import com.example.client.screens.profile.present.ProfliePresent;
-import com.example.client.screens.subject.activity.SubjectByUserActivity;
+import com.example.client.screens.profile.present.ProfilePresent;
 
-import java.util.List;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
-public class ProfileFragment extends Fragment implements IHomeView, IProfileView,View.OnClickListener {
+public class ProfileFragment extends Fragment implements  IProfileView,View.OnClickListener {
     private TextView tvVersion;
-    private HomePresent hPresent;
     private TextView updateInfo,fullname,email;
-    private ProfileModel user;
     private ImageView avatar;
-    private LinearLayout logout,subjects,contact;
+    private LinearLayout logout,lnlOderHistory,contact;
     private PrimaryDialog dialog;
     private SwipeRefreshLayout refreshLayout;
-    private ProfliePresent pPresent;
+    private ProfilePresent pPresent;
+    private ProfileModel user;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile,null);
         tvVersion = view.findViewById(R.id.tvVersion);
-        hPresent = new HomePresent(this);
-        hPresent.onShowHighLight();
-        pPresent = new ProfliePresent(this);
+        pPresent = new ProfilePresent(this);
         tvVersion.append(BuildConfig.VERSION_NAME);
         updateInfo = view.findViewById(R.id.updateInfo);
         fullname = view.findViewById(R.id.fullname);
@@ -59,50 +54,41 @@ public class ProfileFragment extends Fragment implements IHomeView, IProfileView
         updateInfo.setOnClickListener(this);
         avatar = view.findViewById(R.id.avatar);
         logout = view.findViewById(R.id.logout);
-        subjects = view.findViewById(R.id.subjects);
+        lnlOderHistory = view.findViewById(R.id.lnl_order_history);
         contact = view.findViewById(R.id.contact);
         refreshLayout = view.findViewById(R.id.container);
         refreshLayout.setOnRefreshListener(()-> refreshLayout.setRefreshing(false));
         dialog = new PrimaryDialog();
         dialog.getInstance(getContext());
-
-        subjects.setOnClickListener(this);
+        lnlOderHistory.setOnClickListener(this);
         logout.setOnClickListener(this);
         contact.setOnClickListener(this);
+
+        pPresent.getUserFromRes();
         return view;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        user = Preferences.getInstance().getProfile();
-        fullname.setText(user.getFullname());
-        email.setText(user.getEmail());
-        Glide.with(this)
-                .asBitmap()
-                .placeholder(R.drawable.avatar_default)
-                .load(user.getAvatar())
-                .into(avatar);
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(Event event) {
+        switch (event.getKey()) {
+            case Constants.EventKey.UPDATE_PROFILE_AVATAR:
+            case Constants.EventKey.UPDATE_PROFILE_INFO:
+                pPresent.getUserFromRes();
+                break;
+        }
     }
 
     @Override
-    public void showIcons(List<HomeIconModel> icons) {
-
-    }
-
-    @Override
-    public void showBanners(List<BannerModel> items) {
-
-    }
-
-    @Override
-    public void showHighLight(List<SubjectModel> items) {
-
-    }
-
-    @Override
-    public void showNew(List<SubjectModel> items) {
-
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -117,10 +103,8 @@ public class ProfileFragment extends Fragment implements IHomeView, IProfileView
                 dialog.setCancelListener(()->{});
                 dialog.show();
                 break;
-            case R.id.subjects:
-                Intent intent = new Intent(getContext(), SubjectByUserActivity.class);
-                intent.putExtra("user",user.getId());
-                startActivity(intent);
+            case R.id.lnl_order_history:
+                startActivity(new Intent(getContext(), OrderHistoryActivity.class));
                 break;
             case R.id.contact:
                 Intent i = new Intent(getContext(), MessageActivity.class);
@@ -138,5 +122,17 @@ public class ProfileFragment extends Fragment implements IHomeView, IProfileView
         else {
             Toast.makeText(getActivity(),"Đã xảy ra lỗi!",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void showUserInfo(ProfileModel profile) {
+        this.user = profile;
+        fullname.setText(profile.getFullname());
+        email.setText(profile.getEmail());
+        Glide.with(this)
+                .asBitmap()
+                .placeholder(R.drawable.avatar_default)
+                .load(profile.getAvatar())
+                .into(avatar);
     }
 }

@@ -15,7 +15,7 @@ import com.example.client.R;
 import com.example.client.app.Constants;
 import com.example.client.models.transaction.TransactionModel;
 import com.example.client.screens.wallet.activity.TransactionDetailActivity;
-import com.example.client.utils.OnDeleteItemClick;
+import com.example.client.utils.OnDeleteItemListener;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -25,9 +25,9 @@ public class TransactionItem extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context context;
     private List<TransactionModel> items;
     private String method;
-    private OnDeleteItemClick listener;
+    private OnDeleteItemListener listener;
 
-    public TransactionItem(Context context, List<TransactionModel> items, String method, OnDeleteItemClick listener){
+    public TransactionItem(Context context, List<TransactionModel> items, String method, OnDeleteItemListener listener){
         this.context = context;
         this.items = items;
         this.method = method;

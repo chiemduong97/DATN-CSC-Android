@@ -4,6 +4,7 @@ public class MessageModel {
     private boolean status;
     private int code;
     private String accessToken;
+    private String ordercode;
 
     public MessageModel() {
     }
@@ -32,5 +33,17 @@ public class MessageModel {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public String getOrdercode() {
+        return ordercode;
+    }
+
+    public void setOrdercode(String ordercode) {
+        this.ordercode = ordercode;
     }
 }

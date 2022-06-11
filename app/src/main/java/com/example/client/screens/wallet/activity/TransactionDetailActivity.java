@@ -13,11 +13,8 @@ import android.widget.TextView;
 import com.example.client.R;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.ProfileModel;
-import com.example.client.models.subject.SubjectModel;
 import com.example.client.models.transaction.TransactionModel;
-import com.example.client.screens.subject.activity.SubjectDetailActivity;
 import com.example.client.screens.wallet.fragment.IWalletView;
-import com.example.client.screens.wallet.item.TransactionItem;
 import com.example.client.screens.wallet.present.WalletPresent;
 
 import java.text.NumberFormat;
@@ -29,7 +26,6 @@ public class TransactionDetailActivity extends AppCompatActivity implements View
     private TextView title,orderCode,createAt,amount,status,subject_name,description;
     private LinearLayout subjectView;
     private WalletPresent wPresent;
-    private SubjectModel subject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +64,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements View
                 onBackPressed();
                 break;
             case R.id.subject:
-                Intent intent = new Intent(this, SubjectDetailActivity.class);
-                intent.putExtra("id", subject.getId());
-                startActivity(intent);
+                break;
         }
     }
 
@@ -99,14 +93,6 @@ public class TransactionDetailActivity extends AppCompatActivity implements View
         }
     }
 
-    @Override
-    public void getSubject(SubjectModel item) {
-        if(item != null){
-            this.subject = item;
-            subject_name.setText(item.getName());
-            description.setText(item.getDescription());
-        }
-    }
 
     @Override
     public void deleteRecharge(MessageModel message) {

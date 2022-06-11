@@ -13,7 +13,75 @@
     <string name="err_code_1011">Đã tồn tại!</string>
     <string name="err_code_1012">Không có dữ liệu!</string>
     <string name="err_code_1013">Vui lòng nhập đủ dữ liệu!</string>
-    <string name="err_code_1014">Không tồn tại!</string>
-    <string name="mail_description">Mail reset mật khẩu đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
+    <string name="err_code_1014">Đơn hàng đã nhận không thể hủy!</string>
+    <string name="mail_description_reset">Mail reset mật khẩu đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
+    <string name="mail_description_register">Mail đăng ký tài khoản đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
+    <string name="password_invalid">*Xác nhận mật khẩu chưa chính xác</string>
+    <string name="send_email_verification">Gửi mail xác thực</string>
+    <string name="title_search_view">Bạn muốn tìm sản phẩm?</string>
+    <string name="product_name_default">Tên sản phẩm</string>
+    <string name="branch_name_default">Tên chi nhánh</string>
+    <string name="text_change">Thay đổi</string>
+    <string name="text_payment">Cách thanh toán</string>
+    <string name="text_order_location">Địa chỉ nhận hàng</string>
+
+    <string name="text_order_detail">Chi tiết đơn hàng</string>
+
+    <string name="text_order_location_branch">Nơi mua hàng</string>
+
+    <string name="branch_change">Đổi chi nhánh</string>
+    <string name="branch_address_default">45/14/2 Đường 3, phường Long Trường, TP Thủ Đức</string>
+
+    <string name="add_to_cart">Thêm vào giỏ</string>
+    <string name="add_to_cart_price">Thêm %s</string>
+    <string name="product_info">Thông tin sản phẩm</string>
+    <string name="product_category_default">Thể loại: Máy tính</string>
+    <string name="product_description_default">Mô tả sản phẩm</string>
+    <string name="product_same_category">Sản phẩm cùng loại</string>
+    <string name="see_more">Xem tất cả</string>
+    <string name="update_profile_success">Cập nhật thành công</string>
+    <string name="manager_profile">Quản lý hồ sơ</string>
+    <string name="your_cart">Giỏ hàng của bạn</string>
+    <string name="review_your_order">Đơn hàng của bạn</string>
+    <string name="destroy_order">Hủy đơn</string>
+    <string name="product_price_default">1.000.000đ</string>
+    <string name="text_order_total_price">Tổng tiền %s</string>
+    <string name="btn_register">Đăng ký</string>
+    <string name="btn_order">Đặt đơn</string>
+    <string name="text_shipping_fee">Phí ship</string>
+    <string name="text_total">Tổng (tạm tính)</string>
+    <string name="text_total_expect">Tổng</string>
+    <string name="profile_name_default">Đỗ Chiếm Dương</string>
+    <string name="change_product">Thêm sản phẩm</string>
+    <string name="payment_method_default">Trả bằng tiền mặt khi nhận hàng</string>
+    <string name="promotion_code_default">HELLOWORLD</string>
+    <string name="text_order_code_default">Mã đơn #ABC123</string>
+    <string name="text_order_code">Mã đơn #%s</string>
+    <string name="text_title_order_detail">Chi tiết đơn hàng #%s</string>
+    <string name="text_cart_product_quantity">x%s</string>
+    <string name="add_promotion_code">Áp dụng mã giảm</string>
+    <string name="send_request_order">Đang gửi yêu cầu đặt hàng…</string>
+    <string name="text_status_default">Đang chờ</string>
+    <string name="text_rll_loading">Xin chờ một tí…</string>
+    <string name="text_quantity_default">x2</string>
+    <string name="text_product_quantity_default">Tồn kho: 100</string>
+    <string name="text_product_quantity">Tồn kho: %s</string>
+    <string name="text_product_quantity_0">(Tạm hết hàng)</string>
+    <string name="order_status_0">Chờ xử lý</string>
+    <string name="order_status_1">Đã nhận đơn</string>
+    <string name="order_status_2">Đang giao</string>
+    <string name="order_status_3">Hoàn thành</string>
+    <string name="order_status_4">Đã hủy</string>
+    <string name="title_order_history">Lịch sử đơn hàng</string>
+    <string name="destroy_order_sure">Bạn có chắc chắn hủy đơn hàng này?</string>
+    <string name="text_count_order">Bạn có %s đơn hàng chờ giao</string>
+    <string name="text_see_more">Xem tất cả</string>
+    <string name="text_see_order">Xem đơn hàng</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="text_get_location">Cập nhật vị trí nhận hàng</string>
+    <string name="default_info_title">Tiêu đề thông tin mặc định</string>
+    <string name="default_info_snippet">Thông tin đoạn trích mặc định</string>
+    <string name="pick_place">Chọn vị trí</string>
+    <string name="update_location_success">Cập nhật vị trí đặt hàng thành công</string>
 
 </resources>

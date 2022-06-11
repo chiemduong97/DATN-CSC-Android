@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.client">
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the "MyLocation" functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".app.Application"
@@ -14,7 +22,31 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Client">
+        android:theme="@style/Theme.Client"
+        tools:targetApi="n">
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".screens.map.activity.MapsActivity"
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".screens.order.history.activity.OrderHistoryActivity" />
+        <activity android:name=".screens.order.detail.OrderDetailActivity" />
+        <activity android:name=".screens.order.activity.ReviewOrderActivity" />
+        <activity android:name=".screens.cart.activity.CartActivity" />
+        <activity android:name=".screens.branch.BranchActivity" />
+        <activity android:name=".screens.product.detail.ProductDetailActivity" />
+        <activity android:name=".screens.product.activity.ProductActivity" />
         <activity
             android:name=".screens.message.activity.MessageActivity"
             android:exported="true" />
@@ -34,9 +66,6 @@
             android:name=".screens.search.activity.SearchActivity"
             android:exported="true" />
         <activity
-            android:name=".screens.subject.activity.SubjectByUserActivity"
-            android:exported="true" />
-        <activity
             android:name=".screens.profile.manager_info.update.UpdatePasswordActivity"
             android:exported="true" />
         <activity
@@ -47,20 +76,6 @@
             android:exported="true" />
         <activity
             android:name=".screens.register.activity.RegisterActivity"
-            android:exported="true" >
-
-        </activity>
-        <activity
-            android:name=".screens.category.activity.CategoryActivity"
-            android:exported="true" >
-
-        </activity>
-
-        <activity
-            android:name=".screens.subject.activity.SubjectDetailActivity"
-            android:exported="true" />
-        <activity
-            android:name=".screens.subject.activity.SubjectMoreActivity"
             android:exported="true" />
         <activity
             android:name=".screens.login.activity.LoginPasswordActivity"
@@ -79,13 +94,11 @@
         </activity>
         <activity
             android:name=".screens.main.activity.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
 
         <service
             android:name=".app.MyFirebaseService"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

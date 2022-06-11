@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,24 +22,31 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.client.R;
 import com.example.client.app.Constants;
-import com.example.client.app.Preferences;
 import com.example.client.models.banner.BannerModel;
-import com.example.client.models.home.HomeIconModel;
+import com.example.client.models.branch.BranchModel;
+import com.example.client.models.category.CategoryModel;
+import com.example.client.models.event.Event;
 import com.example.client.models.profile.ProfileModel;
-import com.example.client.models.subject.SubjectModel;
+import com.example.client.screens.branch.BranchActivity;
 import com.example.client.screens.home.item.BannerItem;
-import com.example.client.screens.home.item.HomeIconItem;
+import com.example.client.screens.home.item.HomeCategoryItem;
 import com.example.client.screens.home.present.HomePresent;
+import com.example.client.screens.map.activity.MapsActivity;
+import com.example.client.screens.product.activity.ProductActivity;
 import com.example.client.screens.profile.manager_info.ManagerInfoActivity;
-import com.example.client.screens.subject.activity.SubjectMoreActivity;
-import com.example.client.screens.subject.item.SubjectVerticalItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener, IHomeView {
@@ -46,9 +54,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
     private ViewPager2 pagerBanner;
     private SwipeRefreshLayout refreshLayout;
 
-    private RecyclerView recyclerViewHightLight;
-    private TextView moreHightLight;
-    private TextView titleHightLight;
+    private RecyclerView recyclerViewHighLight;
+    private TextView moreHighLight;
+    private TextView titleHighLight;
 
     private RecyclerView recyclerViewNew;
     private TextView moreNew;
@@ -58,6 +66,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
     private TabLayout tabDots;
     private ImageView avatar;
     private ImageView banner_empty,high_light_empty,new_empty;
+    private TextView tvBranchName, tvBranchAddress, tvOrderAddress;
+    private RelativeLayout rllChangeBranch,rllOrderLocation;
 
     private HomePresent hPresent;
     @Nullable
@@ -68,9 +78,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
         pagerBanner = view.findViewById(R.id.pagerBanner);
         refreshLayout = view.findViewById(R.id.container);
         avatar = view.findViewById(R.id.avatar);
-        recyclerViewHightLight = view.findViewById(R.id.recyclerViewHightLight);
-        moreHightLight = view.findViewById(R.id.moreHightLight);
-        titleHightLight = view.findViewById(R.id.titleHightLight);
+        recyclerViewHighLight = view.findViewById(R.id.recyclerViewHightLight);
+        moreHighLight = view.findViewById(R.id.moreHightLight);
+        titleHighLight = view.findViewById(R.id.titleHightLight);
 
         recyclerViewNew = view.findViewById(R.id.recyclerViewNew);
         moreNew = view.findViewById(R.id.moreNew);
@@ -81,75 +91,95 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
         banner_empty = view.findViewById(R.id.banner_empty);
         high_light_empty = view.findViewById(R.id.high_light_empty);
         new_empty = view.findViewById(R.id.new_empty);
+        tvBranchName = view.findViewById(R.id.tv_branch_name);
+        tvBranchAddress = view.findViewById(R.id.tv_branch_address);
+        rllChangeBranch = view.findViewById(R.id.rll_change_branch);
+        rllOrderLocation = view.findViewById(R.id.rll_order_location);
+        tvOrderAddress = view.findViewById(R.id.tv_order_address);
 
         hPresent = new HomePresent(this);
 
-        refreshLayout.setOnRefreshListener(() -> refreshLayout.setRefreshing(false));
+        refreshLayout.setOnRefreshListener(() -> {
+            hPresent.getProductsHighLightFromService();
+            hPresent.getProductNewFromService();
+            hPresent.getBranchFromRes();
+            hPresent.getCategoriesFromService();
+            hPresent.getListBannerFromService();
+            refreshLayout.setRefreshing(false);
+        });
 
 
 
-        moreHightLight.setOnClickListener(this);
+        moreHighLight.setOnClickListener(this);
         moreNew.setOnClickListener(this);
         profile.setOnClickListener(this);
-        hPresent.onShowIcons();
-        hPresent.onShowBanners();
+
+        hPresent.getUserFromRes();
+        hPresent.getProductsHighLightFromService();
+        hPresent.getProductNewFromService();
+        hPresent.getBranchFromRes();
+        hPresent.getCategoriesFromService();
+        hPresent.getListBannerFromService();
+        rllChangeBranch.setOnClickListener(this);
+        rllOrderLocation.setOnClickListener(this);
 
         return view;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+    }
 
-        hPresent.onShowHighLight();
-        hPresent.onShowNew();
-        ProfileModel user = Preferences.getInstance().getProfile();
-        DateFormat format = new SimpleDateFormat("HH");
-        int hour = Integer.parseInt(format.format(Calendar.getInstance().getTime()));
-        String greet = "";
-        if (hour >= 4 && hour < 11)
-            greet = "buổi sáng, ";
-        else if (hour >= 11 && hour < 13)
-            greet = "buổi trưa, ";
-        else if (hour >= 13 && hour < 18)
-            greet = "buổi chiều, ";
-        else
-            greet = "buổi tối, ";
-        wellcome.setText("Chào " + greet + user.getFullname());
-        Glide.with(this)
-                .asBitmap()
-                .placeholder(R.drawable.avatar_default)
-                .load(user.getAvatar())
-                .into(avatar);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(Event event) {
+        switch (event.getKey()) {
+            case Constants.EventKey.CHANGE_BRANCH:
+                hPresent.getBranchFromRes();
+                break;
+            case Constants.EventKey.UPDATE_PROFILE_AVATAR:
+            case Constants.EventKey.UPDATE_LOCATION:
+            case Constants.EventKey.UPDATE_PROFILE_INFO:
+                hPresent.getUserFromRes();
+                break;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.moreHightLight:
-                Intent intentHightLight = new Intent(getActivity(), SubjectMoreActivity.class);
-                intentHightLight.putExtra("name",titleHightLight.getText().toString());
-                intentHightLight.putExtra("method", Constants.MORE.HIGHLIGHT);
-                startActivity(intentHightLight);
+
                 break;
             case R.id.moreNew:
-                Intent intentNew = new Intent(getActivity(), SubjectMoreActivity.class);
-                intentNew.putExtra("name",titleNew.getText().toString());
-                intentNew.putExtra("method", Constants.MORE.NEW);
-                startActivity(intentNew);
+
                 break;
             case R.id.profile:
                 startActivity(new Intent(getActivity(), ManagerInfoActivity.class));
+                break;
+            case R.id.rll_change_branch:
+                startActivity(new Intent(getActivity(), BranchActivity.class));
+                break;
+            case R.id.rll_order_location:
+                startActivity(MapsActivity.Companion.newInstance(getContext()));
                 break;
         }
     }
 
     @Override
-    public void showIcons(List<HomeIconModel> icons) {
-        GridLayoutManager managerIcon = new GridLayoutManager(getContext(),4);
-        recyclerViewIcon.setLayoutManager(managerIcon);
-        HomeIconItem homeIconItem = new HomeIconItem(getContext(),icons);
-        recyclerViewIcon.setAdapter(homeIconItem);
+    public void showCategories(List<CategoryModel> items) {
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false);
+        recyclerViewIcon.setLayoutManager(manager);
+        HomeCategoryItem item = new HomeCategoryItem(getContext(), items, categoryModel -> startActivity(ProductActivity.Companion.newInstance(getContext(),categoryModel, Constants.Method.CATEGORY)));
+        recyclerViewIcon.setAdapter(item);
     }
 
     @Override
@@ -171,37 +201,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener, IHom
     }
 
     @Override
-    public void showHighLight(List<SubjectModel> items) {
-        if(items == null || items.size() == 0){
-            high_light_empty.setVisibility(View.VISIBLE);
-            recyclerViewHightLight.setVisibility(View.GONE);
-        }
-        else {
-            high_light_empty.setVisibility(View.GONE);
-            recyclerViewHightLight.setVisibility(View.VISIBLE);
-            LinearLayoutManager managerHightLight = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-            SubjectVerticalItem subjectVerticalItem = new SubjectVerticalItem(items,getContext());
-            recyclerViewHightLight.setLayoutManager(managerHightLight);
-            recyclerViewHightLight.setAdapter(subjectVerticalItem);
-        }
-
+    public void showBranchInfo(BranchModel branch) {
+        tvBranchName.setText(branch.getName());
+        tvBranchAddress.setText(branch.getAddress());
     }
 
     @Override
-    public void showNew(List<SubjectModel> items) {
-        if(items == null || items.size() == 0){
-            new_empty.setVisibility(View.VISIBLE);
-            recyclerViewNew.setVisibility(View.GONE);
-        }
-        else {
-            new_empty.setVisibility(View.GONE);
-            recyclerViewNew.setVisibility(View.VISIBLE);
-            LinearLayoutManager managerNew = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-            SubjectVerticalItem subjectVerticalItem = new SubjectVerticalItem(items,getContext());
-            recyclerViewNew.setLayoutManager(managerNew);
-            recyclerViewNew.setAdapter(subjectVerticalItem);
-        }
+    public void showUserInfo(ProfileModel profile) {
+        DateFormat format = new SimpleDateFormat("HH", Locale.getDefault());
+        int hour = Integer.parseInt(format.format(Calendar.getInstance().getTime()));
+        String greet = "";
+        if (hour >= 4 && hour < 11)
+            greet = "buổi sáng, ";
+        else if (hour >= 11 && hour < 13)
+            greet = "buổi trưa, ";
+        else if (hour >= 13 && hour < 18)
+            greet = "buổi chiều, ";
+        else
+            greet = "buổi tối, ";
+        wellcome.setText(MessageFormat.format("Chào {0}{1}", greet, profile.getFullname()));
+        Glide.with(this)
+                .asBitmap()
+                .placeholder(R.drawable.avatar_default)
+                .load(profile.getAvatar())
+                .into(avatar);
+        tvOrderAddress.setText(profile.getAddress());
+    }
 
+    @Override
+    public void toBranchScreen() {
+        startActivity(new Intent(getActivity(), BranchActivity.class));
     }
 
 }

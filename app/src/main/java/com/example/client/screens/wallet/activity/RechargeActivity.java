@@ -14,7 +14,6 @@ import com.example.client.app.Constants;
 import com.example.client.dialog.PrimaryDialog;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.ProfileModel;
-import com.example.client.models.subject.SubjectModel;
 import com.example.client.models.transaction.TransactionModel;
 import com.example.client.screens.wallet.fragment.IWalletView;
 import com.example.client.screens.wallet.present.WalletPresent;
@@ -117,11 +116,6 @@ public class RechargeActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void showTransactionByOrderCode(TransactionModel item) {
-
-    }
-
-    @Override
-    public void getSubject(SubjectModel item) {
 
     }
 
