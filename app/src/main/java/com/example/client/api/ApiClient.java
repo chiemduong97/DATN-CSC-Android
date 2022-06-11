@@ -16,7 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
     public static Retrofit getInstance() {
         String token = Preferences.getInstance().getAccessToken();
-        String baseUrl = "http://192.168.1.4:8585/";
+//        String baseUrl = "http://192.168.1.4:8585/";
+        String baseUrl = "http://127.0.0.1:8686/";
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {
             Request request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer " + token)
