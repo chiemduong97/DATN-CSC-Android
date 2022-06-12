@@ -1,11 +1,10 @@
 package com.example.client.base
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.client.dialog.PrimaryDialog
 import com.example.client.models.event.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -24,7 +23,7 @@ open class BaseFragment: Fragment(){
         super.onViewCreated(view, savedInstanceState)
         initData()
         bindComponent()
-        bindEvents()
+        bindEvent()
         bindData()
     }
     override fun onDestroy() {
@@ -36,16 +35,21 @@ open class BaseFragment: Fragment(){
     fun onEvent(event: Event) {
         bindEventBus(event)
     }
-    open fun showToastMessage(message: String) {
+    protected fun showToastMessage(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+    protected fun showDialogErrorMessage(errorCode: Int) {
+        PrimaryDialog({}, {})
+                .setDescription(getString(errorCode))
+                .hideBtnCancel()
+                .show(childFragmentManager)
     }
     protected fun add(disposable: Disposable) {
         compositeDisposable.add(disposable)
     }
-    protected open fun showDialogMessage(message: String) {}
     protected open fun initData() {}
     protected open fun bindData() {}
     protected open fun bindComponent() {}
-    protected open fun bindEvents() {}
+    protected open fun bindEvent() {}
     protected open fun bindEventBus(event: Event) {}
 }

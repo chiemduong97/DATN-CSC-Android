@@ -38,7 +38,6 @@ import java.util.*
 
 class OrderDetailActivity : AppCompatActivity(), IOrderDetailView, View.OnClickListener {
 
-    private var dialog: PrimaryDialog? = null
     private var present: OrderDetailPresent? = null
     var ordercode = ""
     var orderStatus = -1
@@ -62,8 +61,6 @@ class OrderDetailActivity : AppCompatActivity(), IOrderDetailView, View.OnClickL
         tv_order_destroy.setOnClickListener(this)
 
         ordercode = intent.getStringExtra(Constants.ORDERCODE) ?: "ABC123"
-        dialog = PrimaryDialog()
-        dialog?.getInstance(this)
 
         present = OrderDetailPresent(this)
 
@@ -137,12 +134,10 @@ class OrderDetailActivity : AppCompatActivity(), IOrderDetailView, View.OnClickL
     }
 
     override fun showErrorMessage(errMessage: Int) {
-        dialog?.apply {
-            setDescription(getString(errMessage))
-            setOKListener {}
-            hideBtnCancel()
-            show()
-        }
+        PrimaryDialog({}, {})
+                .setDescription(getString(errMessage))
+                .hideBtnCancel()
+                .show(supportFragmentManager)
     }
 
     override fun showListProduct(products: List<OrderDetailModel>) {
@@ -167,14 +162,12 @@ class OrderDetailActivity : AppCompatActivity(), IOrderDetailView, View.OnClickL
                     finish()
                 }
                 R.id.tv_order_destroy -> {
-                    dialog?.apply {
-                        setDescription(getString(R.string.destroy_order_sure))
-                        setOKListener {
-                            present?.destroyOrder(ordercode, orderStatus)
-                        }
-                        setCancelListener {  }
-                        show()
-                    }
+                    PrimaryDialog({
+                        present?.destroyOrder(ordercode, orderStatus)
+                    }, {})
+                            .setDescription(getString(R.string.destroy_order_sure))
+                            .hideBtnCancel()
+                            .show(supportFragmentManager)
                 }
                 else -> {
 

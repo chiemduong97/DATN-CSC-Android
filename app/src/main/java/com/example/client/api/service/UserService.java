@@ -23,10 +23,11 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("api/user/register.php")
-    Call<MessageModel> register(@Field("fullname") String fullname,
-                                @Field("phone") String phone,
-                                @Field("email") String email,
-                                @Field("password") String password);
+    Observable<BaseResponse<DataResponse>> register(@Field("fullname") String fullname,
+                                                    @Field("phone") String phone,
+                                                    @Field("email") String email,
+                                                    @Field("password") String password);
+
     @FormUrlEncoded
     @POST("api/user/login.php")
     Observable<BaseResponse<DataResponse>> login(@Field("email") String email,
@@ -52,24 +53,27 @@ public interface UserService {
     @FormUrlEncoded
     @POST("api/user/updateLocation.php")
     Call<MessageModel> updateLocation(@Field("email") String email,
-                                    @Field("latitude") Double latitude,
-                                    @Field("longitude") Double longitude,
-                                    @Field("address") String address);
+                                      @Field("latitude") Double latitude,
+                                      @Field("longitude") Double longitude,
+                                      @Field("address") String address);
 
     @FormUrlEncoded
     @POST("api/user/updateDeviceToken.php")
     Observable<BaseResponse<DataResponse>> updateDeviceToken(@Field("email") String email,
-                                         @Field("device_token") String device_token);
+                                                             @Field("device_token") String device_token);
 
     @GET("api/user/sendEmail.php")
-    Call<MessageModel> sendEmail(@Query("email") String email, @Query("requestType") Constants.RequestType requestType);
+    Observable<BaseResponse<DataResponse>> sendEmail(@Query("email") String email,
+                                                     @Query("phone") String phone,
+                                                     @Query("requestType") Constants.RequestType requestType);
 
     @FormUrlEncoded
     @POST("api/user/verification.php")
-    Call<MessageModel> verification(@Field("email") String email,
-                                    @Field("code") String code);
+    Observable<BaseResponse<DataResponse>> verification(@Field("email") String email,
+                                                        @Field("code") String code);
+
     @FormUrlEncoded
     @POST("api/user/resetPassword.php")
-    Call<MessageModel> resetPassword(@Field("email") String email,
-                                     @Field("password") String password);
+    Observable<BaseResponse<DataResponse>> resetPassword(@Field("email") String email,
+                                                         @Field("password") String password);
 }

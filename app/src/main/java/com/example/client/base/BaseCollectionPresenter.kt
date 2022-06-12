@@ -1,6 +1,6 @@
 package com.example.client.base
 
-abstract class BaseCollectionPresenter<V : IBaseCollectionView>(view: V) : BasePresenter<V>(view), IBaseCollectionPresenter {
+abstract class BaseCollectionPresenter<V : IBaseCollectionView>(view: V) : BasePresenterMVP<V>(view), IBaseCollectionPresenter {
     private var isLoadingMore = false
     open var page = 1
     protected val limit = 10

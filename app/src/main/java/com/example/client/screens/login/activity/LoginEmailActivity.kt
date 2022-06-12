@@ -11,11 +11,12 @@ import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.base.BaseActivityMVP
 import com.example.client.models.event.Event
+import com.example.client.screens.login.present.ILoginPresent
 import com.example.client.screens.login.present.LoginPresent
 import com.example.client.screens.register.activity.RegisterActivity
 import kotlinx.android.synthetic.main.activity_login_email.*
 
-class LoginEmailActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListener, ILoginView {
+class LoginEmailActivity : BaseActivityMVP<ILoginPresent>(), View.OnClickListener, ILoginView {
 
     companion object {
         @JvmStatic
@@ -27,7 +28,7 @@ class LoginEmailActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListener
         setContentView(R.layout.activity_login_email)
     }
 
-    override fun bindEvents() {
+    override fun bindEvent() {
         et_email.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -79,21 +80,11 @@ class LoginEmailActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListener
 
     override fun login() {}
     override fun showLoading() {
-        progress_bar.visibility = View.VISIBLE
-        tv_next.run {
-            setBackgroundResource(R.drawable.bg_btn_disable)
-            text = ""
-            isEnabled = false
-        }
+        rll_loading.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        progress_bar.visibility = View.GONE
-        tv_next.run {
-            setBackgroundResource(R.drawable.bg_btn)
-            text = getString(R.string.login_email_next)
-            isEnabled = true
-        }
+        rll_loading.visibility = View.GONE
     }
 
     override fun onBackPress() {}
@@ -103,6 +94,7 @@ class LoginEmailActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListener
         lnl_error.visibility = View.VISIBLE
     }
 
-    override val presenter: LoginPresent
+    override val presenter: ILoginPresent
         get() = LoginPresent(this)
+
 }

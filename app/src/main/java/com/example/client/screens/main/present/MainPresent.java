@@ -30,7 +30,7 @@ public class MainPresent implements IMainPresent {
     private ProfileModel user;
 
     public MainPresent(IMainView mView){
-        user = Preferences.getInstance().getProfile();
+        user = Preferences.newInstance().getProfile();
         onSetUserActive();
         this.mView = mView;
     }
@@ -56,14 +56,14 @@ public class MainPresent implements IMainPresent {
                 profileUseCase.getUserByEmail("chiemduong.dp.cntt@gmail.com")
                         .observeOn(Schedulers.io())
                         .subscribeOn(AndroidSchedulers.mainThread())
-                        .subscribe(res-> Preferences.getInstance().setProfile(res.getData().toProfileModel()), err -> {})
+                        .subscribe(res-> Preferences.newInstance().setProfile(res.getData().toProfileModel()), err -> {})
 
         );
     }
 
     @Override
     public void getCartFromRes() {
-        CartModel cart = Preferences.getInstance().getCart() != null ? Preferences.getInstance().getCart() : new CartModel(new ArrayList<>());
+        CartModel cart = Preferences.newInstance().getCart() != null ? Preferences.newInstance().getCart() : new CartModel(new ArrayList<>());
         cart.getListProduct();
         for (int i = cart.getListProduct().size() - 1; i >= 0; i--) {
             if(cart.getListProduct().get(i).getQuantity() <= 0) {
@@ -80,8 +80,8 @@ public class MainPresent implements IMainPresent {
     @Override
     public void getListOrderFromService() {
         mView.showLoading();
-        OrderService service = ApiClient.getInstance().create(OrderService.class);
-        ProfileModel profile = Preferences.getInstance().getProfile();
+        OrderService service = ApiClient.newInstance().create(OrderService.class);
+        ProfileModel profile = Preferences.newInstance().getProfile();
         service.getByUser(profile.getId()).enqueue(new Callback<List<OrderModel>>() {
             @Override
             public void onResponse(@NotNull Call<List<OrderModel>> call, @NotNull Response<List<OrderModel>> response) {

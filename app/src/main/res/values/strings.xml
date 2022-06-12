@@ -14,10 +14,12 @@
     <string name="err_code_1012">Không có dữ liệu!</string>
     <string name="err_code_1013">Vui lòng nhập đủ dữ liệu!</string>
     <string name="err_code_1014">Đơn hàng đã nhận không thể hủy!</string>
-    <string name="mail_description_reset">Mail reset mật khẩu đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
-    <string name="mail_description_register">Mail đăng ký tài khoản đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
-    <string name="password_invalid">*Xác nhận mật khẩu chưa chính xác</string>
-    <string name="send_email_verification">Gửi mail xác thực</string>
+    <string name="err_code_1015">Số điện thoại đã được đăng ký!</string>
+
+    <string name="reset_text_description_code">Mail reset mật khẩu đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
+    <string name="dialog_verification_description">Mail đăng ký tài khoản đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
+    <string name="register_confirm_password_invalid">*Xác nhận mật khẩu chưa chính xác</string>
+    <string name="reset_text_send_email">Gửi mail xác thực</string>
     <string name="title_search_view">Bạn muốn tìm sản phẩm?</string>
     <string name="item_product_name">Tên sản phẩm</string>
     <string name="branch_name_default">Tên chi nhánh</string>
@@ -46,7 +48,6 @@
     <string name="destroy_order">Hủy đơn</string>
     <string name="item_product_price">1.000.000đ</string>
     <string name="text_order_total_price">Tổng tiền %s</string>
-    <string name="btn_register">Đăng ký</string>
     <string name="btn_order">Đặt đơn</string>
     <string name="text_shipping_fee">Phí ship</string>
     <string name="text_total">Tổng (tạm tính)</string>
@@ -72,7 +73,7 @@
     <string name="order_status_2">Đang giao</string>
     <string name="order_status_3">Hoàn thành</string>
     <string name="order_status_4">Đã hủy</string>
-    <string name="title_order_history">Lịch sử đơn hàng</string>
+    <string name="text_order_history">Lịch sử đơn hàng</string>
     <string name="destroy_order_sure">Bạn có chắc chắn hủy đơn hàng này?</string>
     <string name="text_count_order">Bạn có %s đơn hàng chờ giao</string>
     <string name="text_see_more">Xem tất cả</string>
@@ -93,5 +94,29 @@
     <string name="login_password_text_password">Mật khẩu</string>
     <string name="login_password_text_login">Đăng nhập</string>
     <string name="login_password_text_reset">Reset mật khẩu tại đây</string>
-
+    <string name="text_update_profile">Cập nhật hồ sơ</string>
+    <string name="text_community">Cộng đồng</string>
+    <string name="text_favorite_product">Sản phẩm ưa thích</string>
+    <string name="text_question">Câu hỏi thường gặp</string>
+    <string name="text_contact">Liên hệ với chúng tôi</string>
+    <string name="text_version">Phiên bản hiện tại</string>
+    <string name="text_logout">Đăng xuất</string>
+    <string name="dialog_text_ok">OK</string>
+    <string name="dialog_text_cancel">CANCEL</string>
+    <string name="dialog_question_logout">"Bạn có muốn đăng xuất?"</string>
+    <string name="register_text_title">Đăng ký</string>
+    <string name="register_text_full_name">Họ và tên</string>
+    <string name="register_text_phone_number">Số điện thoại</string>
+    <string name="register_text_email">Email</string>
+    <string name="register_text_password">Mật khẩu</string>
+    <string name="register_text_confirm_password">Xác nhận mật khẩu</string>
+    <string name="register_name_invalid"><![CDATA[*Họ và tên < 6 ký tự]]></string>
+    <string name="register_phone_invalid">*Số điện thoại chưa đúng</string>
+    <string name="register_email_length_invalid"><![CDATA[*Email < 6 ký tự]]></string>
+    <string name="register_email_invalid">*Email chưa đúng định dạng</string>
+    <string name="register_register_confirm_password_invalid"><![CDATA[*Password < 6 ký tự]]></string>
+    <string name="register_success">Đăng ký thành công</string>
+    <string name="reset_text_title">Reset mật khẩu</string>
+    <string name="reset_text_new_password">Mật khẩu mới</string>
+    <string name="reset_password_success">Reset mật khẩu thành công</string>
 </resources>

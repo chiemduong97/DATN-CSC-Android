@@ -12,6 +12,7 @@ import android.widget.*
 import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.base.BaseActivityMVP
+import com.example.client.models.event.Event
 import com.example.client.screens.login.present.LoginPresent
 import com.example.client.screens.main.activity.MainActivity
 import com.example.client.screens.reset.activity.PasswordResetActivity
@@ -25,7 +26,7 @@ class LoginPasswordActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListe
         }
     }
 
-    private val email by lazy { intent.getStringExtra(Constants.EMAIL) }
+    private val email by lazy { intent?.getStringExtra(Constants.EMAIL) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_password)
@@ -38,7 +39,7 @@ class LoginPasswordActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListe
         }
     }
 
-    override fun bindEvents() {
+    override fun bindEvent() {
         et_password.run {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             tbt_eye.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
@@ -69,6 +70,10 @@ class LoginPasswordActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListe
         tv_reset.setOnClickListener(this)
     }
 
+    override fun bindEventBus(event: Event) {
+        if (event.key == Constants.EventKey.RESET_SUCCESS) finish()
+    }
+
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tv_login -> {
@@ -77,16 +82,16 @@ class LoginPasswordActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListe
                     imm.hideSoftInputFromWindow(it.windowToken, 0)
                     et_password.clearFocus()
                 }
-                email?.let { presenter.onLogin(it, et_password.text.toString().trim()) }
+                email?.let { presenter.login(it, et_password.text.toString().trim()) }
             }
             R.id.imv_back -> {
                 finish()
                 onBackPressed()
             }
             R.id.tv_reset -> {
-                val intent = Intent(this, PasswordResetActivity::class.java)
-                intent.putExtra("email", getIntent().getStringExtra("email"))
-                startActivity(intent)
+                email?.let {
+                    startActivity(PasswordResetActivity.newInstance(this, it))
+                }
             }
         }
     }
@@ -95,25 +100,15 @@ class LoginPasswordActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListe
     override fun login() {
         lnl_error.visibility = View.GONE
         finish()
-        startActivity(Intent(this@LoginPasswordActivity, MainActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     override fun showLoading() {
-        progress_bar.visibility = View.VISIBLE
-        tv_login.run {
-            setBackgroundResource(R.drawable.bg_btn_disable)
-            text = ""
-            isEnabled = false
-        }
+        rll_loading.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        progress_bar.visibility = View.GONE
-        tv_login.run {
-            setBackgroundResource(R.drawable.bg_btn)
-            text = getString(R.string.login_email_next)
-            isEnabled = true
-        }
+        rll_loading.visibility = View.GONE
     }
 
     override fun onBackPress() {}

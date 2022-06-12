@@ -3,7 +3,7 @@ package com.example.client.screens.home.present
 import com.example.client.api.ApiClient
 import com.example.client.api.service.BannerService
 import com.example.client.app.Preferences
-import com.example.client.base.BasePresenter
+import com.example.client.base.BasePresenterMVP
 import com.example.client.models.banner.BannerModel
 import com.example.client.models.category.toCategories
 import com.example.client.usecase.CategoryUseCase
@@ -15,7 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class HomePresent(mView: IHomeView) : BasePresenter<IHomeView>(mView), IHomePresent {
+class HomePresent(mView: IHomeView) : BasePresenterMVP<IHomeView>(mView), IHomePresent {
     private val categoryUseCase by lazy { CategoryUseCase.newInstance() }
 
     override fun getCategoriesParent() {
@@ -35,7 +35,7 @@ class HomePresent(mView: IHomeView) : BasePresenter<IHomeView>(mView), IHomePres
     }
 
     override fun getListBannerFromService() {
-        val service = ApiClient.getInstance().create(BannerService::class.java)
+        val service = ApiClient.newInstance().create(BannerService::class.java)
         service.all.enqueue(object : Callback<List<BannerModel?>?> {
             override fun onResponse(call: Call<List<BannerModel?>?>, response: Response<List<BannerModel?>?>) {
                 mView?.showBanners(response.body())
@@ -50,14 +50,14 @@ class HomePresent(mView: IHomeView) : BasePresenter<IHomeView>(mView), IHomePres
     override fun getProductsHighLightFromService() {}
     override fun getProductNewFromService() {}
     override fun getBranchFromRes() {
-        if (Preferences.getInstance().branch == null) {
+        if (Preferences.newInstance().branch == null) {
             mView!!.toBranchScreen()
             return
         }
-        mView?.showBranchInfo(Preferences.getInstance().branch)
+        mView?.showBranchInfo(Preferences.newInstance().branch)
     }
 
     override fun getUserFromRes() {
-        mView?.showUserInfo(Preferences.getInstance().profile)
+        mView?.showUserInfo(Preferences.newInstance().profile)
     }
 }

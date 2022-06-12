@@ -1,14 +1,14 @@
-package com.example.client.screens.product.navigate
+package com.example.client.screens.login.navigate
 
 import android.os.Bundle
 import com.example.client.screens.product.fragment.ProductFragment
 
-object Navigator {
+object NavigatorLogin {
 
-    private var mView: INavigateProduct? = null
+    private var mView: INavigateLogin? = null
 
     @JvmStatic
-    fun onStart(view: INavigateProduct?) {
+    fun onStart(view: INavigateLogin?) {
         this.mView = view
     }
 

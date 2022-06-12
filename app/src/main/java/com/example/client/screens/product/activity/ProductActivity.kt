@@ -8,10 +8,9 @@ import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.base.BaseActivity
 import com.example.client.models.category.CategoryModel
-import com.example.client.models.product.ProductModel
 import com.example.client.screens.product.fragment.ProductFragment
 import com.example.client.screens.product.navigate.INavigateProduct
-import com.example.client.screens.product.navigate.Navigator
+import com.example.client.screens.product.navigate.NavigatorProduct
 import com.example.client.utils.ActivityUtils
 
 
@@ -27,7 +26,7 @@ class ProductActivity : BaseActivity(), INavigateProduct {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
-        Navigator.onStart(this)
+        NavigatorProduct.onStart(this)
     }
 
     override fun bindComponent() {

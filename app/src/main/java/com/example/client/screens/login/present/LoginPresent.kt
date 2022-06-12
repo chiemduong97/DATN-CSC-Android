@@ -1,29 +1,27 @@
 package com.example.client.screens.login.present
 
 import com.example.client.app.Constants
-import com.example.client.app.MyFirebaseService
 import com.example.client.app.Preferences
-import com.example.client.base.BasePresenter
+import com.example.client.base.BasePresenterMVP
 import com.example.client.models.event.Event
 import com.example.client.screens.login.activity.ILoginView
 import com.example.client.usecase.ProfileUseCase
 import org.greenrobot.eventbus.EventBus
 
-class LoginPresent(mView: ILoginView) : BasePresenter<ILoginView>(mView),ILoginPresent {
+class LoginPresent(mView: ILoginView) : BasePresenterMVP<ILoginView>(mView), ILoginPresent {
     private val profileUseCase by lazy { ProfileUseCase.newInstance() }
     override fun checkEmail(email: String) {
         mView?.showLoading()
-        subscribe(profileUseCase.checkEmail(email),{
+        subscribe(profileUseCase.checkEmail(email), {
             mView?.run {
-
+                hideLoading()
                 if (it.is_error) {
                     showErrorMessage(getErrorMessage(it.code))
-                    hideLoading()
                     return@subscribe
                 }
                 next()
             }
-        },{
+        }, {
             it.printStackTrace()
             mView?.run {
                 showErrorMessage(getErrorMessage(1001))
@@ -32,10 +30,9 @@ class LoginPresent(mView: ILoginView) : BasePresenter<ILoginView>(mView),ILoginP
         })
     }
 
-    override fun onLogin(email: String, password: String) {
+    override fun login(email: String, password: String) {
         mView?.showLoading()
-        val myFirebaseService = MyFirebaseService()
-        add(myFirebaseService.token.subscribe {
+        subscribe(profileUseCase.resetFirebaseToken(), {
             subscribe(profileUseCase.login(email, password), here@{
                 mView?.run {
                     if (it.is_error) {
@@ -43,32 +40,17 @@ class LoginPresent(mView: ILoginView) : BasePresenter<ILoginView>(mView),ILoginP
                         showErrorMessage(getErrorMessage(it.code))
                         return@here
                     }
-                    Preferences.getInstance().accessToken = it.data.access_token
+                    profileUseCase.setAccessToken(it.data.access_token)
                     setUserActive(email)
                 }
-            },{
+            }, {
                 it.printStackTrace()
                 mView?.run {
                     hideLoading()
                     showErrorMessage(getErrorMessage(1001))
                 }
             })
-        })
-    }
-
-    override fun setUserActive(email: String) {
-        subscribe(profileUseCase.getUserByEmail(email),{
-            mView?.run {
-                if (it.is_error) {
-                    hideLoading()
-                    showErrorMessage(getErrorMessage(it.code))
-                    return@subscribe
-                }
-                Preferences.getInstance().profile = it.data.toProfileModel()
-                val deviceToken = Preferences.getInstance().deviceToken
-                onUpdateDeviceToken(email, deviceToken)
-            }
-        },{
+        }, {
             it.printStackTrace()
             mView?.run {
                 hideLoading()
@@ -77,8 +59,28 @@ class LoginPresent(mView: ILoginView) : BasePresenter<ILoginView>(mView),ILoginP
         })
     }
 
-    override fun onUpdateDeviceToken(email: String, token: String) {
-        subscribe(profileUseCase.updateDeviceToken(email, device_token = token),{
+    override fun setUserActive(email: String) {
+        subscribe(profileUseCase.getUserByEmail(email), {
+            mView?.run {
+                if (it.is_error) {
+                    hideLoading()
+                    showErrorMessage(getErrorMessage(it.code))
+                    return@subscribe
+                }
+                profileUseCase.setProfile(it.data.toProfileModel())
+                updateDeviceToken(email, profileUseCase.getDeviceToken())
+            }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                showErrorMessage(getErrorMessage(1001))
+            }
+        })
+    }
+
+    override fun updateDeviceToken(email: String, token: String) {
+        subscribe(profileUseCase.updateDeviceToken(email, device_token = token), {
             mView?.run {
                 hideLoading()
                 if (it.is_error) {
@@ -88,7 +90,7 @@ class LoginPresent(mView: ILoginView) : BasePresenter<ILoginView>(mView),ILoginP
                 login()
                 EventBus.getDefault().post(Event(Constants.EventKey.LOGIN_SUCCESS))
             }
-        },{
+        }, {
             it.printStackTrace()
             mView?.run {
                 hideLoading()

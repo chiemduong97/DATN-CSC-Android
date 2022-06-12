@@ -4,7 +4,7 @@ import com.example.client.base.IBasePresenter
 
 interface ILoginPresent: IBasePresenter {
     fun checkEmail(email: String)
-    fun onLogin(email: String, password: String)
+    fun login(email: String, password: String)
     fun setUserActive(email: String)
-    fun onUpdateDeviceToken(email: String, token: String)
+    fun updateDeviceToken(email: String, token: String)
 }

@@ -25,7 +25,7 @@ class BranchPresent(mView: IBranchView): BaseCollectionPresenter<IBranchView>(mV
                     showEmptyData()
                     return@subscribe
                 }
-                Preferences.getInstance().branch?.let { branch ->
+                Preferences.newInstance().branch?.let { branch ->
                     showData(it.data.toBranches(), branch.id)
                 } ?: kotlin.run {
                     showData(it.data.toBranches(), -1)
@@ -41,7 +41,7 @@ class BranchPresent(mView: IBranchView): BaseCollectionPresenter<IBranchView>(mV
     }
 
     override fun saveBranch(branch: BranchModel) {
-        Preferences.getInstance().branch = branch
+        Preferences.newInstance().branch = branch
         EventBus.getDefault().post(Event(Constants.EventKey.CHANGE_BRANCH))
         mView?.onBackPress()
     }

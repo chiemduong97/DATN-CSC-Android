@@ -9,6 +9,7 @@ import android.os.Handler;
 
 import com.example.client.R;
 import com.example.client.app.Preferences;
+import com.example.client.models.profile.ProfileModel;
 import com.example.client.models.splash.Splash;
 import com.example.client.screens.login.activity.LoginEmailActivity;
 import com.example.client.screens.main.activity.MainActivity;
@@ -63,8 +64,9 @@ public class SplashActivity extends AppCompatActivity implements ISplashView{
                 ()->{
                     if(pagerSplash.getCurrentItem()==2){
                         finish();
-                        String token = Preferences.getInstance().getAccessToken();
-                        if(token.equals("")){
+                        String token = Preferences.newInstance().getAccessToken();
+                        ProfileModel profileModel = Preferences.newInstance().getProfile();
+                        if(token.equals("") || profileModel == null){
                             startActivity(new Intent(SplashActivity.this, LoginEmailActivity.class));
                         }
                         else {

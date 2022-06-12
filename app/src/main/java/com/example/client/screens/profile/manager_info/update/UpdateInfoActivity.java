@@ -28,7 +28,6 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
     private TextView update;
     private ImageView back;
     private ManagerInfoPresent mPresent;
-    private PrimaryDialog dialog;
     private ProfileModel user;
     private ProgressBar progressBar;
     @Override
@@ -42,8 +41,6 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
         back = findViewById(R.id.back);
         progressBar = findViewById(R.id.progress_bar);
 
-        dialog = new PrimaryDialog();
-        dialog.getInstance(this);
         mPresent = new ManagerInfoPresent(this);
 
         birthday.setOnClickListener(this);
@@ -66,10 +63,10 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 }
                 if(fullname.getText().toString().trim().equals("")){
-                    dialog.setDescription("Không được để trống họ và tên");
-                    dialog.setOKListener(()->{});
-                    dialog.hideBtnCancel();
-                    dialog.show();
+                    new PrimaryDialog(() ->null, () -> null)
+                            .setDescription("Không được để trống họ và tên")
+                            .hideBtnCancel()
+                            .show(getSupportFragmentManager());
                 }
                 else {
                     user.setFullname(fullname.getText().toString().trim());
@@ -107,14 +104,11 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void updateInfo() {
-        Preferences.getInstance().setProfile(user);
-        dialog.setDescription(getString(R.string.update_profile_success));
-        dialog.hideBtnCancel();
-        dialog.show();
-        dialog.setOKListener(()->{
-            finish();
-            onBackPressed();
-        });
+        Preferences.newInstance().setProfile(user);
+        new PrimaryDialog(() ->null, () -> null)
+                .setDescription(getString(R.string.update_profile_success))
+                .hideBtnCancel()
+                .show(getSupportFragmentManager());
     }
 
     @Override
@@ -145,9 +139,9 @@ public class UpdateInfoActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void showErrorMessage(int errMessage) {
-        dialog.setDescription(getString(errMessage));
-        dialog.setOKListener(()->{});
-        dialog.hideBtnCancel();
-        dialog.show();
+        new PrimaryDialog(() ->null, () -> null)
+                .setDescription(getString(errMessage))
+                .hideBtnCancel()
+                .show(getSupportFragmentManager());
     }
 }

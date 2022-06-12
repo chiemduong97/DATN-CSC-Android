@@ -27,7 +27,6 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
     private TextView error_old_password,error_new_password,error_confirm;
     private TextView update;
     private ProgressBar progressBar;
-    private PrimaryDialog dialog;
     private ImageView back;
     private ManagerInfoPresent mPresent;
     private String email;
@@ -49,8 +48,6 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
         progressBar = findViewById(R.id.progress_bar);
         back = findViewById(R.id.back);
 
-        dialog = new PrimaryDialog();
-        dialog.getInstance(this);
         mPresent = new ManagerInfoPresent(this);
 
         old_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -226,13 +223,10 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
 
     @Override
     public void updatePass() {
-        dialog.setDescription(getString(R.string.update_profile_success));
-        dialog.hideBtnCancel();
-        dialog.show();
-        dialog.setOKListener(()->{
-            finish();
-            onBackPressed();
-        });
+        new PrimaryDialog(() ->null, () -> null)
+                .setDescription(getString(R.string.update_profile_success))
+                .hideBtnCancel()
+                .show(getSupportFragmentManager());
     }
 
     @Override
@@ -258,9 +252,9 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
 
     @Override
     public void showErrorMessage(int errMessage) {
-        dialog.setDescription(getString(errMessage));
-        dialog.setOKListener(()->{});
-        dialog.hideBtnCancel();
-        dialog.show();
+        new PrimaryDialog(() ->null, () -> null)
+                .setDescription(getString(errMessage))
+                .hideBtnCancel()
+                .show(getSupportFragmentManager());
     }
 }

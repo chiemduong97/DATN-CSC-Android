@@ -29,7 +29,7 @@ class BranchFragment: BaseCollectionFragment<IBranchPresent>(), IBranchView, Vie
         presenter.binData()
     }
 
-    override fun bindEvents() {
+    override fun bindEvent() {
         imv_back.setOnClickListener(this)
     }
 

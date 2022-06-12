@@ -30,8 +30,7 @@ public class Constants {
         public static final String UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER";
         public static final String UPDATE_LOCATION = "UPDATE_LOCATION";
         public static final String LOGIN_SUCCESS = "LOGIN_SUCCESS";
-
-
+        public static final String RESET_SUCCESS = "RESET_SUCCESS";
     }
 
     public static class TRANSACTION{
@@ -54,6 +53,7 @@ public class Constants {
         public static final int ERROR_1012 = 1012;
         public static final int ERROR_1013 = 1013;
         public static final int ERROR_1014 = 1014;
+        public static final int ERROR_1015 = 1015;
     }
 
     public static final Double SECTION_1 = 1000000.0;

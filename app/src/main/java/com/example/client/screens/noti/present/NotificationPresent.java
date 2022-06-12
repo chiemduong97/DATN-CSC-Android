@@ -18,11 +18,11 @@ public class NotificationPresent implements INotificationPresent{
     private ProfileModel user;
     public NotificationPresent(INotificationView nView){
         this.nView = nView;
-        this.user = Preferences.getInstance().getProfile();
+        this.user = Preferences.newInstance().getProfile();
     }
     @Override
     public void onShowNotifications() {
-        NotificationService service = ApiClient.getInstance().create(NotificationService.class);
+        NotificationService service = ApiClient.newInstance().create(NotificationService.class);
         service.getByUser(user.getId()).enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {

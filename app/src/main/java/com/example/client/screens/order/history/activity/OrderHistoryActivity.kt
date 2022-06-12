@@ -18,14 +18,11 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class OrderHistoryActivity : AppCompatActivity(), IOrderHistoryView, View.OnClickListener{
-    var dialog: PrimaryDialog? = null
     var present: OrderHistoryPresent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_history)
-        dialog = PrimaryDialog()
-        dialog?.getInstance(this)
         present = OrderHistoryPresent(this)
         present?.getListOrderFromService()
         imv_back.setOnClickListener(this)
@@ -56,12 +53,10 @@ class OrderHistoryActivity : AppCompatActivity(), IOrderHistoryView, View.OnClic
     }
 
     override fun showErrorMessage(errMessage: Int) {
-        dialog?.apply {
-            setDescription(getString(errMessage))
-            setOKListener {}
-            hideBtnCancel()
-            show()
-        }
+        PrimaryDialog({}, {})
+                .setDescription(getString(errMessage))
+                .hideBtnCancel()
+                .show(supportFragmentManager)
     }
 
     override fun onClick(v: View?) {

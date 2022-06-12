@@ -7,7 +7,7 @@ import com.example.client.models.response.BaseResponse
 import io.reactivex.Observable
 
 class CategoryUseCase {
-    private val categoryService by lazy { ApiClient.getInstance().create(CategoryService::class.java) }
+    private val categoryService by lazy { ApiClient.newInstance().create(CategoryService::class.java) }
     companion object {
         fun newInstance() = CategoryUseCase()
     }

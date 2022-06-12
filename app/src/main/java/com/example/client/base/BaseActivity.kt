@@ -1,9 +1,9 @@
 package com.example.client.base
 
-import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.client.dialog.PrimaryDialog
 import com.example.client.models.event.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -19,7 +19,7 @@ open class BaseActivity: AppCompatActivity() {
         super.setContentView(layoutResID)
         initData()
         bindComponent()
-        bindEvents()
+        bindEvent()
         bindData()
     }
 
@@ -27,7 +27,7 @@ open class BaseActivity: AppCompatActivity() {
         super.setContentView(view)
         initData()
         bindComponent()
-        bindEvents()
+        bindEvent()
         bindData()
     }
 
@@ -54,11 +54,16 @@ open class BaseActivity: AppCompatActivity() {
     protected fun showToastMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-    protected fun showDialogMessage(message: String) {}
+    protected fun showDialogErrorMessage(message: String) {
+        PrimaryDialog({}, {})
+                .setDescription(message)
+                .hideBtnCancel()
+                .show(supportFragmentManager)
+    }
 
     protected open fun initData() {}
     protected open fun bindData() {}
     protected open fun bindComponent() {}
-    protected open fun bindEvents() {}
+    protected open fun bindEvent() {}
     protected open fun bindEventBus(event: Event) {}
 }

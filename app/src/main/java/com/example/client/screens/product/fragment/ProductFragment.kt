@@ -42,7 +42,7 @@ class ProductFragment: BaseCollectionFragment<IProductPresent>(), IProductView, 
         tv_title.text = categoryModel.name
     }
 
-    override fun bindEvents() {
+    override fun bindEvent() {
         imv_back.setOnClickListener(this)
     }
 

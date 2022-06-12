@@ -20,7 +20,7 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
 
     override fun binData(categoryModel: CategoryModel) {
         mCategoryModel = categoryModel
-        loadDataByCategory(categoryModel.id, Preferences.getInstance().branch.id, page, LoadingMode.LOAD)
+        loadDataByCategory(categoryModel.id, Preferences.newInstance().branch.id, page, LoadingMode.LOAD)
     }
 
     override fun loadDataByCategory(category_id: Int, branch_id: Int, page: Int, loadingMode: LoadingMode) {
@@ -35,12 +35,12 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
                 }
                 when (loadingMode) {
                     LoadingMode.LOAD -> {
-                        showData(it.data.toProducts(), Preferences.getInstance().cart
+                        showData(it.data.toProducts(), Preferences.newInstance().cart
                                 ?: CartModel(arrayListOf()))
                         loadMore = it.load_more
                     }
                     LoadingMode.LOAD_MORE -> {
-                        showMoreData(it.data.toProducts(), Preferences.getInstance().cart
+                        showMoreData(it.data.toProducts(), Preferences.newInstance().cart
                                 ?: CartModel(arrayListOf()))
                         loadMore = it.load_more
                         onLoadMoreComplete()
@@ -63,6 +63,6 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
 
     override fun invokeLoadMore(page: Int) {
         super.invokeLoadMore(page)
-        mCategoryModel?.let { loadDataByCategory(it.id, Preferences.getInstance().branch.id, page, LoadingMode.LOAD_MORE) }
+        mCategoryModel?.let { loadDataByCategory(it.id, Preferences.newInstance().branch.id, page, LoadingMode.LOAD_MORE) }
     }
 }

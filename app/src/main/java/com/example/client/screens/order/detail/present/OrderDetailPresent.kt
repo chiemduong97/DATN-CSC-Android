@@ -19,7 +19,7 @@ import retrofit2.Response
 class OrderDetailPresent(var view: IOrderDetailView?) : IOrderDetailPresent {
     override fun getOrderFromService(ordercode: String) {
         view?.showLoading()
-        val service = ApiClient.getInstance().create(OrderService::class.java)
+        val service = ApiClient.newInstance().create(OrderService::class.java)
         service.getByOrderCode(ordercode).enqueue(object : Callback<OrderModel> {
             override fun onResponse(call: Call<OrderModel>, response: Response<OrderModel>) {
                 response.body()?.let {
@@ -46,7 +46,7 @@ class OrderDetailPresent(var view: IOrderDetailView?) : IOrderDetailPresent {
 
     override fun getBranchFromService(id: Int) {
         view?.showLoading()
-        val service = ApiClient.getInstance().create(BranchService::class.java)
+        val service = ApiClient.newInstance().create(BranchService::class.java)
         service.getById(id).enqueue(object: Callback<BranchModel> {
             override fun onResponse(call: Call<BranchModel>, response: Response<BranchModel>) {
                 response.body()?.let {
@@ -70,7 +70,7 @@ class OrderDetailPresent(var view: IOrderDetailView?) : IOrderDetailPresent {
 
     override fun getListOrderDetailFromService(ordercode: String) {
         view?.showLoading()
-        val service = ApiClient.getInstance().create(OrderService::class.java)
+        val service = ApiClient.newInstance().create(OrderService::class.java)
         service.getListOrderDetail(ordercode).enqueue(object : Callback<List<OrderDetailModel>> {
             override fun onResponse(call: Call<List<OrderDetailModel>>, response: Response<List<OrderDetailModel>>) {
                 response.body()?.let {
@@ -95,7 +95,7 @@ class OrderDetailPresent(var view: IOrderDetailView?) : IOrderDetailPresent {
 
     override fun destroyOrder(ordercode: String, status: Int) {
         view?.showLoading()
-        val service = ApiClient.getInstance().create(OrderService::class.java)
+        val service = ApiClient.newInstance().create(OrderService::class.java)
         service.destroy(ordercode, status).enqueue(object : Callback<MessageModel> {
             override fun onResponse(call: Call<MessageModel>, response: Response<MessageModel>) {
                 response.body()?.let {

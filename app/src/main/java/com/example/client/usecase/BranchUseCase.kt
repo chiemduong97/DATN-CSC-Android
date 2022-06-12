@@ -7,7 +7,7 @@ import com.example.client.models.response.BaseResponse
 import io.reactivex.Observable
 
 class BranchUseCase {
-    private val branchService by lazy { ApiClient.getInstance().create(BranchService::class.java) }
+    private val branchService by lazy { ApiClient.newInstance().create(BranchService::class.java) }
     companion object {
         fun newInstance() = BranchUseCase()
     }

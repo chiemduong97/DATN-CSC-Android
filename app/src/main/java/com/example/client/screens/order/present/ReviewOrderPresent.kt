@@ -18,11 +18,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
-    private var cart = Preferences.getInstance().cart ?: CartModel(arrayListOf())
+    private var cart = Preferences.newInstance().cart ?: CartModel(arrayListOf())
 
     override fun generationCart() {
-        val profile = Preferences.getInstance().profile
-        val branch = Preferences.getInstance().branch
+        val profile = Preferences.newInstance().profile
+        val branch = Preferences.newInstance().branch
         cart.apply {
             order_latitude = profile.lat
             order_longitude = profile.lng
@@ -35,15 +35,15 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
 
     }
     override fun getUserFromRes() {
-        view?.showUserInfo(Preferences.getInstance().profile)
+        view?.showUserInfo(Preferences.newInstance().profile)
     }
 
     override fun getBranchFromRes() {
-        view?.showBranchInfo(Preferences.getInstance().branch)
+        view?.showBranchInfo(Preferences.newInstance().branch)
     }
 
     override fun getCartFromRes() {
-        cart = Preferences.getInstance().cart ?: CartModel(arrayListOf())
+        cart = Preferences.newInstance().cart ?: CartModel(arrayListOf())
         cart.listProduct.let {
             cart.listProduct = it.filter { cartProductModel -> cartProductModel.quantity != 0 } as ArrayList<CartProductModel>
         }
@@ -77,14 +77,14 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
 
     override fun createOrder() {
         view?.showLoading()
-        val service = ApiClient.getInstance().create(OrderService::class.java)
+        val service = ApiClient.newInstance().create(OrderService::class.java)
         service.createOrder(generationOrderParam(cart)).enqueue(object : Callback<MessageModel> {
             override fun onResponse(call: Call<MessageModel>, response: Response<MessageModel>) {
                 response.body()?.let {
                     when {
                         it.isStatus -> {
                             view?.toOrderDetailScreen(it.ordercode)
-                            Preferences.getInstance().deleteCart()
+                            Preferences.newInstance().deleteCart()
                             EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_CART))
                             EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_STATUS_ORDER))
                         }
@@ -112,7 +112,7 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
     }
 
     private fun saveCart() {
-        Preferences.getInstance().cart = cart
+        Preferences.newInstance().cart = cart
         EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_CART))
         getCartFromRes()
     }
@@ -120,8 +120,8 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
     private fun generationOrderParam(cart: CartModel): OrderParam {
 
         return OrderParam(
-                Preferences.getInstance().profile.id,
-                Preferences.getInstance().branch.id,
+                Preferences.newInstance().profile.id,
+                Preferences.newInstance().branch.id,
                 null,
                 cart.order_latitude,
                 cart.order_longitude,
@@ -131,7 +131,7 @@ class ReviewOrderPresent(var view: IReviewOrderView?) : IReviewOrderPresent {
                 cart.branch_longitude,
                 cart.branch_address,
                 cart.getShippingFeeExpect(),
-                Preferences.getInstance().profile.phone
+                Preferences.newInstance().profile.phone
         )
 
     }

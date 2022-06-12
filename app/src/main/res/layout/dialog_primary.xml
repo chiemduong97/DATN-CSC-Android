@@ -1,74 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginRight="20dp"
-    android:layout_marginLeft="20dp"
-    app:cardCornerRadius="10dp"
-    android:elevation="10dp"
-    android:layout_gravity="center">
+    android:layout_height="match_parent"
+    android:background="@color/dark_opacity_70">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            android:layout_weight="1"
-            android:hint="HELO"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="bottom">
-            <TextView
-                android:id="@+id/btnOK"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="OK"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:paddingLeft="15dp"
-                android:paddingTop="10dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_btn" />
-            <TextView
-                android:id="@+id/btnCancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="CANCEL"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:paddingLeft="15dp"
-                android:paddingTop="10dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_btn_disable" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"/>
-        </LinearLayout>
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/dimen_32"
+        android:layout_marginRight="@dimen/dimen_32"
+        android:background="@drawable/bg_white_radius"
+        android:orientation="vertical"
+        android:padding="@dimen/dimen_24">
 
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_15"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_16"
+            android:visibility="gone"
+            tools:text="Thông báo"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            style="@style/regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_15"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_14"
+            tools:text="Đã xảy ra lỗi! Vui lòng thử lại ...." />
+
+        <TextView
+            android:id="@+id/tv_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_btn"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/dimen_15"
+            android:paddingVertical="@dimen/dimen_10"
+            android:text="@string/dialog_text_ok"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:background="@drawable/bg_btn_disable"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/dimen_15"
+            android:paddingVertical="@dimen/dimen_10"
+            android:text="@string/dialog_text_cancel"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16"
+            android:textStyle="bold" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

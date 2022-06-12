@@ -53,7 +53,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
     private lateinit var likelyPlaceLatLngs: Array<LatLng?>
 
     private var present: MapsPresent? = null
-    private var dialog: PrimaryDialog? = null
     companion object {
         fun newInstance(from: Context?): Intent {
             return Intent(from, MapsActivity::class.java)
@@ -70,8 +69,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         mapFragment.getMapAsync(this)
 
         present = MapsPresent(this)
-        dialog = PrimaryDialog()
-        dialog?.getInstance(this)
     }
 
     /**
@@ -342,21 +339,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
     }
 
     override fun showErrorMessage(errMessage: Int) {
-        dialog?.apply {
-            setDescription(getString(errMessage))
-            setOKListener {}
-            hideBtnCancel()
-            show()
-        }
+        PrimaryDialog({}, {})
+                .setDescription(getString(R.string.update_location_success))
+                .hideBtnCancel()
+                .show(supportFragmentManager)
     }
 
     override fun showSuccess() {
-        dialog?.apply {
-            setDescription(getString(R.string.update_location_success))
-            setOKListener {}
-            hideBtnCancel()
-            show()
-        }
+        PrimaryDialog({}, {})
+                .setDescription(getString(R.string.update_location_success))
+                .hideBtnCancel()
+                .show(supportFragmentManager)
     }
 }
 

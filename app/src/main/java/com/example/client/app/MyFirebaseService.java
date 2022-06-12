@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.example.client.R;
@@ -46,13 +45,13 @@ public class MyFirebaseService extends FirebaseMessagingService {
     }
 
     private void sendRegistrationToServer(String token) {
-        Preferences.getInstance().setDeviceToken(token);
+        Preferences.newInstance().setDeviceToken(token);
         // TODO: Implement this method to send token to your app server.
     }
 
     private void sendNotification(Map data) {
 
-        ProfileModel user = Preferences.getInstance().getProfile();
+        ProfileModel user = Preferences.newInstance().getProfile();
         PendingIntent pendingIntent = null;
         if(user == null){
             Intent intent = getPackageManager().getLaunchIntentForPackage("com.example.client");
@@ -100,7 +99,7 @@ public class MyFirebaseService extends FirebaseMessagingService {
         notificationManager.notify(new Random().nextInt(), notificationBuilder.build());
     }
 
-    public Observable<Integer> getToken(){
+    public Observable<Integer> resetToken(){
         return Observable.just(1).doOnNext(o -> FirebaseMessaging.getInstance().getToken());
     }
 

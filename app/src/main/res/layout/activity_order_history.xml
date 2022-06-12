@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/title_order_history"
+                android:text="@string/text_order_history"
                 android:textSize="16dp"
                 android:textStyle="bold"
                 android:layout_marginEnd="24dp"

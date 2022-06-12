@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".screens.login.activity.LoginEmailActivity">
 
     <LinearLayout
+        android:id="@+id/lnl_top"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <ImageView
@@ -41,48 +41,32 @@
 
         <EditText
             android:id="@+id/et_email"
-            style="@style/regular"
+            style="@style/bold"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_48"
             android:layout_marginHorizontal="@dimen/dimen_20"
             android:layout_marginTop="@dimen/dimen_10"
             android:background="@drawable/box_red"
             android:padding="@dimen/dimen_10"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_14" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/tv_next"
+            style="@style/bold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimen_48"
             android:layout_marginLeft="@dimen/dimen_20"
             android:layout_marginTop="@dimen/dimen_10"
-            android:layout_marginRight="@dimen/dimen_20">
-
-            <TextView
-                android:id="@+id/tv_next"
-                style="@style/bold"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_48"
-                android:background="@drawable/bg_btn_disable"
-                android:enabled="false"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/dimen_15"
-                android:paddingVertical="@dimen/dimen_10"
-                android:text="@string/login_email_next"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_16"
-                tools:ignore="MissingConstraints" />
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="@dimen/dimen_20"
-                android:layout_height="@dimen/dimen_20"
-                android:theme="@style/CProgressbar.White"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/tv_next"
-                app:layout_constraintLeft_toLeftOf="@id/tv_next"
-                app:layout_constraintRight_toRightOf="@id/tv_next"
-                app:layout_constraintTop_toTopOf="@id/tv_next" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginRight="@dimen/dimen_20"
+            android:background="@drawable/bg_btn_disable"
+            android:enabled="false"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/dimen_15"
+            android:paddingVertical="@dimen/dimen_10"
+            android:text="@string/login_email_next"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16" />
 
         <LinearLayout
             android:id="@+id/lnl_error"
@@ -107,12 +91,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
+        android:layout_below="@+id/lnl_top"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_register"
-            style="@style/regular"
+            style="@style/bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -188,4 +174,21 @@
             android:textColor="@color/teal_200"
             android:textSize="@dimen/text_14" />
     </LinearLayout>
-</LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rll_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dark_opacity_70"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="@dimen/dimen_20"
+            android:layout_height="@dimen/dimen_20"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:theme="@style/CProgressbar.Red" />
+    </RelativeLayout>
+</RelativeLayout>
