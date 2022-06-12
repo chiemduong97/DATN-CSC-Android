@@ -18,16 +18,16 @@ class MapsPresent(var view: IMapsView): IMapsPresent {
 
     override fun updateLocation(latitude: Double, longitude: Double, address: String) {
         view.showLoading()
-        val service = ApiClient.getInstance().create(UserService::class.java)
-        val profile = Preferences.getInstance().profile
+        val service = ApiClient.newInstance().create(UserService::class.java)
+        val profile = Preferences.newInstance().profile
         service.updateLocation(profile.email, latitude, longitude, address).enqueue(object: Callback<MessageModel> {
             override fun onResponse(call: Call<MessageModel>, response: Response<MessageModel>) {
                 response.body()?.let {
                     when {
                         it.isStatus -> {
-                            Preferences.getInstance().profile = profile.apply {
-                                this.latitude = latitude
-                                this.longitude = longitude
+                            Preferences.newInstance().profile = profile.apply {
+                                this.lat = latitude
+                                this.lng = longitude
                                 this.address = address
                             }
                             EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_LOCATION))
@@ -55,8 +55,8 @@ class MapsPresent(var view: IMapsView): IMapsPresent {
     }
 
     override fun getCurrentLocation(): LatLng {
-        val profile = Preferences.getInstance().profile
-        return LatLng(profile.latitude, profile.longitude)
+        val profile = Preferences.newInstance().profile
+        return LatLng(profile.lat, profile.lng)
     }
 
     private fun getErrorMessage(errCode: Int): Int {

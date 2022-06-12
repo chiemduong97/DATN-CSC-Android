@@ -29,7 +29,7 @@
                 android:id="@+id/tv_product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/product_name_default"
+                android:text="@string/item_product_name"
                 android:textSize="14dp"
                 android:textColor="@color/black"
                 android:layout_margin="5dp"
@@ -41,7 +41,7 @@
                 android:id="@+id/tv_product_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/product_price_default"
+                android:text="@string/item_product_price"
                 android:paddingStart="5dp"
                 android:textSize="12dp"
                 android:textColor="@color/black"/>
@@ -52,7 +52,7 @@
                 android:paddingStart="5dp"
                 android:textSize="12dp"
                 android:textColor="@color/black"
-                android:text="@string/text_product_quantity_default"
+                android:text="@string/item_product_quantity"
                 android:gravity="start|center"/>
         </LinearLayout>
 

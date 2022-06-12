@@ -40,7 +40,6 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
     private ManagerInfoPresent mPresent;
     private ActivityResultLauncher<Intent> intentActivityResultLauncher;
     private ProfileModel user;
-    private PrimaryDialog dialog;
     private CardView cardView;
     private ProgressBar progressBar;
 
@@ -60,8 +59,6 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
         cardView = findViewById(R.id.cardView);
         progressBar = findViewById(R.id.progress_bar);
 
-        dialog = new PrimaryDialog();
-        dialog.getInstance(this);
         mPresent = new ManagerInfoPresent(this);
 
         change_avatar.setOnClickListener(this);
@@ -167,10 +164,10 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void updateAvatar() {
-        dialog.setDescription("Thay đổi avatar thành công");
-        dialog.hideBtnCancel();
-        dialog.show();
-        dialog.setOKListener(()->{});
+        new PrimaryDialog(() ->null, () -> null)
+                .setDescription("Thay đổi avatar thành công")
+                .hideBtnCancel()
+                .show(getSupportFragmentManager());
         mPresent.getUserFromRes();
     }
 
@@ -188,9 +185,9 @@ public class ManagerInfoActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void showErrorMessage(int errMessage) {
-        dialog.setDescription(getString(errMessage));
-        dialog.setOKListener(()->{});
-        dialog.hideBtnCancel();
-        dialog.show();
+        new PrimaryDialog(() ->null, () -> null)
+                .setDescription(getString(errMessage))
+                .hideBtnCancel()
+                .show(getSupportFragmentManager());
     }
 }

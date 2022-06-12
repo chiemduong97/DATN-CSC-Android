@@ -14,7 +14,8 @@
         android:button="@drawable/checkbox_layout"
         android:clickable="false"
         android:checked="false"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:gravity="center"/>
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="match_parent"

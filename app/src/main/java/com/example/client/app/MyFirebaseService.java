@@ -45,13 +45,13 @@ public class MyFirebaseService extends FirebaseMessagingService {
     }
 
     private void sendRegistrationToServer(String token) {
-        Preferences.getInstance().setDeviceToken(token);
+        Preferences.newInstance().setDeviceToken(token);
         // TODO: Implement this method to send token to your app server.
     }
 
     private void sendNotification(Map data) {
 
-        ProfileModel user = Preferences.getInstance().getProfile();
+        ProfileModel user = Preferences.newInstance().getProfile();
         PendingIntent pendingIntent = null;
         if(user == null){
             Intent intent = getPackageManager().getLaunchIntentForPackage("com.example.client");
@@ -70,16 +70,19 @@ public class MyFirebaseService extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.drawable.ic_noti)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_noti))
-                        .setContentTitle(action)
-                        .setContentText(description)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent)
-                        .setDefaults(Notification.DEFAULT_ALL)
-                        .setPriority(NotificationManager.IMPORTANCE_HIGH);
+                null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                    .setSmallIcon(R.drawable.ic_noti)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_noti))
+                    .setContentTitle(action)
+                    .setContentText(description)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setPriority(NotificationManager.IMPORTANCE_HIGH);
+        }
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -96,7 +99,7 @@ public class MyFirebaseService extends FirebaseMessagingService {
         notificationManager.notify(new Random().nextInt(), notificationBuilder.build());
     }
 
-    public Observable getToken(){
+    public Observable<Integer> resetToken(){
         return Observable.just(1).doOnNext(o -> FirebaseMessaging.getInstance().getToken());
     }
 

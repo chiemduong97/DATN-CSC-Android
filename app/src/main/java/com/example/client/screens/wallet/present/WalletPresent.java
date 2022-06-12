@@ -26,14 +26,14 @@ public class WalletPresent implements IWalletPresent{
     }
     @Override
     public void onShowInfoUser() {
-        user = Preferences.getInstance().getProfile();
+        user = Preferences.newInstance().getProfile();
         wView.showInfoUser(user);
     }
 
     @Override
     public void onShowTransaction(String label, int user) {
         if(label.equals(Constants.TRANSACTION.INPUT)){
-            RechargeService service = ApiClient.getInstance().create(RechargeService.class);
+            RechargeService service = ApiClient.newInstance().create(RechargeService.class);
             service.getByUser(user).enqueue(new Callback<List<TransactionModel>>() {
                 @Override
                 public void onResponse(Call<List<TransactionModel>> call, Response<List<TransactionModel>> response) {
@@ -49,7 +49,7 @@ public class WalletPresent implements IWalletPresent{
             });
         }
         if(label.equals(Constants.TRANSACTION.OUPUT)){
-            TransactionService service = ApiClient.getInstance().create(TransactionService.class);
+            TransactionService service = ApiClient.newInstance().create(TransactionService.class);
             service.getByUser(user).enqueue(new Callback<List<TransactionModel>>() {
                 @Override
                 public void onResponse(Call<List<TransactionModel>> call, Response<List<TransactionModel>> response) {
@@ -68,7 +68,7 @@ public class WalletPresent implements IWalletPresent{
 
     @Override
     public void onShowTransactionByOrderCode(String orderCode) {
-        TransactionService service = ApiClient.getInstance().create(TransactionService.class);
+        TransactionService service = ApiClient.newInstance().create(TransactionService.class);
         service.getByOrderCode(orderCode).enqueue(new Callback<TransactionModel>() {
             @Override
             public void onResponse(Call<TransactionModel> call, Response<TransactionModel> response) {
@@ -89,7 +89,7 @@ public class WalletPresent implements IWalletPresent{
 
     @Override
     public void onDeleteRecharge(String ordercode) {
-        RechargeService service = ApiClient.getInstance().create(RechargeService.class);
+        RechargeService service = ApiClient.newInstance().create(RechargeService.class);
         service.delete(ordercode).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
@@ -108,7 +108,7 @@ public class WalletPresent implements IWalletPresent{
     @Override
     public void onRequestRecharge(int user, Double amount) {
         wView.showLoading();
-        RechargeService service = ApiClient.getInstance().create(RechargeService.class);
+        RechargeService service = ApiClient.newInstance().create(RechargeService.class);
         service.insert(user, amount).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
@@ -126,19 +126,19 @@ public class WalletPresent implements IWalletPresent{
 
     @Override
     public void onRefeshUserActive(String email) {
-        UserService service = ApiClient.getInstance().create(UserService.class);
-        service.getUserByEmail(email).enqueue(new Callback<ProfileModel>() {
-            @Override
-            public void onResponse(Call<ProfileModel> call, Response<ProfileModel> response) {
-                Preferences.getInstance().setProfile(response.body());
-                wView.refreshUserActive(new MessageModel(true,-1,null));
-            }
-
-            @Override
-            public void onFailure(Call<ProfileModel> call, Throwable t) {
-                wView.refreshUserActive(new MessageModel(false,1001,null));
-
-            }
-        });
+        UserService service = ApiClient.newInstance().create(UserService.class);
+//        service.getUserByEmail(email).enqueue(new Callback<ProfileModel>() {
+//            @Override
+//            public void onResponse(Call<ProfileModel> call, Response<ProfileModel> response) {
+//                Preferences.getInstance().setProfile(response.body());
+//                wView.refreshUserActive(new MessageModel(true,-1,null));
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProfileModel> call, Throwable t) {
+//                wView.refreshUserActive(new MessageModel(false,1001,null));
+//
+//            }
+//        });
     }
 }

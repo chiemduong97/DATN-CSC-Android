@@ -40,7 +40,6 @@ public class WalletFragment extends Fragment implements IWalletView, View.OnClic
     private TextView request;
     private ImageView empty;
     private SwipeRefreshLayout refreshLayout;
-    private PrimaryDialog dialog;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,8 +50,6 @@ public class WalletFragment extends Fragment implements IWalletView, View.OnClic
         request = view.findViewById(R.id.request);
         empty = view.findViewById(R.id.empty);
         refreshLayout = view.findViewById(R.id.container);
-        dialog = new PrimaryDialog();
-        dialog.getInstance(getContext());
 
         refreshLayout.setOnRefreshListener(() -> {
             wPresent.onRefeshUserActive(user.getEmail());
@@ -118,10 +115,13 @@ public class WalletFragment extends Fragment implements IWalletView, View.OnClic
             recyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
             TransactionItem item = new TransactionItem(getContext(),items,method, ordercode -> {
-                dialog.setDescription("Chắc chắn hủy yêu cầu?");
-                dialog.setOKListener(()->wPresent.onDeleteRecharge(ordercode));
-                dialog.setCancelListener(()->{});
-                dialog.show();
+                new PrimaryDialog(()-> {
+                    wPresent.onDeleteRecharge(ordercode);
+                    return null;
+                }, () -> null)
+                        .setDescription("Chắc chắn hủy yêu cầu?")
+                        .hideBtnCancel()
+                        .show(getChildFragmentManager());
             });
             recyclerView.setLayoutManager(manager);
             recyclerView.setAdapter(item);
@@ -137,20 +137,23 @@ public class WalletFragment extends Fragment implements IWalletView, View.OnClic
     @Override
     public void deleteRecharge(MessageModel message) {
         if(message.isStatus()){
-            dialog.setDescription("Hủy thành công");
-            dialog.hideBtnCancel();
-            dialog.show();
-            dialog.setOKListener(()->onResume());
+            new PrimaryDialog(()-> {
+                onResume();
+                return null;
+            }, () -> null)
+                    .setDescription("Hủy thành công")
+                    .hideBtnCancel()
+                    .show(getChildFragmentManager());
         }
         else {
             switch (message.getCode()){
                 case Constants.ErrorCode.ERROR_1001:
-                    dialog.setDescription(getString(R.string.err_code_1001));
+                    new PrimaryDialog(() ->null, () -> null)
+                            .setDescription(getString(R.string.err_code_1001))
+                            .hideBtnCancel()
+                            .show(getChildFragmentManager());
                     break;
             }
-            dialog.setOKListener(()->{});
-            dialog.hideBtnCancel();
-            dialog.show();
         }
     }
 

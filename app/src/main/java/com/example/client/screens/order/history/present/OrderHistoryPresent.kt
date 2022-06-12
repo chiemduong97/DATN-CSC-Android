@@ -14,8 +14,8 @@ import retrofit2.Response
 class OrderHistoryPresent(var view: IOrderHistoryView?) : IOrderHistoryPresent {
     override fun getListOrderFromService() {
         view?.showLoading()
-        val service = ApiClient.getInstance().create(OrderService::class.java)
-        val profile = Preferences.getInstance().profile
+        val service = ApiClient.newInstance().create(OrderService::class.java)
+        val profile = Preferences.newInstance().profile
         service.getByUser(profile.id).enqueue(object : Callback<List<OrderModel>>{
             override fun onResponse(call: Call<List<OrderModel>>, response: Response<List<OrderModel>>) {
                 response.body()?.let {

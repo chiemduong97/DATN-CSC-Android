@@ -29,7 +29,6 @@ import java.util.*
 class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickListener {
     private var cart: CartModel? = null
     private var present: ReviewOrderPresent? = null
-    private var dialog: PrimaryDialog? = null
 
     companion object {
         fun newInstance(context: Context?): Intent {
@@ -46,9 +45,6 @@ class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickL
         tv_change_product.setOnClickListener(this)
         tv_send_order.setOnClickListener(this)
         tv_change_order_location.setOnClickListener(this)
-
-        dialog = PrimaryDialog()
-        dialog?.getInstance(this)
 
         present = ReviewOrderPresent(this)
         present?.let {
@@ -131,12 +127,10 @@ class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickL
     }
 
     override fun showErrorMessage(errMessage: Int) {
-        dialog?.apply {
-            setDescription(getString(errMessage))
-            setOKListener {}
-            hideBtnCancel()
-            show()
-        }
+        PrimaryDialog({}, {})
+                .setDescription(getString(errMessage))
+                .hideBtnCancel()
+                .show(supportFragmentManager)
     }
 
     override fun toOrderDetailScreen(ordercode: String) {

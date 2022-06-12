@@ -31,7 +31,6 @@ class ProductDetailActivity : AppCompatActivity(), IProductDetailView, View.OnCl
 
     private var productModel: ProductModel? = null
     private var scrollTop = true
-    private var dialog: PrimaryDialog? = null
     private var present: ProductDetailPresent? = null
 
     companion object {
@@ -48,8 +47,6 @@ class ProductDetailActivity : AppCompatActivity(), IProductDetailView, View.OnCl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_detail)
-        dialog = PrimaryDialog()
-        dialog?.getInstance(this)
         present = ProductDetailPresent(this)
 
         productModel = intent.getSerializableExtra(Constants.PRODUCT_MODEL) as ProductModel?

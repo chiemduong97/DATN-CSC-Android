@@ -1,11 +1,14 @@
 package com.example.client.app;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Constants {
     public static String CATEGORY_MODEL = "CATEGORY_MODEL";
     public static String PRODUCT_MODEL = "PRODUCT_MODEL";
     public static String PRODUCT_BY = "PRODUCT_BY";
     public static String CART_MODEL = "CART_MODEL";
     public static String ORDERCODE = "ORDERCODE";
+    public static String EMAIL = "EMAIL";
 
 
     public static class MORE{
@@ -26,7 +29,8 @@ public class Constants {
         public static final String UPDATE_CART = "UPDATE_CART";
         public static final String UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER";
         public static final String UPDATE_LOCATION = "UPDATE_LOCATION";
-
+        public static final String LOGIN_SUCCESS = "LOGIN_SUCCESS";
+        public static final String RESET_SUCCESS = "RESET_SUCCESS";
     }
 
     public static class TRANSACTION{
@@ -49,6 +53,7 @@ public class Constants {
         public static final int ERROR_1012 = 1012;
         public static final int ERROR_1013 = 1013;
         public static final int ERROR_1014 = 1014;
+        public static final int ERROR_1015 = 1015;
     }
 
     public static final Double SECTION_1 = 1000000.0;

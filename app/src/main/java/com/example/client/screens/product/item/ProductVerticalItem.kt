@@ -26,7 +26,7 @@ class ProductVerticalItem(var context: Context, var items: List<ProductModel>, v
             tvProductName?.text = item.name
             tvProductPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.price)
             if (item.quantity > 0) {
-                tvProductQuantity?.text = context.getString(R.string.text_product_quantity).replace("%s", item.quantity.toString())
+                tvProductQuantity?.text = context.getString(R.string.text_product_quantity, item.quantity)
             } else {
                 tvProductPrice?.text = context.getString(R.string.text_product_quantity_0)
             }
@@ -35,7 +35,7 @@ class ProductVerticalItem(var context: Context, var items: List<ProductModel>, v
                 if (it.product.id == item.id && it.quantity > 0) {
                     tvQuantity?.run {
                         rllQuantity?.visibility = View.VISIBLE
-                        text = context.getString(R.string.text_cart_product_quantity).replace("%s", it.quantity.toString())
+                        text = context.getString(R.string.text_cart_product_quantity, it.quantity)
                     }
                 }
             }

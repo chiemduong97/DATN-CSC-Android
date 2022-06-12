@@ -26,7 +26,6 @@ public class RechargeActivity extends AppCompatActivity implements View.OnClickL
     private TextView request;
     private ProgressBar progressBar;
     private WalletPresent wPresent;
-    private PrimaryDialog dialog;
     private Double amount;
     private ProfileModel user;
     @Override
@@ -40,8 +39,6 @@ public class RechargeActivity extends AppCompatActivity implements View.OnClickL
         request = findViewById(R.id.request);
         progressBar = findViewById(R.id.progress_bar);
 
-        dialog = new PrimaryDialog();
-        dialog.getInstance(this);
         wPresent = new WalletPresent(this);
 
         back.setOnClickListener(this);
@@ -130,23 +127,24 @@ public class RechargeActivity extends AppCompatActivity implements View.OnClickL
 
         }
         if(message.isStatus()){
-            dialog.setDescription("Yêu cầu nạp tiền đã được gửi, vui lòng lên văn phòng để nạp tiền");
-            dialog.hideBtnCancel();
-            dialog.show();
-            dialog.setOKListener(()->{
+            new PrimaryDialog(() -> {
                 finish();
                 onBackPressed();
-            });
+                return null;
+            }, () -> null)
+                    .setDescription("Yêu cầu nạp tiền đã được gửi, vui lòng lên văn phòng để nạp tiền")
+                    .hideBtnCancel()
+                .show(getSupportFragmentManager());
         }
         else {
             switch (message.getCode()){
                 case Constants.ErrorCode.ERROR_1001:
-                    dialog.setDescription(getString(R.string.err_code_1001));
+                    new PrimaryDialog(() ->null, () -> null)
+                            .setDescription(getString(R.string.err_code_1001))
+                            .hideBtnCancel()
+                .show(getSupportFragmentManager());
                     break;
             }
-            dialog.setOKListener(()->{});
-            dialog.hideBtnCancel();
-            dialog.show();
         }
     }
 

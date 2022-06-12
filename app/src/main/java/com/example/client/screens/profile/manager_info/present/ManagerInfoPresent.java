@@ -34,14 +34,14 @@ public class ManagerInfoPresent implements IManagerInfoPresent{
     }
     @Override
     public void getUserFromRes() {
-        user = Preferences.getInstance().getProfile();
+        user = Preferences.newInstance().getProfile();
         mView.showUserInfo(user);
     }
 
     @Override
     public void updateProfile(ProfileModel user) {
         mView.showLoading();
-        UserService service = ApiClient.getInstance().create(UserService.class);
+        UserService service = ApiClient.newInstance().create(UserService.class);
         service.updateInfo(user).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
@@ -71,7 +71,7 @@ public class ManagerInfoPresent implements IManagerInfoPresent{
     @Override
     public void updatePassword(String email, String oldpassword, String newpassword) {
         mView.showLoading();
-        UserService service = ApiClient.getInstance().create(UserService.class);
+        UserService service = ApiClient.newInstance().create(UserService.class);
         service.udpatePass(email,oldpassword,newpassword).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
@@ -118,7 +118,7 @@ public class ManagerInfoPresent implements IManagerInfoPresent{
         }).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 Uri uri = task.getResult();
-                UserService service = ApiClient.getInstance().create(UserService.class);
+                UserService service = ApiClient.newInstance().create(UserService.class);
                 service.updateAvatar(email,uri.toString()).enqueue(new Callback<MessageModel>() {
                     @Override
                     public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
@@ -129,7 +129,7 @@ public class ManagerInfoPresent implements IManagerInfoPresent{
                         }
                         if (response.body().isStatus()) {
                             user.setAvatar(uri.toString());
-                            Preferences.getInstance().setProfile(user);
+                            Preferences.newInstance().setProfile(user);
                             mView.updateAvatar();
                             EventBus.getDefault().post(new Event(Constants.EventKey.UPDATE_PROFILE_AVATAR));
                         } else {

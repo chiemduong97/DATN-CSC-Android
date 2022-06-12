@@ -1,74 +1,68 @@
 package com.example.client.screens.product.present
 
-import com.example.client.R
-import com.example.client.api.ApiClient
-import com.example.client.api.service.ProductService
-import com.example.client.app.Constants
 import com.example.client.app.Preferences
+import com.example.client.base.BaseCollectionPresenter
 import com.example.client.models.cart.CartModel
+import com.example.client.models.category.CategoryModel
+import com.example.client.models.loading.LoadingMode
 import com.example.client.models.product.ProductModel
+import com.example.client.models.product.toProducts
 import com.example.client.screens.product.activity.IProductView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.client.usecase.ProductUseCase
 
 
-class ProductPresent(private var view: IProductView?) : IProductPresent {
+class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView>(mView), IProductPresent {
+    private val productUseCase by lazy { ProductUseCase.newInstance() }
 
-    override fun loadDataByCategory(category: Int) {
-        view?.showLoading()
-        val service = ApiClient.getInstance().create(ProductService::class.java)
-        val branch = Preferences.getInstance().branch
-        service.getByCategory(category, branch.id).enqueue(object : Callback<List<ProductModel>> {
-            override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>?>) {
-                response.body()?.let {
-                    when {
-                        it.isEmpty() -> {
-                            view?.showEmptyData()
-                        }
-                        else -> {
-                            view?.showData(it, Preferences.getInstance().cart ?: CartModel(arrayListOf()))
-                        }
+    companion object {
+        var mCategoryModel: CategoryModel? = null
+    }
+
+    override fun binData(categoryModel: CategoryModel) {
+        mCategoryModel = categoryModel
+        loadDataByCategory(categoryModel.id, Preferences.newInstance().branch.id, page, LoadingMode.LOAD)
+    }
+
+    override fun loadDataByCategory(category_id: Int, branch_id: Int, page: Int, loadingMode: LoadingMode) {
+        if (loadingMode == LoadingMode.LOAD) mView?.showLoading()
+        subscribe(productUseCase.getByCategory(category_id, branch_id, page, limit), {
+            mView?.run {
+                hideLoading()
+                if (it.is_error || it.data.isEmpty()) {
+                    showEmptyData()
+                    onLoadMoreComplete()
+                    return@subscribe
+                }
+                when (loadingMode) {
+                    LoadingMode.LOAD -> {
+                        showData(it.data.toProducts(), Preferences.newInstance().cart
+                                ?: CartModel(arrayListOf()))
+                        loadMore = it.load_more
                     }
-                    view?.hideLoading()
-                } ?: kotlin.run {
-                    view?.run {
-                        showErrorMessage(getErrorMessage(1001))
-                        hideLoading()
+                    LoadingMode.LOAD_MORE -> {
+                        showMoreData(it.data.toProducts(), Preferences.newInstance().cart
+                                ?: CartModel(arrayListOf()))
+                        loadMore = it.load_more
+                        onLoadMoreComplete()
                     }
                 }
             }
-
-            override fun onFailure(call: Call<List<ProductModel>>, t: Throwable) {
-                view?.run {
-                    showErrorMessage(1001)
-                    hideLoading()
-                }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                showEmptyData()
             }
+            onLoadMoreComplete()
         })
     }
 
-    private fun getErrorMessage(errCode: Int): Int {
-        var errMessage = -1
-        when (errCode) {
-            Constants.ErrorCode.ERROR_1001 -> errMessage = R.string.err_code_1001
-            Constants.ErrorCode.ERROR_1002 -> errMessage = R.string.err_code_1002
-            Constants.ErrorCode.ERROR_1003 -> errMessage = R.string.err_code_1003
-            Constants.ErrorCode.ERROR_1004 -> errMessage = R.string.err_code_1004
-            Constants.ErrorCode.ERROR_1005 -> errMessage = R.string.err_code_1005
-            Constants.ErrorCode.ERROR_1006 -> errMessage = R.string.err_code_1006
-            Constants.ErrorCode.ERROR_1007 -> errMessage = R.string.err_code_1007
-            Constants.ErrorCode.ERROR_1008 -> errMessage = R.string.err_code_1008
-            Constants.ErrorCode.ERROR_1009 -> errMessage = R.string.err_code_1009
-            Constants.ErrorCode.ERROR_1010 -> errMessage = R.string.err_code_1010
-            Constants.ErrorCode.ERROR_1011 -> errMessage = R.string.err_code_1011
-            Constants.ErrorCode.ERROR_1012 -> errMessage = R.string.err_code_1012
-            Constants.ErrorCode.ERROR_1013 -> errMessage = R.string.err_code_1013
-            Constants.ErrorCode.ERROR_1014 -> errMessage = R.string.err_code_1014
+    override fun onClickItem(productModel: ProductModel) {
 
-        }
-        return errMessage
     }
 
-
+    override fun invokeLoadMore(page: Int) {
+        super.invokeLoadMore(page)
+        mCategoryModel?.let { loadDataByCategory(it.id, Preferences.newInstance().branch.id, page, LoadingMode.LOAD_MORE) }
+    }
 }

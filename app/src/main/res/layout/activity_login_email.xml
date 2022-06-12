@@ -1,172 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.login.activity.LoginEmailActivity"
-    android:orientation="vertical">
+    tools:context=".screens.login.activity.LoginEmailActivity">
+
     <LinearLayout
+        android:id="@+id/lnl_top"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
+
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
-            android:src="@drawable/logo_fpt"/>
+            android:layout_height="@dimen/dimen_180"
+            android:layout_marginHorizontal="@dimen/dimen_30"
+            android:layout_marginTop="@dimen/dimen_36"
+            android:src="@drawable/logo_fpt" />
+
         <TextView
+            style="@style/bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:textSize="16dp"
-            android:textStyle="bold"
+            android:layout_marginHorizontal="@dimen/dimen_20"
+            android:text="Chào mừng bạn đến với FPT Polytechnic"
             android:textColor="@color/black"
-            android:text="Chào mừng bạn đến với FPT Polytechnic"/>
+            android:textSize="@dimen/text_14" />
+
         <TextView
+            style="@style/regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:textSize="14dp"
+            android:layout_marginHorizontal="@dimen/dimen_20"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:text="@string/login_email_title"
             android:textColor="@color/black"
-            android:text="Nhập email của bạn để tiếp tục"/>
+            android:textSize="@dimen/text_14" />
+
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/et_email"
+            style="@style/bold"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:padding="10dp"
-            android:textColor="@color/black"
+            android:layout_height="@dimen/dimen_48"
+            android:layout_marginHorizontal="@dimen/dimen_20"
+            android:layout_marginTop="@dimen/dimen_10"
             android:background="@drawable/box_red"
-            />
-        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="@dimen/dimen_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:id="@+id/tv_next"
+            style="@style/bold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-            <TextView
-                android:id="@+id/next"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:text="Tiếp"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:paddingLeft="15dp"
-                android:paddingTop="10dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_btn_disable"
-                android:enabled="false"
-                tools:ignore="MissingConstraints" />
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:visibility="gone"
-                android:theme="@style/CProgressbar.White"
-                app:layout_constraintLeft_toLeftOf="@id/next"
-                app:layout_constraintRight_toRightOf="@id/next"
-                app:layout_constraintTop_toTopOf="@id/next"
-                app:layout_constraintBottom_toBottomOf="@id/next" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="@dimen/dimen_48"
+            android:layout_marginLeft="@dimen/dimen_20"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:layout_marginRight="@dimen/dimen_20"
+            android:background="@drawable/bg_btn_disable"
+            android:enabled="false"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/dimen_15"
+            android:paddingVertical="@dimen/dimen_10"
+            android:text="@string/login_email_next"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16" />
+
         <LinearLayout
-            android:id="@+id/view_error"
+            android:id="@+id/lnl_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
+
             <TextView
                 android:id="@+id/tv_error"
+                style="@style/regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginHorizontal="@dimen/dimen_20"
+                android:layout_marginTop="@dimen/dimen_10"
                 android:textColor="@color/red_light"
-                android:textSize="14dp" />
+                android:textSize="@dimen/text_14" />
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="0">
+        android:layout_below="@+id/lnl_top"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
         <TextView
-            android:id="@+id/register"
+            android:id="@+id/tv_register"
+            style="@style/bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/blue"
-            android:textSize="16dp"
-            android:text="Đăng ký tại đây"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/dimen_10"
+            android:text="@string/login_email_register_here"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/text_16" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:gravity="center">
+            android:weightSum="2">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/black"
+                android:layout_marginStart="@dimen/dimen_20"
+                android:layout_marginEnd="@dimen/dimen_10"
                 android:layout_weight="1"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="20dp"/>
+                android:background="@color/black" />
+
             <TextView
+                style="@style/regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hoặc"/>
+                android:text="@string/login_email_or" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/black"
+                android:layout_marginStart="@dimen/dimen_10"
+                android:layout_marginEnd="@dimen/dimen_20"
                 android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="20dp"/>
+                android:background="@color/black" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:orientation="horizontal"
+            android:layout_height="@dimen/dimen_36"
+            android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:layout_gravity="center_horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
+
             <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/logo_facebook"/>
+                android:layout_width="@dimen/dimen_36"
+                android:layout_height="@dimen/dimen_36"
+                android:src="@drawable/logo_facebook" />
+
             <TextView
+                android:id="@+id/tv_login_facebook"
+
+                style="@style/bold"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:textSize="14dp"
-                android:textStyle="bold"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="@dimen/dimen_5"
+                android:gravity="center"
+                android:text="@string/login_email_facebook"
                 android:textColor="@color/blue"
-                android:text="Đăng nhập bằng facebook"
-                android:gravity="center" />
+                android:textSize="@dimen/text_14" />
         </LinearLayout>
+
         <TextView
+            android:id="@+id/tv_rule"
+            style="@style/bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
-            android:textStyle="bold"
-            android:textColor="@color/teal_200"
-            android:text="Điều khoản &amp; dịch vụ"
             android:layout_gravity="center"
-            android:layout_marginBottom="36dp"/>
+            android:layout_marginBottom="@dimen/dimen_36"
+            android:text="@string/login_email_rule"
+            android:textColor="@color/teal_200"
+            android:textSize="@dimen/text_14" />
     </LinearLayout>
-</LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rll_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dark_opacity_70"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="@dimen/dimen_20"
+            android:layout_height="@dimen/dimen_20"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:theme="@style/CProgressbar.Red" />
+    </RelativeLayout>
+</RelativeLayout>

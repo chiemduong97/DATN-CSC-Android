@@ -24,7 +24,7 @@ public class Preferences {
         sharePreferences = context.getSharedPreferences(SHARE_PREFERENCES,Context.MODE_PRIVATE);
     }
 
-    public static Preferences getInstance(){
+    public static Preferences newInstance(){
         if(preferences == null){
             throw new NullPointerException("Preferences is null!");
         }

@@ -1,302 +1,327 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container">
+    android:background="@color/white">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_light"/>
+                android:layout_height="@dimen/dimen_1"
+                android:background="@color/gray_light" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginHorizontal="@dimen/dimen_10"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:layout_marginBottom="@dimen/dimen_15"
+                android:orientation="horizontal">
+
                 <androidx.cardview.widget.CardView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginRight="10dp"
-                    app:cardCornerRadius="40dp">
+                    android:layout_width="@dimen/dimen_80"
+                    android:layout_height="@dimen/dimen_80"
+                    android:layout_marginVertical="@dimen/dimen_5"
+                    android:layout_marginStart="@dimen/dimen_5"
+                    android:layout_marginEnd="@dimen/dimen_10"
+                    app:cardCornerRadius="@dimen/dimen_40">
+
                     <ImageView
-                        android:id="@+id/avatar"
+                        android:id="@+id/imv_avatar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/avatar_default"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/avatar_default" />
                 </androidx.cardview.widget.CardView>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_gravity="center"
-                    android:paddingLeft="5dp">
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/dimen_5">
+
                     <TextView
-                        android:id="@+id/fullname"
+                        android:id="@+id/tv_full_name"
+                        style="@style/bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Đỗ Chiếm Dương "
-                        android:textSize="18dp"
-                        android:textColor="@color/black"
                         android:layout_weight="1"
-                        android:textStyle="bold"
+                        android:ellipsize="end"
                         android:maxLines="1"
-                        android:ellipsize="end"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16"
+                        tools:text="Đỗ Chiếm Dương " />
+
                     <TextView
-                        android:id="@+id/email"
+                        android:id="@+id/tv_email"
+                        style="@style/regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="chiemduong.dp.cntt@gmail.com"
-                        android:textSize="14dp"
-                        android:textColor="@color/black"
                         android:layout_weight="1"
+                        android:ellipsize="end"
                         android:maxLines="1"
-                        android:ellipsize="end"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_14"
+                        tools:text="chiemduong.dp.cntt@gmail.com" />
+
                     <TextView
-                        android:id="@+id/updateInfo"
+                        android:id="@+id/tv_update_info"
                         android:layout_width="wrap_content"
                         android:layout_height="32dp"
+                        android:layout_marginTop="@dimen/dimen_5"
+                        android:background="@drawable/bg_btn_disable"
                         android:gravity="center"
-                        android:text="Cập nhật hồ sơ"
-                        android:textSize="14dp"
-                        android:textStyle="bold"
-                        android:paddingLeft="15dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="15dp"
-                        android:paddingBottom="5dp"
-                        android:layout_marginTop="5dp"
+                        android:paddingHorizontal="@dimen/dimen_15"
+                        android:paddingVertical="@dimen/dimen_5"
+                        android:text="@string/text_update_profile"
                         android:textColor="@color/black"
-                        android:background="@drawable/bg_btn_disable"/>
+                        android:textSize="@dimen/text_14"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:background="@color/gray_light"/>
+                android:layout_height="@dimen/dimen_10"
+                android:background="@color/gray_light" />
+
             <LinearLayout
-                android:id="@+id/community"
+                android:id="@+id/lnl_community"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="15dp"
-                android:gravity="center">
+                android:layout_margin="@dimen/dimen_15"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_community"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_width="@dimen/dimen_20"
+                    android:layout_height="@dimen/dimen_20"
+                    android:layout_marginEnd="@dimen/dimen_10"
+                    android:src="@drawable/ic_community" />
+
                 <TextView
-                    android:layout_width="match_parent"
+                    style="@style/regular"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Cộng đồng"
-                    android:textSize="14dp"
-                    android:textColor="@color/black"
                     android:layout_weight="1"
+                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:text="@string/text_community"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14" />
+
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_next"/>
+                    android:layout_width="@dimen/dimen_24"
+                    android:layout_height="@dimen/dimen_24"
+                    android:src="@drawable/ic_next" />
             </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/favorite"
+                android:id="@+id/lnl_favorite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="15dp"
-                android:gravity="center">
+                android:layout_margin="@dimen/dimen_15"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_favorite"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_width="@dimen/dimen_20"
+                    android:layout_height="@dimen/dimen_20"
+                    android:layout_marginEnd="@dimen/dimen_10"
+                    android:src="@drawable/ic_favorite" />
+
                 <TextView
-                    android:layout_width="match_parent"
+                    style="@style/regular"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Môn học ưa thích"
-                    android:textSize="14dp"
-                    android:textColor="@color/black"
                     android:layout_weight="1"
+                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:text="@string/text_favorite_product"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14" />
+
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_next"/>
+                    android:layout_width="@dimen/dimen_24"
+                    android:layout_height="@dimen/dimen_24"
+                    android:src="@drawable/ic_next" />
             </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/question"
+                android:id="@+id/lnl_question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="15dp"
-                android:gravity="center">
+                android:layout_margin="@dimen/dimen_15"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_square_question"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_width="@dimen/dimen_20"
+                    android:layout_height="@dimen/dimen_20"
+                    android:layout_marginEnd="@dimen/dimen_10"
+                    android:src="@drawable/ic_square_question" />
+
                 <TextView
-                    android:layout_width="match_parent"
+                    style="@style/regular"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Câu hỏi thường gặp"
-                    android:textSize="14dp"
-                    android:textColor="@color/black"
                     android:layout_weight="1"
+                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:text="@string/text_question"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14" />
+
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_next"/>
+                    android:layout_width="@dimen/dimen_20"
+                    android:layout_height="@dimen/dimen_20"
+                    android:src="@drawable/ic_next" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/lnl_order_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="15dp"
-                android:gravity="center">
+                android:layout_margin="@dimen/dimen_15"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_order"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_width="@dimen/dimen_20"
+                    android:layout_height="@dimen/dimen_20"
+                    android:layout_marginEnd="@dimen/dimen_10"
+                    android:src="@drawable/ic_order" />
+
                 <TextView
+                    style="@style/regular"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_order_history"
-                    android:textSize="14dp"
-                    android:textColor="@color/black"
                     android:layout_weight="1"
+                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:text="@string/text_order_history"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14" />
+
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_next"/>
+                    android:layout_width="@dimen/dimen_24"
+                    android:layout_height="@dimen/dimen_24"
+                    android:src="@drawable/ic_next" />
             </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/contact"
+                android:id="@+id/lnl_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="15dp"
-                android:gravity="center">
+                android:layout_margin="@dimen/dimen_15"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_phone"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_width="@dimen/dimen_20"
+                    android:layout_height="@dimen/dimen_20"
+                    android:layout_marginEnd="@dimen/dimen_10"
+                    android:src="@drawable/ic_phone" />
+
                 <TextView
-                    android:layout_width="match_parent"
+                    style="@style/regular"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Liên hệ với chúng tôi"
-                    android:textSize="14dp"
-                    android:textColor="@color/black"
                     android:layout_weight="1"
+                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:text="@string/text_contact"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14" />
+
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_next"/>
+                    android:layout_width="@dimen/dimen_24"
+                    android:layout_height="@dimen/dimen_24"
+                    android:src="@drawable/ic_next" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:background="@color/gray_light"/>
+                android:layout_height="@dimen/dimen_10"
+                android:background="@color/gray_light" />
+
             <LinearLayout
-                android:id="@+id/version"
+                android:id="@+id/lnl_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="15dp"
-                android:gravity="center">
+                android:layout_margin="@dimen/dimen_15"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_version"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_width="@dimen/dimen_20"
+                    android:layout_height="@dimen/dimen_20"
+                    android:layout_marginEnd="@dimen/dimen_10"
+                    android:src="@drawable/ic_version" />
+
                 <TextView
                     android:id="@+id/tvVersion"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Phiên bản hiện tại "
-                    android:textSize="14dp"
                     android:layout_weight="1"
+                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:text="@string/text_version"
+                    android:textSize="@dimen/text_14" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:background="@color/gray_light"/>
+                android:layout_height="@dimen/dimen_10"
+                android:background="@color/gray_light" />
+
             <LinearLayout
-                android:id="@+id/logout"
+                android:id="@+id/lnl_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="15dp"
-                android:gravity="center">
+                android:layout_margin="@dimen/dimen_15"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_logout"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_width="@dimen/dimen_20"
+                    android:layout_height="@dimen/dimen_20"
+                    android:layout_marginEnd="@dimen/dimen_10"
+                    android:src="@drawable/ic_logout" />
+
                 <TextView
-                    android:layout_width="match_parent"
+                    style="@style/regular"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Đăng xuất "
-                    android:textSize="14dp"
-                    android:textColor="@color/black"
                     android:layout_weight="1"
+                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:text="@string/text_logout"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14" />
+
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_next"/>
+                    android:layout_width="@dimen/dimen_24"
+                    android:layout_height="@dimen/dimen_24"
+                    android:src="@drawable/ic_next" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:background="@color/gray_light"/>
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_margin="15dp"-->
-<!--                android:gravity="center"-->
-<!--                android:id="@+id/abc">-->
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Lịch sử đăng ký"-->
-<!--                    android:textSize="18dp"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:maxLines="1"-->
-<!--                    android:ellipsize="end"-->
-<!--                    android:layout_marginBottom="15dp"/>-->
-
-<!--            </LinearLayout>-->
+                android:layout_height="@dimen/dimen_10"
+                android:background="@color/gray_light" />
         </LinearLayout>
     </ScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
