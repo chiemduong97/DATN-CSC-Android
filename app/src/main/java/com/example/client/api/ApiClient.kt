@@ -13,7 +13,7 @@ object ApiClient {
     @JvmStatic
     fun newInstance(): Retrofit {
         val token = Preferences.newInstance().accessToken
-        val baseUrl = "http://192.168.1.4:8585/"
+        val baseUrl = "http://10.0.2.2:8585/"
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         val builder = OkHttpClient.Builder().addInterceptor(Interceptor { chain: Interceptor.Chain ->

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
     private RelativeLayout rllCountOrder, rllOrder, rllLoading;
     private TextView tvCountOrder, tvSeeMore, tvOrderStatus, tvOrderAddress, tvSeeOrder;
     private OrderModel order;
+    private String tag = HomeFragment.class.getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,23 +104,45 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
 
     @Override
     public void showHomeScreen() {
+        tag = HomeFragment.class.getName();
+
         fragmentManager=getSupportFragmentManager();
         fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout,new HomeFragment()).commit();
+        if (!fragmentManager.popBackStackImmediate (tag, 0)) {
+            fragmentTransaction.add(R.id.frameLayout,new HomeFragment()).addToBackStack(tag).commit();
+        } else {
+            fragmentManager.popBackStack(tag,0);
+        }
     }
 
     @Override
     public void showNotiScreen() {
+        tag = WalletFragment.class.getName();
+
         fragmentManager=getSupportFragmentManager();
         fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout,new WalletFragment()).commit();
+        if (!fragmentManager.popBackStackImmediate (tag, 0)) {
+            fragmentTransaction.add(R.id.frameLayout,new WalletFragment()).addToBackStack(tag).commit();
+        } else {
+            fragmentManager.popBackStack(tag,0);
+        }
     }
 
     @Override
     public void showProfileScreen() {
+        tag = ProfileFragment.class.getName();
         fragmentManager=getSupportFragmentManager();
         fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout,new ProfileFragment()).commit();
+        if (!fragmentManager.popBackStackImmediate (tag, 0)) {
+            fragmentTransaction.add(R.id.frameLayout,new ProfileFragment()).addToBackStack(tag).commit();
+        } else {
+            fragmentManager.popBackStack(tag,0);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     @Override
