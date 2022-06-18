@@ -15,6 +15,8 @@ class PrimaryDialog(private val onOk:() -> Unit, private val onCancel: () -> Uni
     private var tvDescription: TextView? = null
     private var tvOk: TextView? = null
     private var tvCancel: TextView? = null
+    private var showCancel = true
+    private var showTitle = false
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.dialog_primary, null)
@@ -31,8 +33,17 @@ class PrimaryDialog(private val onOk:() -> Unit, private val onCancel: () -> Uni
     }
 
     override fun bindComponent() {
-        tvTitle?.text = title
+        tvTitle?.let {
+            it.text = title
+            if (showTitle) it.visibility = View.VISIBLE
+            else it.visibility = View.GONE
+        }
         tvDescription?.text = description
+        tvCancel?.let {
+            if (showCancel) it.visibility = View.VISIBLE
+            else it.visibility = View.GONE
+        }
+
     }
 
     override fun onClick(v: View) {
@@ -51,12 +62,15 @@ class PrimaryDialog(private val onOk:() -> Unit, private val onCancel: () -> Uni
 
     }
 
-    fun hideBtnCancel(): PrimaryDialog {
-        tvCancel?.visibility = View.GONE
+    fun hideBtnCancel(showCancel: Boolean): PrimaryDialog {
+        this.showCancel = showCancel
+        return this
+    }
+    fun showTitle(showTitle: Boolean): PrimaryDialog {
+        this.showTitle = showTitle
         return this
     }
     fun setTitle(title: String): PrimaryDialog {
-        tvTitle?.visibility = View.VISIBLE
         this.title = title
         return this
     }

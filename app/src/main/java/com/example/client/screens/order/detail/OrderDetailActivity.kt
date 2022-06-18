@@ -136,7 +136,6 @@ class OrderDetailActivity : AppCompatActivity(), IOrderDetailView, View.OnClickL
     override fun showErrorMessage(errMessage: Int) {
         PrimaryDialog({}, {})
                 .setDescription(getString(errMessage))
-                .hideBtnCancel()
                 .show(supportFragmentManager)
     }
 
@@ -166,7 +165,6 @@ class OrderDetailActivity : AppCompatActivity(), IOrderDetailView, View.OnClickL
                         present?.destroyOrder(ordercode, orderStatus)
                     }, {})
                             .setDescription(getString(R.string.destroy_order_sure))
-                            .hideBtnCancel()
                             .show(supportFragmentManager)
                 }
                 else -> {

@@ -133,16 +133,14 @@ public class RechargeActivity extends AppCompatActivity implements View.OnClickL
                 return null;
             }, () -> null)
                     .setDescription("Yêu cầu nạp tiền đã được gửi, vui lòng lên văn phòng để nạp tiền")
-                    .hideBtnCancel()
-                .show(getSupportFragmentManager());
+                    .show(getSupportFragmentManager());
         }
         else {
             switch (message.getCode()){
                 case Constants.ErrorCode.ERROR_1001:
                     new PrimaryDialog(() ->null, () -> null)
                             .setDescription(getString(R.string.err_code_1001))
-                            .hideBtnCancel()
-                .show(getSupportFragmentManager());
+                            .show(getSupportFragmentManager());
                     break;
             }
         }

@@ -120,7 +120,6 @@ public class WalletFragment extends Fragment implements IWalletView, View.OnClic
                     return null;
                 }, () -> null)
                         .setDescription("Chắc chắn hủy yêu cầu?")
-                        .hideBtnCancel()
                         .show(getChildFragmentManager());
             });
             recyclerView.setLayoutManager(manager);
@@ -142,7 +141,6 @@ public class WalletFragment extends Fragment implements IWalletView, View.OnClic
                 return null;
             }, () -> null)
                     .setDescription("Hủy thành công")
-                    .hideBtnCancel()
                     .show(getChildFragmentManager());
         }
         else {
@@ -150,7 +148,6 @@ public class WalletFragment extends Fragment implements IWalletView, View.OnClic
                 case Constants.ErrorCode.ERROR_1001:
                     new PrimaryDialog(() ->null, () -> null)
                             .setDescription(getString(R.string.err_code_1001))
-                            .hideBtnCancel()
                             .show(getChildFragmentManager());
                     break;
             }

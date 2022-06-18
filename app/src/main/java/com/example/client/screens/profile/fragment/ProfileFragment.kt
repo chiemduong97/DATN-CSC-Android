@@ -5,27 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.base.BaseFragmentMVP
-import com.example.client.base.IBasePresenter
 import com.example.client.dialog.PrimaryDialog
 import com.example.client.models.event.Event
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.login.activity.LoginEmailActivity
 import com.example.client.screens.message.activity.MessageActivity
 import com.example.client.screens.order.history.activity.OrderHistoryActivity
-import com.example.client.screens.profile.manager_info.ManagerInfoActivity
-import com.example.client.screens.profile.navigate.INavigateProfile
+import com.example.client.screens.profile.manager_info.activity.ManagerProfileActivity
 import com.example.client.screens.profile.present.IProfilePresent
 import com.example.client.screens.profile.present.ProfilePresent
 import kotlinx.android.synthetic.main.fragment_profile.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.OnClickListener {
 
@@ -39,6 +32,7 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
     }
 
     override fun bindEvent() {
+        tv_update_info.setOnClickListener(this)
         lnl_logout.setOnClickListener(this)
     }
 
@@ -55,13 +49,12 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.tv_update_info -> startActivity(Intent(context, ManagerInfoActivity::class.java))
+            R.id.tv_update_info -> activity?.let { startActivity(ManagerProfileActivity.newInstance(it)) }
             R.id.lnl_logout -> {
                 PrimaryDialog({
                               presenter.onLogout()
                 }, {})
                         .setDescription(getString(R.string.dialog_question_logout))
-                        .hideBtnCancel()
                         .show(childFragmentManager)
             }
             R.id.lnl_order_history -> startActivity(Intent(context, OrderHistoryActivity::class.java))

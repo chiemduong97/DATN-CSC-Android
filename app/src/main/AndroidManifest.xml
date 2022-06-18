@@ -64,13 +64,7 @@
             android:name=".screens.search.activity.SearchActivity"
             android:exported="true" />
         <activity
-            android:name=".screens.profile.manager_info.update.UpdatePasswordActivity"
-            android:exported="true" />
-        <activity
-            android:name=".screens.profile.manager_info.update.UpdateInfoActivity"
-            android:exported="true" />
-        <activity
-            android:name=".screens.profile.manager_info.ManagerInfoActivity"
+            android:name=".screens.profile.manager_info.activity.ManagerProfileActivity"
             android:exported="true" />
         <activity
             android:name=".screens.register.activity.RegisterActivity"

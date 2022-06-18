@@ -121,7 +121,6 @@ class PasswordResetActivity : BaseActivityMVP<IPasswordResetPresent>(), View.OnC
     override fun resetPassSuccess() {
         PrimaryDialog({ finish() }, { })
                 .setDescription(getString(R.string.reset_password_success))
-                .hideBtnCancel()
                 .show(supportFragmentManager)
     }
 

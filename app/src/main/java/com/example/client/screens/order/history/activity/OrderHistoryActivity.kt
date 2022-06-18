@@ -55,7 +55,6 @@ class OrderHistoryActivity : AppCompatActivity(), IOrderHistoryView, View.OnClic
     override fun showErrorMessage(errMessage: Int) {
         PrimaryDialog({}, {})
                 .setDescription(getString(errMessage))
-                .hideBtnCancel()
                 .show(supportFragmentManager)
     }
 

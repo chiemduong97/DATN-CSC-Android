@@ -1,7 +1,7 @@
 package com.example.client.screens.profile.navigate
 
-import android.content.Context
-import com.example.client.screens.login.activity.LoginEmailActivity
+import com.example.client.screens.profile.manager_info.fragment.UpdateInfoFragment
+import com.example.client.screens.profile.manager_info.fragment.UpdatePasswordFragment
 
 object NavigatorProfile {
 
@@ -11,11 +11,18 @@ object NavigatorProfile {
     fun onStart(view: INavigateProfile?) {
         this.mView = view
     }
-//
-//    @JvmStatic
-//    fun showLoginEmailScreen(context: Context) {
-//        mView?.addFragment(LoginEmailActivity.newInstance(context), LoginEmailActivity::class.java.simpleName)
-//    }
 
+    @JvmStatic
+    fun popFragment() {
+        mView?.popFragment()
+    }
 
+    @JvmStatic
+    fun navigateToUpdateInfoScreen() {
+        mView?.addFragment(UpdateInfoFragment.newInstance(), UpdateInfoFragment::class.java.simpleName)
+    }
+
+    fun navigateToUpdatePasswordScreen() {
+        mView?.addFragment(UpdatePasswordFragment.newInstance(), UpdatePasswordFragment::class.java.simpleName)
+    }
 }

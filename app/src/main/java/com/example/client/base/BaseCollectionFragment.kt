@@ -45,6 +45,10 @@ abstract class BaseCollectionFragment<P : IBaseCollectionPresenter> : BaseFragme
         return rootView
     }
 
+    override fun onRefresh() {
+        mPresenter?.onRefresh()
+    }
+
     protected open fun shouldLoadMore(): Boolean {
         return true
     }

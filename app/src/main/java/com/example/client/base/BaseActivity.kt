@@ -55,9 +55,8 @@ open class BaseActivity: AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
     protected fun showDialogErrorMessage(message: String) {
-        PrimaryDialog({}, {})
-                .setDescription(message)
-                .hideBtnCancel()
+        PrimaryDialog({}, {}).setDescription(message)
+                .hideBtnCancel(false)
                 .show(supportFragmentManager)
     }
 

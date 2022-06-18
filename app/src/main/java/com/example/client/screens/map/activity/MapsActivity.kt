@@ -341,14 +341,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
     override fun showErrorMessage(errMessage: Int) {
         PrimaryDialog({}, {})
                 .setDescription(getString(R.string.update_location_success))
-                .hideBtnCancel()
                 .show(supportFragmentManager)
     }
 
     override fun showSuccess() {
         PrimaryDialog({}, {})
                 .setDescription(getString(R.string.update_location_success))
-                .hideBtnCancel()
                 .show(supportFragmentManager)
     }
 }

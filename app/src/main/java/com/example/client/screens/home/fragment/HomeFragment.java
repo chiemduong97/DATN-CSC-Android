@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -33,13 +32,10 @@ import com.example.client.screens.category.item.HomeCategoryItem;
 import com.example.client.screens.home.present.HomePresent;
 import com.example.client.screens.map.activity.MapsActivity;
 import com.example.client.screens.product.activity.ProductActivity;
-import com.example.client.screens.profile.manager_info.ManagerInfoActivity;
+import com.example.client.screens.profile.manager_info.activity.ManagerProfileActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
@@ -153,7 +149,7 @@ public class HomeFragment extends BaseFragmentMVP<HomePresent> implements View.O
 
                 break;
             case R.id.profile:
-                startActivity(new Intent(getActivity(), ManagerInfoActivity.class));
+                startActivity(new Intent(getActivity(), ManagerProfileActivity.class));
                 break;
             case R.id.rll_change_branch:
                 startActivity(new Intent(getActivity(), BranchActivity.class));
@@ -242,4 +238,5 @@ public class HomeFragment extends BaseFragmentMVP<HomePresent> implements View.O
     public void onBackPress() {
 
     }
+
 }

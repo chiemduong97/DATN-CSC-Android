@@ -7,6 +7,7 @@ import com.example.client.app.MyFirebaseService
 import com.example.client.app.Preferences
 import com.example.client.models.profile.DataResponse
 import com.example.client.models.profile.ProfileModel
+import com.example.client.models.profile.ProfileRequest
 import com.example.client.models.profile.ProfileResponse
 import com.example.client.models.response.BaseResponse
 import io.reactivex.Observable
@@ -51,6 +52,18 @@ class ProfileUseCase {
 
     fun getUserByEmail(email: String): Observable<BaseResponse<ProfileResponse>> {
         return userService.getUserByEmail(email)
+    }
+
+    fun updateInfo(profileRequest: ProfileRequest): Observable<BaseResponse<DataResponse>> {
+        return userService.updateInfo(profileRequest)
+    }
+
+    fun updatePass(profileRequest: ProfileRequest): Observable<BaseResponse<DataResponse>> {
+        return userService.updatePass(profileRequest)
+    }
+
+    fun updateAvatar(profileRequest: ProfileRequest): Observable<BaseResponse<DataResponse>> {
+        return userService.updateAvatar(profileRequest)
     }
 
     fun updateDeviceToken(email: String, device_token: String): Observable<BaseResponse<DataResponse>> {

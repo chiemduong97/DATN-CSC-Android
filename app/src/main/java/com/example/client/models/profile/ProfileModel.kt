@@ -14,7 +14,7 @@ data class ProfileModel(
         var wallet: Double,
         var lat: Double,
         var lng: Double,
-        var address: String,
+        var address: String
 )
 
 data class ProfileResponse(
@@ -29,7 +29,7 @@ data class ProfileResponse(
         var csc_point: Double?,
         var lat: Double?,
         var lng: Double?,
-        var address: String?,
+        var address: String?
 ) : BaseModel() {
     fun toProfileModel() = ProfileModel(
             id = id ?: -1,
@@ -48,3 +48,13 @@ data class ProfileResponse(
 }
 
 data class DataResponse(var access_token: String)
+
+data class ProfileRequest(
+        var email: String? = null,
+        var avatar: String? = null,
+        var fullname: String? = null,
+        var birthday: String? = null,
+        var phone: String? = null,
+        var new_password: String? = null,
+        var old_password: String? = null,
+)

@@ -118,7 +118,7 @@ class RegisterActivity : BaseActivityMVP<IRegisterPresent>(), View.OnClickListen
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 tv_password_error.run {
                     if (s.length < 6) {
-                        text = context.getString(R.string.register_register_confirm_password_invalid)
+                        text = context.getString(R.string.register_password_length_invalid)
                         visibility = View.VISIBLE
                     } else {
                         text = ""
@@ -196,7 +196,6 @@ class RegisterActivity : BaseActivityMVP<IRegisterPresent>(), View.OnClickListen
             startActivity(Intent(this, MainActivity::class.java))
         }, {})
                 .setDescription(getString(R.string.register_success))
-                .hideBtnCancel()
                 .show(supportFragmentManager)
     }
 

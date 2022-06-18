@@ -105,40 +105,37 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        v?.let {
-            when (v.id) {
-                R.id.imv_back -> {
-                    dismiss()
+        when (v?.id) {
+            R.id.imv_back -> {
+                dismiss()
+            }
+            R.id.lnl_product -> {
+                product?.let {
+                    startActivity(ProductDetailActivity.newInstance(context, it))
                 }
-                R.id.lnl_product -> {
-                    product?.let {
-                        startActivity(ProductDetailActivity.newInstance(context, it))
-                    }
-                    dismiss()
-                }
-                R.id.btn_minus -> {
-                    product?.let {
-                        quantity--
-                        updateQuantity()
-                    }
-                }
-                R.id.btn_plus -> {
-                    product?.let {
-                        quantity++
-                        updateQuantity()
-                    }
-                }
-                R.id.tv_add_to_cart -> {
-                    product?.let {
-                        listener?.addToCart(CartProductModel(it, quantity))
-                    }
-                    dismiss()
-                }
-                else -> {
-
+                dismiss()
+            }
+            R.id.btn_minus -> {
+                product?.let {
+                    quantity--
+                    updateQuantity()
                 }
             }
+            R.id.btn_plus -> {
+                product?.let {
+                    quantity++
+                    updateQuantity()
+                }
+            }
+            R.id.tv_add_to_cart -> {
+                product?.let {
+                    listener?.addToCart(CartProductModel(it, quantity))
+                }
+                dismiss()
+            }
+            else -> {
 
+            }
         }
     }
 

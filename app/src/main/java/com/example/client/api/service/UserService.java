@@ -3,7 +3,7 @@ package com.example.client.api.service;
 import com.example.client.app.Constants;
 import com.example.client.models.message.MessageModel;
 import com.example.client.models.profile.DataResponse;
-import com.example.client.models.profile.ProfileModel;
+import com.example.client.models.profile.ProfileRequest;
 import com.example.client.models.profile.ProfileResponse;
 import com.example.client.models.response.BaseResponse;
 
@@ -37,18 +37,13 @@ public interface UserService {
     Observable<BaseResponse<ProfileResponse>> getUserByEmail(@Query("email") String email);
 
     @POST("api/user/updateInfo.php")
-    Call<MessageModel> updateInfo(@Body ProfileModel user);
+    Observable<BaseResponse<DataResponse>> updateInfo(@Body ProfileRequest profileRequest);
 
-    @FormUrlEncoded
     @POST("api/user/updatePass.php")
-    Call<MessageModel> udpatePass(@Field("email") String email,
-                                  @Field("oldpassword") String oldpassword,
-                                  @Field("newpassword") String newpassword);
+    Observable<BaseResponse<DataResponse>> updatePass(@Body ProfileRequest profileRequest);
 
-    @FormUrlEncoded
     @POST("api/user/updateAvatar.php")
-    Call<MessageModel> updateAvatar(@Field("email") String email,
-                                    @Field("avatar") String avatar);
+    Observable<BaseResponse<DataResponse>> updateAvatar(@Body ProfileRequest profileRequest);
 
     @FormUrlEncoded
     @POST("api/user/updateLocation.php")

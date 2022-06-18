@@ -38,10 +38,9 @@ open class BaseFragment: Fragment(){
     protected fun showToastMessage(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
-    protected fun showDialogErrorMessage(errorCode: Int) {
-        PrimaryDialog({}, {})
-                .setDescription(getString(errorCode))
-                .hideBtnCancel()
+    protected fun showDialogErrorMessage(message: String) {
+        PrimaryDialog({}, {}).setDescription(message)
+                .hideBtnCancel(false)
                 .show(childFragmentManager)
     }
     protected fun add(disposable: Disposable) {

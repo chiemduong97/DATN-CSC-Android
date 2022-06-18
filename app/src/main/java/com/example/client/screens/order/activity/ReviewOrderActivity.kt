@@ -129,7 +129,6 @@ class ReviewOrderActivity : AppCompatActivity(), IReviewOrderView, View.OnClickL
     override fun showErrorMessage(errMessage: Int) {
         PrimaryDialog({}, {})
                 .setDescription(getString(errMessage))
-                .hideBtnCancel()
                 .show(supportFragmentManager)
     }
 

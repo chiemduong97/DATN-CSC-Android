@@ -31,6 +31,7 @@ class ProductFragment: BaseCollectionFragment<IProductPresent>(), IProductView, 
         get() = ProductPresent(this)
 
     override fun onRefresh() {
+        super.onRefresh()
         presenter.binData(categoryModel)
     }
 
