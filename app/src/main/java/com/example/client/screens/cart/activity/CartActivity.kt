@@ -4,51 +4,45 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.client.R
-import com.example.client.app.Constants
+import com.example.client.base.BaseActivityMVP
 import com.example.client.models.branch.BranchModel
 import com.example.client.models.cart.CartModel
-import com.example.client.models.event.Event
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.cart.item.CartProductItem
 import com.example.client.screens.cart.present.CartPresent
-import com.example.client.screens.order.activity.ReviewOrderActivity
+import com.example.client.screens.cart.present.ICartPresent
+import com.example.client.screens.order.review.activity.ReviewOrderActivity
 import kotlinx.android.synthetic.main.activity_cart.*
-import kotlinx.android.synthetic.main.activity_cart.imv_back
-import kotlinx.android.synthetic.main.activity_cart.imv_avatar
-import kotlinx.android.synthetic.main.activity_cart.recyclerView
-import kotlinx.android.synthetic.main.activity_product_detail.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import java.text.NumberFormat
 import java.util.*
 
-class CartActivity : AppCompatActivity(), ICartView, View.OnClickListener {
-    private var present: CartPresent? = null
+class CartActivity : BaseActivityMVP<ICartPresent>(), ICartView, View.OnClickListener {
     companion object{
         fun newInstance(context: Context?) : Intent{
             return Intent(context, CartActivity::class.java)
         }
     }
 
+    override val presenter: ICartPresent
+        get() = CartPresent(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
+    }
+
+    override fun bindData() {
+        presenter.bindData()
+    }
+
+    override fun bindEvent() {
         rll_change_branch.setOnClickListener(this)
         imv_back.setOnClickListener(this)
         tv_order.setOnClickListener(this)
-        present = CartPresent(this)
-        present?.let {
-            it.getBranchFromRes()
-            it.getCartFromRes()
-            it.getUserFromRes()
-            it.generationCart()
-        }
     }
 
     override fun onClick(v: View?) {
@@ -85,7 +79,7 @@ class CartActivity : AppCompatActivity(), ICartView, View.OnClickListener {
     }
 
     override fun showCartProduct(cart: CartModel) {
-        cart.listProduct.let {
+        cart.cartProducts.let {
             if (it.isEmpty()) {
                 onBackPressed()
                 finish()
@@ -93,12 +87,12 @@ class CartActivity : AppCompatActivity(), ICartView, View.OnClickListener {
             }
             val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             val item = CartProductItem(this, it, { cartProduct ->
-                present?.plus(cartProduct)
+                presenter.plus(cartProduct)
             }, { cartProduct ->
-                present?.minus(cartProduct)
+                presenter.minus(cartProduct)
             })
-            recyclerView.layoutManager = manager
-            recyclerView.adapter = item
+            recycler_view.layoutManager = manager
+            recycler_view.adapter = item
         }
         updateTotalPrice(cart)
     }
@@ -107,25 +101,10 @@ class CartActivity : AppCompatActivity(), ICartView, View.OnClickListener {
         tv_total_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(cart.getAmount())
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
-    }
+    override fun showLoading() {}
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: Event) {
-        when (event.key) {
-            Constants.EventKey.CHANGE_BRANCH -> {
-                present?.let {
-                    it.getBranchFromRes()
-                    it.generationCart()
-                }
-            }
-        }
-    }
+    override fun hideLoading() {}
 
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().unregister(this)
-    }
+    override fun onBackPress() {}
+
 }

@@ -40,19 +40,12 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
         presenter.bindData()
     }
 
-    override fun bindEventBus(event: Event) {
-        when (event.key) {
-            Constants.EventKey.UPDATE_PROFILE_AVATAR, Constants.EventKey.UPDATE_PROFILE_INFO -> presenter.bindData()
-        }
-    }
-
-
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tv_update_info -> activity?.let { startActivity(ManagerProfileActivity.newInstance(it)) }
             R.id.lnl_logout -> {
                 PrimaryDialog({
-                              presenter.onLogout()
+                    presenter.onLogout()
                 }, {})
                         .setDescription(getString(R.string.dialog_question_logout))
                         .show(childFragmentManager)
@@ -88,9 +81,13 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
     }
 
     override fun showLoading() {
+        swipe_refresh.isRefreshing = true
     }
 
     override fun hideLoading() {
+        swipe_refresh.run {
+            if (isRefreshing) isRefreshing = false
+        }
     }
 
     override fun onBackPress() {

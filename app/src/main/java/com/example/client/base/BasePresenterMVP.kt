@@ -1,18 +1,34 @@
 package com.example.client.base
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.util.Log
+import androidx.core.content.ContextCompat
 import com.example.client.R
 import com.example.client.app.Constants
+import com.example.client.app.Preferences
+import com.example.client.app.Res
+import com.example.client.app.RxBus
+import com.example.client.models.event.Event
+import com.example.client.usecase.ProfileUseCase
+import com.google.android.gms.location.LocationServices
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 open class BasePresenterMVP<V : IBaseView>(view: V) : IBasePresenter {
     var mView: V? = null
-    private val mCompositeDisposable = CompositeDisposable()
+    private var mCompositeDisposable: CompositeDisposable? = null
+    private val profileUseCase by lazy { ProfileUseCase.newInstance() }
+    private val preferences by lazy { Preferences.newInstance() }
+
     init {
+        mCompositeDisposable = CompositeDisposable()
         mView = view
     }
 
@@ -22,23 +38,61 @@ open class BasePresenterMVP<V : IBaseView>(view: V) : IBasePresenter {
 
     override fun onDestroy() {
         mView = null
-        mCompositeDisposable.clear()
+        mCompositeDisposable?.clear()
     }
 
     protected fun add(disposable: Disposable) {
-        mCompositeDisposable.add(disposable)
+        mCompositeDisposable?.add(disposable)
     }
 
     protected fun <T> subscribe(observable: Observable<T>, response: Consumer<T>, throwable: Consumer<Throwable>) {
         val disposable = observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response, throwable)
-        mCompositeDisposable.add(disposable)
+        mCompositeDisposable?.add(disposable)
     }
 
     override fun onReadyUI() {}
 
-    override fun onViewCreated() {}
+    override fun onViewCreated() {
+        onCompositedEventAdded()
+    }
+
+    override fun updateCurrentLocation() {
+        mView?.showLoading()
+        Res.context?.let {
+            if (ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                val fused = LocationServices.getFusedLocationProviderClient(it)
+                fused.lastLocation.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val lastLocation = task.result
+                        val geoCoder = Geocoder(it, Locale.getDefault())
+                        val addresses = geoCoder.getFromLocation(lastLocation.latitude, lastLocation.longitude, 1);
+                        val address = addresses[0].getAddressLine(0)
+                        preferences.profile = preferences.profile.apply {
+                            this.lat = lastLocation.latitude
+                            this.lng = lastLocation.longitude
+                            this.address = address
+                        }
+                        subscribe(profileUseCase.updateLocation(preferences.profile.email, lastLocation.latitude, lastLocation.longitude, address), { res ->
+                            if (!res.is_error) RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_LOCATION))
+                            mView?.hideLoading()
+                        }, { err ->
+                            err.printStackTrace()
+                            mView?.hideLoading()
+                        })
+
+                    } else {
+                        Log.d("Duong", "Current location is null. Using defaults.")
+                        Log.e("Duong", "Exception: %s", task.exception)
+                    }
+                }
+            }
+        }
+
+    }
+
+    protected open fun onCompositedEventAdded() {}
 
     protected fun getErrorMessage(code: Int): Int {
         var errMessage = -1
@@ -60,6 +114,7 @@ open class BasePresenterMVP<V : IBaseView>(view: V) : IBasePresenter {
             Constants.ErrorCode.ERROR_1015 -> errMessage = R.string.err_code_1015
 
         }
+        Log.d("error", "getErrorMessage: $errMessage ")
         return errMessage
     }
 

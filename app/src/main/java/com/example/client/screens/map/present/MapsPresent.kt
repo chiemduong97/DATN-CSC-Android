@@ -1,84 +1,52 @@
 package com.example.client.screens.map.present
 
-import com.example.client.R
-import com.example.client.api.ApiClient
-import com.example.client.api.service.UserService
 import com.example.client.app.Constants
 import com.example.client.app.Preferences
+import com.example.client.app.RxBus
+import com.example.client.base.BasePresenterMVP
 import com.example.client.models.event.Event
-import com.example.client.models.message.MessageModel
 import com.example.client.screens.map.activity.IMapsView
+import com.example.client.usecase.ProfileUseCase
 import com.google.android.gms.maps.model.LatLng
-import org.greenrobot.eventbus.EventBus
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class MapsPresent(var view: IMapsView): IMapsPresent {
+class MapsPresent(mView: IMapsView): BasePresenterMVP<IMapsView>(mView), IMapsPresent {
+    private val profileUseCase by lazy { ProfileUseCase.newInstance() }
+    private val preferences by lazy { Preferences.newInstance() }
 
-    override fun updateLocation(latitude: Double, longitude: Double, address: String) {
-        view.showLoading()
-        val service = ApiClient.newInstance().create(UserService::class.java)
-        val profile = Preferences.newInstance().profile
-        service.updateLocation(profile.email, latitude, longitude, address).enqueue(object: Callback<MessageModel> {
-            override fun onResponse(call: Call<MessageModel>, response: Response<MessageModel>) {
-                response.body()?.let {
-                    when {
-                        it.isStatus -> {
-                            Preferences.newInstance().profile = profile.apply {
-                                this.lat = latitude
-                                this.lng = longitude
-                                this.address = address
-                            }
-                            EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_LOCATION))
-                            view.showSuccess()
-                        }
-                        else -> {
-                            view.showErrorMessage(getErrorMessage(it.code))
-                        }
-                    }
-                    view.hideLoading()
-                } ?: kotlin.run {
-                    view.run {
-                        showErrorMessage(getErrorMessage(1001))
-                        hideLoading()
-                    }
+    override fun updateLocation(lat: Double, lng: Double, address: String) {
+        mView?.showLoading()
+        subscribe(profileUseCase.updateLocation(preferences.profile.email, lat, lng, address), {
+            mView?.run {
+                hideLoading()
+                if (it.is_error) {
+                    showErrorMessage(getErrorMessage(it.code))
+                    return@subscribe
                 }
+                preferences.profile = preferences.profile.apply {
+                    this.lat = lat
+                    this.lng = lng
+                    this.address = address
+                }
+                preferences.cart = preferences.cart.apply {
+                    this.order_lat = lat
+                    this.order_lng = lng
+                    this.order_address = address
+                }
+                RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_LOCATION))
+                showUpdateLocationSuccess()
             }
-            override fun onFailure(call: Call<MessageModel>, t: Throwable) {
-                view.run {
-                    showErrorMessage(getErrorMessage(1001))
-                    hideLoading()
-                }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                showErrorMessage(getErrorMessage(1001))
             }
         })
     }
 
     override fun getCurrentLocation(): LatLng {
-        val profile = Preferences.newInstance().profile
+        val profile = preferences.profile
         return LatLng(profile.lat, profile.lng)
-    }
-
-    private fun getErrorMessage(errCode: Int): Int {
-        var errMessage = -1
-        when (errCode) {
-            Constants.ErrorCode.ERROR_1001 -> errMessage = R.string.err_code_1001
-            Constants.ErrorCode.ERROR_1002 -> errMessage = R.string.err_code_1002
-            Constants.ErrorCode.ERROR_1003 -> errMessage = R.string.err_code_1003
-            Constants.ErrorCode.ERROR_1004 -> errMessage = R.string.err_code_1004
-            Constants.ErrorCode.ERROR_1005 -> errMessage = R.string.err_code_1005
-            Constants.ErrorCode.ERROR_1006 -> errMessage = R.string.err_code_1006
-            Constants.ErrorCode.ERROR_1007 -> errMessage = R.string.err_code_1007
-            Constants.ErrorCode.ERROR_1008 -> errMessage = R.string.err_code_1008
-            Constants.ErrorCode.ERROR_1009 -> errMessage = R.string.err_code_1009
-            Constants.ErrorCode.ERROR_1010 -> errMessage = R.string.err_code_1010
-            Constants.ErrorCode.ERROR_1011 -> errMessage = R.string.err_code_1011
-            Constants.ErrorCode.ERROR_1012 -> errMessage = R.string.err_code_1012
-            Constants.ErrorCode.ERROR_1013 -> errMessage = R.string.err_code_1013
-            Constants.ErrorCode.ERROR_1014 -> errMessage = R.string.err_code_1014
-
-        }
-        return errMessage
     }
 
 }

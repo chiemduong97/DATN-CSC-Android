@@ -1,8 +1,8 @@
 package com.example.client.screens.map.activity
 
-interface IMapsView {
-    fun showLoading()
-    fun hideLoading()
+import com.example.client.base.IBaseView
+
+interface IMapsView: IBaseView {
     fun showErrorMessage(errMessage: Int)
-    fun showSuccess()
+    fun showUpdateLocationSuccess()
 }

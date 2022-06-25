@@ -7,7 +7,7 @@ public class Constants {
     public static String PRODUCT_MODEL = "PRODUCT_MODEL";
     public static String PRODUCT_BY = "PRODUCT_BY";
     public static String CART_MODEL = "CART_MODEL";
-    public static String ORDERCODE = "ORDERCODE";
+    public static String ORDER_CODE = "ORDER_CODE";
     public static String EMAIL = "EMAIL";
 
 
@@ -19,7 +19,7 @@ public class Constants {
 
     public static class PAYMENT{
         public static final String WALLET = "WALLET";
-        public static final String CASH = "CASH";
+        public static final String COD = "COD";
     }
 
     public static class EventKey{
@@ -27,6 +27,7 @@ public class Constants {
         public static final String UPDATE_PROFILE_INFO = "UPDATE_PROFILE_INFO";
         public static final String UPDATE_PROFILE_AVATAR = "UPDATE_PROFILE_AVATAR";
         public static final String UPDATE_CART = "UPDATE_CART";
+        public static final String UPDATE_ADD_TO_CART_PRODUCT = "UPDATE_ADD_TO_CART_PRODUCT";
         public static final String UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER";
         public static final String UPDATE_LOCATION = "UPDATE_LOCATION";
         public static final String LOGIN_SUCCESS = "LOGIN_SUCCESS";

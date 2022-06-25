@@ -16,33 +16,33 @@ class OrderHistoryPresent(var view: IOrderHistoryView?) : IOrderHistoryPresent {
         view?.showLoading()
         val service = ApiClient.newInstance().create(OrderService::class.java)
         val profile = Preferences.newInstance().profile
-        service.getByUser(profile.id).enqueue(object : Callback<List<OrderModel>>{
-            override fun onResponse(call: Call<List<OrderModel>>, response: Response<List<OrderModel>>) {
-                response.body()?.let {
-                    when {
-                        it.isNotEmpty() -> {
-                            view?.showData(it)
-                        }
-                        else -> {
-                            view?.showEmpty()
-                        }
-                    }
-                    view?.hideLoading()
-                } ?: kotlin.run {
-                    view?.run {
-                        showErrorMessage(getErrorMessage(1001))
-                        hideLoading()
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<List<OrderModel>>, t: Throwable) {
-                view?.run {
-                    showErrorMessage(getErrorMessage(1001))
-                    hideLoading()
-                }
-            }
-        })
+//        service.getOrdersByUser(profile.id).enqueue(object : Callback<List<OrderModel>>{
+//            override fun onResponse(call: Call<List<OrderModel>>, response: Response<List<OrderModel>>) {
+//                response.body()?.let {
+//                    when {
+//                        it.isNotEmpty() -> {
+//                            view?.showData(it)
+//                        }
+//                        else -> {
+//                            view?.showEmpty()
+//                        }
+//                    }
+//                    view?.hideLoading()
+//                } ?: kotlin.run {
+//                    view?.run {
+//                        showErrorMessage(getErrorMessage(1001))
+//                        hideLoading()
+//                    }
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<List<OrderModel>>, t: Throwable) {
+//                view?.run {
+//                    showErrorMessage(getErrorMessage(1001))
+//                    hideLoading()
+//                }
+//            }
+//        })
     }
 
     private fun getErrorMessage(errCode: Int): Int {

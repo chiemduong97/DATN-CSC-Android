@@ -10,38 +10,38 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/dimen_48"
         android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/dimen_16"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imv_back"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/dimen_24"
+                android:layout_height="@dimen/dimen_24"
                 android:layout_gravity="center"
                 android:layout_weight="0"
                 android:src="@drawable/ic_back" />
 
             <TextView
+                style="@style/bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="@dimen/dimen_24"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/your_cart"
                 android:textColor="@color/black"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/text_16" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -53,7 +53,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/dimen_10"
                 android:background="@color/gray_light" />
 
             <RelativeLayout
@@ -62,21 +62,20 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp"
-                android:paddingTop="10dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp">
+                android:paddingHorizontal="@dimen/dimen_15"
+                android:paddingVertical="@dimen/dimen_10">
 
                 <ImageView
                     android:id="@+id/imv_branch"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/dimen_24"
+                    android:layout_height="@dimen/dimen_24"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="@dimen/dimen_10"
                     android:src="@drawable/ic_branch_eatery" />
 
                 <TextView
                     android:id="@+id/tv_branch_name"
+                    style="@style/bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -84,13 +83,13 @@
                     android:layout_toEndOf="@+id/imv_branch"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@string/branch_name_default"
                     android:textColor="@color/black"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_16"
+                    tools:text="@string/branch_name_default" />
 
                 <TextView
                     android:id="@+id/tv_branch_address"
+                    style="@style/regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_branch_name"
@@ -98,19 +97,19 @@
                     android:layout_toEndOf="@+id/imv_branch"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@string/branch_address_default"
-                    android:textSize="14dp" />
+                    android:textSize="@dimen/text_14"
+                    tools:text="@string/branch_address_default" />
 
                 <RelativeLayout
                     android:id="@+id/rll_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:padding="10dp">
+                    android:padding="@dimen/dimen_10">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/dimen_24"
+                        android:layout_height="@dimen/dimen_24"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_next" />
@@ -119,25 +118,23 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/dimen_10"
                 android:background="@color/gray_light" />
 
             <LinearLayout
-                android:id="@+id/profile"
+                android:id="@+id/lnl_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginHorizontal="@dimen/dimen_15"
+                android:layout_marginVertical="@dimen/dimen_10"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_marginRight="10dp"
-                    app:cardCornerRadius="48dp">
+                    android:layout_width="@dimen/dimen_42"
+                    android:layout_height="@dimen/dimen_42"
+                    android:layout_marginEnd="@dimen/dimen_10"
+                    app:cardCornerRadius="@dimen/dimen_21">
 
                     <ImageView
                         android:id="@+id/imv_avatar"
@@ -149,73 +146,78 @@
 
                 <TextView
                     android:id="@+id/tv_profile_name"
+                    style="@style/bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@string/profile_name_default"
                     android:textColor="@color/black"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_16"
+                    tools:text="@string/profile_name_default" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_height="@dimen/dimen_1"
+                android:layout_marginHorizontal="@dimen/dimen_15"
                 android:background="@color/gray_light" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/dimen_15"
+                android:paddingBottom="@dimen/dimen_10" />
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dimen_1"
         android:background="@color/gray_dark" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:padding="@dimen/dimen_15">
+
         <TextView
             android:id="@+id/tv_text_total"
+            style="@style/regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:paddingBottom="@dimen/dimen_10"
             android:text="@string/text_total"
             android:textColor="@color/black"
-            android:textSize="14dp"
-            android:paddingBottom="10dp"
-            android:layout_alignParentTop="true"/>
+            android:textSize="@dimen/text_14" />
+
         <TextView
             android:id="@+id/tv_total_price"
+            style="@style/bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/item_product_price"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="14dp"
-            android:paddingBottom="10dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"/>
+            android:paddingBottom="@dimen/dimen_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_14"
+            tools:text="@string/item_product_price" />
+
         <TextView
             android:id="@+id/tv_order"
+            style="@style/bold"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:text="@string/btn_order"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:paddingLeft="15dp"
-            android:paddingTop="10dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="10dp"
-            android:textColor="@color/white"
+            android:layout_height="@dimen/dimen_48"
+            android:layout_below="@id/tv_text_total"
             android:background="@drawable/bg_btn"
-            android:layout_below="@id/tv_text_total"/>
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/dimen_15"
+            android:paddingVertical="@dimen/dimen_10"
+            android:text="@string/btn_order"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_14" />
     </RelativeLayout>
 </LinearLayout>

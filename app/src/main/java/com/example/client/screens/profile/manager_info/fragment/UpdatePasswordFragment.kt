@@ -181,7 +181,7 @@ class UpdatePasswordFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.O
     }
 
     override fun onBackPress() {
-        activity?.onBackPressed()
+        NavigatorProfile.popFragment()
     }
 
     override fun showErrorMessage(errMessage: Int) {

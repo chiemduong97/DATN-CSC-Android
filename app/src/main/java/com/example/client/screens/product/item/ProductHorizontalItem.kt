@@ -24,7 +24,7 @@ class ProductHorizontalItem(private var context: Context, private var items: Lis
             tvProductName?.text = item.name
             tvProductPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.price)
             if (item.quantity > 0) {
-                tvProductQuantity?.text = context.getString(R.string.text_product_quantity).replace("%s", item.quantity.toString())
+                tvProductQuantity?.text = context.getString(R.string.text_product_quantity, item.quantity)
             } else {
                 tvProductPrice?.text = context.getString(R.string.text_product_quantity_0)
             }

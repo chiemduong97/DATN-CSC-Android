@@ -133,7 +133,7 @@ class UpdateInfoFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.OnCli
     }
 
     override fun onBackPress() {
-        activity?.onBackPressed()
+        NavigatorProfile.popFragment()
     }
 
     override fun showErrorMessage(errMessage: Int) {

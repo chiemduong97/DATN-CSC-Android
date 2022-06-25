@@ -3,7 +3,6 @@ package com.example.client.screens.order.detail
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,63 +10,51 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.client.R
 import com.example.client.app.Constants
+import com.example.client.base.BaseActivityMVP
 import com.example.client.dialog.PrimaryDialog
 import com.example.client.models.branch.BranchModel
-import com.example.client.models.event.Event
 import com.example.client.models.order.OrderDetailModel
 import com.example.client.models.order.OrderModel
 import com.example.client.screens.order.detail.item.OrderDetailItem
+import com.example.client.screens.order.detail.present.IOrderDetailPresent
 import com.example.client.screens.order.detail.present.OrderDetailPresent
 import kotlinx.android.synthetic.main.activity_order_detail.*
-import kotlinx.android.synthetic.main.activity_order_detail.recyclerView
-import kotlinx.android.synthetic.main.activity_order_detail.rll_loading
-import kotlinx.android.synthetic.main.activity_order_detail.rll_promotion
-import kotlinx.android.synthetic.main.activity_order_detail.tv_branch_address
-import kotlinx.android.synthetic.main.activity_order_detail.tv_branch_name
-import kotlinx.android.synthetic.main.activity_order_detail.tv_order_address
-import kotlinx.android.synthetic.main.activity_order_detail.tv_promotion_code
-import kotlinx.android.synthetic.main.activity_order_detail.tv_promotion_value
-import kotlinx.android.synthetic.main.activity_order_detail.tv_shipping_fee_price
-import kotlinx.android.synthetic.main.activity_order_detail.tv_total_price
-import kotlinx.android.synthetic.main.activity_order_detail.imv_back
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import java.text.NumberFormat
 import java.util.*
 
-class OrderDetailActivity : AppCompatActivity(), IOrderDetailView, View.OnClickListener {
-
-    private var present: OrderDetailPresent? = null
-    var ordercode = ""
-    var orderStatus = -1
+class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetailView, View.OnClickListener {
 
     companion object {
-        fun newInstance(context: Context,ordercode: String) : Intent {
+        fun newInstance(context: Context, orderCode: String): Intent {
             return Intent(context, OrderDetailActivity::class.java).apply {
                 val bundle = Bundle().apply {
-                    putString(Constants.ORDERCODE, ordercode)
+                    putString(Constants.ORDER_CODE, orderCode)
                 }
                 putExtras(bundle)
             }
         }
     }
 
+    override val presenter: IOrderDetailPresent
+        get() = OrderDetailPresent(this)
+
+    private val orderCode by lazy { intent.getStringExtra(Constants.ORDER_CODE).orEmpty() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_detail)
+    }
 
+    override fun bindData() {
+        presenter.run {
+            getOrder(orderCode)
+            getOrderDetails(orderCode)
+        }
+    }
+
+    override fun bindEvent() {
         imv_back.setOnClickListener(this)
         tv_order_destroy.setOnClickListener(this)
-
-        ordercode = intent.getStringExtra(Constants.ORDERCODE) ?: "ABC123"
-
-        present = OrderDetailPresent(this)
-
-        present?.let {
-            it.getOrderFromService(ordercode)
-            it.getListOrderDetailFromService(ordercode)
-        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -80,20 +67,17 @@ class OrderDetailActivity : AppCompatActivity(), IOrderDetailView, View.OnClickL
         seek_bar_status.setOnTouchListener { _, _ -> true }
     }
 
-    override fun initView(order: OrderModel) {
-        orderStatus = order.status
+    override fun showOrderDetail(order: OrderModel) {
         tv_order_address.text = order.address
         tv_branch_address.text = order.branch_address
-        tv_shipping_fee_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(order.shippingFee)
-        order.promotion_id?.let {
+        tv_shipping_fee_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(order.shipping_fee)
+        if (order.promotion_id != -1) {
             rll_promotion.visibility = View.VISIBLE
-            tv_promotion_code.text = order.promotionCode
-            tv_promotion_value.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(order.promotionValue)
-        } ?: kotlin.run {
-            rll_promotion.visibility = View.GONE
+            tv_promotion_code.text = order.promotion_code
+            tv_promotion_value.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(order.promotion_value)
         }
-        tv_order_code.text = getString(R.string.text_order_code).replace("%s", order.ordercode)
-        tv_title.text = getString(R.string.text_title_order_detail).replace("%s", order.ordercode)
+        tv_order_code.text = getString(R.string.text_order_code, order.order_code)
+        tv_title.text = getString(R.string.text_title_order_detail, order.order_code)
         tv_total_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(order.getTotalPrice())
         when {
             order.isComplete() -> {
@@ -121,8 +105,9 @@ class OrderDetailActivity : AppCompatActivity(), IOrderDetailView, View.OnClickL
 
     }
 
-    override fun showBranchOrder(branch: BranchModel) {
+    override fun showBranch(branch: BranchModel) {
         tv_branch_name.text = branch.name
+        tv_branch_address.text = branch.address
     }
 
     override fun showLoading() {
@@ -133,13 +118,17 @@ class OrderDetailActivity : AppCompatActivity(), IOrderDetailView, View.OnClickL
         rll_loading.visibility = View.GONE
     }
 
+    override fun onBackPress() {
+        super.onBackPressed()
+    }
+
     override fun showErrorMessage(errMessage: Int) {
         PrimaryDialog({}, {})
                 .setDescription(getString(errMessage))
                 .show(supportFragmentManager)
     }
 
-    override fun showListProduct(products: List<OrderDetailModel>) {
+    override fun showProducts(products: List<OrderDetailModel>) {
         val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val item = OrderDetailItem(this, products)
         recyclerView.layoutManager = manager
@@ -147,30 +136,24 @@ class OrderDetailActivity : AppCompatActivity(), IOrderDetailView, View.OnClickL
     }
 
     override fun onRefresh() {
-        present?.let {
-            it.getOrderFromService(ordercode)
-            it.getListOrderDetailFromService(ordercode)
-        }
+        bindData()
     }
 
-    override fun onClick(v: View?) {
-        v?.let {
-            when (v.id) {
-                R.id.imv_back -> {
-                    onBackPressed()
-                    finish()
-                }
-                R.id.tv_order_destroy -> {
-                    PrimaryDialog({
-                        present?.destroyOrder(ordercode, orderStatus)
-                    }, {})
-                            .setDescription(getString(R.string.destroy_order_sure))
-                            .show(supportFragmentManager)
-                }
-                else -> {
-
-                }
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.imv_back -> {
+                onBackPressed()
+                finish()
+            }
+            R.id.tv_order_destroy -> {
+                PrimaryDialog({
+                    presenter.destroyOrder(orderCode)
+                }, {})
+                        .setDescription(getString(R.string.destroy_order_sure))
+                        .show(supportFragmentManager)
             }
         }
     }
+
+
 }

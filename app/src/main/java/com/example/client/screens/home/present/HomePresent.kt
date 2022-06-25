@@ -1,63 +1,64 @@
 package com.example.client.screens.home.present
 
-import com.example.client.api.ApiClient
-import com.example.client.api.service.BannerService
+import com.example.client.app.Constants
 import com.example.client.app.Preferences
+import com.example.client.app.RxBus
 import com.example.client.base.BasePresenterMVP
-import com.example.client.models.banner.BannerModel
+import com.example.client.models.category.MAX_ITEM_CATEGORY
 import com.example.client.models.category.toCategories
-import com.example.client.usecase.CategoryUseCase
 import com.example.client.screens.home.fragment.IHomeView
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.util.*
+import com.example.client.usecase.CategoryUseCase
 
 class HomePresent(mView: IHomeView) : BasePresenterMVP<IHomeView>(mView), IHomePresent {
     private val categoryUseCase by lazy { CategoryUseCase.newInstance() }
-
-    override fun getCategoriesParent() {
-        add(categoryUseCase.getParents()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    if (it.is_error) {
-                        mView?.showCategories(arrayListOf())
-                        return@subscribe
-                    }
-                    mView?.showCategories(it.data.toCategories())
-                }, {
-                    mView?.showCategories(arrayListOf())
-                })
-        )
+    private val preferences by lazy { Preferences.newInstance() }
+    override fun binData() {
+        mView?.run {
+            showProfile(preferences.profile)
+            preferences.branch?.let {
+                showBranch(it)
+            } ?: kotlin.run {
+                toBranchScreen()
+            }
+        }
     }
 
-    override fun getListBannerFromService() {
-        val service = ApiClient.newInstance().create(BannerService::class.java)
-        service.all.enqueue(object : Callback<List<BannerModel?>?> {
-            override fun onResponse(call: Call<List<BannerModel?>?>, response: Response<List<BannerModel?>?>) {
-                mView?.showBanners(response.body())
+    override fun getCategories() {
+        mView?.showLoading()
+        subscribe(categoryUseCase.getSuperCategories(), {
+            mView?.run {
+                hideLoading()
+                when {
+                    it.is_error -> {
+                        hideCategories()
+                        showErrorMessage(getErrorMessage(it.code))
+                    }
+                    it.data.isNullOrEmpty() -> {
+                        hideCategories()
+                        showErrorMessage(getErrorMessage(1001))
+                    }
+                    else -> {
+                        showCategories(it.data.toCategories().subList(0, MAX_ITEM_CATEGORY))
+                    }
+                }
             }
 
-            override fun onFailure(call: Call<List<BannerModel?>?>, t: Throwable) {
-                mView?.showBanners(ArrayList())
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                hideCategories()
             }
         })
     }
 
-    override fun getProductsHighLightFromService() {}
-    override fun getProductNewFromService() {}
-    override fun getBranchFromRes() {
-        if (Preferences.newInstance().branch == null) {
-            mView!!.toBranchScreen()
-            return
-        }
-        mView?.showBranchInfo(Preferences.newInstance().branch)
-    }
-
-    override fun getUserFromRes() {
-        mView?.showUserInfo(Preferences.newInstance().profile)
+    override fun onCompositedEventAdded() {
+        super.onCompositedEventAdded()
+        add(RxBus.newInstance().subscribe {
+            when (it.key) {
+                Constants.EventKey.CHANGE_BRANCH -> mView?.showBranch(preferences.branch)
+                Constants.EventKey.UPDATE_PROFILE_AVATAR, Constants.EventKey.UPDATE_LOCATION, Constants.EventKey.UPDATE_PROFILE_INFO -> mView?.showProfile(preferences.profile)
+            }
+        })
     }
 }

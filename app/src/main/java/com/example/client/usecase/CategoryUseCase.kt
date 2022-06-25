@@ -11,8 +11,8 @@ class CategoryUseCase {
     companion object {
         fun newInstance() = CategoryUseCase()
     }
-    fun getParents(): Observable<BaseResponse<List<CategoryResponse>>> {
-        return categoryService.parent
+    fun getSuperCategories(): Observable<BaseResponse<List<CategoryResponse>>> {
+        return categoryService.superCategories
     }
 
 }

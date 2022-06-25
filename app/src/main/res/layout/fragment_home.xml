@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -16,28 +17,25 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/profile"
+                android:id="@+id/lnl_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginHorizontal="@dimen/dimen_15"
+                android:layout_marginVertical="@dimen/dimen_10"
                 android:background="@drawable/border_round"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"
-                    app:cardCornerRadius="48dp">
+                    android:layout_width="@dimen/dimen_42"
+                    android:layout_height="@dimen/dimen_42"
+                    android:layout_marginVertical="@dimen/dimen_5"
+                    android:layout_marginStart="@dimen/dimen_5"
+                    android:layout_marginEnd="@dimen/dimen_10"
+                    app:cardCornerRadius="@dimen/dimen_21">
 
                     <ImageView
-                        android:id="@+id/avatar"
+                        android:id="@+id/imv_avatar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
@@ -45,111 +43,87 @@
                 </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:id="@+id/wellcome"
+                    android:id="@+id/tv_greet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Chào buổi sáng, Đỗ Chiếm Dương "
+                    tools:text="Chào buổi sáng, Đỗ Chiếm Dương "
                     android:textColor="@color/black"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
+                    style="@style/bold"
+                    android:textSize="@dimen/text_16" />
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="@dimen/dimen_24"
+                    android:layout_height="@dimen/dimen_24"
+                    android:layout_marginHorizontal="@dimen/dimen_10"
                     android:layout_weight="0"
                     android:src="@drawable/ic_next" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/dimen_10"
                 android:background="@color/gray_light" />
-            <RelativeLayout
-                android:id="@+id/rll_order_location"
+            <LinearLayout
+                android:id="@+id/lnl_order_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp"
-                android:paddingTop="10dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp">
+                android:paddingHorizontal="@dimen/dimen_15"
+                android:paddingVertical="@dimen/dimen_10"
+                android:gravity="center">
 
-                <TextView
-                    android:id="@+id/tv_order_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"
-                    android:text="@string/text_order_location"
-                    android:textColor="@color/black"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"/>
                 <ImageView
                     android:id="@+id/imv_marker"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_address_marker_red"
-                    android:layout_below="@id/tv_order_location"/>
+                    android:layout_width="@dimen/dimen_24"
+                    android:layout_height="@dimen/dimen_24"
+                    android:layout_marginEnd="@dimen/dimen_10"
+                    android:src="@drawable/ic_address_marker_red" />
 
                 <TextView
                     android:id="@+id/tv_order_address"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_order_location"
-                    android:layout_toEndOf="@id/imv_marker"
-                    android:layout_toStartOf="@+id/rll_next_location"
-                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="@string/branch_address_default"
+                    tools:text="@string/branch_address_default"
                     android:textColor="@color/black"
-                    android:textSize="14dp" />
+                    android:textSize="@dimen/text_14" />
                 <RelativeLayout
                     android:id="@+id/rll_next_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:padding="10dp">
+                    android:paddingHorizontal="@dimen/dimen_10">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/dimen_24"
+                        android:layout_height="@dimen/dimen_24"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_next" />
                 </RelativeLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/dimen_10"
                 android:background="@color/gray_light" />
             <RelativeLayout
                 android:id="@+id/rll_change_branch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="15dp"
-                android:paddingTop="10dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp">
+                android:paddingHorizontal="@dimen/dimen_15"
+                android:paddingVertical="@dimen/dimen_10">
                 <ImageView
                     android:id="@+id/imv_branch"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/dimen_24"
+                    android:layout_height="@dimen/dimen_24"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_branch_eatery"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="@dimen/dimen_10"/>
 
                 <TextView
                     android:id="@+id/tv_branch_name"
@@ -160,10 +134,10 @@
                     android:layout_toStartOf="@+id/rll_next"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@string/branch_name_default"
+                    tools:text="@string/branch_name_default"
                     android:textColor="@color/black"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_16"
+                    style="@style/bold" />
 
                 <TextView
                     android:id="@+id/tv_branch_address"
@@ -172,8 +146,9 @@
                     android:layout_below="@+id/tv_branch_name"
                     android:layout_toEndOf="@+id/imv_branch"
                     android:layout_toStartOf="@+id/rll_next"
-                    android:text="@string/branch_address_default"
-                    android:textSize="14dp"
+                    tools:text="@string/branch_address_default"
+                    android:textSize="@dimen/text_14"
+                    style="@style/regular"
                     android:maxLines="1"
                     android:ellipsize="end"/>
 
@@ -182,11 +157,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:padding="10dp">
+                    android:paddingHorizontal="10dp"
+                    android:layout_centerVertical="true">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/dimen_24"
+                        android:layout_height="@dimen/dimen_24"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_next" />
@@ -197,163 +173,46 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/dimen_10"
                 android:background="@color/gray_light" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewIcon"
+                android:id="@+id/recycler_view_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp" />
+                android:paddingHorizontal="@dimen/dimen_15"
+                android:paddingVertical="@dimen/dimen_10"
+                tools:itemCount="12"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4"
+                tools:listitem="@layout/item_category"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/dimen_10"
                 android:background="@color/gray_light" />
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/pagerBanner"
+                android:id="@+id/view_pager_banner"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
-
-            <ImageView
-                android:id="@+id/banner_empty"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/list_empty"
-                android:visibility="gone" />
+                android:layout_height="@dimen/dimen_200" />
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabDots"
+                android:id="@+id/tab_dot"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_5"
+                android:layout_marginBottom="@dimen/dimen_10"
                 app:tabBackground="@drawable/tab_selector"
                 app:tabGravity="center"
                 app:tabIndicatorHeight="0dp" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/dimen_10"
                 android:background="@color/gray_light" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/titleHightLight"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="MÔN HỌC NỔI BẬC"
-                        android:textColor="@color/black"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/moreHightLight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:text="Xem tất cả"
-                        android:textColor="@color/blue"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewHightLight"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp" />
-
-                <ImageView
-                    android:id="@+id/high_light_empty"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:src="@drawable/list_empty"
-                    android:visibility="gone" />
-
-                <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/gray_light" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/titleNew"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="MÔN HỌC MỚI"
-                        android:textColor="@color/black"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/moreNew"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:text="Xem tất cả"
-                        android:textColor="@color/blue"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewNew"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp" />
-
-                <ImageView
-                    android:id="@+id/new_empty"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:src="@drawable/list_empty"
-                    android:visibility="gone" />
-
-                <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/gray_light" />
-            </LinearLayout>
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

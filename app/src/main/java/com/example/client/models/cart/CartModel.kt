@@ -1,26 +1,25 @@
 package com.example.client.models.cart
 
 import com.example.client.app.Constants
-import java.io.Serializable
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class CartModel (var listProduct: ArrayList<CartProductModel>) {
-    var order_latitude: Double = 0.0
-    var order_longitude: Double = 0.0
+class CartModel (var cartProducts: ArrayList<CartProductModel>) {
+    var order_lat: Double = 0.0
+    var order_lng: Double = 0.0
     var order_address: String = ""
-    var branch_latitude: Double = 0.0
-    var branch_longitude: Double = 0.0
+    var branch_lat: Double = 0.0
+    var branch_lng: Double = 0.0
     var branch_address: String = ""
     var promotion_code: String? = null
     var promotion_value: Double? = null
-    var payment_method: String = Constants.PAYMENT.CASH
+    var payment_method: String = Constants.PAYMENT.COD
 
     fun getAmount():Double {
         var amount = 0.0
-        listProduct.let {
+        cartProducts.let {
             if (it.isNotEmpty()) {
                 it.forEach { cartProduct ->
                     amount += cartProduct.product.price.times(cartProduct.quantity)
@@ -32,10 +31,10 @@ class CartModel (var listProduct: ArrayList<CartProductModel>) {
 
     private fun getDistance(): Double {
         val radius = 6371.0
-        val dLat: Double = (branch_latitude - order_latitude) * (Math.PI / 180)
-        val dLon: Double = (branch_longitude - order_longitude) * (Math.PI / 180)
-        val la1ToRad: Double = order_latitude * (Math.PI / 180)
-        val la2ToRad: Double = branch_latitude * (Math.PI / 180)
+        val dLat: Double = (branch_lat - order_lat) * (Math.PI / 180)
+        val dLon: Double = (branch_lng - order_lng) * (Math.PI / 180)
+        val la1ToRad: Double = order_lat * (Math.PI / 180)
+        val la2ToRad: Double = branch_lat * (Math.PI / 180)
         val a = sin(dLat / 2) * sin(dLat / 2) + (cos(la1ToRad) * cos(la2ToRad) * sin(dLon / 2) * sin(dLon / 2))
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
         return radius * c

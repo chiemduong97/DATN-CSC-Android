@@ -21,6 +21,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Map;
 import java.util.Random;
 
@@ -37,7 +39,7 @@ public class MyFirebaseService extends FirebaseMessagingService {
     }
 
     @Override
-    public void onNewToken(String token) {
+    public void onNewToken(@NotNull String token) {
         super.onNewToken(token);
         Log.d(TAG, "Refreshed token: " + token);
 
@@ -53,16 +55,15 @@ public class MyFirebaseService extends FirebaseMessagingService {
 
         ProfileModel user = Preferences.newInstance().getProfile();
         PendingIntent pendingIntent = null;
+        Intent intent;
         if(user == null){
-            Intent intent = getPackageManager().getLaunchIntentForPackage("com.example.client");
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            intent = getPackageManager().getLaunchIntentForPackage("com.example.client");
         }
         else {
-            Intent intent = new Intent(this, NotificationActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            intent = new Intent(this, NotificationActivity.class);
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         String action = (String) data.get("action");
         String description = (String) data.get("description");
 

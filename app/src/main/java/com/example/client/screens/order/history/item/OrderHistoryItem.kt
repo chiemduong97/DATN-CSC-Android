@@ -10,7 +10,7 @@ import com.example.client.models.order.OrderModel
 import java.text.NumberFormat
 import java.util.*
 
-class OrderHistoryItem (var context: Context, var orders: List<OrderModel>, var onClick: (ordercode: String) -> Unit): RecyclerView.Adapter<OrderHistoryViewHolder>() {
+class OrderHistoryItem(var context: Context, var orders: List<OrderModel>, var onClick: (ordercode: String) -> Unit) : RecyclerView.Adapter<OrderHistoryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderHistoryViewHolder {
         return OrderHistoryViewHolder(LayoutInflater.from(context).inflate(R.layout.item_order_history, null))
     }
@@ -19,9 +19,9 @@ class OrderHistoryItem (var context: Context, var orders: List<OrderModel>, var 
     override fun onBindViewHolder(viewHolder: OrderHistoryViewHolder, position: Int) {
         viewHolder.apply {
             val item = orders[position]
-            tvOrderCode?.text = context.getString(R.string.text_order_code).replace("%s", item.ordercode)
+            tvOrderCode?.text = context.getString(R.string.text_order_code, item.order_code)
             tvBranchAddress?.text = item.branch_address
-            tvOrderTotalPrice?.text = context.getString(R.string.text_order_total_price).replace("%s", NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.getTotalPrice()))
+            tvOrderTotalPrice?.text = context.getString(R.string.text_order_total_price, NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.getTotalPrice()))
             when {
                 item.isWaiting() -> {
                     tvOrderStatus?.text = context.getString(R.string.order_status_0)
@@ -45,7 +45,7 @@ class OrderHistoryItem (var context: Context, var orders: List<OrderModel>, var 
                 }
             }
             itemView.setOnClickListener {
-                onClick.invoke(item.ordercode)
+                onClick.invoke(item.order_code)
             }
         }
     }

@@ -9,7 +9,6 @@ import io.reactivex.Observable
 
 class ProductUseCase {
     private val productService by lazy { ApiClient.newInstance().create(ProductService::class.java) }
-    val categoryModel: CategoryModel? = null
     companion object {
         fun newInstance() = ProductUseCase()
     }

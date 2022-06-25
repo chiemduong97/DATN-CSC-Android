@@ -11,12 +11,14 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.models.cart.CartProductModel
 import com.example.client.models.product.ProductModel
-import com.example.client.screens.product.detail.ProductDetailActivity
+import com.example.client.screens.product.detail.ProductDetailFragment
+import com.example.client.utils.ActivityUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.NumberFormat
 import java.util.*
@@ -111,7 +113,7 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
             }
             R.id.lnl_product -> {
                 product?.let {
-                    startActivity(ProductDetailActivity.newInstance(context, it))
+                    listener?.onClickProduct(it)
                 }
                 dismiss()
             }
@@ -129,7 +131,9 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
             }
             R.id.tv_add_to_cart -> {
                 product?.let {
-                    listener?.addToCart(CartProductModel(it, quantity))
+                    listener?.addToCart(CartProductModel(it, quantity).apply {
+                        product.addToCart += quantity
+                    })
                 }
                 dismiss()
             }
@@ -142,5 +146,10 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
     fun setListener(callback: OptionAddToCartListener): AddToCartDialog {
         this.listener = callback
         return this
+    }
+
+    fun show(fragmentManager: FragmentManager?) {
+        fragmentManager ?: return
+        show(fragmentManager, tag)
     }
 }

@@ -50,10 +50,6 @@ class LoginEmailActivity : BaseActivityMVP<ILoginPresent>(), View.OnClickListene
         tv_register.setOnClickListener(this)
     }
 
-    override fun bindEventBus(event: Event) {
-        if (event.key == Constants.EventKey.LOGIN_SUCCESS) finish()
-    }
-
     fun setButton(enable: Boolean, background: Int) {
         tv_next.isEnabled = enable
         tv_next.setBackgroundResource(background)
@@ -87,7 +83,9 @@ class LoginEmailActivity : BaseActivityMVP<ILoginPresent>(), View.OnClickListene
         rll_loading.visibility = View.GONE
     }
 
-    override fun onBackPress() {}
+    override fun onBackPress() {
+        super.onBackPressed()
+    }
 
     override fun showErrorMessage(errMessage: Int) {
         tv_error.text = getString(errMessage)

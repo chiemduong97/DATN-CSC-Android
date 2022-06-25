@@ -11,4 +11,6 @@ interface IBasePresenter {
 
     fun onViewCreated()
 
+    fun updateCurrentLocation()
+
 }

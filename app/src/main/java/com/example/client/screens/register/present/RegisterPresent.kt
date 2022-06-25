@@ -1,14 +1,16 @@
 package com.example.client.screens.register.present
 
 import com.example.client.app.Constants
+import com.example.client.app.Preferences
+import com.example.client.app.RxBus
 import com.example.client.base.BasePresenterMVP
 import com.example.client.models.event.Event
 import com.example.client.screens.register.activity.IRegisterView
 import com.example.client.usecase.ProfileUseCase
-import org.greenrobot.eventbus.EventBus
 
 class RegisterPresent(mView: IRegisterView) : BasePresenterMVP<IRegisterView>(mView), IRegisterPresent {
     private val profileUseCase by lazy { ProfileUseCase.newInstance() }
+    private val preferences by lazy { Preferences.newInstance() }
 
     override fun register(fullname: String, phone: String, email: String, password: String) {
         subscribe(profileUseCase.resetFirebaseToken(), {
@@ -19,7 +21,7 @@ class RegisterPresent(mView: IRegisterView) : BasePresenterMVP<IRegisterView>(mV
                         showErrorMessage(getErrorMessage(it.code))
                         return@here
                     }
-                    profileUseCase.setAccessToken(it.data.access_token)
+                    preferences.accessToken = it.data.access_token
                     setUserActive(email)
                 }
             }, {
@@ -46,8 +48,8 @@ class RegisterPresent(mView: IRegisterView) : BasePresenterMVP<IRegisterView>(mV
                     showErrorMessage(getErrorMessage(it.code))
                     return@subscribe
                 }
-                profileUseCase.setProfile(it.data.toProfileModel())
-                updateDeviceToken(email, profileUseCase.getDeviceToken())
+                preferences.profile = it.data.toProfileModel()
+                updateDeviceToken(email, preferences.deviceToken)
             }
         }, {
             it.printStackTrace()
@@ -67,7 +69,7 @@ class RegisterPresent(mView: IRegisterView) : BasePresenterMVP<IRegisterView>(mV
                     return@subscribe
                 }
                 register()
-                EventBus.getDefault().post(Event(Constants.EventKey.LOGIN_SUCCESS))
+                RxBus.newInstance().onNext(Event(Constants.EventKey.LOGIN_SUCCESS))
             }
         }, {
             it.printStackTrace()

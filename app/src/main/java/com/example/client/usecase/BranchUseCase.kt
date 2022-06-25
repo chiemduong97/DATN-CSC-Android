@@ -2,6 +2,8 @@ package com.example.client.usecase
 
 import com.example.client.api.ApiClient
 import com.example.client.api.service.BranchService
+import com.example.client.app.Preferences
+import com.example.client.models.branch.BranchModel
 import com.example.client.models.branch.BranchResponse
 import com.example.client.models.response.BaseResponse
 import io.reactivex.Observable
@@ -14,4 +16,9 @@ class BranchUseCase {
     fun getBranches(): Observable<BaseResponse<List<BranchResponse>>> {
         return branchService.getBranches()
     }
+
+    fun getBranch(id: Int): Observable<BaseResponse<BranchResponse>> {
+        return branchService.getBranch(id)
+    }
+
 }

@@ -2,16 +2,17 @@ package com.example.client.screens.branch.present
 
 import com.example.client.app.Constants
 import com.example.client.app.Preferences
+import com.example.client.app.RxBus
 import com.example.client.base.BaseCollectionPresenter
 import com.example.client.models.branch.BranchModel
 import com.example.client.models.branch.toBranches
 import com.example.client.models.event.Event
 import com.example.client.screens.branch.IBranchView
 import com.example.client.usecase.BranchUseCase
-import org.greenrobot.eventbus.EventBus
 
 class BranchPresent(mView: IBranchView): BaseCollectionPresenter<IBranchView>(mView), IBranchPresent {
     private val branchUseCase by lazy { BranchUseCase.newInstance() }
+    private val preferences by lazy { Preferences.newInstance() }
     override fun binData() {
         getBranches()
     }
@@ -41,8 +42,13 @@ class BranchPresent(mView: IBranchView): BaseCollectionPresenter<IBranchView>(mV
     }
 
     override fun saveBranch(branch: BranchModel) {
-        Preferences.newInstance().branch = branch
-        EventBus.getDefault().post(Event(Constants.EventKey.CHANGE_BRANCH))
+        preferences.branch = branch
+        preferences.cart = preferences.cart.apply {
+            branch_lat = branch.lat
+            branch_lng = branch.lng
+            branch_address = branch.address
+        }
+        RxBus.newInstance().onNext(Event(Constants.EventKey.CHANGE_BRANCH))
         mView?.onBackPress()
     }
 

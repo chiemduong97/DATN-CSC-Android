@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import com.example.client.app.Constants
 import com.example.client.app.Firebase
+import com.example.client.app.Preferences
+import com.example.client.app.RxBus
 import com.example.client.base.BasePresenterMVP
 import com.example.client.models.event.Event
 import com.example.client.models.profile.ProfileRequest
@@ -11,19 +13,19 @@ import com.example.client.screens.profile.manager_info.activity.IManagerProfileV
 import com.example.client.usecase.ProfileUseCase
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.UploadTask
-import org.greenrobot.eventbus.EventBus
 import java.io.ByteArrayOutputStream
 
 class ManagerProfilePresent(mView: IManagerProfileView) : BasePresenterMVP<IManagerProfileView>(mView), IManagerProfilePresent {
     private val profileUseCase by lazy { ProfileUseCase.newInstance() }
+    private val preferences by lazy { Preferences.newInstance() }
 
     override fun bindData() {
-        mView?.showProfile(profileUseCase.getProfile())
+        mView?.showProfile(preferences.profile)
     }
 
     override fun updateProfile(full_name: String, birthday: String, phone: String) {
         mView?.showLoading()
-        subscribe(profileUseCase.updateInfo(ProfileRequest(email = profileUseCase.getProfile().email, fullname = full_name, birthday = birthday, phone = phone)), {
+        subscribe(profileUseCase.updateInfo(ProfileRequest(email = preferences.profile.email, fullname = full_name, birthday = birthday, phone = phone)), {
             mView?.run {
                 hideLoading()
                 if (it.is_error) {
@@ -31,12 +33,12 @@ class ManagerProfilePresent(mView: IManagerProfileView) : BasePresenterMVP<IMana
                     return@subscribe
                 }
                 updateInfoSuccess()
-                profileUseCase.setProfile(profileUseCase.getProfile().apply {
+                preferences.profile = preferences.profile.apply {
                     this.fullname = full_name
                     this.birthday = birthday
                     this.phone = phone
-                })
-                EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_PROFILE_INFO))
+                }
+                RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_PROFILE_INFO))
             }
         }, {
             it.printStackTrace()
@@ -49,7 +51,7 @@ class ManagerProfilePresent(mView: IManagerProfileView) : BasePresenterMVP<IMana
 
     override fun updatePassword(oldPass: String, newPass: String) {
         mView?.showLoading()
-        subscribe(profileUseCase.updatePass(ProfileRequest(email = profileUseCase.getProfile().email, old_password = oldPass, new_password = newPass)), {
+        subscribe(profileUseCase.updatePass(ProfileRequest(email = preferences.profile.email, old_password = oldPass, new_password = newPass)), {
             mView?.run {
                 hideLoading()
                 if (it.is_error) {
@@ -94,18 +96,18 @@ class ManagerProfilePresent(mView: IManagerProfileView) : BasePresenterMVP<IMana
             }.addOnCompleteListener { task: Task<Uri> ->
                 if (task.isSuccessful) {
                     val uri = task.result
-                    subscribe(profileUseCase.updateAvatar(ProfileRequest(email = profileUseCase.getProfile().email, avatar = uri.toString())), {
+                    subscribe(profileUseCase.updateAvatar(ProfileRequest(email = preferences.profile.email, avatar = uri.toString())), {
                         mView?.run {
                             hideLoading()
                             if (it.is_error) {
                                 showErrorMessage(getErrorMessage(it.code))
                                 return@subscribe
                             }
-                            updatePassSuccess()
-                            profileUseCase.setProfile(profileUseCase.getProfile().apply {
+                            updateAvatarSuccess()
+                            preferences.profile = preferences.profile.apply {
                                 this.avatar = uri.toString()
-                            })
-                            EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_PROFILE_AVATAR))
+                            }
+                            RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_PROFILE_AVATAR))
                         }
                     }, {
                         it.printStackTrace()
@@ -122,5 +124,14 @@ class ManagerProfilePresent(mView: IManagerProfileView) : BasePresenterMVP<IMana
                 }
             }
         }
+    }
+
+    override fun onCompositedEventAdded() {
+        super.onCompositedEventAdded()
+        add(RxBus.newInstance().subscribe {
+            if (it.key == Constants.EventKey.UPDATE_PROFILE_INFO) {
+                bindData()
+            }
+        })
     }
 }

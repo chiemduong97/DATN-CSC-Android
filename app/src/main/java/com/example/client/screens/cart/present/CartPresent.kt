@@ -2,52 +2,46 @@ package com.example.client.screens.cart.present
 
 import com.example.client.app.Constants
 import com.example.client.app.Preferences
-import com.example.client.models.cart.CartModel
+import com.example.client.app.RxBus
+import com.example.client.base.BasePresenterMVP
 import com.example.client.models.cart.CartProductModel
 import com.example.client.models.event.Event
+import com.example.client.models.event.ValueEvent
 import com.example.client.screens.cart.activity.ICartView
-import org.greenrobot.eventbus.EventBus
 
-class CartPresent(var view: ICartView?): ICartPresent {
-    private var cart = Preferences.newInstance().cart ?: CartModel(arrayListOf())
-    override fun generationCart() {
-        val profile = Preferences.newInstance().profile
-        val branch = Preferences.newInstance().branch
-        cart.apply {
-            order_latitude = profile.lat
-            order_longitude = profile.lng
-            order_address = profile.address
-            branch_latitude = branch.lat
-            branch_longitude = branch.lng
-            branch_address = branch.address
+class CartPresent(mView: ICartView): BasePresenterMVP<ICartView>(mView), ICartPresent {
+    private val preferences by lazy { Preferences.newInstance() }
+    private var cart = preferences.cart
+    override fun bindData() {
+        mView?.run {
+            preferences.cart = preferences.cart.apply {
+                this.order_lat = preferences.profile.lat
+                this.order_lng = preferences.profile.lng
+                this.order_address = preferences.profile.address
+                this.branch_lat = preferences.branch.lat
+                this.branch_lng = preferences.branch.lng
+                this.branch_address = preferences.branch.address
+            }
+            showUserInfo(preferences.profile)
+            showBranchInfo(preferences.branch)
+            getCartFromRes()
         }
-        saveCart()
-
     }
 
-    override fun getBranchFromRes() {
-        view?.showBranchInfo(Preferences.newInstance().branch)
-    }
-
-    override fun getUserFromRes() {
-        view?.showUserInfo(Preferences.newInstance().profile)
-    }
-
-    override fun getCartFromRes() {
-        cart = Preferences.newInstance().cart ?: CartModel(arrayListOf())
-        cart.listProduct.let {
-            cart.listProduct = it.filter { cartProductModel -> cartProductModel.quantity != 0 } as ArrayList<CartProductModel>
+    private fun getCartFromRes() {
+        cart.cartProducts.let {
+            cart.cartProducts = it.filter { cartProductModel -> cartProductModel.quantity > 0 } as ArrayList<CartProductModel>
         }
-        view?.showCartProduct(cart)
+        mView?.showCartProduct(cart)
     }
 
     override fun minus(cartProduct: CartProductModel) {
-        cart.listProduct.let { list ->
+        cart.cartProducts.let { list ->
             list.map {
                 if (it.product.id == cartProduct.product.id) {
                     it.quantity--
-                    saveCart()
-                    if (it.quantity == 0) {
+                    saveCart(cartProduct)
+                    if (it.quantity <= 0) {
                         getCartFromRes()
                     }
                 }
@@ -56,20 +50,30 @@ class CartPresent(var view: ICartView?): ICartPresent {
     }
 
     override fun plus(cartProduct: CartProductModel) {
-        cart.listProduct.let { list ->
+        cart.cartProducts.let { list ->
             list.map {
                 if (it.product.id == cartProduct.product.id) {
                     it.quantity++
-                    saveCart()
+                    saveCart(cartProduct)
                 }
             }
         }
     }
 
-    private fun saveCart() {
-        Preferences.newInstance().cart = cart
-        EventBus.getDefault().post(Event(Constants.EventKey.UPDATE_CART))
-        view?.updateTotalPrice(cart)
+    private fun saveCart(cartProduct: CartProductModel) {
+        preferences.cart = cart
+        RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
+        RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product.checkAddToCart(cart)))
+        mView?.updateTotalPrice(cart)
+    }
+
+    override fun onCompositedEventAdded() {
+        super.onCompositedEventAdded()
+        add(RxBus.newInstance().subscribe {
+            when (it.key) {
+                Constants.EventKey.CHANGE_BRANCH -> mView?.showBranchInfo(preferences.branch)
+            }
+        })
     }
 
 }

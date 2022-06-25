@@ -1,18 +1,21 @@
 package com.example.client.screens.profile.manager_info.fragment
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import com.bumptech.glide.Glide
 import com.example.client.R
-import com.example.client.app.Constants
 import com.example.client.base.BaseFragmentMVP
 import com.example.client.dialog.PrimaryDialog
-import com.example.client.models.event.Event
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.profile.manager_info.activity.IManagerProfileView
 import com.example.client.screens.profile.manager_info.present.IManagerProfilePresent
@@ -30,7 +33,7 @@ class ManagerProfileFragment : BaseFragmentMVP<IManagerProfilePresent>(), IManag
     override val presenter: IManagerProfilePresent
         get() = ManagerProfilePresent(this)
 
-    private val intentActivityResultLauncher: ActivityResultLauncher<Intent>? = null
+    private var intentActivityResultLauncher: ActivityResultLauncher<Intent>? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,14 +49,33 @@ class ManagerProfileFragment : BaseFragmentMVP<IManagerProfilePresent>(), IManag
         tv_change_info.setOnClickListener(this)
         lnl_change_password.setOnClickListener(this)
         imv_back.setOnClickListener(this)
-    }
-
-    override fun bindEventBus(event: Event) {
-        if (event.key == Constants.EventKey.UPDATE_PROFILE_INFO) {
-            presenter.bindData()
+        intentActivityResultLauncher = registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                try {
+                    data?.let {
+                        it.extras?.run {
+                            val bitmap = this["data"] as Bitmap
+                            imv_avatar.setImageBitmap(bitmap)
+                            presenter.updateAvatar(bitmap)
+                        } ?: kotlin.run {
+                            val uri = it.data ?: return@let
+                            val bitmap = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                                ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireActivity().contentResolver, uri))
+                            } else {
+                                MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
+                            }
+                            imv_avatar.setImageBitmap(bitmap)
+                            presenter.updateAvatar(bitmap)
+                        }
+                    }
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                    showToastMessage(getString(R.string.err_code_1001))
+                }
+            }
         }
     }
-
 
     override fun showProfile(profileModel: ProfileModel) {
         Glide.with(this)
@@ -90,7 +112,7 @@ class ManagerProfileFragment : BaseFragmentMVP<IManagerProfilePresent>(), IManag
     }
 
     override fun onBackPress() {
-        activity?.onBackPressed()
+        NavigatorProfile.popFragment()
     }
 
     override fun onClick(v: View) {

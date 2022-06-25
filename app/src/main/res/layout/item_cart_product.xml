@@ -1,74 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="15dp"
-    android:paddingTop="10dp"
-    android:paddingRight="15dp">
+    android:paddingTop="@dimen/dimen_10">
+
     <TextView
         android:id="@+id/tv_product_name"
+        style="@style/regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/item_product_name"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/tv_price"
-        android:textSize="14dp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_14"
+        tools:text="@string/item_product_name" />
+
     <TextView
         android:id="@+id/tv_price"
+        style="@style/bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/item_product_price"
         android:layout_alignParentEnd="true"
-        android:textSize="14dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/dimen_10"
         android:textColor="@color/black"
-        android:textStyle="bold"/>
+        android:textSize="@dimen/text_14"
+        tools:text="@string/item_product_price" />
+
     <LinearLayout
         android:id="@+id/lnl_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:layout_below="@id/tv_price"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="@dimen/dimen_10"
+        android:gravity="center"
+        android:orientation="horizontal">
+
         <ImageButton
             android:id="@+id/btn_minus"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/dimen_24"
+            android:layout_height="@dimen/dimen_24"
             android:background="@drawable/bg_gray_f0_radius_5_stroke"
-            android:padding="10dp"
-            android:src="@drawable/ic_minus"
-            android:visibility="visible" />
+            android:padding="@dimen/dimen_10"
+            android:src="@drawable/ic_minus" />
 
         <TextView
             android:id="@+id/tv_quantity"
-            android:layout_marginStart= "5dp"
-            android:paddingLeft="8dp"
-            android:paddingTop="4dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="4dp"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
+            style="@style/bold"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/dimen_5"
+            android:paddingHorizontal="@dimen/dimen_8"
+            android:paddingVertical="@dimen/dimen_4"
             android:textColor="@color/black"
-            android:text="2"/>
+            tools:text="2" />
 
         <ImageButton
             android:id="@+id/btn_plus"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="5dp"
+            android:layout_width="@dimen/dimen_24"
+            android:layout_height="@dimen/dimen_24"
             android:background="@drawable/bg_gray_f0_radius_5_stroke"
             android:padding="10dp"
-            android:src="@drawable/ic_plus"
-            android:visibility="visible" />
+            android:src="@drawable/ic_plus" />
     </LinearLayout>
+
     <View
-        android:layout_marginTop="10dp"
+        android:id="@+id/view_line"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray_light"
-        android:layout_below="@id/lnl_quantity"/>
+        android:layout_height="@dimen/dimen_1"
+        android:layout_below="@id/lnl_quantity"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:background="@color/gray_dark" />
 </RelativeLayout>

@@ -62,7 +62,7 @@ class PrimaryDialog(private val onOk:() -> Unit, private val onCancel: () -> Uni
 
     }
 
-    fun hideBtnCancel(showCancel: Boolean): PrimaryDialog {
+    fun showBtnCancel(showCancel: Boolean): PrimaryDialog {
         this.showCancel = showCancel
         return this
     }

@@ -2,14 +2,15 @@ package com.example.client.screens.login.present
 
 import com.example.client.app.Constants
 import com.example.client.app.Preferences
+import com.example.client.app.RxBus
 import com.example.client.base.BasePresenterMVP
 import com.example.client.models.event.Event
 import com.example.client.screens.login.activity.ILoginView
 import com.example.client.usecase.ProfileUseCase
-import org.greenrobot.eventbus.EventBus
 
 class LoginPresent(mView: ILoginView) : BasePresenterMVP<ILoginView>(mView), ILoginPresent {
     private val profileUseCase by lazy { ProfileUseCase.newInstance() }
+    private val preferences by lazy { Preferences.newInstance() }
     override fun checkEmail(email: String) {
         mView?.showLoading()
         subscribe(profileUseCase.checkEmail(email), {
@@ -40,7 +41,7 @@ class LoginPresent(mView: ILoginView) : BasePresenterMVP<ILoginView>(mView), ILo
                         showErrorMessage(getErrorMessage(it.code))
                         return@here
                     }
-                    profileUseCase.setAccessToken(it.data.access_token)
+                    preferences.accessToken = it.data.access_token
                     setUserActive(email)
                 }
             }, {
@@ -67,8 +68,8 @@ class LoginPresent(mView: ILoginView) : BasePresenterMVP<ILoginView>(mView), ILo
                     showErrorMessage(getErrorMessage(it.code))
                     return@subscribe
                 }
-                profileUseCase.setProfile(it.data.toProfileModel())
-                updateDeviceToken(email, profileUseCase.getDeviceToken())
+                preferences.profile = it.data.toProfileModel()
+                updateDeviceToken(email, preferences.deviceToken)
             }
         }, {
             it.printStackTrace()
@@ -88,13 +89,22 @@ class LoginPresent(mView: ILoginView) : BasePresenterMVP<ILoginView>(mView), ILo
                     return@subscribe
                 }
                 login()
-                EventBus.getDefault().post(Event(Constants.EventKey.LOGIN_SUCCESS))
+                RxBus.newInstance().onNext(Event(Constants.EventKey.LOGIN_SUCCESS))
             }
         }, {
             it.printStackTrace()
             mView?.run {
                 hideLoading()
                 showErrorMessage(getErrorMessage(1001))
+            }
+        })
+    }
+
+    override fun onCompositedEventAdded() {
+        super.onCompositedEventAdded()
+        add(RxBus.newInstance().subscribe {
+            when (it.key) {
+                Constants.EventKey.LOGIN_SUCCESS, Constants.EventKey.RESET_SUCCESS -> mView?.onBackPress()
             }
         })
     }

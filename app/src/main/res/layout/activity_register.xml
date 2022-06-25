@@ -47,8 +47,8 @@
         android:layout_below="@+id/toolbar"
         android:orientation="vertical">
 
-        <ScrollView
-            android:id="@+id/scrollView"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -276,7 +276,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_10" />
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <View
             android:layout_width="match_parent"
@@ -312,10 +312,22 @@
         android:visibility="gone">
 
         <ProgressBar
+            android:id="@+id/progress_bar"
             android:layout_width="@dimen/dimen_20"
             android:layout_height="@dimen/dimen_20"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:theme="@style/CProgressbar.Red" />
+
+        <TextView
+            style="@style/bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progress_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_2"
+            android:text="@string/text_rll_loading"
+            android:textColor="@color/red_light"
+            android:textSize="@dimen/text_14" />
     </RelativeLayout>
 </RelativeLayout>

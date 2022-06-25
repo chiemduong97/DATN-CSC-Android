@@ -60,10 +60,10 @@
     <string name="text_order_code">Mã đơn #%s</string>
     <string name="text_title_order_detail">Chi tiết đơn hàng #%s</string>
     <string name="text_cart_product_quantity">x%d</string>
-    <string name="add_promotion_code">Áp dụng mã giảm</string>
+    <string name="add_promotion_code">Áp dụng \nmã giảm</string>
     <string name="send_request_order">Đang gửi yêu cầu đặt hàng…</string>
     <string name="text_status_default">Đang chờ</string>
-    <string name="text_rll_loading">Xin chờ một tí…</string>
+    <string name="text_rll_loading">Loading …</string>
     <string name="item_product_quantity_2">x2</string>
     <string name="item_product_quantity">Tồn kho: 100</string>
     <string name="text_product_quantity">Tồn kho: %d</string>
@@ -75,7 +75,7 @@
     <string name="order_status_4">Đã hủy</string>
     <string name="text_order_history">Lịch sử đơn hàng</string>
     <string name="destroy_order_sure">Bạn có chắc chắn hủy đơn hàng này?</string>
-    <string name="text_count_order">Bạn có %s đơn hàng chờ giao</string>
+    <string name="text_count_order">Bạn có %d đơn hàng chờ giao</string>
     <string name="text_see_more">Xem tất cả</string>
     <string name="text_see_order">Xem đơn hàng</string>
     <string name="title_activity_maps">Map</string>
@@ -136,4 +136,12 @@
     <string name="update_password_text_old_password">Mật khẩu cũ</string>
     <string name="update_password_text_new_password">Mật khẩu mới</string>
     <string name="update_password_text_confirm">Xác nhận mật khẩu</string>
+    <string name="item_text_see_more">Xem thêm</string>
+    <string name="greet_morning">buổi sáng, </string>
+    <string name="greet_lunch">buổi trưa</string>
+    <string name="greet_evening">buổi chiều</string>
+    <string name="greet_night">buổi tối</string>
+    <string name="greet_description">Chào %s, %s</string>
+    <string name="category_text_title">Danh mục</string>
+    <string name="main_delivery_to">Giao đến: </string>
 </resources>

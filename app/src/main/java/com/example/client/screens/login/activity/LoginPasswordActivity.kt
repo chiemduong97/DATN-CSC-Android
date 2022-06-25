@@ -70,10 +70,6 @@ class LoginPasswordActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListe
         tv_reset.setOnClickListener(this)
     }
 
-    override fun bindEventBus(event: Event) {
-        if (event.key == Constants.EventKey.RESET_SUCCESS) finish()
-    }
-
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tv_login -> {
@@ -111,7 +107,9 @@ class LoginPasswordActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListe
         rll_loading.visibility = View.GONE
     }
 
-    override fun onBackPress() {}
+    override fun onBackPress() {
+        super.onBackPressed()
+    }
 
     override fun showErrorMessage(errMessage: Int) {
         tv_error.text = getString(errMessage)

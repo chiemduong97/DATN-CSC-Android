@@ -47,7 +47,7 @@ data class ProfileResponse(
     )
 }
 
-data class DataResponse(var access_token: String)
+data class DataProfileResponse(var access_token: String)
 
 data class ProfileRequest(
         var email: String? = null,

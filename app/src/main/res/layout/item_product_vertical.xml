@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_height="@dimen/dimen_100">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_margin="@dimen/dimen_10"
         app:cardCornerRadius="@dimen/dimen_6"
         app:cardElevation="@dimen/dimen_1">
@@ -27,6 +27,7 @@
         android:layout_height="@dimen/dimen_80"
         android:layout_marginVertical="@dimen/dimen_10"
         android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@+id/cv"
         android:orientation="vertical">
 
         <TextView
@@ -61,27 +62,22 @@
             android:textColor="@color/black"
             android:textSize="@dimen/text_12"
             tools:text="@string/item_product_quantity" />
-
-        <RelativeLayout
-            android:id="@+id/rll_cart_quantity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tv_cart_quantity"
-                style="@style/bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="end"
-                android:background="@drawable/bg_btn_quantity"
-                android:paddingHorizontal="@dimen/dimen_10"
-                android:paddingVertical="@dimen/dimen_2"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_12"
-                tools:text="@string/item_product_quantity_2" />
-        </RelativeLayout>
     </LinearLayout>
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_cart_quantity"
+        style="@style/bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/dimen_10"
+        android:background="@drawable/bg_btn_quantity"
+        android:paddingHorizontal="@dimen/dimen_10"
+        android:paddingVertical="@dimen/dimen_2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_12"
+        android:visibility="gone"
+        tools:text="@string/item_product_quantity_2"
+        tools:visibility="visible" />
+</RelativeLayout>

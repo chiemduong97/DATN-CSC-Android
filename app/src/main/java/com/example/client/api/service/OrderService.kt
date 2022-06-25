@@ -1,25 +1,24 @@
 package com.example.client.api.service
 
-import com.example.client.models.message.MessageModel
-import com.example.client.models.order.OrderDetailModel
-import com.example.client.models.order.OrderModel
-import com.example.client.models.order.OrderParam
-import retrofit2.Call
+import com.example.client.models.order.*
+import com.example.client.models.response.BaseResponse
+import io.reactivex.Observable
 import retrofit2.http.*
 
 interface OrderService {
     @POST("api/order/order_create.php")
-    fun createOrder(@Body orderParam: OrderParam): Call<MessageModel>
+    fun createOrder(@Body orderRequest: OrderRequest): Observable<BaseResponse<DataOrderResponse>>
 
     @GET("api/order/order_getByOrderCode.php")
-    fun getByOrderCode(@Query("ordercode") ordercode: String): Call<OrderModel>
+    fun getOrder(@Query("order_code") orderCode: String): Observable<BaseResponse<OrderResponse>>
+
     @GET("api/order_detail/order_detail_getByOrderCode.php")
-    fun getListOrderDetail(@Query("ordercode") ordercode: String): Call<List<OrderDetailModel>>
+    fun getOrderDetails(@Query("order_code") orderCode: String): Observable<BaseResponse<List<OrderDetailResponse>>>
 
     @GET("api/order/order_getByUser.php")
-    fun getByUser(@Query("user_id") user_id: Int): Call<List<OrderModel>>
+    fun getOrdersByUser(@Query("user_id") user_id: Int): Observable<BaseResponse<List<OrderResponse>>>
 
     @FormUrlEncoded
     @POST("api/order/order_destroy.php")
-    fun destroy(@Field("ordercode") ordercode: String, @Field("status") status: Int): Call<MessageModel>
+    fun destroy(@Field("order_code") orderCode: String, @Field("status") status: Int): Observable<BaseResponse<DataOrderResponse>>
 }

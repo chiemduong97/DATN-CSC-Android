@@ -4,13 +4,13 @@ import android.graphics.Color
 import android.widget.TextView
 import com.example.client.R
 import com.example.client.app.Constants
+import com.example.client.app.RxBus
 import com.example.client.base.BasePresenterMVP
 import com.example.client.models.event.Event
 import com.example.client.screens.reset.activity.IPasswordResetView
 import com.example.client.usecase.ProfileUseCase
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import org.greenrobot.eventbus.EventBus
 import java.text.MessageFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -69,7 +69,7 @@ class PasswordResetPresent(mView: IPasswordResetView) : BasePresenterMVP<IPasswo
                     return@subscribe
                 }
                 resetPassSuccess()
-                EventBus.getDefault().post(Event(Constants.EventKey.RESET_SUCCESS))
+                RxBus.newInstance().onNext(Event(Constants.EventKey.RESET_SUCCESS))
             }
         }, {
             it.printStackTrace()

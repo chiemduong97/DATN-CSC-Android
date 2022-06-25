@@ -18,10 +18,10 @@ public interface CategoryService {
     Call<CategoryModel> getById(@Query("id") int id);
 
     @GET("api/category/category_getLevel_0.php")
-    Observable<BaseResponse<List<CategoryResponse>>> getParent();
+    Observable<BaseResponse<List<CategoryResponse>>> getSuperCategories();
 
     @GET("api/category/category_getLevel_1.php")
-    Observable<BaseResponse<List<CategoryResponse>>> getChild(@Query("category_id") int category_id);
+    Observable<BaseResponse<List<CategoryResponse>>> getCategories(@Query("category_id") int category_id);
 
 
 }

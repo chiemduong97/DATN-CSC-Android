@@ -20,3 +20,5 @@ fun List<CategoryResponse>.toCategories(): List<CategoryModel> {
     return categories
 }
 
+const val MAX_ITEM_CATEGORY = 12
+

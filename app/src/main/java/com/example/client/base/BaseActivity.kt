@@ -31,20 +31,9 @@ open class BaseActivity: AppCompatActivity() {
         bindData()
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        EventBus.getDefault().unregister(this)
         compositeDisposable.clear()
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: Event) {
-        bindEventBus(event)
     }
 
     protected fun add(disposable: Disposable) {
@@ -56,7 +45,7 @@ open class BaseActivity: AppCompatActivity() {
     }
     protected fun showDialogErrorMessage(message: String) {
         PrimaryDialog({}, {}).setDescription(message)
-                .hideBtnCancel(false)
+                .showBtnCancel(false)
                 .show(supportFragmentManager)
     }
 
@@ -64,5 +53,4 @@ open class BaseActivity: AppCompatActivity() {
     protected open fun bindData() {}
     protected open fun bindComponent() {}
     protected open fun bindEvent() {}
-    protected open fun bindEventBus(event: Event) {}
 }

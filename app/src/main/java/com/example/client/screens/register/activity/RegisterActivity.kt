@@ -137,7 +137,7 @@ class RegisterActivity : BaseActivityMVP<IRegisterPresent>(), View.OnClickListen
                     if (et_password.text.toString() != et_confirm.text.toString()) {
                         setText(R.string.register_confirm_password_invalid)
                         visibility = View.VISIBLE
-                        scrollView.post { scrollView.scrollTo(0, scrollView.height) }
+                        scroll_view.post { scroll_view.scrollTo(0, scroll_view.height) }
                     } else {
                         text = ""
                         visibility = View.GONE

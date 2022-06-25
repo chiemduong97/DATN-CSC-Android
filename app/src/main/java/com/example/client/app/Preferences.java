@@ -10,6 +10,9 @@ import com.example.client.models.cart.CartModel;
 import com.example.client.models.profile.ProfileModel;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Preferences {
     private static final String SHARE_PREFERENCES = "SHARE_PREFERENCES";
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
@@ -142,7 +145,7 @@ public class Preferences {
     {
         String json = sharePreferences.getString(CART_MODEL, "");
         if (TextUtils.isEmpty(json))
-            return null;
+            return new CartModel(new ArrayList<>());
 
         Gson gson = new Gson();
         try
@@ -150,7 +153,7 @@ public class Preferences {
             return gson.fromJson(json, CartModel.class);
         } catch (Exception e)
         {
-            return null;
+            return new CartModel(new ArrayList<>());
         }
     }
 
@@ -173,5 +176,12 @@ public class Preferences {
         Editor editor = sharePreferences.edit();
         editor.remove(CART_MODEL);
         editor.apply();
+    }
+
+    public void deleteAll() {
+        deleteDeviceToken();
+        deleteProfile();
+        deleteAccessToken();
+        deleteCart();
     }
 }
