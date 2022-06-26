@@ -6,5 +6,4 @@ interface ILoginPresent: IBasePresenter {
     fun checkEmail(email: String)
     fun login(email: String, password: String)
     fun setUserActive(email: String)
-    fun updateDeviceToken(email: String, token: String)
 }

@@ -67,9 +67,9 @@ class OrderHistoryFragment: BaseCollectionFragment<IOrderHistoryPresent>(), IOrd
     }
 
     override fun updateData(orderModel: OrderModel) {
-//        val index = mItems.indexOfFirst { it.id == orderModel.id }
-//        mItems[index] = orderModel
-//        recycler_view.adapter?.notifyItemChanged(index)
+        val index = mItems.indexOfFirst { it.order_code == orderModel.order_code }
+        mItems[index] = orderModel
+        recycler_view.adapter?.notifyItemChanged(index)
     }
 
     override fun onClick(v: View) {

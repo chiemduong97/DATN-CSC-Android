@@ -2,10 +2,15 @@ package com.example.client.screens.order.history.present
 
 import com.example.client.api.ApiClient
 import com.example.client.api.service.OrderService
+import com.example.client.app.Constants
 import com.example.client.app.Preferences
+import com.example.client.app.RxBus
 import com.example.client.base.BaseCollectionPresenter
+import com.example.client.models.event.ValueEvent
 import com.example.client.models.loading.LoadingMode
+import com.example.client.models.order.OrderModel
 import com.example.client.models.order.toOrders
+import com.example.client.models.product.ProductModel
 import com.example.client.models.product.checkCart
 import com.example.client.models.product.toProducts
 import com.example.client.screens.order.history.activity.IOrderHistoryView
@@ -57,6 +62,18 @@ class OrderHistoryPresent(mView: IOrderHistoryView) : BaseCollectionPresenter<IO
     override fun invokeLoadMore(page: Int) {
         super.invokeLoadMore(page)
         getOrders(page, LoadingMode.LOAD_MORE)
+    }
+
+    override fun onCompositedEventAdded() {
+        super.onCompositedEventAdded()
+        add(RxBus.newInstance().subscribe {
+            when (it.key) {
+                Constants.EventKey.UPDATE_ORDER -> {
+                    val orderModel = (it as ValueEvent<*>).value
+                    mView?.updateData(orderModel as OrderModel)
+                }
+            }
+        })
     }
 
 }

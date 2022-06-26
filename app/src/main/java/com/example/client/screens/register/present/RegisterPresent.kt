@@ -13,24 +13,17 @@ class RegisterPresent(mView: IRegisterView) : BasePresenterMVP<IRegisterView>(mV
     private val preferences by lazy { Preferences.newInstance() }
 
     override fun register(fullname: String, phone: String, email: String, password: String) {
-        subscribe(profileUseCase.resetFirebaseToken(), {
-            subscribe(profileUseCase.register(fullname, phone, email, password), here@{
-                mView?.run {
-                    if (it.is_error) {
-                        hideLoading()
-                        showErrorMessage(getErrorMessage(it.code))
-                        return@here
-                    }
-                    preferences.accessToken = it.data.access_token
-                    setUserActive(email)
-                }
-            }, {
-                it.printStackTrace()
-                mView?.run {
+        profileUseCase.resetFirebaseToken(email)
+        subscribe(profileUseCase.register(fullname, phone, email, password), here@{
+            mView?.run {
+                if (it.is_error) {
                     hideLoading()
-                    showErrorMessage(getErrorMessage(1001))
+                    showErrorMessage(getErrorMessage(it.code))
+                    return@here
                 }
-            })
+                preferences.accessToken = it.data.access_token
+                setUserActive(email)
+            }
         }, {
             it.printStackTrace()
             mView?.run {
@@ -49,25 +42,6 @@ class RegisterPresent(mView: IRegisterView) : BasePresenterMVP<IRegisterView>(mV
                     return@subscribe
                 }
                 preferences.profile = it.data.toProfileModel()
-                updateDeviceToken(email, preferences.deviceToken)
-            }
-        }, {
-            it.printStackTrace()
-            mView?.run {
-                hideLoading()
-                showErrorMessage(getErrorMessage(1001))
-            }
-        })
-    }
-
-    override fun updateDeviceToken(email: String, token: String) {
-        subscribe(profileUseCase.updateDeviceToken(email, device_token = token), {
-            mView?.run {
-                hideLoading()
-                if (it.is_error) {
-                    showErrorMessage(getErrorMessage(it.code))
-                    return@subscribe
-                }
                 register()
                 RxBus.newInstance().onNext(Event(Constants.EventKey.LOGIN_SUCCESS))
             }

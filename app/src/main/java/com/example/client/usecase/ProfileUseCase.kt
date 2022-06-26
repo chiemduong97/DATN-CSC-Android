@@ -4,9 +4,7 @@ import com.example.client.api.ApiClient
 import com.example.client.api.service.UserService
 import com.example.client.app.Constants
 import com.example.client.app.MyFirebaseService
-import com.example.client.app.Preferences
 import com.example.client.models.profile.DataProfileResponse
-import com.example.client.models.profile.ProfileModel
 import com.example.client.models.profile.ProfileRequest
 import com.example.client.models.profile.ProfileResponse
 import com.example.client.models.response.BaseResponse
@@ -21,8 +19,8 @@ class ProfileUseCase {
     }
 
 
-    fun resetFirebaseToken(): Observable<Int> {
-        return firebaseService.resetToken()
+    fun resetFirebaseToken(email: String) {
+        return firebaseService.resetToken(email)
     }
 
     fun checkEmail(email: String): Observable<BaseResponse<DataProfileResponse>> {

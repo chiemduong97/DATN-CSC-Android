@@ -1,6 +1,10 @@
 package com.example.client.screens.order.detail.present
 
+import com.example.client.app.Constants
+import com.example.client.app.RxBus
 import com.example.client.base.BasePresenterMVP
+import com.example.client.models.event.Event
+import com.example.client.models.event.ValueEvent
 import com.example.client.models.order.OrderModel
 import com.example.client.models.order.toOrderDetails
 import com.example.client.screens.order.detail.IOrderDetailView
@@ -77,6 +81,7 @@ class OrderDetailPresent(mView: IOrderDetailView) : BasePresenterMVP<IOrderDetai
     }
 
     override fun destroyOrder(orderCode: String) {
+        orderModel ?: return
         mView?.showLoading()
         subscribe(orderUseCase.destroyOrder(orderCode, orderModel!!.status), {
             mView?.run {
@@ -86,6 +91,9 @@ class OrderDetailPresent(mView: IOrderDetailView) : BasePresenterMVP<IOrderDetai
                     return@subscribe
                 }
                 onRefresh()
+                RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_STATUS_ORDER))
+                RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ORDER, orderModel!!.apply { status = 4 }))
+
             }
         }, {
             it.printStackTrace()

@@ -12,13 +12,21 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.client.R
 import com.example.client.screens.noti.activity.NotificationActivity
+import com.example.client.usecase.ProfileUseCase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 class MyFirebaseService : FirebaseMessagingService() {
+    private val profileUseCase by lazy { ProfileUseCase.newInstance() }
+    private val preferences by lazy { Preferences.newInstance() }
+    private val firebaseMessaging by lazy { FirebaseMessaging.getInstance() }
+    private val compositeDisposable = CompositeDisposable()
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.from)
         sendNotification(remoteMessage.data)
@@ -31,14 +39,25 @@ class MyFirebaseService : FirebaseMessagingService() {
     }
 
     private fun sendRegistrationToServer(token: String) {
-        Preferences.newInstance().deviceToken = token
+        preferences.deviceToken = token
+        mEmail ?: return
+        compositeDisposable.add(profileUseCase.updateDeviceToken(mEmail!!, device_token = token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if (it.is_error) {
+                        firebaseMessaging.token
+                    }
+                }, {
+                    it.printStackTrace()
+                    firebaseMessaging.token
+                }))
     }
 
     private fun sendNotification(data: Map<*, *>) {
         val user = Preferences.newInstance().profile
         var pendingIntent: PendingIntent? = null
-        val intent: Intent?
-        intent = if (user == null) {
+        val intent: Intent? = if (user == null) {
             packageManager.getLaunchIntentForPackage("com.example.client")
         } else {
             Intent(this, NotificationActivity::class.java)
@@ -76,15 +95,22 @@ class MyFirebaseService : FirebaseMessagingService() {
         }
     }
 
-    fun resetToken(): Observable<Int> {
-        return Observable.just(1).doOnNext { FirebaseMessaging.getInstance().token }
+    fun resetToken(email: String) {
+        mEmail = email
+        firebaseMessaging.token
     }
 
     fun deleteToken() {
-        FirebaseMessaging.getInstance().deleteToken()
+        firebaseMessaging.deleteToken()
     }
 
     companion object {
         private const val TAG = "MyFirebaseService"
+        private var mEmail: String? = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 }

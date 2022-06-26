@@ -29,6 +29,7 @@ object Constants {
         const val UPDATE_CART = "UPDATE_CART"
         const val UPDATE_ADD_TO_CART_PRODUCT = "UPDATE_ADD_TO_CART_PRODUCT"
         const val UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER"
+        const val UPDATE_ORDER = "UPDATE_ORDER"
         const val UPDATE_LOCATION = "UPDATE_LOCATION"
         const val LOGIN_SUCCESS = "LOGIN_SUCCESS"
         const val RESET_SUCCESS = "RESET_SUCCESS"

@@ -33,24 +33,17 @@ class LoginPresent(mView: ILoginView) : BasePresenterMVP<ILoginView>(mView), ILo
 
     override fun login(email: String, password: String) {
         mView?.showLoading()
-        subscribe(profileUseCase.resetFirebaseToken(), {
-            subscribe(profileUseCase.login(email, password), here@{
-                mView?.run {
-                    if (it.is_error) {
-                        hideLoading()
-                        showErrorMessage(getErrorMessage(it.code))
-                        return@here
-                    }
-                    preferences.accessToken = it.data.access_token
-                    setUserActive(email)
-                }
-            }, {
-                it.printStackTrace()
-                mView?.run {
+        profileUseCase.resetFirebaseToken(email)
+        subscribe(profileUseCase.login(email, password), here@{
+            mView?.run {
+                if (it.is_error) {
                     hideLoading()
-                    showErrorMessage(getErrorMessage(1001))
+                    showErrorMessage(getErrorMessage(it.code))
+                    return@here
                 }
-            })
+                preferences.accessToken = it.data.access_token
+                setUserActive(email)
+            }
         }, {
             it.printStackTrace()
             mView?.run {
@@ -69,25 +62,6 @@ class LoginPresent(mView: ILoginView) : BasePresenterMVP<ILoginView>(mView), ILo
                     return@subscribe
                 }
                 preferences.profile = it.data.toProfileModel()
-                updateDeviceToken(email, preferences.deviceToken)
-            }
-        }, {
-            it.printStackTrace()
-            mView?.run {
-                hideLoading()
-                showErrorMessage(getErrorMessage(1001))
-            }
-        })
-    }
-
-    override fun updateDeviceToken(email: String, token: String) {
-        subscribe(profileUseCase.updateDeviceToken(email, device_token = token), {
-            mView?.run {
-                hideLoading()
-                if (it.is_error) {
-                    showErrorMessage(getErrorMessage(it.code))
-                    return@subscribe
-                }
                 login()
                 RxBus.newInstance().onNext(Event(Constants.EventKey.LOGIN_SUCCESS))
             }
