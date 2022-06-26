@@ -4,6 +4,6 @@ import com.example.client.base.IBaseView
 
 interface ILoginView: IBaseView {
     fun next()
-    fun login()
+    fun loginSuccess()
     fun showErrorMessage(errMessage: Int)
 }

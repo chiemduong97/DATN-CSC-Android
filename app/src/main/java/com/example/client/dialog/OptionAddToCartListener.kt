@@ -6,5 +6,4 @@ import com.example.client.models.product.ProductModel
 
 interface OptionAddToCartListener {
     fun addToCart(cartProduct: CartProductModel)
-    fun onClickProduct(productModel: ProductModel)
 }

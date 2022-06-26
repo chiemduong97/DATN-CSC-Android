@@ -111,9 +111,6 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
                 dismiss()
             }
             R.id.lnl_product -> {
-                product?.let {
-                    listener?.onClickProduct(it)
-                }
                 dismiss()
             }
             R.id.btn_minus -> {

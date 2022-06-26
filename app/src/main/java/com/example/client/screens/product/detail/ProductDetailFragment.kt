@@ -158,10 +158,4 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         }
     }
 
-    override fun onClickProduct(productModel: ProductModel) {
-        NavigatorProduct.showProductDetailScreen(arguments?.apply {
-            putSerializable(Constants.PRODUCT_MODEL, productModel)
-        })
-    }
-
 }

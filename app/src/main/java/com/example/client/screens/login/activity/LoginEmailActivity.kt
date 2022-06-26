@@ -74,7 +74,7 @@ class LoginEmailActivity : BaseActivityMVP<ILoginPresent>(), View.OnClickListene
         startActivity(LoginPasswordActivity.newInstance(this, email = et_email.text.toString().trim()))
     }
 
-    override fun login() {}
+    override fun loginSuccess() {}
     override fun showLoading() {
         rll_loading.visibility = View.VISIBLE
     }

@@ -69,7 +69,6 @@ class PasswordResetPresent(mView: IPasswordResetView) : BasePresenterMVP<IPasswo
                     return@subscribe
                 }
                 resetPassSuccess()
-                RxBus.newInstance().onNext(Event(Constants.EventKey.RESET_SUCCESS))
             }
         }, {
             it.printStackTrace()

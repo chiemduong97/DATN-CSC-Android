@@ -93,7 +93,7 @@ class LoginPasswordActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListe
     }
 
     override operator fun next() {}
-    override fun login() {
+    override fun loginSuccess() {
         lnl_error.visibility = View.GONE
         finish()
         startActivity(Intent(this, MainActivity::class.java))
@@ -107,9 +107,7 @@ class LoginPasswordActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListe
         rll_loading.visibility = View.GONE
     }
 
-    override fun onBackPress() {
-        super.onBackPressed()
-    }
+    override fun onBackPress() {}
 
     override fun showErrorMessage(errMessage: Int) {
         tv_error.text = getString(errMessage)

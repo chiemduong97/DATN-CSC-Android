@@ -62,7 +62,7 @@ class LoginPresent(mView: ILoginView) : BasePresenterMVP<ILoginView>(mView), ILo
                     return@subscribe
                 }
                 preferences.profile = it.data.toProfileModel()
-                login()
+                loginSuccess()
                 RxBus.newInstance().onNext(Event(Constants.EventKey.LOGIN_SUCCESS))
             }
         }, {
@@ -78,7 +78,7 @@ class LoginPresent(mView: ILoginView) : BasePresenterMVP<ILoginView>(mView), ILo
         super.onCompositedEventAdded()
         add(RxBus.newInstance().subscribe {
             when (it.key) {
-                Constants.EventKey.LOGIN_SUCCESS, Constants.EventKey.RESET_SUCCESS -> mView?.onBackPress()
+                Constants.EventKey.LOGIN_SUCCESS -> mView?.onBackPress()
             }
         })
     }
