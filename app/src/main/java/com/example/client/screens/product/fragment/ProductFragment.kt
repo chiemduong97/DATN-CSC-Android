@@ -19,7 +19,7 @@ import com.example.client.screens.product.present.ProductPresent
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_product.*
 
-class ProductFragment: BaseCollectionFragment<IProductPresent>(), IProductView, View.OnClickListener {
+class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView, View.OnClickListener {
     private var mItems = arrayListOf<ProductModel>()
     private val manager by lazy { LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) }
 
@@ -55,10 +55,8 @@ class ProductFragment: BaseCollectionFragment<IProductPresent>(), IProductView, 
         mItems = items as ArrayList<ProductModel>
         recycler_view.visibility = View.VISIBLE
         imv_empty.visibility = View.GONE
-        val item = context?.let { it ->
-            ProductVerticalItem(it, mItems) { product ->
-                presenter.onClickItem(product)
-            }
+        val item = ProductVerticalItem(requireContext(), mItems) { product ->
+            presenter.onClickItem(product)
         }
         recycler_view.layoutManager = manager
         recycler_view.adapter = item
@@ -78,7 +76,7 @@ class ProductFragment: BaseCollectionFragment<IProductPresent>(), IProductView, 
         showToastMessage(getString(errMessage))
     }
 
-    override fun showProductDetailScreen(productModel: ProductModel) {
+    override fun navigateToProductDetailScreen(productModel: ProductModel) {
         NavigatorProduct.showProductDetailScreen(arguments?.apply {
             putSerializable(Constants.PRODUCT_MODEL, productModel)
         })
@@ -90,9 +88,9 @@ class ProductFragment: BaseCollectionFragment<IProductPresent>(), IProductView, 
         recycler_view.adapter?.notifyItemChanged(index)
     }
 
-    override fun onClick(v: View?) {
-        if (v?.id == R.id.imv_back) {
-            activity?.onBackPressed()
+    override fun onClick(v: View) {
+        if (v.id == R.id.imv_back) {
+            requireActivity().onBackPressed()
         }
     }
 
@@ -101,7 +99,7 @@ class ProductFragment: BaseCollectionFragment<IProductPresent>(), IProductView, 
     }
 
     override fun onBackPress() {
-        activity?.onBackPressed()
+        requireActivity().onBackPressed()
     }
 
     override fun shouldLoadMore() = true

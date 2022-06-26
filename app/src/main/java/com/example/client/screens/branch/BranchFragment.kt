@@ -52,9 +52,9 @@ class BranchFragment: BaseCollectionFragment<IBranchPresent>(), IBranchView, Vie
         showToastMessage(getString(errMessage))
     }
 
-    override fun onClick(v: View?) {
-        if (v?.id == R.id.imv_back) {
-            activity?.onBackPressed()
+    override fun onClick(v: View) {
+        if (v.id == R.id.imv_back) {
+            requireActivity().onBackPressed()
         }
     }
 
@@ -63,7 +63,7 @@ class BranchFragment: BaseCollectionFragment<IBranchPresent>(), IBranchView, Vie
     }
 
     override fun onBackPress() {
-        activity?.onBackPressed()
+        requireActivity().onBackPressed()
     }
 
     override fun shouldLoadMore(): Boolean {

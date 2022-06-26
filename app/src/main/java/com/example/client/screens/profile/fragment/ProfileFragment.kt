@@ -34,6 +34,7 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
     override fun bindEvent() {
         tv_update_info.setOnClickListener(this)
         lnl_logout.setOnClickListener(this)
+        lnl_order_history.setOnClickListener(this)
     }
 
     override fun bindComponent() {
@@ -42,7 +43,7 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.tv_update_info -> activity?.let { startActivity(ManagerProfileActivity.newInstance(it)) }
+            R.id.tv_update_info -> startActivity(ManagerProfileActivity.newInstance(requireActivity()))
             R.id.lnl_logout -> {
                 PrimaryDialog({
                     presenter.onLogout()
@@ -50,15 +51,14 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
                         .setDescription(getString(R.string.dialog_question_logout))
                         .show(childFragmentManager)
             }
-            R.id.lnl_order_history -> startActivity(Intent(context, OrderHistoryActivity::class.java))
+            R.id.lnl_order_history -> startActivity(OrderHistoryActivity.newInstance(requireActivity()))
             R.id.lnl_contact -> presenter.navigateToContact()
         }
     }
 
     override fun logout() {
-        activity?.let {
-            startActivity(LoginEmailActivity.newInstance(it))
-        }
+        requireActivity().finish()
+        startActivity(LoginEmailActivity.newInstance(requireActivity()))
     }
 
     override fun showUserInfo(profile: ProfileModel) {

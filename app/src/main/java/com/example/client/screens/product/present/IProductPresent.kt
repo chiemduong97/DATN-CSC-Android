@@ -8,7 +8,7 @@ import com.example.client.models.product.ProductModel
 
 interface IProductPresent: IBaseCollectionPresenter {
     fun binData(categoryModel: CategoryModel)
-    fun loadDataByCategory(category_id: Int, page: Int, loadingMode: LoadingMode)
+    fun getProducts(category_id: Int, page: Int, loadingMode: LoadingMode)
     fun onClickItem(productModel: ProductModel)
     fun getCartFromRes(): CartModel
 }

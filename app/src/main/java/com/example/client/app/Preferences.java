@@ -11,7 +11,6 @@ import com.example.client.models.profile.ProfileModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Preferences {
     private static final String SHARE_PREFERENCES = "SHARE_PREFERENCES";

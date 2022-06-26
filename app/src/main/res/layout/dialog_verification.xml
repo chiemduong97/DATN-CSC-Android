@@ -10,8 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="@dimen/dimen_32"
-        android:layout_marginRight="@dimen/dimen_32"
+        android:layout_marginHorizontal="@dimen/dimen_12"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginRight="@dimen/dimen_12"
         android:background="@drawable/bg_white_radius"
         android:orientation="vertical"
         android:padding="@dimen/dimen_24">

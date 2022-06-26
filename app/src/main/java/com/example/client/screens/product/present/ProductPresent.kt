@@ -26,12 +26,12 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
 
     override fun binData(categoryModel: CategoryModel) {
         mCategoryModel = categoryModel
-        loadDataByCategory(categoryModel.id, page, LoadingMode.LOAD)
+        getProducts(categoryModel.id, page, LoadingMode.LOAD)
     }
 
-    override fun loadDataByCategory(category_id: Int, page: Int, loadingMode: LoadingMode) {
+    override fun getProducts(category_id: Int, page: Int, loadingMode: LoadingMode) {
         if (loadingMode == LoadingMode.LOAD) mView?.showLoading()
-        subscribe(productUseCase.getByCategory(category_id, preferences.branch.id, page, limit), {
+        subscribe(productUseCase.getProducts(category_id, preferences.branch.id, page, limit), {
             mView?.run {
                 hideLoading()
                 if (it.is_error || it.data.isEmpty()) {
@@ -62,7 +62,7 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
     }
 
     override fun onClickItem(productModel: ProductModel) {
-        mView?.showProductDetailScreen(productModel)
+        mView?.navigateToProductDetailScreen(productModel)
     }
 
     override fun getCartFromRes(): CartModel {
@@ -71,7 +71,7 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
 
     override fun invokeLoadMore(page: Int) {
         super.invokeLoadMore(page)
-        mCategoryModel?.let { loadDataByCategory(it.id, page, LoadingMode.LOAD_MORE) }
+        mCategoryModel?.let { getProducts(it.id, page, LoadingMode.LOAD_MORE) }
     }
 
     override fun onCompositedEventAdded() {

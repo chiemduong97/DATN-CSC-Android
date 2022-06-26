@@ -36,7 +36,7 @@ abstract class BaseCollectionFragment<P : IBaseCollectionPresenter> : BaseFragme
                     val linearLayoutManager: LinearLayoutManager = layoutManager as LinearLayoutManager
                     val totalItemCount: Int = linearLayoutManager.itemCount
                     val lastVisibleItemPosition: Int = linearLayoutManager.findLastCompletelyVisibleItemPosition()
-                    if (shouldLoadMore() && lastVisibleItemPosition == totalItemCount - 1) {
+                    if (shouldLoadMore() && lastVisibleItemPosition == totalItemCount - 1 && totalItemCount >= 5) {
                         mPresenter?.loadMore()
                     }
                 }

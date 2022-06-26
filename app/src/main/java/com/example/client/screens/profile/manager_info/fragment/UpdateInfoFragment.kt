@@ -47,7 +47,7 @@ class UpdateInfoFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.OnCli
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 errMessage = if (s.length < 6) {
-                    context?.getString(R.string.register_name_invalid)!!
+                    requireContext().getString(R.string.register_name_invalid)!!
                 } else {
                     ""
                 }
@@ -62,7 +62,7 @@ class UpdateInfoFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.OnCli
                 errMessage = if (et_phone.text.toString().matches(regex)) {
                     ""
                 } else {
-                    context?.getString(R.string.register_phone_invalid)!!
+                    requireContext().getString(R.string.register_phone_invalid)!!
                 }
             }
 
@@ -81,7 +81,7 @@ class UpdateInfoFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.OnCli
                     showDialogErrorMessage(errMessage)
                     return
                 }
-                activity?.run {
+                requireActivity().run {
                     val imn = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     currentFocus?.let {
                         imn.hideSoftInputFromWindow(it.windowToken, 0)
@@ -91,15 +91,13 @@ class UpdateInfoFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.OnCli
             }
             R.id.imv_back -> NavigatorProfile.popFragment()
             R.id.et_birthday -> {
-                context?.let {
-                    val calendar = Calendar.getInstance()
-                    val datePickerDialog = DatePickerDialog(it, { _, year, month, dayOfMonth ->
-                        calendar[year, month] = dayOfMonth
-                        val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                        et_birthday.setText(simpleDateFormat.format(calendar.time))
-                    }, calendar[Calendar.YEAR], calendar[Calendar.MONTH], calendar[Calendar.DAY_OF_MONTH])
-                    datePickerDialog.show()
-                }
+                val calendar = Calendar.getInstance()
+                val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+                    calendar[year, month] = dayOfMonth
+                    val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                    et_birthday.setText(simpleDateFormat.format(calendar.time))
+                }, calendar[Calendar.YEAR], calendar[Calendar.MONTH], calendar[Calendar.DAY_OF_MONTH])
+                datePickerDialog.show()
             }
         }
     }

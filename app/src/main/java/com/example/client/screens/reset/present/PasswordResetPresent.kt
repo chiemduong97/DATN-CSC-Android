@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.widget.TextView
 import com.example.client.R
 import com.example.client.app.Constants
+import com.example.client.app.Res.context
 import com.example.client.app.RxBus
 import com.example.client.base.BasePresenterMVP
 import com.example.client.models.event.Event
@@ -11,7 +12,6 @@ import com.example.client.screens.reset.activity.IPasswordResetView
 import com.example.client.usecase.ProfileUseCase
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import java.text.MessageFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -83,17 +83,17 @@ class PasswordResetPresent(mView: IPasswordResetView) : BasePresenterMVP<IPasswo
     override fun countDownTimer(tv: TextView, time: Int) {
         add(Observable.interval(1, TimeUnit.SECONDS)
                 .take(time.toLong())
-                .map { v: Long -> v+1 }
+                .map { v: Long -> v + 1 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     val value = time - it
                     val minutes = (value % 3600 / 60).toInt()
                     val seconds = (value % 60).toInt()
                     val timeString = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
-                    tv.text = MessageFormat.format("Gửi mail xác thực ({0})", timeString)
+                    tv.text = context?.getString(R.string.reset_pass_count_timer, timeString)
                     tv.setTextColor(Color.GRAY)
                     tv.isEnabled = false
-                },{
+                }, {
                     it.printStackTrace()
                     tv.setText(R.string.reset_text_send_email)
                     tv.setTextColor(Color.BLUE)

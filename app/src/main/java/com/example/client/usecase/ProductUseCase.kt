@@ -13,7 +13,7 @@ class ProductUseCase {
         fun newInstance() = ProductUseCase()
     }
 
-    fun getByCategory(category_id: Int, branch_id: Int, page: Int, limit: Int): Observable<BaseResponse<List<ProductResponse>>> {
+    fun getProducts(category_id: Int, branch_id: Int, page: Int, limit: Int): Observable<BaseResponse<List<ProductResponse>>> {
         return productService.getByCategory(category_id, branch_id, page, limit)
     }
 

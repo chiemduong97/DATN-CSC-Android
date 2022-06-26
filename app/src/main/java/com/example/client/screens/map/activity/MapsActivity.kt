@@ -226,52 +226,52 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
         return true
     }
 
-    @SuppressLint("MissingPermission")
-    private fun showCurrentPlace() {
-        if (map == null) {
-            return
-        }
-        if (locationPermissionGranted) {
-            val placeFields = listOf(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG)
-            val request = FindCurrentPlaceRequest.newInstance(placeFields)
-            val placeResult = placesClient?.findCurrentPlace(request)
-            placeResult?.addOnCompleteListener { task ->
-                if (task.isSuccessful && task.result != null) {
-                    val likelyPlaces = task.result
-                    val count = if (likelyPlaces != null && likelyPlaces.placeLikelihoods.size < M_MAX_ENTRIES) {
-                        likelyPlaces.placeLikelihoods.size
-                    } else {
-                        M_MAX_ENTRIES
-                    }
-                    var i = 0
-                    likelyPlaceNames = arrayOfNulls(count)
-                    likelyPlaceAddresses = arrayOfNulls(count)
-                    likelyPlaceAttributions = arrayOfNulls(count)
-                    likelyPlaceLatLngs = arrayOfNulls(count)
-                    for (placeLikelihood in likelyPlaces?.placeLikelihoods ?: emptyList()) {
-                        likelyPlaceNames[i] = placeLikelihood.place.name
-                        likelyPlaceAddresses[i] = placeLikelihood.place.address
-                        likelyPlaceAttributions[i] = placeLikelihood.place.attributions
-                        likelyPlaceLatLngs[i] = placeLikelihood.place.latLng
-                        i++
-                        if (i > count - 1) {
-                            break
-                        }
-                    }
-                    openPlacesDialog()
-                } else {
-                    Log.e(MapsActivity::class.simpleName, "Exception: %s", task.exception)
-                }
-            }
-        } else {
-            Log.i(MapsActivity::class.simpleName, "The user did not grant location permission.")
-            mMap.addMarker(MarkerOptions()
-                    .title(getString(R.string.default_info_title))
-                    .position(defaultLocation)
-                    .snippet(getString(R.string.default_info_snippet)))
-            getLocationPermission()
-        }
-    }
+//    @SuppressLint("MissingPermission")
+//    private fun showCurrentPlace() {
+//        if (map == null) {
+//            return
+//        }
+//        if (locationPermissionGranted) {
+//            val placeFields = listOf(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG)
+//            val request = FindCurrentPlaceRequest.newInstance(placeFields)
+//            val placeResult = placesClient?.findCurrentPlace(request)
+//            placeResult?.addOnCompleteListener { task ->
+//                if (task.isSuccessful && task.result != null) {
+//                    val likelyPlaces = task.result
+//                    val count = if (likelyPlaces != null && likelyPlaces.placeLikelihoods.size < M_MAX_ENTRIES) {
+//                        likelyPlaces.placeLikelihoods.size
+//                    } else {
+//                        M_MAX_ENTRIES
+//                    }
+//                    var i = 0
+//                    likelyPlaceNames = arrayOfNulls(count)
+//                    likelyPlaceAddresses = arrayOfNulls(count)
+//                    likelyPlaceAttributions = arrayOfNulls(count)
+//                    likelyPlaceLatLngs = arrayOfNulls(count)
+//                    for (placeLikelihood in likelyPlaces?.placeLikelihoods ?: emptyList()) {
+//                        likelyPlaceNames[i] = placeLikelihood.place.name
+//                        likelyPlaceAddresses[i] = placeLikelihood.place.address
+//                        likelyPlaceAttributions[i] = placeLikelihood.place.attributions
+//                        likelyPlaceLatLngs[i] = placeLikelihood.place.latLng
+//                        i++
+//                        if (i > count - 1) {
+//                            break
+//                        }
+//                    }
+//                    openPlacesDialog()
+//                } else {
+//                    Log.e(MapsActivity::class.simpleName, "Exception: %s", task.exception)
+//                }
+//            }
+//        } else {
+//            Log.i(MapsActivity::class.simpleName, "The user did not grant location permission.")
+//            mMap.addMarker(MarkerOptions()
+//                    .title(getString(R.string.default_info_title))
+//                    .position(defaultLocation)
+//                    .snippet(getString(R.string.default_info_snippet)))
+//            getLocationPermission()
+//        }
+//    }
 
     private fun openPlacesDialog() {
         val listener = DialogInterface.OnClickListener { _, which ->

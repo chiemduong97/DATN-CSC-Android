@@ -95,3 +95,4 @@ fun List<OrderResponse>.toOrders(): List<OrderModel> {
 }
 
 data class DataOrderResponse(var order_code: String)
+data class DataCountOrder(var count: Int)

@@ -83,11 +83,10 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
         tvProductName = view.findViewById(R.id.tv_product_name)
         tvProductPrice = view.findViewById(R.id.tv_product_price)
 
-        context?.let {
-            imvProductAvatar?.run {
-                Glide.with(it).asBitmap().placeholder(R.drawable.subject_default).load(product?.avatar).into(this)
-            }
+        imvProductAvatar?.run {
+            Glide.with(requireContext()).asBitmap().placeholder(R.drawable.subject_default).load(product?.avatar).into(this)
         }
+
         tvProductName?.text = product?.name
         tvProductPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(product?.price)
 

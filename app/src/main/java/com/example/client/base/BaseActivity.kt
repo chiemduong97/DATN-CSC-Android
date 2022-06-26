@@ -1,15 +1,12 @@
 package com.example.client.base
 
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.client.dialog.PrimaryDialog
-import com.example.client.models.event.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 open class BaseActivity: AppCompatActivity() {
 
@@ -44,6 +41,7 @@ open class BaseActivity: AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
     protected fun showDialogErrorMessage(message: String) {
+        Log.d("error", "getErrorMessage: $message ")
         PrimaryDialog({}, {}).setDescription(message)
                 .showBtnCancel(false)
                 .show(supportFragmentManager)

@@ -8,6 +8,6 @@ interface IProductView: IBaseCollectionView {
     fun showMoreData(items: List<ProductModel>)
     fun showEmptyData()
     fun showErrorMessage(errMessage: Int)
-    fun showProductDetailScreen(productModel: ProductModel)
+    fun navigateToProductDetailScreen(productModel: ProductModel)
     fun updateData(productModel: ProductModel)
 }

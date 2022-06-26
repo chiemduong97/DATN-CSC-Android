@@ -98,12 +98,10 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         imv_empty.visibility = View.GONE
         val manager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recycler_view.layoutManager = manager
-        val item = context?.let { productModel ->
-            ProductHorizontalItem(productModel, items) {
-                NavigatorProduct.showProductDetailScreen(arguments?.apply {
-                    putSerializable(Constants.PRODUCT_MODEL, it)
-                })
-            }
+        val item = ProductHorizontalItem(requireContext(), items) {
+            NavigatorProduct.showProductDetailScreen(arguments?.apply {
+                putSerializable(Constants.PRODUCT_MODEL, it)
+            })
         }
         recycler_view.adapter = item
     }

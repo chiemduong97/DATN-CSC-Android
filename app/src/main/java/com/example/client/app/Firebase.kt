@@ -1,34 +1,24 @@
-package com.example.client.app;
+package com.example.client.app
 
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import java.util.*
 
-import java.util.UUID;
-
-public class Firebase {
-    public static Firebase firebase;
-    private FirebaseStorage storage;
-    private Firebase(){
-        storage = FirebaseStorage.getInstance();
+class Firebase private constructor() {
+    private val storage: FirebaseStorage = FirebaseStorage.getInstance()
+    fun ref(): StorageReference {
+        val uuid = UUID.randomUUID().toString() + ".jpg"
+        return storage.reference.child("images/$uuid")
     }
 
-    public static Firebase getInstance(){
-        if(firebase == null){
-            throw new NullPointerException("Firebase is null!");
+    companion object {
+        var firebase: Firebase? = null
+        fun newInstance(): Firebase {
+            if (firebase == null) {
+                firebase = Firebase()
+            }
+            return firebase!!
         }
-        return firebase;
-    }
-
-    public static void createInstance(){
-        if(firebase == null){
-            firebase = new Firebase();
-        }
-    }
-
-    public StorageReference ref(){
-        String uuid =  UUID.randomUUID().toString() + ".jpg";
-        StorageReference reference = storage.getReference().child("images/"+ uuid);
-        return reference;
     }
 
 }

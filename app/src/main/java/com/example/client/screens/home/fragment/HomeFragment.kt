@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHomeView, OnRefreshListener {
-    
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, null)
     }
@@ -50,26 +50,20 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.lnl_profile -> startActivity(activity?.let { ManagerProfileActivity.newInstance(it) })
-            R.id.rll_change_branch -> startActivity(activity?.let { BranchActivity.newInstance(it) })
-            R.id.lnl_order_location -> startActivity(activity?.let { MapsActivity.newInstance(it) })
+            R.id.lnl_profile -> startActivity(ManagerProfileActivity.newInstance(requireActivity()))
+            R.id.rll_change_branch -> startActivity(BranchActivity.newInstance(requireActivity()))
+            R.id.lnl_order_location -> startActivity(MapsActivity.newInstance(requireActivity()))
         }
     }
 
     override fun showCategories(items: List<CategoryModel>) {
         val manager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
         recycler_view_category.layoutManager = manager
-        val item = context?.let {
-            HomeCategoryItem(it, items, { categoryModel ->
-                startActivity(activity?.run {
-                    ProductActivity.newInstance(this, categoryModel)
-                })
-            }, {
-                startActivity(activity?.run {
-                    CategoryActivity.newInstance(this)
-                })
-            })
-        }
+        val item = HomeCategoryItem(requireContext(), items, { categoryModel ->
+            startActivity(ProductActivity.newInstance(requireActivity(), categoryModel))
+        }, {
+            startActivity(CategoryActivity.newInstance(requireActivity()))
+        })
         recycler_view_category.adapter = item
     }
 
@@ -125,12 +119,14 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
             if (isRefreshing) isRefreshing = false
         }
     }
+
     override val presenter: IHomePresent
         get() = HomePresent(this)
 
     override fun onBackPress() {
-        activity?.onBackPressed()
+        requireActivity().onBackPressed()
     }
+
     override fun onRefresh() {
         bindData()
     }

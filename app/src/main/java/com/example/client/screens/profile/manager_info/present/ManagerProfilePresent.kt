@@ -71,8 +71,7 @@ class ManagerProfilePresent(mView: IManagerProfileView) : BasePresenterMVP<IMana
 
     override fun updateAvatar(avatar: Bitmap) {
         mView?.showLoading()
-        Firebase.createInstance()
-        val ref = Firebase.getInstance().ref()
+        val ref = Firebase.newInstance().ref()
         val byteArray = ByteArrayOutputStream()
         avatar.compress(Bitmap.CompressFormat.JPEG, 100, byteArray)
         val data = byteArray.toByteArray()

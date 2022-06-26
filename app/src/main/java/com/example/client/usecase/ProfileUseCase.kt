@@ -14,7 +14,6 @@ import io.reactivex.Observable
 
 class ProfileUseCase {
     private val userService by lazy { ApiClient.newInstance().create(UserService::class.java) }
-    private val preferences by lazy { Preferences.newInstance() }
     private val firebaseService by lazy { MyFirebaseService() }
 
     companion object {

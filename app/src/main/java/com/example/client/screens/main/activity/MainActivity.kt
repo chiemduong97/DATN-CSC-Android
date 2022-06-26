@@ -46,8 +46,7 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
     override fun bindData() {
         presenter.run {
             updateCurrentLocation()
-            getCart()
-            getOrders()
+            bindData()
         }
     }
 
@@ -147,7 +146,7 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
         when (v.id) {
             R.id.imv_notification -> startActivity(Intent(this, NotificationActivity::class.java))
             R.id.cv_cart_place -> startActivity(Intent(this, CartActivity::class.java))
-            R.id.tv_see_more -> startActivity(Intent(this, OrderHistoryActivity::class.java))
+            R.id.tv_see_more -> startActivity(OrderHistoryActivity.newInstance(this))
             R.id.tv_see_order -> presenter.navigateToOrderDetail()
         }
     }

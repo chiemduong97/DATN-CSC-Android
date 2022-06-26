@@ -3,14 +3,17 @@ package com.example.client.screens.order.history.item
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.client.R
 import com.example.client.models.order.OrderModel
 import java.text.NumberFormat
 import java.util.*
 
-class OrderHistoryItem(var context: Context, var orders: List<OrderModel>, var onClick: (ordercode: String) -> Unit) : RecyclerView.Adapter<OrderHistoryViewHolder>() {
+class OrderHistoryItem(var context: Context, var orders: List<OrderModel>, var onClickItem: (orderCode: String) -> Unit) : RecyclerView.Adapter<OrderHistoryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderHistoryViewHolder {
         return OrderHistoryViewHolder(LayoutInflater.from(context).inflate(R.layout.item_order_history, null))
     }
@@ -45,7 +48,7 @@ class OrderHistoryItem(var context: Context, var orders: List<OrderModel>, var o
                 }
             }
             itemView.setOnClickListener {
-                onClick.invoke(item.order_code)
+                onClickItem.invoke(item.order_code)
             }
         }
     }
@@ -54,4 +57,12 @@ class OrderHistoryItem(var context: Context, var orders: List<OrderModel>, var o
         return orders.size
     }
 
+}
+
+class OrderHistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val imvBranchAvatar: ImageView? = itemView.findViewById(R.id.imv_branch_avatar)
+    val tvOrderCode: TextView? = itemView.findViewById(R.id.tv_order_code)
+    val tvBranchAddress: TextView? = itemView.findViewById(R.id.tv_branch_address)
+    val tvOrderTotalPrice: TextView? = itemView.findViewById(R.id.tv_order_total_price)
+    val tvOrderStatus: TextView? = itemView.findViewById(R.id.tv_order_status)
 }

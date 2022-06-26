@@ -149,9 +149,9 @@ class UpdatePasswordFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.O
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tv_update -> {
-                activity?.run {
+                requireActivity().run {
                     val imn = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    currentFocus?.let {
+                    requireActivity().currentFocus?.let {
                         imn.hideSoftInputFromWindow(it.windowToken, 0)
                     }
                 }

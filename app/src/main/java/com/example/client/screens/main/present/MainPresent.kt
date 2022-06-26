@@ -40,7 +40,13 @@ class MainPresent(mView: IMainView) : BasePresenterMVP<IMainView>(mView), IMainP
         })
     }
 
-    override fun getCart() {
+    override fun bindData() {
+        getCart()
+        getCountOrder()
+        getOrder()
+    }
+
+    private fun getCart() {
         preferences.cart = preferences.cart.apply {
             cartProducts = cartProducts.filter { cartProductModel -> cartProductModel.quantity > 0 } as ArrayList<CartProductModel>
         }
@@ -54,43 +60,43 @@ class MainPresent(mView: IMainView) : BasePresenterMVP<IMainView>(mView), IMainP
         }
     }
 
-    override fun getOrders() {
+    private fun getCountOrder() {
         mView?.showLoading()
-        subscribe(orderUseCase.getOrders(preferences.profile.id), {
+        subscribe(orderUseCase.getCountOrder(preferences.profile.id), {
+            mView?.run {
+                hideLoading()
+                when {
+                    it.is_error -> {
+                        hideOrderCount()
+                        showErrorMessage(getErrorMessage(it.code))
+                    }
+                    it.data.count != 0 -> showOrderCount(it.data.count)
+                    else -> hideOrderCount()
+                }
+            }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                showErrorMessage(getErrorMessage(1001))
+            }
+        })
+    }
+
+    private fun getOrder() {
+        mView?.showLoading()
+        subscribe(orderUseCase.getOrders(preferences.profile.id, 1, 1), {
             mView?.run {
                 hideLoading()
                 when {
                     it.is_error -> {
                         hideOrder()
-                        hideOrderCount()
                         showErrorMessage(getErrorMessage(it.code))
                     }
-                    it.data.isNullOrEmpty() -> {
-                        hideOrder()
-                        hideOrderCount()
-                    }
+                    it.data.isNullOrEmpty() -> hideOrder()
                     else -> {
-                        it.data.toOrders().run here@{
-                            var count = 0
-                            for (order in this) {
-                                if (!order.isComplete() && !order.isDestroy()) count++
-                            }
-                            if (count > 1) {
-                                showOrderCount(count)
-                            } else {
-                                hideOrderCount()
-                            }
-                            for (i in this.indices) {
-                                if (!this[i].isDestroy() && !this[i].isComplete()) {
-                                    orderModel = this[i]
-                                    showOrder(this[i])
-                                    hideLoading()
-                                    return@here
-                                }
-                            }
-                            hideOrder()
-                        }
-
+                        orderModel = it.data[0].toOrderModel()
+                        showOrder(it.data[0].toOrderModel())
                     }
                 }
             }
@@ -112,7 +118,10 @@ class MainPresent(mView: IMainView) : BasePresenterMVP<IMainView>(mView), IMainP
         add(RxBus.newInstance().subscribe {
             when (it.key) {
                 Constants.EventKey.UPDATE_CART -> getCart()
-                Constants.EventKey.UPDATE_STATUS_ORDER -> getOrders()
+                Constants.EventKey.UPDATE_STATUS_ORDER -> {
+                    getOrder()
+                    getCountOrder()
+                }
             }
         })
     }
