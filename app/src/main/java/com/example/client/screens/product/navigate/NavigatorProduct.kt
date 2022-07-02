@@ -27,4 +27,5 @@ object NavigatorProduct {
     fun showProductDetailScreen(args: Bundle?) {
         mView?.addFragment(ProductDetailFragment.newInstance(args), ProductDetailFragment::class.java.simpleName)
     }
+
 }

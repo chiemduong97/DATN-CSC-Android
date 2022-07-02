@@ -33,7 +33,7 @@ class OrderDetailItem(var context: Context, var items: List<OrderDetailModel>) :
 
 class OrderDetailItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val tvQuantity: TextView? = itemView.findViewById(R.id.tv_quantity)
-    val tvProductName: TextView? = itemView.findViewById(R.id.tv_product_name)
+    val tvProductName: TextView? = itemView.findViewById(R.id.tv_name)
     val tvPrice: TextView? = itemView.findViewById(R.id.tv_price)
     val viewLine: View? = itemView.findViewById(R.id.view_line)
 }

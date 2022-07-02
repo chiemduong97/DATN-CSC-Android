@@ -35,6 +35,7 @@
     <string name="branch_address_default">45/14/2 Đường 3, phường Long Trường, TP Thủ Đức</string>
 
     <string name="add_to_cart">Thêm vào giỏ</string>
+    <string name="buy_product">Chọn mua</string>
     <string name="add_to_cart_price">Thêm %s</string>
     <string name="product_info">Thông tin sản phẩm</string>
     <string name="product_category_default">Thể loại: Máy tính</string>
@@ -65,8 +66,8 @@
     <string name="text_status_default">Đang chờ</string>
     <string name="text_rll_loading">Loading …</string>
     <string name="item_product_quantity_2">x2</string>
-    <string name="item_product_quantity">Tồn kho: 100</string>
-    <string name="text_product_quantity">Tồn kho: %d</string>
+    <string name="item_product_quantity">Còn hàng: 100</string>
+    <string name="text_product_quantity">Còn hàng: %d</string>
     <string name="text_product_quantity_0">(Tạm hết hàng)</string>
     <string name="order_status_0">Chờ xử lý</string>
     <string name="order_status_1">Đã nhận đơn</string>
@@ -137,7 +138,7 @@
     <string name="update_password_text_new_password">Mật khẩu mới</string>
     <string name="update_password_text_confirm">Xác nhận mật khẩu</string>
     <string name="item_text_see_more">Xem thêm</string>
-    <string name="greet_morning">buổi sáng, </string>
+    <string name="greet_morning">buổi sáng</string>
     <string name="greet_lunch">buổi trưa</string>
     <string name="greet_evening">buổi chiều</string>
     <string name="greet_night">buổi tối</string>
@@ -145,4 +146,5 @@
     <string name="category_text_title">Danh mục</string>
     <string name="main_delivery_to">Giao đến: </string>
     <string name="reset_pass_count_timer">Gửi mail xác thực (%s)</string>
+    <string name="super_category_title">Tất cả sản phẩm</string>
 </resources>

@@ -46,7 +46,7 @@ class CartProductItem(var context: Context, var items: List<CartProductModel>, v
 }
 
 class CartProductViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-    var tvProductName: TextView? = itemView.findViewById(R.id.tv_product_name)
+    var tvProductName: TextView? = itemView.findViewById(R.id.tv_name)
     var tvPrice: TextView? = itemView.findViewById(R.id.tv_price)
     var btnMinus: ImageButton? = itemView.findViewById(R.id.btn_minus)
     var btnPlus: ImageButton? = itemView.findViewById(R.id.btn_plus)

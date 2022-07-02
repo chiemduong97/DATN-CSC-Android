@@ -53,7 +53,6 @@ class CartActivity : BaseActivityMVP<ICartPresent>(), ICartView, View.OnClickLis
                 }
                 R.id.imv_back -> {
                     onBackPressed()
-                    finish()
                 }
                 R.id.tv_order -> {
                     finish()
@@ -82,7 +81,6 @@ class CartActivity : BaseActivityMVP<ICartPresent>(), ICartView, View.OnClickLis
         cart.cartProducts.let {
             if (it.isEmpty()) {
                 onBackPressed()
-                finish()
                 return
             }
             val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

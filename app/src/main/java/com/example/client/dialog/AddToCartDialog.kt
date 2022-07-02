@@ -17,8 +17,6 @@ import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.models.cart.CartProductModel
 import com.example.client.models.product.ProductModel
-import com.example.client.screens.product.detail.ProductDetailFragment
-import com.example.client.utils.ActivityUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.NumberFormat
 import java.util.*
@@ -80,8 +78,8 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
         tvAddToCart = view.findViewById(R.id.tv_add_to_cart)
         tvQuantity = view.findViewById(R.id.tv_quantity)
         imvProductAvatar = view.findViewById(R.id.imv_product_avatar)
-        tvProductName = view.findViewById(R.id.tv_product_name)
-        tvProductPrice = view.findViewById(R.id.tv_product_price)
+        tvProductName = view.findViewById(R.id.tv_name)
+        tvProductPrice = view.findViewById(R.id.tv_price)
 
         imvProductAvatar?.run {
             Glide.with(requireContext()).asBitmap().placeholder(R.drawable.subject_default).load(product?.avatar).into(this)

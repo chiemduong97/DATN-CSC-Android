@@ -79,6 +79,7 @@ class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView,
     override fun navigateToProductDetailScreen(productModel: ProductModel) {
         NavigatorProduct.showProductDetailScreen(arguments?.apply {
             putSerializable(Constants.PRODUCT_MODEL, productModel)
+            putSerializable(Constants.CATEGORY_MODEL, categoryModel)
         })
     }
 

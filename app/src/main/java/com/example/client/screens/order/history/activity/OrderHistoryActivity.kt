@@ -21,7 +21,7 @@ class OrderHistoryActivity : BaseActivity(){
     }
 
     override fun bindComponent() {
-        ActivityUtils.addFragmentToActivity(supportFragmentManager, OrderHistoryFragment.newInstance(), R.id.container)
+        ActivityUtils.addFragmentToActivity(supportFragmentManager, OrderHistoryFragment.newInstance(), R.id.container, OrderHistoryFragment::class.simpleName)
     }
 
     override fun onBackPressed() {

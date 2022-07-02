@@ -16,7 +16,7 @@ data class ProductModel(
 ) : BaseModel() {
     fun checkAddToCart(cart: CartModel) = apply {
         cart.cartProducts.forEach {
-            if (it.product.id == id && it.quantity > 0) {
+            if (it.product.id == id) {
                 addToCart = it.quantity
             }
         }

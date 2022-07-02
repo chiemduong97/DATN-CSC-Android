@@ -10,21 +10,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.bumptech.glide.Glide
 import com.example.client.R
 import com.example.client.base.BaseFragmentMVP
-import com.example.client.models.banner.BannerModel
 import com.example.client.models.branch.BranchModel
 import com.example.client.models.category.CategoryModel
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.category.activity.CategoryActivity
-import com.example.client.screens.home.item.BannerItem
-import com.example.client.screens.home.item.HomeCategoryItem
+import com.example.client.screens.category.parent.SuperCategoryActivity
+import com.example.client.screens.category.item.HomeCategoryItem
 import com.example.client.screens.home.present.HomePresent
 import com.example.client.screens.home.present.IHomePresent
 import com.example.client.screens.map.activity.MapsActivity
-import com.example.client.screens.product.activity.ProductActivity
 import com.example.client.screens.profile.manager_info.activity.ManagerProfileActivity
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -60,7 +56,7 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
         val manager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
         recycler_view_category.layoutManager = manager
         val item = HomeCategoryItem(requireContext(), items, { categoryModel ->
-            startActivity(ProductActivity.newInstance(requireActivity(), categoryModel))
+            startActivity(SuperCategoryActivity.newInstance(requireActivity(), categoryModel))
         }, {
             startActivity(CategoryActivity.newInstance(requireActivity()))
         })

@@ -8,6 +8,8 @@ import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.base.BaseActivity
 import com.example.client.models.category.CategoryModel
+import com.example.client.models.product.ProductModel
+import com.example.client.screens.product.detail.ProductDetailFragment
 import com.example.client.screens.product.fragment.ProductFragment
 import com.example.client.screens.product.navigate.INavigateProduct
 import com.example.client.screens.product.navigate.NavigatorProduct
@@ -20,6 +22,14 @@ class ProductActivity : BaseActivity(), INavigateProduct {
         @JvmStatic
         fun newInstance(from: Activity,categoryModel: CategoryModel): Intent = Intent(from, ProductActivity::class.java).apply {
             putExtra(Constants.CATEGORY_MODEL, categoryModel)
+            putExtra(Constants.SHOW_PRODUCT_DETAIL, false)
+        }
+
+        @JvmStatic
+        fun newInstance(from: Activity,categoryModel: CategoryModel, productModel: ProductModel, showProductDetail: Boolean) = Intent(from, ProductActivity::class.java).apply {
+            putExtra(Constants.CATEGORY_MODEL, categoryModel)
+            putExtra(Constants.PRODUCT_MODEL, productModel)
+            putExtra(Constants.SHOW_PRODUCT_DETAIL, showProductDetail)
         }
     }
 
@@ -30,7 +40,9 @@ class ProductActivity : BaseActivity(), INavigateProduct {
     }
 
     override fun bindComponent() {
-        addFragment(ProductFragment.newInstance(intent?.extras?:Bundle()), ProductFragment::class.simpleName ?: "")
+        val showProductDetail  = intent.getBooleanExtra(Constants.SHOW_PRODUCT_DETAIL, false)
+        if (showProductDetail) addFragment(ProductDetailFragment.newInstance(intent?.extras?:Bundle()), ProductDetailFragment::class.simpleName ?: "")
+        else addFragment(ProductFragment.newInstance(intent?.extras?:Bundle()), ProductFragment::class.simpleName ?: "")
     }
 
     override fun onBackPressed() {
@@ -45,16 +57,16 @@ class ProductActivity : BaseActivity(), INavigateProduct {
 
     override fun replaceFragment(fragment: Fragment?, TAG: String) {
         fragment ?: return
-        ActivityUtils.replaceFragmentInActivity(supportFragmentManager, fragment, R.id.container)
+        ActivityUtils.replaceFragmentInActivity(supportFragmentManager, fragment, R.id.container, TAG)
     }
 
     override fun addFragment(fragment: Fragment?, TAG: String) {
         fragment ?: return
-        ActivityUtils.addFragmentToActivity(supportFragmentManager, fragment, R.id.container)
+        ActivityUtils.addFragmentToActivity(supportFragmentManager, fragment, R.id.container, TAG)
     }
 
     override fun popFragment() {
-        onBackPressed()
+        ActivityUtils.popFragment(supportFragmentManager)
     }
 
 }

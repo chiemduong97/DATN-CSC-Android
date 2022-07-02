@@ -7,6 +7,7 @@ object Constants {
     var CART_MODEL = "CART_MODEL"
     var ORDER_CODE = "ORDER_CODE"
     var EMAIL = "EMAIL"
+    var SHOW_PRODUCT_DETAIL = "SHOW_PRODUCT_DETAIL"
     const val SECTION_1 = 1000000.0
     const val SECTION_2 = 2000000.0
     const val SECTION_5 = 5000000.0

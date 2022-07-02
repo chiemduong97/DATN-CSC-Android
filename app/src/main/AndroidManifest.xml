@@ -23,7 +23,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Client"
         tools:targetApi="n">
-        <activity android:name=".screens.category.activity.CategoryActivity"></activity>
+        <activity android:name=".screens.category.parent.SuperCategoryActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".screens.category.activity.CategoryActivity"
+            android:launchMode="singleTask"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -41,7 +44,7 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".screens.order.history.activity.OrderHistoryActivity" />
         <activity android:name=".screens.order.detail.OrderDetailActivity" />
-        <activity android:name="com.example.client.screens.order.review.activity.ReviewOrderActivity" />
+        <activity android:name=".screens.order.review.activity.ReviewOrderActivity" />
         <activity android:name=".screens.cart.activity.CartActivity" />
         <activity android:name=".screens.branch.BranchActivity" />
         <activity android:name=".screens.product.activity.ProductActivity" />

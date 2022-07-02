@@ -61,7 +61,7 @@
             android:orientation="vertical"
             android:layout_margin="10dp">
             <TextView
-                android:id="@+id/tv_product_name"
+                android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/item_product_name"
@@ -72,7 +72,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"/>
             <TextView
-                android:id="@+id/tv_product_price"
+                android:id="@+id/tv_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/item_product_price"
@@ -88,7 +88,7 @@
             android:layout_margin="10dp"/>
     </LinearLayout>
     <View
-        android:id="@+id/view"
+        android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="12dp"
         android:background="@color/gray_light"
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:orientation="horizontal"
-        android:layout_below="@+id/view">
+        android:layout_below="@+id/view_line">
         <LinearLayout
             android:id="@+id/lnl_quantity"
             android:layout_width="wrap_content"

@@ -39,12 +39,12 @@ class ManagerProfileActivity : BaseActivity(), INavigateProfile {
 
     override fun replaceFragment(fragment: Fragment?, TAG: String) {
         fragment ?: return
-        ActivityUtils.replaceFragmentInActivity(supportFragmentManager, fragment, R.id.container)
+        ActivityUtils.replaceFragmentInActivity(supportFragmentManager, fragment, R.id.container, TAG)
     }
 
     override fun addFragment(fragment: Fragment?, TAG: String) {
         fragment ?: return
-        ActivityUtils.addFragmentToActivity(supportFragmentManager, fragment, R.id.container)
+        ActivityUtils.addFragmentToActivity(supportFragmentManager, fragment, R.id.container, TAG)
     }
 
     override fun popFragment() {

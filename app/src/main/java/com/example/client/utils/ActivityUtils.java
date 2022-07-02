@@ -9,8 +9,6 @@ import androidx.fragment.app.FragmentTransaction;
 public class ActivityUtils {
     public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager, @NonNull
             Fragment fragment, int frameId) {
-        if (fragmentManager == null || fragment == null)
-            return;
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(frameId, fragment)
@@ -19,7 +17,7 @@ public class ActivityUtils {
         transaction.commit();
     }
 
-    public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, int frameId, String TAG) {
+    public static void addFragment(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, int frameId, String TAG) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(frameId, fragment).addToBackStack(TAG);
         transaction.commit();
@@ -27,8 +25,6 @@ public class ActivityUtils {
 
     public static void replaceFragmentInActivity(@NonNull FragmentManager fragmentManager, @NonNull
             Fragment fragment, int frameId) {
-        if (fragmentManager == null || fragment == null)
-            return;
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(frameId, fragment);
@@ -38,11 +34,8 @@ public class ActivityUtils {
 
     public static void replaceFragmentInActivity(@NonNull FragmentManager fragmentManager, @NonNull
             Fragment fragment, int frameId, String tag) {
-        if (fragmentManager == null || fragment == null)
-            return;
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-
         transaction.replace(frameId, fragment, tag);
 
         transaction.commit();
@@ -50,6 +43,12 @@ public class ActivityUtils {
 
     public static void popFragment(@NonNull FragmentManager fragmentManager) {
         fragmentManager.popBackStack();
+    }
+
+    public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, int frameId, String tag) {
+        if (!fragmentManager.popBackStackImmediate(tag, 0)) {
+            addFragment(fragmentManager, fragment, frameId, tag);
+        }
     }
 
 }

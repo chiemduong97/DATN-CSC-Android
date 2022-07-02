@@ -34,7 +34,7 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
     <View
-        android:id="@+id/view"
+        android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray_dark"
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/progress_bar"
-        android:layout_below="@id/view"
+        android:layout_below="@id/view_line"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -58,7 +58,7 @@
         android:id="@+id/imv_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view"
+        android:layout_below="@id/view_line"
         android:src="@drawable/list_empty"
         android:visibility="gone" />
 

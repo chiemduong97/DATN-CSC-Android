@@ -7,15 +7,15 @@
         <item name="colorAccent">@color/red_light</item>
     </style>
     <style name="bold" parent="@android:style/TextAppearance.Small">
-        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/source_sans_pro_bold</item>
     </style>
     <style name="light" parent="@android:style/TextAppearance.Small">
-        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:fontFamily">@font/source_sans_pro_light</item>
     </style>
     <style name="italic" parent="@android:style/TextAppearance.Small">
-        <item name="android:fontFamily">@font/roboto_italic</item>
+        <item name="android:fontFamily">@font/source_sans_pro_lt</item>
     </style>
     <style name="regular" parent="@android:style/TextAppearance.Small">
-        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/source_sans_pro_regular</item>
     </style>
 </resources>

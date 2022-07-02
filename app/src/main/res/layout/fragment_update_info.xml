@@ -39,7 +39,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1"
         android:layout_below="@id/toolbar"
@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tv_update"
-        android:layout_below="@+id/view"
+        android:layout_below="@+id/view_line"
         android:background="@color/gray_light">
 
         <LinearLayout

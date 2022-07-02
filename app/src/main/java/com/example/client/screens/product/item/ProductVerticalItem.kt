@@ -52,8 +52,8 @@ class ProductVerticalItem(var context: Context, var items: List<ProductModel>, v
 
 class ProductItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val imvAvatar: ImageView? = itemView.findViewById(R.id.imv_avatar)
-    val tvProductName: TextView? = itemView.findViewById(R.id.tv_product_name)
-    val tvProductPrice: TextView? = itemView.findViewById(R.id.tv_product_price)
-    val tvProductQuantity: TextView? = itemView.findViewById(R.id.tv_product_quantity)
+    val tvProductName: TextView? = itemView.findViewById(R.id.tv_name)
+    val tvProductPrice: TextView? = itemView.findViewById(R.id.tv_price)
+    val tvProductQuantity: TextView? = itemView.findViewById(R.id.tv_quantity)
     val tvQuantity: TextView? = itemView.findViewById(R.id.tv_cart_quantity)
 }

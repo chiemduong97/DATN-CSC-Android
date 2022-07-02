@@ -18,6 +18,7 @@ import com.example.client.screens.order.history.activity.OrderHistoryActivity
 import com.example.client.screens.product.activity.ProductActivity
 import com.example.client.screens.profile.fragment.ProfileFragment
 import com.example.client.screens.wallet.fragment.WalletFragment
+import com.example.client.utils.ActivityUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickListener {
@@ -69,28 +70,18 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
     }
 
     private fun showHomeScreen() {
-        tag = HomeFragment::class.java.name
-        supportFragmentManager.let {
-            if (!it.popBackStackImmediate(tag, 0)) supportFragmentManager.beginTransaction().add(R.id.frame_layout, HomeFragment()).addToBackStack(tag).commit()
-            else it.popBackStack(tag, 0)
-        }
-
+        tag = HomeFragment::class.java.simpleName
+        ActivityUtils.addFragmentToActivity(supportFragmentManager, HomeFragment(), R.id.frame_layout, tag)
     }
 
     private fun showNotificationScreen() {
-        tag = WalletFragment::class.java.name
-        supportFragmentManager.let {
-            if (!it.popBackStackImmediate(tag, 0)) supportFragmentManager.beginTransaction().add(R.id.frame_layout, WalletFragment()).addToBackStack(tag).commit()
-            else it.popBackStack(tag, 0)
-        }
+        tag = WalletFragment::class.java.simpleName
+        ActivityUtils.addFragmentToActivity(supportFragmentManager, WalletFragment(), R.id.frame_layout, tag)
     }
 
     private fun showProfileScreen() {
-        tag = ProfileFragment::class.java.name
-        supportFragmentManager.let {
-            if (!it.popBackStackImmediate(tag, 0)) supportFragmentManager.beginTransaction().add(R.id.frame_layout, ProfileFragment()).addToBackStack(tag).commit()
-            else it.popBackStack(tag, 0)
-        }
+        tag = ProfileFragment::class.java.simpleName
+        ActivityUtils.addFragmentToActivity(supportFragmentManager, ProfileFragment(), R.id.frame_layout, tag)
     }
 
     override fun showCart(quantity: Int) {

@@ -6,11 +6,12 @@ data class CategoryResponse(var id:Int?, var name: String?, var avatar: String?)
     fun toCategoryModel() = CategoryModel(
             id = id ?: -1,
             name = name ?: "Tên thể loại",
-            avatar = avatar ?: "https://ps.w.org/gazchaps-woocommerce-auto-category-product-thumbnails/assets/icon-256x256.png?rev=1848416"
+            avatar = avatar ?: "https://ps.w.org/gazchaps-woocommerce-auto-category-product-thumbnails/assets/icon-256x256.png?rev=1848416",
+            selected = false
     )
 }
 
-data class CategoryModel(var id:Int, var name: String, var avatar: String) : BaseModel()
+data class CategoryModel(var id:Int, var name: String, var avatar: String, var selected: Boolean) : BaseModel()
 
 fun List<CategoryResponse>.toCategories(): List<CategoryModel> {
     val categories = arrayListOf<CategoryModel>()

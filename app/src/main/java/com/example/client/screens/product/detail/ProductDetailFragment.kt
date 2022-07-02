@@ -14,7 +14,6 @@ import com.example.client.base.BaseFragmentMVP
 import com.example.client.dialog.AddToCartDialog
 import com.example.client.dialog.OptionAddToCartListener
 import com.example.client.models.cart.CartProductModel
-import com.example.client.models.event.Event
 import com.example.client.models.product.ProductModel
 import com.example.client.screens.cart.activity.CartActivity
 import com.example.client.screens.product.detail.present.IProductDetailPresent
@@ -37,6 +36,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
     }
 
     private val productModel by lazy { arguments?.getSerializable(Constants.PRODUCT_MODEL) as ProductModel }
+    private val categoryModel by lazy { arguments?.getSerializable(Constants.CATEGORY_MODEL) as? ProductModel }
 
     override val presenter: IProductDetailPresent
         get() = ProductDetailPresent(this)
@@ -61,11 +61,11 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         if (productModel.quantity > 1) {
             tv_add_to_cart.isEnabled = true
             tv_add_to_cart.setBackgroundResource(R.drawable.bg_btn)
-            tv_product_quantity.text = getString(R.string.text_product_quantity, productModel.quantity)
+            tv_quantity.text = getString(R.string.text_product_quantity, productModel.quantity)
         } else {
             tv_add_to_cart.isEnabled = false
             tv_add_to_cart.setBackgroundResource(R.drawable.bg_btn_disable)
-            tv_product_quantity.text = getString(R.string.text_product_quantity_0)
+            tv_quantity.text = getString(R.string.text_product_quantity_0)
         }
     }
 
@@ -73,6 +73,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         imv_back.setOnClickListener(this)
         cv_cart_place.setOnClickListener(this)
         tv_add_to_cart.setOnClickListener(this)
+        tv_more.setOnClickListener(this)
         appbar_layout.addOnOffsetChangedListener(OnOffsetChangedListener { _, verticalOffset ->
             when (verticalOffset) {
                 -collapsing_toolbar.height + toolbar.height -> {
@@ -98,9 +99,11 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         imv_empty.visibility = View.GONE
         val manager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recycler_view.layoutManager = manager
-        val item = ProductHorizontalItem(requireContext(), items) {
+        val item = ProductHorizontalItem(requireContext(), items.filter { item -> item.id != productModel.id }) {
+            NavigatorProduct.popFragment()
             NavigatorProduct.showProductDetailScreen(arguments?.apply {
                 putSerializable(Constants.PRODUCT_MODEL, it)
+                putSerializable(Constants.CATEGORY_MODEL, categoryModel)
             })
         }
         recycler_view.adapter = item
@@ -120,21 +123,21 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
     }
 
     override fun onBackPress() {
-        NavigatorProduct.popFragment()
+        requireActivity().onBackPressed()
     }
 
     override fun showCart(quantity: Int) {
         rll_cart.visibility = View.VISIBLE
-        tv_quantity.text = quantity.toString()
+        tv_cart_quantity.text = quantity.toString()
     }
 
     override fun hideCart() {
         rll_cart.visibility = View.GONE
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.imv_back -> NavigatorProduct.popFragment()
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.imv_back -> requireActivity().onBackPressed()
             R.id.tv_add_to_cart -> {
                 productModel.let { product ->
                     val dialog = AddToCartDialog.newInstance(product)
@@ -144,6 +147,11 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
             }
             R.id.cv_cart_place -> {
                 startActivity(Intent(CartActivity.newInstance(context)))
+            }
+            R.id.tv_more -> {
+                NavigatorProduct.showProductScreen(arguments?.apply {
+                    putSerializable(Constants.CATEGORY_MODEL, categoryModel)
+                })
             }
             else -> {
             }

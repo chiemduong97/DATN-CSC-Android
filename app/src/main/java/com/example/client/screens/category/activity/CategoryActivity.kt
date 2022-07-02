@@ -10,9 +10,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.client.R
 import com.example.client.base.BaseActivityMVP
 import com.example.client.models.category.CategoryModel
+import com.example.client.screens.category.parent.SuperCategoryActivity
 import com.example.client.screens.category.present.CategoryPresent
 import com.example.client.screens.category.present.ICategoryPresent
-import com.example.client.screens.home.item.HomeCategoryItem
+import com.example.client.screens.category.item.HomeCategoryItem
 import com.example.client.screens.product.activity.ProductActivity
 import kotlinx.android.synthetic.main.activity_category.*
 
@@ -48,7 +49,7 @@ class CategoryActivity : BaseActivityMVP<ICategoryPresent>(), ICategoryView, Swi
         val manager = GridLayoutManager(this, 4, RecyclerView.VERTICAL, false)
         recycler_view.layoutManager = manager
         val item = HomeCategoryItem(this, items, { categoryModel ->
-            startActivity(ProductActivity.newInstance(this, categoryModel))
+            startActivity(SuperCategoryActivity.newInstance(this, categoryModel))
         }, {})
         recycler_view.adapter = item
     }
