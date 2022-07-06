@@ -30,21 +30,21 @@ class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView,
         }
     }
 
-    private val categoryModel by lazy { arguments?.getSerializable(Constants.CATEGORY_MODEL) as CategoryModel }
+    private val categoryModel by lazy { arguments?.getSerializable(Constants.CATEGORY_MODEL) as? CategoryModel }
     override val presenter: ProductPresent
         get() = ProductPresent(this)
 
     override fun onRefresh() {
         super.onRefresh()
-        presenter.binData(categoryModel)
+        categoryModel?.let { presenter.binData(it) }
     }
 
     override fun bindData() {
-        presenter.binData(categoryModel)
+        categoryModel?.let { presenter.binData(it) }
     }
 
     override fun bindComponent() {
-        tv_title.text = categoryModel.name
+        tv_title.text = categoryModel?.name
     }
 
     override fun bindEvent() {

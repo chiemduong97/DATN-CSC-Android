@@ -41,16 +41,14 @@ class ProductDetailPresent(mView: IProductDetailView) : BasePresenterMVP<IProduc
                 map {
                     if (it.product.id == cartProduct.product.id) {
                         it.quantity += cartProduct.quantity
-                        RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
-                        RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product))
                         return@here
                     }
                 }
                 add(cartProduct)
-                RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
-                RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product))
             }
         }
+        RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
+        RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product))
     }
 
     override fun getCartFromRes() {

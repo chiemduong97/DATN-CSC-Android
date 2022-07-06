@@ -1,5 +1,6 @@
 package com.example.client.screens.main.present
 
+import android.util.Log
 import com.example.client.app.Constants
 import com.example.client.app.Preferences
 import com.example.client.app.RxBus
@@ -117,7 +118,10 @@ class MainPresent(mView: IMainView) : BasePresenterMVP<IMainView>(mView), IMainP
         super.onCompositedEventAdded()
         add(RxBus.newInstance().subscribe {
             when (it.key) {
-                Constants.EventKey.UPDATE_CART -> getCart()
+                Constants.EventKey.UPDATE_CART -> {
+                    Log.d("Duong", "onCompositedEventAdded: ")
+                    getCart()
+                }
                 Constants.EventKey.UPDATE_STATUS_ORDER -> {
                     getOrder()
                     getCountOrder()

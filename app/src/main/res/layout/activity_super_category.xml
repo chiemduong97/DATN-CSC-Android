@@ -104,6 +104,49 @@
             tools:listitem="@layout/item_products"/>
     </androidx.core.widget.NestedScrollView>
     <RelativeLayout
+        android:id="@+id/rll_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_cart_place"
+            android:layout_width="@dimen/dimen_56"
+            android:layout_height="@dimen/dimen_56"
+            android:layout_margin="@dimen/dimen_15"
+            android:elevation="4dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="10dp"
+            tools:targetApi="lollipop">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_cart_svg" />
+
+            <TextView
+                android:id="@+id/tv_cart_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/lnl_info"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:layout_marginEnd="@dimen/dimen_5"
+                android:background="@drawable/bg_red_f7_radius_5"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dimen_6"
+                android:paddingVertical="@dimen/dimen_1"
+                android:textColor="@color/white"
+                tools:text="20" />
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/rll_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

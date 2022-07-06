@@ -7,15 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.models.cart.CartProductModel
+import com.example.client.models.category.CategoryModel
 import com.example.client.models.product.ProductModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.NumberFormat
@@ -23,21 +21,25 @@ import java.util.*
 
 class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
     private var product: ProductModel? = null
+    private var category: CategoryModel? = null
     private var listener: OptionAddToCartListener? = null
     private var quantity = 1
     private var imvBack: ImageView? = null
-    private var lnlProduct: LinearLayout? = null
     private var btnMinus: ImageButton? = null
     private var btnPlus: ImageButton? = null
     private var tvAddToCart: TextView? = null
     private var tvQuantity: TextView? = null
     private var imvProductAvatar: ImageView? = null
-    private var tvProductName: TextView? = null
-    private var tvProductPrice: TextView? = null
+    private var tvName: TextView? = null
+    private var tvPrice: TextView? = null
+    private var tvDescription: TextView? = null
+    private var rltProduct: RelativeLayout? = null
+
     companion object {
-        fun newInstance(product: ProductModel): AddToCartDialog {
+        fun newInstance(category: CategoryModel,product: ProductModel): AddToCartDialog {
             return AddToCartDialog().apply {
                 arguments = Bundle().apply {
+                    putSerializable(Constants.CATEGORY_MODEL, category)
                     putSerializable(Constants.PRODUCT_MODEL, product)
                 }
             }
@@ -48,14 +50,16 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         arguments?.run {
             getSerializable(Constants.PRODUCT_MODEL)?.let {
-                it as ProductModel
-                product = it
+                product = it as ProductModel
+            }
+            getSerializable(Constants.CATEGORY_MODEL)?.let {
+                category = it as CategoryModel
             }
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView: View =  inflater.inflate(R.layout.dialog_add_to_cart, null)
+        val rootView: View = inflater.inflate(R.layout.dialog_add_to_cart, null)
         initView(rootView)
         return rootView
     }
@@ -72,43 +76,44 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
             }
         }
         imvBack = view.findViewById(R.id.imv_back)
-        lnlProduct = view.findViewById(R.id.lnl_product)
         btnMinus = view.findViewById(R.id.btn_minus)
         btnPlus = view.findViewById(R.id.btn_plus)
         tvAddToCart = view.findViewById(R.id.tv_add_to_cart)
         tvQuantity = view.findViewById(R.id.tv_quantity)
         imvProductAvatar = view.findViewById(R.id.imv_product_avatar)
-        tvProductName = view.findViewById(R.id.tv_name)
-        tvProductPrice = view.findViewById(R.id.tv_price)
+        tvName = view.findViewById(R.id.tv_name)
+        tvPrice = view.findViewById(R.id.tv_price)
+        tvDescription = view.findViewById(R.id.tv_description)
+        rltProduct = view.findViewById(R.id.rlt_product)
 
-        imvProductAvatar?.run {
-            Glide.with(requireContext()).asBitmap().placeholder(R.drawable.subject_default).load(product?.avatar).into(this)
+        product?.run {
+            imvProductAvatar?.run {
+                Glide.with(requireContext()).asBitmap().placeholder(R.drawable.subject_default).load(avatar).into(this)
+            }
+
+            tvName?.text = name
+            tvPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(price)
+            tvDescription?.text = description
         }
-
-        tvProductName?.text = product?.name
-        tvProductPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(product?.price)
 
         tvQuantity?.text = quantity.toString()
         btnMinus?.isEnabled = quantity > 1
 
         imvBack?.setOnClickListener(this)
-        lnlProduct?.setOnClickListener(this)
         btnMinus?.setOnClickListener(this)
         btnPlus?.setOnClickListener(this)
         tvAddToCart?.setOnClickListener(this)
+        rltProduct?.setOnClickListener(this)
     }
 
     private fun updateQuantity() {
         btnMinus?.isEnabled = quantity > 1
-        tvQuantity?.text  = quantity.toString()
+        tvQuantity?.text = quantity.toString()
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
+    override fun onClick(v: View) {
+        when (v.id) {
             R.id.imv_back -> {
-                dismiss()
-            }
-            R.id.lnl_product -> {
                 dismiss()
             }
             R.id.btn_minus -> {
@@ -131,8 +136,11 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
                 }
                 dismiss()
             }
-            else -> {
-
+            R.id.rlt_product -> {
+                product?.let {
+                    category?.run { listener?.showProductDetail(this, it) }
+                }
+                dismiss()
             }
         }
     }

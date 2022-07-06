@@ -7,4 +7,6 @@ interface ISuperCategoryView: IBaseView {
     fun showErrorMessage(errMessage: Int)
     fun showSuperCategories(items: List<CategoryModel>)
     fun showProducts(items: List<CategoryModel>)
+    fun showCart(quantity: Int)
+    fun hideCart()
 }

@@ -53,6 +53,7 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
     }
 
     override fun showCategories(items: List<CategoryModel>) {
+        recycler_view_category.visibility = View.VISIBLE
         val manager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
         recycler_view_category.layoutManager = manager
         val item = HomeCategoryItem(requireContext(), items, { categoryModel ->

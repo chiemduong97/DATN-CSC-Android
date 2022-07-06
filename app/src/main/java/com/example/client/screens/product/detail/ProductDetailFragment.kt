@@ -14,6 +14,7 @@ import com.example.client.base.BaseFragmentMVP
 import com.example.client.dialog.AddToCartDialog
 import com.example.client.dialog.OptionAddToCartListener
 import com.example.client.models.cart.CartProductModel
+import com.example.client.models.category.CategoryModel
 import com.example.client.models.product.ProductModel
 import com.example.client.screens.cart.activity.CartActivity
 import com.example.client.screens.product.detail.present.IProductDetailPresent
@@ -36,7 +37,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
     }
 
     private val productModel by lazy { arguments?.getSerializable(Constants.PRODUCT_MODEL) as ProductModel }
-    private val categoryModel by lazy { arguments?.getSerializable(Constants.CATEGORY_MODEL) as? ProductModel }
+    private val categoryModel by lazy { arguments?.getSerializable(Constants.CATEGORY_MODEL) as? CategoryModel }
 
     override val presenter: IProductDetailPresent
         get() = ProductDetailPresent(this)
@@ -99,12 +100,26 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         imv_empty.visibility = View.GONE
         val manager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recycler_view.layoutManager = manager
-        val item = ProductHorizontalItem(requireContext(), items.filter { item -> item.id != productModel.id }) {
-            NavigatorProduct.popFragment()
-            NavigatorProduct.showProductDetailScreen(arguments?.apply {
-                putSerializable(Constants.PRODUCT_MODEL, it)
-                putSerializable(Constants.CATEGORY_MODEL, categoryModel)
-            })
+        val item = categoryModel?.let { category ->
+            ProductHorizontalItem(
+                    requireContext(), items.filter { item -> item.id != productModel.id } + ProductModel(),
+                    category,
+                    {
+                        NavigatorProduct.popFragment()
+                        NavigatorProduct.showProductDetailScreen(arguments?.apply {
+                            putSerializable(Constants.PRODUCT_MODEL, it)
+                            putSerializable(Constants.CATEGORY_MODEL, categoryModel)
+                        })
+                    },
+                    {
+                        categoryModel?.run { showAddToCartDialog(this, it) }
+                    },
+                    {
+                        NavigatorProduct.showProductScreen(arguments?.apply {
+                            putSerializable(Constants.CATEGORY_MODEL, categoryModel)
+                        })
+                    }
+            )
         }
         recycler_view.adapter = item
     }
@@ -139,11 +154,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         when (v.id) {
             R.id.imv_back -> requireActivity().onBackPressed()
             R.id.tv_add_to_cart -> {
-                productModel.let { product ->
-                    val dialog = AddToCartDialog.newInstance(product)
-                    dialog.setListener(this)
-                    dialog.show(childFragmentManager)
-                }
+                categoryModel?.let { showAddToCartDialog(it, productModel) }
             }
             R.id.cv_cart_place -> {
                 startActivity(Intent(CartActivity.newInstance(context)))
@@ -152,8 +163,6 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
                 NavigatorProduct.showProductScreen(arguments?.apply {
                     putSerializable(Constants.CATEGORY_MODEL, categoryModel)
                 })
-            }
-            else -> {
             }
         }
     }
@@ -164,6 +173,20 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
             addToCart(cartProduct)
             getCartFromRes()
         }
+    }
+
+    override fun showProductDetail(category: CategoryModel, product: ProductModel) {
+        NavigatorProduct.popFragment()
+        NavigatorProduct.showProductDetailScreen(arguments?.apply {
+            putSerializable(Constants.PRODUCT_MODEL, product)
+            putSerializable(Constants.CATEGORY_MODEL, categoryModel)
+        })
+    }
+
+    private fun showAddToCartDialog(category: CategoryModel, product: ProductModel) {
+        val dialog = AddToCartDialog.newInstance(category, product)
+        dialog.setListener(this)
+        dialog.show(childFragmentManager)
     }
 
 }

@@ -147,4 +147,5 @@
     <string name="main_delivery_to">Giao đến: </string>
     <string name="reset_pass_count_timer">Gửi mail xác thực (%s)</string>
     <string name="super_category_title">Tất cả sản phẩm</string>
+    <string name="product_see_more">Xem tất cả sản phẩm thuộc thể loại %s</string>
 </resources>

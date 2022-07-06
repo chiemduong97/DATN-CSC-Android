@@ -12,7 +12,7 @@ data class ProductModel(
         var created_at: String,
         var quantity: Int,
         var category_id: Int,
-        var addToCart: Int
+        var addToCart: Int,
 ) : BaseModel() {
     fun checkAddToCart(cart: CartModel) = apply {
         cart.cartProducts.forEach {
@@ -21,6 +21,18 @@ data class ProductModel(
             }
         }
     }
+
+    constructor() : this(
+            id = -1,
+            name = "",
+            avatar = "",
+            description = "",
+            price = 0.0,
+            created_at = "",
+            quantity = 0,
+            category_id = -1,
+            addToCart = 0
+    )
 }
 
 data class ProductResponse(

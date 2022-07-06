@@ -25,6 +25,7 @@ class ProductsItem(
         private val items: List<CategoryModel>,
         private val onClickMore: (category: CategoryModel) -> Unit,
         private val onClickProduct: (category: CategoryModel, product: ProductModel) -> Unit,
+        private val onAddToCart: (category: CategoryModel, product: ProductModel) -> Unit,
 ) : RecyclerView.Adapter<ProductsItemViewHolder>() {
     private val compositeDisposable = CompositeDisposable()
     private val productUseCase by lazy { ProductUseCase.newInstance() }
@@ -34,14 +35,14 @@ class ProductsItem(
 
     override fun onBindViewHolder(viewHolder: ProductsItemViewHolder, position: Int) {
         viewHolder.apply {
-            val data = items[position]
-            tvName?.text = data.name
+            val category = items[position]
+            tvName?.text = category.name
             tvMore?.setOnClickListener {
-                onClickMore.invoke(data)
+                onClickMore.invoke(category)
             }
             rllLoading?.visibility = View.VISIBLE
             compositeDisposable.add(
-                    productUseCase.getProducts(data.id, Preferences.newInstance().branch.id, 1, 10)
+                    productUseCase.getProducts(category.id, Preferences.newInstance().branch.id, 1, 10)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ response ->
@@ -55,9 +56,19 @@ class ProductsItem(
                                     val manager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
                                     recyclerView?.let {
                                         it.layoutManager = manager
-                                        val item = ProductHorizontalItem(context, response.data.toProducts()) { prod ->
-                                            onClickProduct.invoke(data, prod)
-                                        }
+                                        val item = ProductHorizontalItem(
+                                                context, response.data.toProducts() + ProductModel(),
+                                                category,
+                                                { prod ->
+                                                    onClickProduct.invoke(category, prod)
+                                                },
+                                                { prod ->
+                                                    onAddToCart.invoke(category, prod)
+                                                },
+                                                {
+                                                    onClickMore.invoke(category)
+                                                }
+                                        )
                                         it.adapter = item
                                     }
                                 }

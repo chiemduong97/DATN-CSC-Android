@@ -20,13 +20,13 @@ class ProductActivity : BaseActivity(), INavigateProduct {
 
     companion object {
         @JvmStatic
-        fun newInstance(from: Activity,categoryModel: CategoryModel): Intent = Intent(from, ProductActivity::class.java).apply {
+        fun newInstance(from: Activity, categoryModel: CategoryModel): Intent = Intent(from, ProductActivity::class.java).apply {
             putExtra(Constants.CATEGORY_MODEL, categoryModel)
             putExtra(Constants.SHOW_PRODUCT_DETAIL, false)
         }
 
         @JvmStatic
-        fun newInstance(from: Activity,categoryModel: CategoryModel, productModel: ProductModel, showProductDetail: Boolean) = Intent(from, ProductActivity::class.java).apply {
+        fun newInstance(from: Activity, categoryModel: CategoryModel, productModel: ProductModel, showProductDetail: Boolean) = Intent(from, ProductActivity::class.java).apply {
             putExtra(Constants.CATEGORY_MODEL, categoryModel)
             putExtra(Constants.PRODUCT_MODEL, productModel)
             putExtra(Constants.SHOW_PRODUCT_DETAIL, showProductDetail)
@@ -40,14 +40,16 @@ class ProductActivity : BaseActivity(), INavigateProduct {
     }
 
     override fun bindComponent() {
-        val showProductDetail  = intent.getBooleanExtra(Constants.SHOW_PRODUCT_DETAIL, false)
-        if (showProductDetail) addFragment(ProductDetailFragment.newInstance(intent?.extras?:Bundle()), ProductDetailFragment::class.simpleName ?: "")
-        else addFragment(ProductFragment.newInstance(intent?.extras?:Bundle()), ProductFragment::class.simpleName ?: "")
+        val showProductDetail = intent.getBooleanExtra(Constants.SHOW_PRODUCT_DETAIL, false)
+        if (showProductDetail) addFragment(ProductDetailFragment.newInstance(intent?.extras
+                ?: Bundle()), ProductDetailFragment::class.simpleName ?: "")
+        else addFragment(ProductFragment.newInstance(intent?.extras
+                ?: Bundle()), ProductFragment::class.simpleName ?: "")
     }
 
     override fun onBackPressed() {
         supportFragmentManager.run {
-            if (fragments.size == 1 ||  backStackEntryCount == 1) {
+            if (fragments.size == 1 || backStackEntryCount == 1) {
                 finish()
             } else {
                 ActivityUtils.popFragment(this)

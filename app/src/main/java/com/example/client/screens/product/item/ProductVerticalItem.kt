@@ -13,12 +13,12 @@ import com.example.client.models.product.ProductModel
 import java.text.NumberFormat
 import java.util.*
 
-class ProductVerticalItem(var context: Context, var items: List<ProductModel>, var onClickItem: (item: ProductModel) -> Unit) : RecyclerView.Adapter<ProductItemViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductItemViewHolder {
-        return ProductItemViewHolder(LayoutInflater.from(context).inflate(R.layout.item_product_vertical, null))
+class ProductVerticalItem(var context: Context, var items: List<ProductModel>, var onClickItem: (item: ProductModel) -> Unit) : RecyclerView.Adapter<ProductItemVerticalViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductItemVerticalViewHolder {
+        return ProductItemVerticalViewHolder(LayoutInflater.from(context).inflate(R.layout.item_product_vertical, null))
     }
 
-    override fun onBindViewHolder(viewholder: ProductItemViewHolder, position: Int) {
+    override fun onBindViewHolder(viewholder: ProductItemVerticalViewHolder, position: Int) {
         viewholder.apply {
             val item: ProductModel = items[position]
             imvAvatar?.let {
@@ -50,7 +50,7 @@ class ProductVerticalItem(var context: Context, var items: List<ProductModel>, v
     }
 }
 
-class ProductItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ProductItemVerticalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val imvAvatar: ImageView? = itemView.findViewById(R.id.imv_avatar)
     val tvProductName: TextView? = itemView.findViewById(R.id.tv_name)
     val tvProductPrice: TextView? = itemView.findViewById(R.id.tv_price)
