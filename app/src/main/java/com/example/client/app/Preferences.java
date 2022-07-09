@@ -19,6 +19,7 @@ public class Preferences {
     private static final String PROFILE_MODEL = "PROFILE_MODEL";
     private static final String BRANCH_MODEL = "BRANCH_MODEL";
     private static final String CART_MODEL = "CART_MODEL";
+    private static final String PAYMENT_METHOD = "PAYMENT_METHOD";
 
     private static Preferences preferences;
     private final SharedPreferences sharePreferences;
@@ -144,7 +145,7 @@ public class Preferences {
     {
         String json = sharePreferences.getString(CART_MODEL, "");
         if (TextUtils.isEmpty(json))
-            return new CartModel(new ArrayList<>());
+            return new CartModel();
 
         Gson gson = new Gson();
         try
@@ -152,7 +153,7 @@ public class Preferences {
             return gson.fromJson(json, CartModel.class);
         } catch (Exception e)
         {
-            return new CartModel(new ArrayList<>());
+            return new CartModel();
         }
     }
 
@@ -169,6 +170,36 @@ public class Preferences {
         }
         editor.putString(CART_MODEL, json);
         editor.apply();
+    }
+    
+    public void setPaymentMethod(Constants.PaymentMethod paymentMethod) {
+        Editor editor = sharePreferences.edit();
+
+        Gson gson = new Gson();
+        String json = "";
+        try
+        {
+            json = gson.toJson(paymentMethod);
+        } catch (Exception ignored)
+        {
+        }
+        editor.putString(PAYMENT_METHOD, json);
+        editor.apply();
+    }
+
+    public Constants.PaymentMethod getPaymentMethod(){
+        String json = sharePreferences.getString(PAYMENT_METHOD, "");
+        if (TextUtils.isEmpty(json))
+            return null;
+
+        Gson gson = new Gson();
+        try
+        {
+            return gson.fromJson(json, Constants.PaymentMethod.class);
+        } catch (Exception e)
+        {
+            return null;
+        }
     }
 
     public void deleteCart() {

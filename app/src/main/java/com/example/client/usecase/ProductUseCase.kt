@@ -17,4 +17,8 @@ class ProductUseCase {
         return productService.getByCategory(category_id, branch_id, page, limit)
     }
 
+    fun filterProducts(branch_id: Int,query: String, page: Int, limit: Int): Observable<BaseResponse<List<ProductResponse>>> {
+        return productService.filter(branch_id, query, page, limit)
+    }
+
 }

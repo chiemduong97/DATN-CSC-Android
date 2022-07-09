@@ -1,22 +1,18 @@
 package com.example.client.screens.product.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.base.BaseCollectionFragment
 import com.example.client.models.category.CategoryModel
-import com.example.client.models.event.Event
-import com.example.client.models.event.ValueEvent
 import com.example.client.models.product.ProductModel
 import com.example.client.screens.product.activity.IProductView
 import com.example.client.screens.product.item.ProductVerticalItem
 import com.example.client.screens.product.navigate.NavigatorProduct
 import com.example.client.screens.product.present.IProductPresent
 import com.example.client.screens.product.present.ProductPresent
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_product.*
 
 class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView, View.OnClickListener {
@@ -30,7 +26,7 @@ class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView,
         }
     }
 
-    private val categoryModel by lazy { arguments?.getSerializable(Constants.CATEGORY_MODEL) as? CategoryModel }
+    private val categoryModel by lazy { arguments?.getSerializable(Constants.BundleKey.CATEGORY_MODEL) as? CategoryModel }
     override val presenter: ProductPresent
         get() = ProductPresent(this)
 
@@ -78,8 +74,8 @@ class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView,
 
     override fun navigateToProductDetailScreen(productModel: ProductModel) {
         NavigatorProduct.showProductDetailScreen(arguments?.apply {
-            putSerializable(Constants.PRODUCT_MODEL, productModel)
-            putSerializable(Constants.CATEGORY_MODEL, categoryModel)
+            putSerializable(Constants.BundleKey.PRODUCT_MODEL, productModel)
+            putSerializable(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
         })
     }
 

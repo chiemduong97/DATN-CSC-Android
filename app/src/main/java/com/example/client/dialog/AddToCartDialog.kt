@@ -39,8 +39,8 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
         fun newInstance(category: CategoryModel,product: ProductModel): AddToCartDialog {
             return AddToCartDialog().apply {
                 arguments = Bundle().apply {
-                    putSerializable(Constants.CATEGORY_MODEL, category)
-                    putSerializable(Constants.PRODUCT_MODEL, product)
+                    putSerializable(Constants.BundleKey.CATEGORY_MODEL, category)
+                    putSerializable(Constants.BundleKey.PRODUCT_MODEL, product)
                 }
             }
         }
@@ -49,10 +49,10 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.run {
-            getSerializable(Constants.PRODUCT_MODEL)?.let {
+            getSerializable(Constants.BundleKey.PRODUCT_MODEL)?.let {
                 product = it as ProductModel
             }
-            getSerializable(Constants.CATEGORY_MODEL)?.let {
+            getSerializable(Constants.BundleKey.CATEGORY_MODEL)?.let {
                 category = it as CategoryModel
             }
         }
@@ -137,10 +137,10 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
                 dismiss()
             }
             R.id.rlt_product -> {
+                dismiss()
                 product?.let {
                     category?.run { listener?.showProductDetail(this, it) }
                 }
-                dismiss()
             }
         }
     }

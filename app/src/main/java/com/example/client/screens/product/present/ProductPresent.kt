@@ -29,20 +29,23 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
         getProducts(categoryModel.id, page, LoadingMode.LOAD)
     }
 
-    override fun getProducts(category_id: Int, page: Int, loadingMode: LoadingMode) {
+    private fun getProducts(category_id: Int, page: Int, loadingMode: LoadingMode) {
         if (loadingMode == LoadingMode.LOAD) mView?.showLoading()
         subscribe(productUseCase.getProducts(category_id, preferences.branch.id, page, limit), {
             mView?.run {
                 hideLoading()
-                if (it.is_error || it.data.isEmpty()) {
+                if (it.is_error) {
                     showEmptyData()
                     onLoadMoreComplete()
                     return@subscribe
                 }
                 when (loadingMode) {
                     LoadingMode.LOAD -> {
-                        showData(it.data.toProducts().checkCart(preferences.cart))
-                        loadMore = it.load_more
+                        if (it.data.isEmpty()) showEmptyData()
+                        else {
+                            showData(it.data.toProducts().checkCart(preferences.cart))
+                            loadMore = it.load_more
+                        }
                     }
                     LoadingMode.LOAD_MORE -> {
                         showMoreData(it.data.toProducts().checkCart(preferences.cart))

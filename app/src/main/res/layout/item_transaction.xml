@@ -1,90 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="15dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nạp tiền"
-                android:textSize="14dp"
-                android:textColor="@color/black"
-                android:maxLines="1"
-                android:ellipsize="end"/>
-            <TextView
-                android:id="@+id/orderCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="#ABCDEFGH"
-                android:textSize="14dp"
-                android:maxLines="1"
-                android:ellipsize="end"/>
-            <TextView
-                android:id="@+id/createAt"
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="20/01/2022"
-                android:textSize="14dp"
-                android:maxLines="1"
-                android:ellipsize="end"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:text="20/01/2022"
-                android:textSize="14dp"
-                android:maxLines="1"
-                android:ellipsize="end"/>
-            <TextView
-                android:id="@+id/status"
-                android:layout_marginTop="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:text="Đã xong"
-                android:textSize="14dp"
-                android:maxLines="1"
-                android:layout_gravity="end"
-                android:ellipsize="end"/>
-        </LinearLayout>
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/dimen_15">
 
-    </LinearLayout>
-    <TextView
-        android:id="@+id/destroy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hủy yêu cầu"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"
-        android:background="@drawable/bg_btn_disable"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:padding="10dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"/>
     <View
+        android:id="@+id/view_line"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray_light"/>
-</LinearLayout>
+        android:layout_height="@dimen/dimen_1"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:background="@color/gray_dark" />
+
+    <TextView
+        android:id="@+id/tv_label"
+        style="@style/regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_line"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/tv_amount"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_14"
+        tools:text="Nạp tiền" />
+
+    <TextView
+        android:id="@+id/tv_order_code"
+        style="@style/regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_label"
+        android:layout_marginTop="@dimen/dimen_5"
+        android:textSize="@dimen/text_14"
+        tools:text="#ABCDEFGH" />
+
+    <TextView
+        android:id="@+id/tv_created_at"
+        style="@style/regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_order_code"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:textSize="@dimen/text_14"
+        tools:text="20/01/2022" />
+
+    <TextView
+        android:id="@+id/tv_amount"
+        style="@style/regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textSize="@dimen/text_14"
+        tools:text="1.000.000 đ" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        style="@style/regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_amount"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/text_14"
+        tools:text="Đã xong" />
+
+</RelativeLayout>

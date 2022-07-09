@@ -65,7 +65,7 @@ open class BasePresenterMVP<V : IBaseView>(view: V) : IBasePresenter {
                 val fused = LocationServices.getFusedLocationProviderClient(it)
                 fused.lastLocation.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val lastLocation = task.result
+                        val lastLocation = task.result ?: return@addOnCompleteListener
                         val geoCoder = Geocoder(it, Locale.getDefault())
                         val addresses = geoCoder.getFromLocation(lastLocation.latitude, lastLocation.longitude, 1);
                         val address = addresses[0].getAddressLine(0)

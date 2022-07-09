@@ -21,14 +21,14 @@ class ProductActivity : BaseActivity(), INavigateProduct {
     companion object {
         @JvmStatic
         fun newInstance(from: Activity, categoryModel: CategoryModel): Intent = Intent(from, ProductActivity::class.java).apply {
-            putExtra(Constants.CATEGORY_MODEL, categoryModel)
+            putExtra(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
             putExtra(Constants.SHOW_PRODUCT_DETAIL, false)
         }
 
         @JvmStatic
         fun newInstance(from: Activity, categoryModel: CategoryModel, productModel: ProductModel, showProductDetail: Boolean) = Intent(from, ProductActivity::class.java).apply {
-            putExtra(Constants.CATEGORY_MODEL, categoryModel)
-            putExtra(Constants.PRODUCT_MODEL, productModel)
+            putExtra(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
+            putExtra(Constants.BundleKey.PRODUCT_MODEL, productModel)
             putExtra(Constants.SHOW_PRODUCT_DETAIL, showProductDetail)
         }
     }

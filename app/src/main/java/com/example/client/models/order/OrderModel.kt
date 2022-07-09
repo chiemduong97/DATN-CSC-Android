@@ -1,5 +1,6 @@
 package com.example.client.models.order
 
+import com.example.client.app.Constants
 import com.example.client.base.BaseModel
 
 data class OrderModel(
@@ -15,7 +16,8 @@ data class OrderModel(
         var promotion_id: Int,
         var created_at: String,
         var branch_address: String,
-        var phone: String
+        var phone: String,
+        var payment_method: Constants.PaymentMethod,
 ) {
     fun getTotalPrice() : Double {
         return amount + shipping_fee - promotion_value
@@ -52,7 +54,8 @@ data class OrderResponse(
         var promotion_id: Int?,
         var created_at: String?,
         var branch_address: String?,
-        var phone: String?
+        var phone: String?,
+        var payment_method: Constants.PaymentMethod?
 ): BaseModel() {
     fun toOrderModel() = OrderModel(
             order_code = order_code.orEmpty(),
@@ -67,14 +70,15 @@ data class OrderResponse(
             promotion_id = promotion_id ?: -1,
             created_at = created_at.orEmpty(),
             branch_address = branch_address.orEmpty(),
-            phone = phone.orEmpty()
+            phone = phone.orEmpty(),
+            payment_method = payment_method ?: Constants.PaymentMethod.COD
     )
 }
 
 data class OrderRequest(
         var user_id: Int,
         var branch_id: Int,
-        var promotion_id: Int? = null,
+        var promotion_id: Int?,
         var lat: Double,
         var lng: Double,
         var address: String,
@@ -83,7 +87,8 @@ data class OrderRequest(
         var branch_lng: Double,
         var branch_address: String,
         var shipping_fee: Double,
-        var phone: String
+        var phone: String,
+        var payment_method: Constants.PaymentMethod
 )
 
 fun List<OrderResponse>.toOrders(): List<OrderModel> {

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.client.R
 import com.example.client.app.Constants
@@ -28,7 +29,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
         fun newInstance(context: Context, orderCode: String): Intent {
             return Intent(context, OrderDetailActivity::class.java).apply {
                 val bundle = Bundle().apply {
-                    putString(Constants.ORDER_CODE, orderCode)
+                    putString(Constants.BundleKey.ORDER_CODE, orderCode)
                 }
                 putExtras(bundle)
             }
@@ -38,7 +39,15 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
     override val presenter: IOrderDetailPresent
         get() = OrderDetailPresent(this)
 
-    private val orderCode by lazy { intent.getStringExtra(Constants.ORDER_CODE).orEmpty() }
+    private val orderCode by lazy { intent.getStringExtra(Constants.BundleKey.ORDER_CODE).orEmpty() }
+
+    private val paymentMethods by lazy {
+        arrayListOf(
+                Pair(R.drawable.ic_payment_cod, R.string.payment_method_cod),
+                Pair(R.drawable.ic_payment_momo, R.string.payment_method_momo),
+                Pair(R.drawable.ic_payment_wallet, R.string.payment_method_wallet)
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +64,17 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
     override fun bindEvent() {
         imv_back.setOnClickListener(this)
         tv_order_destroy.setOnClickListener(this)
+    }
+
+    private fun bindPaymentMethod(paymentMethod: Pair<Int,Int>) {
+        imv_payment_method.setImageDrawable(ContextCompat.getDrawable(this, paymentMethod.first))
+        tv_payment_method.text = getString(paymentMethod.second)
+    }
+
+    private fun getPaymentMethod(paymentMethod: Constants.PaymentMethod): Pair<Int, Int> = when(paymentMethod) {
+        Constants.PaymentMethod.COD -> paymentMethods[0]
+        Constants.PaymentMethod.MOMO -> paymentMethods[1]
+        Constants.PaymentMethod.WALLET -> paymentMethods[2]
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -79,6 +99,12 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
         tv_order_code.text = getString(R.string.text_order_code, order.order_code)
         tv_title.text = getString(R.string.text_title_order_detail, order.order_code)
         tv_total_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(order.getTotalPrice())
+        if (order.payment_method != Constants.PaymentMethod.COD) {
+            tv_status_payment.text = getString(R.string.payment_paid)
+            tv_status_payment.visibility = View.VISIBLE
+        } else {
+            tv_status_payment.visibility = View.GONE
+        }
         when {
             order.isComplete() -> {
                 status_order_done.visibility = View.VISIBLE
@@ -86,6 +112,12 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
                 sb_layout.visibility = View.GONE
             }
             order.isDestroy() -> {
+                if (order.payment_method != Constants.PaymentMethod.COD) {
+                    tv_status_payment.text = getString(R.string.payment_refund)
+                    tv_status_payment.visibility = View.VISIBLE
+                } else {
+                    tv_status_payment.visibility = View.GONE
+                }
                 status_order_done.visibility = View.GONE
                 status_order_destroy.visibility = View.VISIBLE
                 sb_layout.visibility = View.GONE
@@ -102,6 +134,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
         } else {
             tv_order_destroy.visibility = View.GONE
         }
+        bindPaymentMethod(getPaymentMethod(order.payment_method))
 
     }
 

@@ -29,15 +29,18 @@ class OrderHistoryPresent(mView: IOrderHistoryView) : BaseCollectionPresenter<IO
         subscribe(orderUseCase.getOrders(Preferences.newInstance().profile.id, page, limit), {
             mView?.run {
                 hideLoading()
-                if (it.is_error || it.data.isEmpty()) {
+                if (it.is_error) {
                     showEmptyData()
                     onLoadMoreComplete()
                     return@subscribe
                 }
                 when (loadingMode) {
                     LoadingMode.LOAD -> {
-                        showData(it.data.toOrders())
-                        loadMore = it.load_more
+                        if (it.data.isEmpty()) showEmptyData()
+                        else {
+                            showData(it.data.toOrders())
+                            loadMore = it.load_more
+                        }
                     }
                     LoadingMode.LOAD_MORE -> {
                         showMoreData(it.data.toOrders())

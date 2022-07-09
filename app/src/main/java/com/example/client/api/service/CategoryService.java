@@ -15,7 +15,7 @@ public interface CategoryService {
     @GET("api/category/category_getAll.php")
     Call<List<CategoryModel>> getAll();
     @GET("api/category/category_getById.php")
-    Call<CategoryModel> getById(@Query("id") int id);
+    Observable<BaseResponse<CategoryResponse>> getById(@Query("id") int id);
 
     @GET("api/category/category_getLevel_0.php")
     Observable<BaseResponse<List<CategoryResponse>>> getSuperCategories();

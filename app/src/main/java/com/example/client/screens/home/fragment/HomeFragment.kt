@@ -28,6 +28,11 @@ import java.util.*
 
 class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHomeView, OnRefreshListener {
 
+    companion object {
+        @JvmStatic
+        fun newInstance() = HomeFragment()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, null)
     }

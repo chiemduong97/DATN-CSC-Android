@@ -1,16 +1,14 @@
 package com.example.client.app
 
 object Constants {
-    var CATEGORY_MODEL = "CATEGORY_MODEL"
-    var PRODUCT_MODEL = "PRODUCT_MODEL"
-    var PRODUCT_BY = "PRODUCT_BY"
-    var CART_MODEL = "CART_MODEL"
-    var ORDER_CODE = "ORDER_CODE"
-    var EMAIL = "EMAIL"
-    var SHOW_PRODUCT_DETAIL = "SHOW_PRODUCT_DETAIL"
-    const val SECTION_1 = 1000000.0
-    const val SECTION_2 = 2000000.0
-    const val SECTION_5 = 5000000.0
+    object BundleKey {
+        const val CATEGORY_MODEL = "CATEGORY_MODEL"
+        const val PRODUCT_MODEL = "PRODUCT_MODEL"
+        const val ORDER_CODE = "ORDER_CODE"
+        const val EMAIL = "EMAIL"
+    }
+
+    const val SHOW_PRODUCT_DETAIL = "SHOW_PRODUCT_DETAIL"
 
     object MORE {
         const val CATEGORY = "CATEGORY"
@@ -18,9 +16,8 @@ object Constants {
         const val NEW = "NEW"
     }
 
-    object PAYMENT {
-        const val WALLET = "WALLET"
-        const val COD = "COD"
+    enum class PaymentMethod {
+        WALLET, MOMO, COD
     }
 
     object EventKey {
@@ -34,11 +31,11 @@ object Constants {
         const val UPDATE_LOCATION = "UPDATE_LOCATION"
         const val LOGIN_SUCCESS = "LOGIN_SUCCESS"
         const val RESET_SUCCESS = "RESET_SUCCESS"
+        const val CHANGE_PAYMENT_METHOD = "CHANGE_PAYMENT_METHOD"
     }
 
-    object TRANSACTION {
-        const val INPUT = "INPUT"
-        const val OUPUT = "OUPUT"
+    enum class Transaction {
+        RECHARGE, TRANSACTION
     }
 
     object ErrorCode {
@@ -68,4 +65,12 @@ object Constants {
         const val HIGHLIGHT = "HIGHLIGHT"
         const val NEW = "NEW"
     }
+
+    object MoMoConstants {
+        const val MERCHANT_NAME = "CSC"
+        const val MERCHANT_CODE: String = "MOMOSCN920220707"
+        const val MERCHANT_NAME_LABEL = "Nhà cung cấp"
+        const val DESCRIPTION = "Thanh toán dịch vụ CSC"
+    }
+
 }

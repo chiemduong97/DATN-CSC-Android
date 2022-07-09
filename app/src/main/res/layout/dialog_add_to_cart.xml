@@ -105,26 +105,26 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/cv_avatar"
             android:layout_alignBottom="@+id/cv_avatar"/>
-        <TextView
-            android:id="@+id/tv_description"
-            style="@style/regular"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cv_avatar"
-            android:layout_margin="@dimen/dimen_10"
-            android:ellipsize="end"
-            android:gravity="start|center"
-            android:maxLines="3"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_12"
-            tools:text="Sản phẩm này là abc 12323" />
-    </RelativeLayout>
 
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_description"
+        style="@style/regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlt_product"
+        android:layout_margin="@dimen/dimen_10"
+        android:ellipsize="end"
+        android:gravity="start|center"
+        android:maxLines="3"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_12"
+        tools:text="Sản phẩm này là abc 12323" />
     <View
         android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_10"
-        android:layout_below="@+id/rlt_product"
+        android:layout_below="@+id/tv_description"
         android:background="@color/gray_light" />
 
     <LinearLayout

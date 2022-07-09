@@ -20,7 +20,7 @@
     <string name="dialog_verification_description">Mail đăng ký tài khoản đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
     <string name="register_confirm_password_invalid">*Xác nhận mật khẩu chưa chính xác</string>
     <string name="reset_text_send_email">Gửi mail xác thực</string>
-    <string name="title_search_view">Bạn muốn tìm sản phẩm?</string>
+    <string name="title_search_view">Bạn muốn tìm sản phẩm ?</string>
     <string name="item_product_name">Tên sản phẩm</string>
     <string name="branch_name_default">Tên chi nhánh</string>
     <string name="text_change">Thay đổi</string>
@@ -59,6 +59,9 @@
     <string name="promotion_code_default">HELLOWORLD</string>
     <string name="text_order_code_default">Mã đơn #ABC123</string>
     <string name="text_order_code">Mã đơn #%s</string>
+    <string name="wallet_order_code">#%s</string>
+    <string name="wallet_amount_plus">+%s</string>
+    <string name="wallet_amount_minus">-%s</string>
     <string name="text_title_order_detail">Chi tiết đơn hàng #%s</string>
     <string name="text_cart_product_quantity">x%d</string>
     <string name="add_promotion_code">Áp dụng \nmã giảm</string>
@@ -148,4 +151,26 @@
     <string name="reset_pass_count_timer">Gửi mail xác thực (%s)</string>
     <string name="super_category_title">Tất cả sản phẩm</string>
     <string name="product_see_more">Xem tất cả sản phẩm thuộc thể loại %s</string>
+    <string name="wallet_amount">Số dư trong ví</string>
+    <string name="wallet_recharge">Nạp tiền vào ví</string>
+    <string name="wallet_history_transaction">Lịch sử giao dịch</string>
+    <string name="wallet_recharge_label">Nạp tiền</string>
+    <string name="wallet_payment_order">Thanh toán đơn hàng</string>
+    <string name="wallet_payment_refund">Hoàn tiền</string>
+    <string name="recharge_title">Nạp tiền vào ví</string>
+    <string name="recharge_select_amount">Chọn số tiền cần nạp</string>
+    <string name="payment_title">Cách thanh toán</string>
+    <string name="payment_title_pick">Chọn cách thanh toán</string>
+    <string name="payment_method_cod">Trả bằng tiền mặt khi nhận hàng</string>
+    <string name="payment_method_momo">Ví Momo</string>
+    <string name="payment_method_wallet">Trả bằng tài khoản CSC</string>
+    <string name="menu_wallet">WALLET</string>
+    <string name="menu_home">HOME</string>
+    <string name="menu_profile">PROFILE</string>
+    <string name="payment_btn_submit">Chọn cách thanh toán này</string>
+    <string name="payment_amount">Số dư: %s</string>
+    <string name="payment_paid">(Đã thanh toán)</string>
+    <string name="payment_refund">(Đã hoàn tiền)</string>
+    <string name="delilvery_address">Giao đến: %s</string>
+
 </resources>

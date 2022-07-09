@@ -23,11 +23,11 @@ class PasswordResetActivity : BaseActivityMVP<IPasswordResetPresent>(), View.OnC
     companion object {
         @JvmStatic
         fun newInstance(from: Activity, email: String): Intent = Intent(from, PasswordResetActivity::class.java).apply {
-            putExtra(Constants.EMAIL, email)
+            putExtra(Constants.BundleKey.EMAIL, email)
         }
     }
 
-    private val email by lazy { intent?.getStringExtra(Constants.EMAIL) }
+    private val email by lazy { intent?.getStringExtra(Constants.BundleKey.EMAIL) }
 
     override val presenter: IPasswordResetPresent
         get() = PasswordResetPresent(this)

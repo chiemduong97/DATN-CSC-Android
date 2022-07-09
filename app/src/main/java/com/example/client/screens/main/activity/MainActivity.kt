@@ -12,7 +12,7 @@ import com.example.client.screens.cart.activity.CartActivity
 import com.example.client.screens.home.fragment.HomeFragment
 import com.example.client.screens.main.present.IMainPresent
 import com.example.client.screens.main.present.MainPresent
-import com.example.client.screens.noti.activity.NotificationActivity
+import com.example.client.screens.payment.PaymentActivity
 import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.order.history.activity.OrderHistoryActivity
 import com.example.client.screens.product.activity.ProductActivity
@@ -71,17 +71,17 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
 
     private fun showHomeScreen() {
         tag = HomeFragment::class.java.simpleName
-        ActivityUtils.addFragmentToActivity(supportFragmentManager, HomeFragment(), R.id.frame_layout, tag)
+        ActivityUtils.addFragmentToActivity(supportFragmentManager, HomeFragment.newInstance(), R.id.frame_layout, tag)
     }
 
     private fun showNotificationScreen() {
         tag = WalletFragment::class.java.simpleName
-        ActivityUtils.addFragmentToActivity(supportFragmentManager, WalletFragment(), R.id.frame_layout, tag)
+        ActivityUtils.addFragmentToActivity(supportFragmentManager, WalletFragment.newInstance(), R.id.frame_layout, tag)
     }
 
     private fun showProfileScreen() {
         tag = ProfileFragment::class.java.simpleName
-        ActivityUtils.addFragmentToActivity(supportFragmentManager, ProfileFragment(), R.id.frame_layout, tag)
+        ActivityUtils.addFragmentToActivity(supportFragmentManager, ProfileFragment.newInstance(), R.id.frame_layout, tag)
     }
 
     override fun showCart(quantity: Int) {
@@ -135,7 +135,7 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.imv_notification -> startActivity(Intent(this, NotificationActivity::class.java))
+            R.id.imv_notification -> startActivity(Intent(this, PaymentActivity::class.java))
             R.id.cv_cart_place -> startActivity(Intent(this, CartActivity::class.java))
             R.id.tv_see_more -> startActivity(OrderHistoryActivity.newInstance(this))
             R.id.tv_see_order -> presenter.navigateToOrderDetail()

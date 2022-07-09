@@ -1,73 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/dimen_15">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv"
+    <TextView
+        android:id="@+id/tv_order_code"
+        style="@style/bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="5dp">
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_14"
+        tools:text="@string/text_order_code_default" />
 
-        <ImageView
-            android:id="@+id/imv_branch_avatar"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/subject_default" />
-    </androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/tv_created_at"
+        style="@style/regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/tv_order_code"
 
-    <LinearLayout
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/dimen_5"
+        android:layout_marginTop="@dimen/dimen_10"
+        tools:text="15:31, 16/06/2022" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        style="@style/bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
+        android:layout_below="@id/tv_order_code"
+        android:gravity="start|center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_14"
+        tools:text="@string/text_status_default" />
 
-        <TextView
-            android:id="@+id/tv_order_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="5dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="@string/text_order_code_default"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tv_branch_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="5dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/branch_name_default"
-            android:textColor="@color/black"
-            android:textSize="14dp" />
+    <TextView
+        android:id="@+id/tv_total"
+        style="@style/bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_order_code"
+        android:layout_alignEnd="@id/tv_status"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/dimen_5"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_14"
+        tools:text="@string/item_product_price" />
 
-        <TextView
-            android:id="@+id/tv_order_total_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="5dp"
-            android:text="@string/item_product_price"
-            android:textColor="@color/black"
-            android:textSize="14dp" />
+    <ImageView
+        android:id="@+id/imv_payment_method"
+        android:layout_width="@dimen/dimen_20"
+        android:layout_height="@dimen/dimen_20"
+        android:layout_below="@id/tv_status"
+        android:layout_centerVertical="true"
+        tools:src="@drawable/ic_payment_cod" />
 
-        <TextView
-            android:id="@+id/tv_order_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center"
-            android:paddingStart="5dp"
-            android:text="@string/text_status_default"
-            android:textColor="@color/black"
-            android:textSize="14dp" />
-    </LinearLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_payment_method"
+        style="@style/regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imv_payment_method"
+        android:layout_alignBottom="@id/imv_payment_method"
+        android:layout_marginStart="@dimen/dimen_5"
+        android:layout_toEndOf="@id/imv_payment_method"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="2"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_14"
+        tools:text="@string/payment_method_cod" />
+
+    <TextView
+        android:id="@+id/tv_address"
+        style="@style/regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imv_payment_method"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_14"
+        tools:text="Giao đến: 45/14/2 Đường 3 Long Trường" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:layout_below="@id/tv_address"
+        android:background="@color/gray_dark" />
+</RelativeLayout>

@@ -39,24 +39,11 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_48"
-        android:layout_below="@id/toolbar"
-        android:layout_marginHorizontal="@dimen/dimen_10"
-        android:layout_marginBottom="@dimen/dimen_10"
-        android:background="@drawable/border_round"
-        android:iconifiedByDefault="false"
-        android:queryBackground="@android:color/transparent"
-        android:queryHint="@string/title_search_view"
-        tools:ignore="UnusedAttribute" />
-
     <View
         android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_10"
-        android:layout_below="@id/search_view"
+        android:layout_below="@id/toolbar"
         android:background="@color/gray_light" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

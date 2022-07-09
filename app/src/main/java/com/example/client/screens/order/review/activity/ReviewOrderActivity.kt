@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.client.R
+import com.example.client.app.Constants
 import com.example.client.base.BaseActivityMVP
 import com.example.client.dialog.PrimaryDialog
 import com.example.client.models.branch.BranchModel
@@ -18,6 +20,7 @@ import com.example.client.screens.map.activity.MapsActivity
 import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.order.review.present.IReviewOrderPresent
 import com.example.client.screens.order.review.present.ReviewOrderPresent
+import com.example.client.screens.payment.PaymentActivity
 import kotlinx.android.synthetic.main.activity_review_order.*
 import java.text.NumberFormat
 import java.util.*
@@ -33,6 +36,14 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
     override val presenter: IReviewOrderPresent
         get() = ReviewOrderPresent(this)
 
+    private val paymentMethods by lazy {
+        arrayListOf(
+                Pair(R.drawable.ic_payment_cod, R.string.payment_method_cod),
+                Pair(R.drawable.ic_payment_momo, R.string.payment_method_momo),
+                Pair(R.drawable.ic_payment_wallet, R.string.payment_method_wallet)
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_review_order)
@@ -42,12 +53,28 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
         presenter.binData()
     }
 
+    private fun bindPaymentMethod(paymentMethod: Pair<Int,Int>, amount: Double) {
+        if (paymentMethod == paymentMethods[2]) {
+            tv_amount.visibility = View.VISIBLE
+            tv_amount.text = getString(R.string.payment_amount, NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(amount))
+        } else tv_amount.visibility = View.GONE
+        imv_payment_method.setImageDrawable(ContextCompat.getDrawable(this, paymentMethod.first))
+        tv_payment_method.text = getString(paymentMethod.second)
+    }
+
+    private fun getPaymentMethod(paymentMethod: Constants.PaymentMethod): Pair<Int, Int> = when(paymentMethod) {
+        Constants.PaymentMethod.COD -> paymentMethods[0]
+        Constants.PaymentMethod.MOMO -> paymentMethods[1]
+        Constants.PaymentMethod.WALLET -> paymentMethods[2]
+    }
+
     override fun bindEvent() {
         imv_back.setOnClickListener(this)
         tv_change_branch.setOnClickListener(this)
         tv_change_product.setOnClickListener(this)
         tv_send_order.setOnClickListener(this)
         tv_change_order_location.setOnClickListener(this)
+        tv_change_payment.setOnClickListener(this)
     }
 
 
@@ -57,6 +84,7 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
             R.id.tv_change_branch -> startActivity(BranchActivity.newInstance(this))
             R.id.tv_send_order -> presenter.createOrder()
             R.id.tv_change_order_location -> startActivity(MapsActivity.newInstance(this))
+            R.id.tv_change_payment -> startActivity(PaymentActivity.newInstance(this))
         }
     }
 
@@ -119,6 +147,10 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
 
     override fun updateTotalPrice(cart: CartModel) {
         tv_total_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(cart.getTotalPrice())
+    }
+
+    override fun updatePaymentMethod(paymentMethod: Constants.PaymentMethod, amount: Double) {
+        bindPaymentMethod(getPaymentMethod(paymentMethod), amount)
     }
 
 }

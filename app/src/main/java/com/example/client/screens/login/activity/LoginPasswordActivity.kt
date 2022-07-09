@@ -22,11 +22,11 @@ class LoginPasswordActivity : BaseActivityMVP<LoginPresent>(), View.OnClickListe
     companion object {
         @JvmStatic
         fun newInstance(from: Activity, email: String): Intent = Intent(from, LoginPasswordActivity::class.java).apply {
-            putExtra(Constants.EMAIL, email)
+            putExtra(Constants.BundleKey.EMAIL, email)
         }
     }
 
-    private val email by lazy { intent?.getStringExtra(Constants.EMAIL) }
+    private val email by lazy { intent?.getStringExtra(Constants.BundleKey.EMAIL) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_password)

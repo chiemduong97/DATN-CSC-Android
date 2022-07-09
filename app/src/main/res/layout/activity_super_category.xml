@@ -37,19 +37,24 @@
                 android:textSize="@dimen/text_16" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
-    <View
-        android:id="@+id/view_line"
+    <SearchView
+        android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_1"
+        android:layout_height="@dimen/dimen_48"
         android:layout_below="@id/toolbar"
-        android:background="@color/gray_dark" />
+        android:layout_marginHorizontal="@dimen/dimen_10"
+        android:background="@drawable/border_round"
+        android:iconifiedByDefault="false"
+        android:queryBackground="@android:color/transparent"
+        android:queryHint="@string/title_search_view"
+        tools:ignore="UnusedAttribute" />
     <LinearLayout
         android:id="@+id/lnl_super_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:layout_below="@id/view_line">
+        android:layout_below="@id/search_view">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"

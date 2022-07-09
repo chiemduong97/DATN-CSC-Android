@@ -101,7 +101,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/rll_order"
         android:background="@drawable/line_top_item"
-        android:padding="@dimen/dimen_15">
+        android:padding="@dimen/dimen_15"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <TextView
             android:id="@+id/tv_count_order"
@@ -130,7 +132,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/navigation"
         android:background="@drawable/line_top_item"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <TextView
             android:id="@+id/tv_order_description"

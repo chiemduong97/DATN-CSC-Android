@@ -55,7 +55,6 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
     implementation 'com.github.aabhasr1:OtpView:v1.1.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.2'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
@@ -64,6 +63,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.4.1'
-
+    implementation 'com.github.momo-wallet:mobile-sdk:1.0.7'
 
 }

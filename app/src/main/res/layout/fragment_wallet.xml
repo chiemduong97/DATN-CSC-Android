@@ -1,107 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white">
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:background="@color/gray_light"/>
+            android:layout_height="@dimen/dimen_10"
+            android:background="@color/gray_light" />
+
         <LinearLayout
+            android:id="@+id/lnl_wallet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="15dp"
-            android:gravity="center">
+            android:layout_below="@id/view"
+            android:layout_margin="@dimen/dimen_15"
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <TextView
+                style="@style/bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Số dư trong tài khoản"
-                android:textStyle="bold"
-                android:textSize="14dp"
-                android:textColor="@color/black"
                 android:layout_weight="1"
-                android:maxLines="1"
-                android:ellipsize="end"/>
+                android:text="@string/wallet_amount"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_14" />
+
             <TextView
-                android:id="@+id/wallet"
+                android:id="@+id/tv_wallet"
+                style="@style/bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10.000.000 đ"
-                android:textSize="14dp"
-                android:textColor="@color/red_light"
                 android:layout_weight="0"
-                android:textStyle="bold"
-                android:maxLines="1"
-                android:ellipsize="end"/>
+                android:textColor="@color/red_light"
+                android:textSize="@dimen/text_14"
+                tools:text="10.000.000 đ" />
         </LinearLayout>
+
         <View
+            android:id="@+id/view_line_first"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_light"/>
+            android:layout_height="@dimen/dimen_1"
+            android:layout_below="@id/lnl_wallet"
+            android:background="@color/gray_light" />
+
         <TextView
-            android:id="@+id/request"
+            android:id="@+id/tv_recharge"
+            style="@style/bold"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center"
+            android:layout_height="@dimen/dimen_48"
+            android:layout_below="@id/view_line_first"
             android:layout_margin="15dp"
-            android:text="Yêu cầu nạp tiền"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:paddingLeft="15dp"
-            android:paddingTop="10dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="10dp"
+            android:background="@drawable/bg_btn"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/dimen_15"
+            android:paddingVertical="@dimen/dimen_10"
+            android:text="@string/wallet_recharge"
             android:textColor="@color/white"
-            android:background="@drawable/bg_btn" />
+            android:textSize="@dimen/text_16" />
+
         <View
+            android:id="@+id/view_line_second"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_light"/>
+            android:layout_height="@dimen/dimen_1"
+            android:layout_below="@id/tv_recharge"
+            android:background="@color/gray_light" />
+
         <TextView
+            android:id="@+id/tv_history"
+            style="@style/bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:text="Lịch sử giao dịch"
-            android:textSize="14dp"
+            android:layout_below="@id/view_line_second"
+            android:layout_margin="@dimen/dimen_15"
+            android:text="@string/wallet_history_transaction"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"/>
+            android:textSize="@dimen/text_14" />
+
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
+            android:id="@+id/tab_transaction"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_below="@+id/layout_filter"
+            android:layout_height="@dimen/dimen_48"
+            android:layout_below="@id/tv_history"
             android:background="@color/white"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/red_light"
             app:tabIndicatorHeight="2dp"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/red_light" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_light"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints" />
-        <ImageView
-            android:id="@+id/empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints"
-            android:src="@drawable/list_empty"
-            android:visibility="gone"/>
 
-    </LinearLayout>
+        <View
+            android:id="@+id/view_line_thirst"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1"
+            android:layout_below="@id/tab_transaction"
+            android:background="@color/gray_light" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/view_line_thirst" />
+
+        <ImageView
+            android:id="@+id/imv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_line_thirst"
+            android:src="@drawable/list_empty"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="@dimen/dimen_24"
+            android:layout_height="@dimen/dimen_24"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="@dimen/dimen_16"
+            android:theme="@style/CProgressbar.Red"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

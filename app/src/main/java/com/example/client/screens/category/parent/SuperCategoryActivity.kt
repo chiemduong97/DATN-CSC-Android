@@ -21,6 +21,7 @@ import com.example.client.screens.category.parent.item.SuperCategoryItem
 import com.example.client.screens.category.parent.present.ISuperCategoryPresent
 import com.example.client.screens.category.parent.present.SuperCategoryPresent
 import com.example.client.screens.product.activity.ProductActivity
+import com.example.client.screens.search.activity.SearchActivity
 import kotlinx.android.synthetic.main.activity_super_category.*
 import kotlinx.android.synthetic.main.activity_super_category.cv_cart_place
 import kotlinx.android.synthetic.main.activity_super_category.imv_back
@@ -35,7 +36,7 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
     companion object {
         @JvmStatic
         fun newInstance(from: Activity, categoryModel: CategoryModel) = Intent(from, SuperCategoryActivity::class.java).apply {
-            putExtra(Constants.CATEGORY_MODEL, categoryModel)
+            putExtra(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
         }
     }
 
@@ -45,7 +46,7 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_super_category)
-        mCategoryModel = intent.getSerializableExtra(Constants.CATEGORY_MODEL) as CategoryModel
+        mCategoryModel = intent.getSerializableExtra(Constants.BundleKey.CATEGORY_MODEL) as CategoryModel
     }
 
     override fun bindData() {
@@ -56,6 +57,12 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
         imv_back.setOnClickListener(this)
         imv_more.setOnClickListener(this)
         cv_cart_place.setOnClickListener(this)
+        search_view.setOnQueryTextFocusChangeListener { _: View, hasFocus: Boolean ->
+            if (hasFocus) {
+                startActivity(SearchActivity.newInstance(this))
+                search_view.clearFocus()
+            }
+        }
     }
 
     override val presenter: ISuperCategoryPresent
@@ -140,7 +147,7 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)
-        mCategoryModel = intent?.getSerializableExtra(Constants.CATEGORY_MODEL) as CategoryModel
+        mCategoryModel = intent?.getSerializableExtra(Constants.BundleKey.CATEGORY_MODEL) as CategoryModel
         presenter.bindData()
     }
 

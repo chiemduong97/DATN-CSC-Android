@@ -36,8 +36,8 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         }
     }
 
-    private val productModel by lazy { arguments?.getSerializable(Constants.PRODUCT_MODEL) as ProductModel }
-    private val categoryModel by lazy { arguments?.getSerializable(Constants.CATEGORY_MODEL) as? CategoryModel }
+    private val productModel by lazy { arguments?.getSerializable(Constants.BundleKey.PRODUCT_MODEL) as ProductModel }
+    private val categoryModel by lazy { arguments?.getSerializable(Constants.BundleKey.CATEGORY_MODEL) as? CategoryModel }
 
     override val presenter: IProductDetailPresent
         get() = ProductDetailPresent(this)
@@ -107,8 +107,8 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
                     {
                         NavigatorProduct.popFragment()
                         NavigatorProduct.showProductDetailScreen(arguments?.apply {
-                            putSerializable(Constants.PRODUCT_MODEL, it)
-                            putSerializable(Constants.CATEGORY_MODEL, categoryModel)
+                            putSerializable(Constants.BundleKey.PRODUCT_MODEL, it)
+                            putSerializable(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
                         })
                     },
                     {
@@ -116,7 +116,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
                     },
                     {
                         NavigatorProduct.showProductScreen(arguments?.apply {
-                            putSerializable(Constants.CATEGORY_MODEL, categoryModel)
+                            putSerializable(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
                         })
                     }
             )
@@ -161,7 +161,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
             }
             R.id.tv_more -> {
                 NavigatorProduct.showProductScreen(arguments?.apply {
-                    putSerializable(Constants.CATEGORY_MODEL, categoryModel)
+                    putSerializable(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
                 })
             }
         }
@@ -178,8 +178,8 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
     override fun showProductDetail(category: CategoryModel, product: ProductModel) {
         NavigatorProduct.popFragment()
         NavigatorProduct.showProductDetailScreen(arguments?.apply {
-            putSerializable(Constants.PRODUCT_MODEL, product)
-            putSerializable(Constants.CATEGORY_MODEL, categoryModel)
+            putSerializable(Constants.BundleKey.PRODUCT_MODEL, product)
+            putSerializable(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
         })
     }
 

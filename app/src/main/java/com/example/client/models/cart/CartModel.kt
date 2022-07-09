@@ -6,18 +6,32 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class CartModel (var cartProducts: ArrayList<CartProductModel>) {
-    var order_lat: Double = 0.0
-    var order_lng: Double = 0.0
-    var order_address: String = ""
-    var branch_lat: Double = 0.0
-    var branch_lng: Double = 0.0
-    var branch_address: String = ""
-    var promotion_code: String? = null
-    var promotion_value: Double? = null
-    var payment_method: String = Constants.PAYMENT.COD
+class CartModel(
+        var cartProducts: ArrayList<CartProductModel>,
+        var order_lat: Double,
+        var order_lng: Double,
+        var order_address: String,
+        var branch_lat: Double,
+        var branch_lng: Double,
+        var branch_address: String,
+        var promotion_code: String?,
+        var promotion_value: Double?,
+        var payment_method: Constants.PaymentMethod = Constants.PaymentMethod.COD,
+) {
+    constructor() : this(
+            cartProducts = arrayListOf(),
+            order_lat = 0.0,
+            order_lng = 0.0,
+            order_address = "",
+            branch_lat = 0.0,
+            branch_lng = 0.0,
+            branch_address = "",
+            promotion_code = null,
+            promotion_value = null,
+            payment_method = Constants.PaymentMethod.COD
+    )
 
-    fun getAmount():Double {
+    fun getAmount(): Double {
         var amount = 0.0
         cartProducts.let {
             if (it.isNotEmpty()) {
@@ -28,6 +42,7 @@ class CartModel (var cartProducts: ArrayList<CartProductModel>) {
         }
         return amount
     }
+
 
     private fun getDistance(): Double {
         val radius = 6371.0

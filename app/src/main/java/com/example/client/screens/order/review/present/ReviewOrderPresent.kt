@@ -19,6 +19,8 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
     private var cart = preferences.cart
     override fun binData() {
         mView?.run {
+            if (preferences.paymentMethod == null) preferences.paymentMethod = Constants.PaymentMethod.COD
+            updatePaymentMethod(preferences.paymentMethod, preferences.profile.wallet)
             preferences.cart = preferences.cart.apply {
                 this.order_lat = preferences.profile.lat
                 this.order_lng = preferences.profile.lng
@@ -96,8 +98,8 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
     }
 
     private fun generationOrderRequest(cart: CartModel) = OrderRequest(
-            Preferences.newInstance().profile.id,
-            Preferences.newInstance().branch.id,
+            preferences.profile.id,
+            preferences.branch.id,
             null,
             cart.order_lat,
             cart.order_lng,
@@ -107,7 +109,8 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
             cart.branch_lng,
             cart.branch_address,
             cart.getShippingFeeExpect(),
-            Preferences.newInstance().profile.phone
+            preferences.profile.phone,
+            preferences.paymentMethod
     )
 
     override fun onCompositedEventAdded() {
@@ -122,6 +125,7 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
                     showUser(preferences.profile)
                     updateTotalPrice(preferences.cart)
                 }
+                Constants.EventKey.CHANGE_PAYMENT_METHOD -> mView?.updatePaymentMethod(preferences.paymentMethod, preferences.profile.wallet)
             }
         })
     }

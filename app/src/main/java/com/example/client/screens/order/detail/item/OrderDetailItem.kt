@@ -21,7 +21,7 @@ class OrderDetailItem(var context: Context, var items: List<OrderDetailModel>) :
             val item = items[position]
             tvQuantity?.text = context.getString(R.string.text_cart_product_quantity, item.quantity)
             tvProductName?.text = item.name
-            tvPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.price)
+            tvPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.price * item.quantity)
             if (position == items.lastIndex) viewLine?.visibility = View.GONE
         }
     }
