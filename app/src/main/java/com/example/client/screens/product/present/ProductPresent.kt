@@ -85,6 +85,9 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
                     val productModel = (it as ValueEvent<*>).value
                     mView?.updateData(productModel as ProductModel)
                 }
+                Constants.EventKey.DELETE_CART -> {
+                    mCategoryModel?.let { cate -> getProducts(cate.id, page, LoadingMode.LOAD) }
+                }
             }
         })
     }

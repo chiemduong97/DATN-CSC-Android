@@ -79,6 +79,7 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
                 }
                 toOrderDetailScreen(it.data.order_code)
                 preferences.deleteCart()
+                RxBus.newInstance().onNext(Event(Constants.EventKey.DELETE_CART))
                 RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
                 RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_STATUS_ORDER))
             }
