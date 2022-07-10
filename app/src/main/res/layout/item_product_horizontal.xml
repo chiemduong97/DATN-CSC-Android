@@ -23,7 +23,7 @@
                 android:id="@+id/view_icon"
                 android:layout_width="@dimen/dimen_120"
                 android:layout_height="@dimen/dimen_100"
-                android:scaleType="fitXY"
+                android:scaleType="centerInside"
                 android:src="@drawable/subject_default" />
 
             <TextView
