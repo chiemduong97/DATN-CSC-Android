@@ -1,44 +1,33 @@
 package com.example.client.screens.map.activity
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.example.client.R
 import com.example.client.base.BaseActivityMVP
 import com.example.client.dialog.PrimaryDialog
 import com.example.client.screens.map.present.IMapsPresent
 import com.example.client.screens.map.present.MapsPresent
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.example.client.utils.LocationUtils
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
-import com.google.android.libraries.places.api.net.PlacesClient
 import kotlinx.android.synthetic.main.activity_maps.*
-import java.lang.Exception
 import java.util.*
 
 
-class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.OnClickListener, GoogleMap.OnMyLocationButtonClickListener, IMapsView {
+class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.OnClickListener, GoogleMap.OnMyLocationButtonClickListener, IMapsView, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private lateinit var mMap: GoogleMap
     private var fused: FusedLocationProviderClient? = null
@@ -47,17 +36,11 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
     private val DEFAULT_ZOOM by lazy { 12 }
     private var defaultLocation = LatLng(10.8529727, 106.6295453)
 
-    private val placesClient: PlacesClient? = null
-    private val M_MAX_ENTRIES by lazy { 5 }
-    private lateinit var likelyPlaceNames: Array<String?>
-    private lateinit var likelyPlaceAddresses: Array<String?>
-    private lateinit var likelyPlaceAttributions: Array<List<*>?>
-    private lateinit var likelyPlaceLatLngs: Array<LatLng?>
-
     companion object {
         fun newInstance(from: Activity): Intent {
             return Intent(from, MapsActivity::class.java)
         }
+
         val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION by lazy { 999 }
     }
 
@@ -67,12 +50,12 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-
         fused = LocationServices.getFusedLocationProviderClient(this)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
+
 
     /**
      * Manipulates the map once available.
@@ -90,7 +73,7 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
         mMap.setOnMyLocationButtonClickListener(this)
         tv_get_location.setOnClickListener(this)
         imv_back.setOnClickListener(this)
-        getLocationPermission()
+        requestLocationPermission()
         if (locationPermissionGranted) {
             updateLocationUI()
             presenter.getCurrentLocation().let {
@@ -133,11 +116,6 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
                     val geoCoder = Geocoder(this, Locale.getDefault())
                     val addresses = geoCoder.getFromLocation(it.latitude, it.longitude, 1);
                     val address = addresses[0].getAddressLine(0)
-//                        val city = addresses[0].locality
-//                        val state = addresses[0].adminArea
-//                        val country = addresses[0].countryName
-//                        val postalCode = addresses[0].postalCode
-//                        val knownName = addresses[0].featureName
                     presenter.updateLocation(it.latitude, it.longitude, address)
                 }
             }
@@ -148,26 +126,45 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
         }
     }
 
-    private fun getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationPermissionGranted = true
+    private fun requestLocationPermission() {
+
+        if (LocationUtils.isEnableGPS(this)) {
+            LocationUtils.requestLocationPermission(this) {
+                locationPermissionGranted = true
+                getDeviceLocation()
+                updateLocationUI()
+            }
         } else {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+            val mGoogleApiClient = GoogleApiClient.Builder(this)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this).build()
+            mGoogleApiClient.run {
+                connect()
+                LocationUtils.requestGPS(this, this@MapsActivity)
+            }
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        locationPermissionGranted = false
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     locationPermissionGranted = true
                     getDeviceLocation()
+                    updateLocationUI()
+                } else {
+                    PrimaryDialog({
+                        finish()
+                    }, {})
+                            .showBtnCancel(false)
+                            .setDescription(getString(R.string.GPS_not_found))
+                            .show(supportFragmentManager)
                 }
+
             }
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
-        updateLocationUI()
     }
 
     private fun updateLocationUI() {
@@ -182,7 +179,7 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
                 mMap.isMyLocationEnabled = false
                 mMap.uiSettings.isMyLocationButtonEnabled = false
                 lastLocation = Location("")
-                getLocationPermission()
+                requestLocationPermission()
             }
         } catch (e: SecurityException) {
             Log.e(MapsActivity::class.simpleName, e.message, e)
@@ -226,83 +223,6 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
         return true
     }
 
-//    @SuppressLint("MissingPermission")
-//    private fun showCurrentPlace() {
-//        if (map == null) {
-//            return
-//        }
-//        if (locationPermissionGranted) {
-//            val placeFields = listOf(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG)
-//            val request = FindCurrentPlaceRequest.newInstance(placeFields)
-//            val placeResult = placesClient?.findCurrentPlace(request)
-//            placeResult?.addOnCompleteListener { task ->
-//                if (task.isSuccessful && task.result != null) {
-//                    val likelyPlaces = task.result
-//                    val count = if (likelyPlaces != null && likelyPlaces.placeLikelihoods.size < M_MAX_ENTRIES) {
-//                        likelyPlaces.placeLikelihoods.size
-//                    } else {
-//                        M_MAX_ENTRIES
-//                    }
-//                    var i = 0
-//                    likelyPlaceNames = arrayOfNulls(count)
-//                    likelyPlaceAddresses = arrayOfNulls(count)
-//                    likelyPlaceAttributions = arrayOfNulls(count)
-//                    likelyPlaceLatLngs = arrayOfNulls(count)
-//                    for (placeLikelihood in likelyPlaces?.placeLikelihoods ?: emptyList()) {
-//                        likelyPlaceNames[i] = placeLikelihood.place.name
-//                        likelyPlaceAddresses[i] = placeLikelihood.place.address
-//                        likelyPlaceAttributions[i] = placeLikelihood.place.attributions
-//                        likelyPlaceLatLngs[i] = placeLikelihood.place.latLng
-//                        i++
-//                        if (i > count - 1) {
-//                            break
-//                        }
-//                    }
-//                    openPlacesDialog()
-//                } else {
-//                    Log.e(MapsActivity::class.simpleName, "Exception: %s", task.exception)
-//                }
-//            }
-//        } else {
-//            Log.i(MapsActivity::class.simpleName, "The user did not grant location permission.")
-//            mMap.addMarker(MarkerOptions()
-//                    .title(getString(R.string.default_info_title))
-//                    .position(defaultLocation)
-//                    .snippet(getString(R.string.default_info_snippet)))
-//            getLocationPermission()
-//        }
-//    }
-
-    private fun openPlacesDialog() {
-        val listener = DialogInterface.OnClickListener { _, which ->
-            val markerLatLng = likelyPlaceLatLngs[which]
-            var markerSnippet = likelyPlaceAddresses[which]
-            if (likelyPlaceAttributions[which] != null) {
-                markerSnippet = """
-                $markerSnippet
-                ${likelyPlaceAttributions[which]}
-                """.trimIndent()
-            }
-
-            if (markerLatLng == null) {
-                return@OnClickListener
-            }
-
-            mMap.addMarker(MarkerOptions()
-                    .title(likelyPlaceNames[which])
-                    .position(markerLatLng)
-                    .snippet(markerSnippet))
-
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerLatLng,
-                    DEFAULT_ZOOM.toFloat()))
-        }
-
-        AlertDialog.Builder(this)
-                .setTitle(R.string.pick_place)
-                .setItems(likelyPlaceNames, listener)
-                .show()
-    }
-
     override fun showLoading() {
         rll_loading.visibility = View.VISIBLE
     }
@@ -325,6 +245,34 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
                 .setDescription(getString(R.string.update_location_success))
                 .show(supportFragmentManager)
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            LocationUtils.REQUEST_LOCATION -> when (resultCode) {
+                RESULT_OK -> {
+                    requestLocationPermission()
+                }
+                else -> {
+                    PrimaryDialog({
+                        finish()
+                    }, {})
+                            .showBtnCancel(false)
+                            .setDescription(getString(R.string.GPS_not_found))
+                            .show(supportFragmentManager)
+                }
+            }
+        }
+    }
+
+    override fun onConnected(p0: Bundle?) {
+    }
+
+    override fun onConnectionSuspended(p0: Int) {
+    }
+
+    override fun onConnectionFailed(p0: ConnectionResult) {
     }
 
 

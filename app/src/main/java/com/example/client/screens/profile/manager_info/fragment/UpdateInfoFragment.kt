@@ -93,8 +93,10 @@ class UpdateInfoFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.OnCli
             R.id.et_birthday -> {
                 val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                 val calendar = Calendar.getInstance().apply {
-                    simpleDateFormat.parse(et_birthday.text.toString())?.let {
-                        time = it
+                    if (et_birthday.text.toString().isNotBlank()) {
+                        simpleDateFormat.parse(et_birthday.text.toString())?.let {
+                            time = it
+                        }
                     }
                 }
 

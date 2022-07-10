@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.client.R
 import com.example.client.base.BaseActivityMVP
+import com.example.client.dialog.PrimaryDialog
 import com.example.client.models.order.OrderModel
 import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.cart.activity.CartActivity
@@ -25,9 +26,13 @@ import com.example.client.screens.product.activity.ProductActivity
 import com.example.client.screens.profile.fragment.ProfileFragment
 import com.example.client.screens.wallet.fragment.WalletFragment
 import com.example.client.utils.ActivityUtils
+import com.example.client.utils.LocationUtils
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickListener {
+class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private var tag = HomeFragment::class.java.name
 
@@ -42,6 +47,7 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 //        navigation.getOrCreateBadge(R.id.menu_noti).setVisible(true);
 //        navigation.getOrCreateBadge(R.id.menu).setNumber(99);
     }
@@ -51,11 +57,24 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
     }
 
     override fun bindData() {
+        requestLocationPermission()
+    }
+
+    private fun requestLocationPermission() {
         presenter.run {
-            if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                updateCurrentLocation()
+            if (LocationUtils.isEnableGPS(this@MainActivity)) {
+                LocationUtils.requestLocationPermission(this@MainActivity) {
+                    updateCurrentLocation()
+                }
             } else {
-                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), MapsActivity.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+                val mGoogleApiClient = GoogleApiClient.Builder(this@MainActivity)
+                        .addApi(LocationServices.API)
+                        .addConnectionCallbacks(this@MainActivity)
+                        .addOnConnectionFailedListener(this@MainActivity).build()
+                mGoogleApiClient.run {
+                    connect()
+                    LocationUtils.requestGPS(this, this@MainActivity)
+                }
             }
             bindData()
         }
@@ -161,9 +180,32 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
             MapsActivity.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     presenter.updateCurrentLocation()
-                }
+                } else showErrorMessage(R.string.GPS_not_found)
             }
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
+    override fun onConnected(p0: Bundle?) {
+    }
+
+    override fun onConnectionSuspended(p0: Int) {
+    }
+
+    override fun onConnectionFailed(p0: ConnectionResult) {
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            LocationUtils.REQUEST_LOCATION -> when (resultCode) {
+                RESULT_OK -> {
+                    if (LocationUtils.isEnableGPS(this)) {
+                        requestLocationPermission()
+                    }
+                }
+                else -> showErrorMessage(R.string.GPS_not_found)
+            }
         }
     }
 

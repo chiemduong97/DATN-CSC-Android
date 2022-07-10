@@ -88,6 +88,7 @@
     <string name="default_info_snippet">Thông tin đoạn trích mặc định</string>
     <string name="pick_place">Chọn vị trí</string>
     <string name="update_location_success">Cập nhật vị trí đặt hàng thành công</string>
+    <string name="GPS_not_found">Vui lòng bật GPS để cập nhật vị trí nhận hàng</string>
     <string name="login_email_title">Nhập email của bạn để tiếp tục</string>
     <string name="login_email_next">Tiếp</string>
     <string name="login_email_register_here">Đăng ký tại đây</string>
