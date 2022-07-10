@@ -94,7 +94,9 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
         if (order.promotion_id != -1) {
             rll_promotion.visibility = View.VISIBLE
             tv_promotion_code.text = order.promotion_code
-            tv_promotion_value.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(order.promotion_value)
+            tv_promotion_value.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(
+                    if (order.promotion_value < 1) order.amount * order.promotion_value else order.promotion_value
+            )
         }
         tv_order_code.text = getString(R.string.text_order_code, order.order_code)
         tv_title.text = getString(R.string.text_title_order_detail, order.order_code)

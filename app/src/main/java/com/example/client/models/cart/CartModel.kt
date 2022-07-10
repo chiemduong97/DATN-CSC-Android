@@ -1,6 +1,5 @@
 package com.example.client.models.cart
 
-import com.example.client.app.Constants
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -17,7 +16,6 @@ class CartModel(
         var promotion_id: Int?,
         var promotion_code: String?,
         var promotion_value: Double?,
-        var payment_method: Constants.PaymentMethod = Constants.PaymentMethod.COD,
 ) {
     constructor() : this(
             cartProducts = arrayListOf(),
@@ -29,8 +27,7 @@ class CartModel(
             branch_address = "",
             promotion_id = null,
             promotion_code = null,
-            promotion_value = null,
-            payment_method = Constants.PaymentMethod.COD
+            promotion_value = null
     )
 
     fun getAmount(): Double {
@@ -57,20 +54,20 @@ class CartModel(
         return radius * c
     }
 
-    private fun getShippingFee(): Double {
-        return getDistance() * 5000.0
-    }
+    private fun getShippingFee() = getDistance() * 5000.0
 
     fun getShippingFeeExpect(): Double {
         var fee = 0.0
-        if (getDistance() > 3) {
+        if (getDistance() > 5) {
             fee = getShippingFee()
         }
         return fee
     }
 
-    fun getTotalPrice(): Double {
-        return getAmount() + getShippingFeeExpect() - (promotion_value ?: 0.0)
-    }
+    fun getTotalPrice() = getAmount() + getShippingFeeExpect() - (promotion_value?.let {
+        if (it < 1) getAmount() * it else it
+    } ?: kotlin.run {
+        0.0
+    })
 
 }

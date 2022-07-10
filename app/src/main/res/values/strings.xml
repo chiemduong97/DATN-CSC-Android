@@ -176,6 +176,6 @@
     <string name="promotion_text_use">Dùng</string>
     <string name="promotion_value"><![CDATA[Giảm <b>%s</b> cho đơn hàng]]></string>
     <string name="promotion_end">Hạn dùng đến %s</string>
-    <string name="promotion_hint_search">Nhập mã khuyến mãi của bạn tại đây</string>
+    <string name="promotion_hint_search">Nhập mã khuyến mãi</string>
 
 </resources>

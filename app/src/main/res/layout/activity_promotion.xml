@@ -37,8 +37,6 @@
                 android:queryHint="@string/promotion_hint_search"
                 android:searchIcon="@null"
                 tools:targetApi="lollipop" />
-
-            <requestFocus />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 

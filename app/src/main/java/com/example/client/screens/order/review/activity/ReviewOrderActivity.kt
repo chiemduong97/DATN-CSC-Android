@@ -54,7 +54,7 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
         presenter.binData()
     }
 
-    private fun bindPaymentMethod(paymentMethod: Pair<Int,Int>, amount: Double) {
+    private fun bindPaymentMethod(paymentMethod: Pair<Int, Int>, amount: Double) {
         if (paymentMethod == paymentMethods[2]) {
             tv_amount.visibility = View.VISIBLE
             tv_amount.text = getString(R.string.payment_amount, NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(amount))
@@ -63,7 +63,7 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
         tv_payment_method.text = getString(paymentMethod.second)
     }
 
-    private fun getPaymentMethod(paymentMethod: Constants.PaymentMethod): Pair<Int, Int> = when(paymentMethod) {
+    private fun getPaymentMethod(paymentMethod: Constants.PaymentMethod): Pair<Int, Int> = when (paymentMethod) {
         Constants.PaymentMethod.COD -> paymentMethods[0]
         Constants.PaymentMethod.MOMO -> paymentMethods[1]
         Constants.PaymentMethod.WALLET -> paymentMethods[2]
@@ -108,7 +108,6 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
 
     override fun showCartProduct(cart: CartModel) {
         tv_shipping_fee_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(cart.getShippingFeeExpect())
-        tv_total_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(cart.getTotalPrice())
         cart.cartProducts.let {
             if (it.isEmpty()) {
                 onBackPressed()
@@ -151,7 +150,7 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
     }
 
     override fun updateTotalPrice(cart: CartModel) {
-        tv_total_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(cart.getTotalPrice())
+        tv_total_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(if (cart.getTotalPrice() < 0) 0 else cart.getTotalPrice())
     }
 
     override fun updatePaymentMethod(paymentMethod: Constants.PaymentMethod, amount: Double) {
@@ -164,7 +163,11 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
             imv_remove_promotion.visibility = View.VISIBLE
             rll_promotion.visibility = View.VISIBLE
             tv_promotion_code.text = cart.promotion_code
-            tv_promotion_value.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(cart.promotion_value)
+            tv_promotion_value.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(
+                    cart.promotion_value?.let {
+                        if (it < 1) cart.getAmount() * it else it
+                    }
+            )
         } ?: kotlin.run {
             lnl_add_promotion.background = ContextCompat.getDrawable(this, R.drawable.border_item_gray_5)
             imv_remove_promotion.visibility = View.GONE

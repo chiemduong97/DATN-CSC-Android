@@ -104,7 +104,10 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
         preferences.cart = cart
         RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
         RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product.checkAddToCart(cart)))
-        mView?.updateTotalPrice(cart)
+        mView?.run {
+            updateTotalPrice(cart)
+            updatePromotion(cart)
+        }
     }
 
     private fun generationOrderRequest(cart: CartModel) = OrderRequest(

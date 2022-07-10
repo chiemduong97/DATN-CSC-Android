@@ -27,11 +27,21 @@ class PromotionItem(
     override fun onBindViewHolder(viewHolder: PromotionItemViewHolder, position: Int) {
         viewHolder.apply {
             val item = items[position]
-            tvValue?.text = HtmlCompat.fromHtml(context.getString(
-                    R.string.promotion_value,
-                    NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.value)),
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-            )
+            if (item.value < 1) {
+                tvValue?.text = HtmlCompat.fromHtml(context.getString(
+                        R.string.promotion_value,
+                        "${(item.value * 100).toInt()}%"),
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                )
+            } else {
+                tvValue?.text = HtmlCompat.fromHtml(context.getString(
+                        R.string.promotion_value,
+                        NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.value)),
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                )
+            }
+
+
             tvCode?.text = item.code
             tvTime?.text = context.getString(R.string.promotion_end, item.end)
             tvUse?.setOnClickListener {
@@ -42,8 +52,7 @@ class PromotionItem(
                 tvUse?.visibility = View.GONE
                 viewRemove?.visibility = View.VISIBLE
                 ctlPromotion?.background = ContextCompat.getDrawable(context, R.drawable.border_item_green_10)
-            }
-            else {
+            } else {
                 viewChecked?.visibility = View.GONE
                 tvUse?.visibility = View.VISIBLE
                 viewRemove?.visibility = View.GONE
@@ -58,6 +67,7 @@ class PromotionItem(
             }
         }
     }
+
     override fun getItemCount() = items.size
 }
 
