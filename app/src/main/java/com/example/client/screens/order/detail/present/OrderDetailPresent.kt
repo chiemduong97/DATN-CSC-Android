@@ -1,6 +1,7 @@
 package com.example.client.screens.order.detail.present
 
 import com.example.client.app.Constants
+import com.example.client.app.Preferences
 import com.example.client.app.RxBus
 import com.example.client.base.BasePresenterMVP
 import com.example.client.models.event.Event
@@ -10,6 +11,7 @@ import com.example.client.models.order.toOrderDetails
 import com.example.client.screens.order.detail.IOrderDetailView
 import com.example.client.usecase.BranchUseCase
 import com.example.client.usecase.OrderUseCase
+import com.google.android.gms.maps.model.LatLng
 
 class OrderDetailPresent(mView: IOrderDetailView) : BasePresenterMVP<IOrderDetailView>(mView), IOrderDetailPresent {
     private val orderUseCase by lazy { OrderUseCase.newInstance() }
@@ -49,7 +51,7 @@ class OrderDetailPresent(mView: IOrderDetailView) : BasePresenterMVP<IOrderDetai
                     showErrorMessage(getErrorMessage(it.code))
                     return@subscribe
                 }
-                showBranch(it.data.toBranchModel())
+                showBranch(it.data.toBranchModel(LatLng(Preferences.newInstance().profile.lat, Preferences.newInstance().profile.lng)))
             }
         }, {
             it.printStackTrace()

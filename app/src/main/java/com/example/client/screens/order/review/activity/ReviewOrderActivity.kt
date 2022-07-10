@@ -21,6 +21,7 @@ import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.order.review.present.IReviewOrderPresent
 import com.example.client.screens.order.review.present.ReviewOrderPresent
 import com.example.client.screens.payment.PaymentActivity
+import com.example.client.screens.promotion.activity.PromotionActivity
 import kotlinx.android.synthetic.main.activity_review_order.*
 import java.text.NumberFormat
 import java.util.*
@@ -75,6 +76,8 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
         tv_send_order.setOnClickListener(this)
         tv_change_order_location.setOnClickListener(this)
         tv_change_payment.setOnClickListener(this)
+        lnl_add_promotion.setOnClickListener(this)
+        imv_remove_promotion.setOnClickListener(this)
     }
 
 
@@ -85,6 +88,8 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
             R.id.tv_send_order -> presenter.createOrder()
             R.id.tv_change_order_location -> startActivity(MapsActivity.newInstance(this))
             R.id.tv_change_payment -> startActivity(PaymentActivity.newInstance(this))
+            R.id.lnl_add_promotion -> startActivity(PromotionActivity.newInstance(this))
+            R.id.imv_remove_promotion -> presenter.removePromotion()
         }
     }
 
@@ -151,6 +156,21 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
 
     override fun updatePaymentMethod(paymentMethod: Constants.PaymentMethod, amount: Double) {
         bindPaymentMethod(getPaymentMethod(paymentMethod), amount)
+    }
+
+    override fun updatePromotion(cart: CartModel) {
+        cart.promotion_id?.let {
+            lnl_add_promotion.background = ContextCompat.getDrawable(this, R.drawable.border_item_green_5)
+            imv_remove_promotion.visibility = View.VISIBLE
+            rll_promotion.visibility = View.VISIBLE
+            tv_promotion_code.text = cart.promotion_code
+            tv_promotion_value.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(cart.promotion_value)
+        } ?: kotlin.run {
+            lnl_add_promotion.background = ContextCompat.getDrawable(this, R.drawable.border_item_gray_5)
+            imv_remove_promotion.visibility = View.GONE
+            rll_promotion.visibility = View.GONE
+        }
+        updateTotalPrice(cart)
     }
 
 }

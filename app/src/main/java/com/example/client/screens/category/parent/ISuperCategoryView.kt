@@ -6,7 +6,8 @@ import com.example.client.models.category.CategoryModel
 interface ISuperCategoryView: IBaseView {
     fun showErrorMessage(errMessage: Int)
     fun showSuperCategories(items: List<CategoryModel>)
-    fun showProducts(items: List<CategoryModel>)
+    fun showCategories(items: List<CategoryModel>)
     fun showCart(quantity: Int)
     fun hideCart()
+    fun showEmptyData()
 }

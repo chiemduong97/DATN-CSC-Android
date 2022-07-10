@@ -75,7 +75,7 @@
                     tools:ignore="MissingConstraints">
 
                     <ImageView
-                        android:id="@+id/imv_avatar"
+                        android:id="@+id/view_icon"
                         android:layout_width="@dimen/dimen_80"
                         android:layout_height="@dimen/dimen_80"
                         android:scaleType="centerCrop"
@@ -128,6 +128,7 @@
                         android:textSize="@dimen/text_16" />
 
                     <TextView
+                        style="@style/regular"
                         android:id="@+id/tv_change_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -139,8 +140,8 @@
 
                 <ImageView
                     android:id="@+id/imv_ic_user"
-                    android:layout_width="@dimen/dimen_20"
-                    android:layout_height="@dimen/dimen_20"
+                    android:layout_width="@dimen/dimen_18"
+                    android:layout_height="@dimen/dimen_18"
                     android:layout_below="@+id/rlt_full_name"
                     android:layout_marginBottom="@dimen/dimen_10"
                     android:src="@drawable/ic_profile" />
@@ -152,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/imv_ic_user"
                     android:layout_alignBottom="@+id/imv_ic_user"
-                    android:layout_marginStart="@dimen/dimen_5"
+                    android:layout_marginStart="@dimen/dimen_10"
                     android:layout_toEndOf="@+id/imv_ic_user"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14"
@@ -160,8 +161,8 @@
 
                 <ImageView
                     android:id="@+id/imv_ic_mail"
-                    android:layout_width="@dimen/dimen_20"
-                    android:layout_height="@dimen/dimen_20"
+                    android:layout_width="@dimen/dimen_18"
+                    android:layout_height="@dimen/dimen_18"
                     android:layout_below="@+id/imv_ic_user"
                     android:layout_marginBottom="@dimen/dimen_10"
                     android:src="@drawable/ic_mail" />
@@ -173,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/imv_ic_mail"
                     android:layout_alignBottom="@+id/imv_ic_mail"
-                    android:layout_marginStart="@dimen/dimen_5"
+                    android:layout_marginStart="@dimen/dimen_10"
                     android:layout_toEndOf="@+id/imv_ic_mail"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14"
@@ -181,8 +182,8 @@
 
                 <ImageView
                     android:id="@+id/imv_ic_birthday"
-                    android:layout_width="@dimen/dimen_20"
-                    android:layout_height="@dimen/dimen_20"
+                    android:layout_width="@dimen/dimen_18"
+                    android:layout_height="@dimen/dimen_18"
                     android:layout_below="@+id/imv_ic_mail"
                     android:layout_marginBottom="@dimen/dimen_10"
                     android:src="@drawable/ic_birthday" />
@@ -194,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/imv_ic_birthday"
                     android:layout_alignBottom="@+id/imv_ic_birthday"
-                    android:layout_marginStart="@dimen/dimen_5"
+                    android:layout_marginStart="@dimen/dimen_10"
                     android:layout_toEndOf="@+id/imv_ic_birthday"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14"
@@ -202,8 +203,8 @@
 
                 <ImageView
                     android:id="@+id/imv_ic_phone"
-                    android:layout_width="@dimen/dimen_20"
-                    android:layout_height="@dimen/dimen_20"
+                    android:layout_width="@dimen/dimen_18"
+                    android:layout_height="@dimen/dimen_18"
                     android:layout_below="@+id/imv_ic_birthday"
                     android:src="@drawable/ic_phone" />
 
@@ -214,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/imv_ic_phone"
                     android:layout_alignBottom="@+id/imv_ic_phone"
-                    android:layout_marginStart="@dimen/dimen_5"
+                    android:layout_marginStart="@dimen/dimen_10"
                     android:layout_toEndOf="@+id/imv_ic_phone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14"
@@ -235,17 +236,19 @@
 
                 <ImageView
                     android:id="@+id/imv_ic_password"
-                    android:layout_width="@dimen/dimen_20"
-                    android:layout_height="@dimen/dimen_20"
+                    android:layout_width="@dimen/dimen_18"
+                    android:layout_height="@dimen/dimen_18"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_password" />
 
                 <TextView
                     style="@style/regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/imv_ic_password"
-                    android:layout_alignBottom="@+id/imv_ic_password"
-                    android:layout_marginStart="@dimen/dimen_5"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dimen_10"
                     android:layout_toStartOf="@+id/imv_ic_next"
                     android:layout_toEndOf="@+id/imv_ic_password"
                     android:text="@string/manager_profile_text_change_password"
@@ -266,6 +269,7 @@
                 android:background="@color/gray_light" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
     <RelativeLayout
         android:id="@+id/rll_loading"
         android:layout_width="match_parent"

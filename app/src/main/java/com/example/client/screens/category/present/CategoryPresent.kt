@@ -8,7 +8,7 @@ import com.example.client.usecase.CategoryUseCase
 
 class CategoryPresent(mView: ICategoryView) : BasePresenterMVP<ICategoryView>(mView), ICategoryPresent {
     private val categoryUseCase by lazy { CategoryUseCase.newInstance() }
-    override fun getCategories() {
+    override fun getSuperCategories() {
         mView?.showLoading()
         subscribe(categoryUseCase.getSuperCategories(), {
             mView?.run {

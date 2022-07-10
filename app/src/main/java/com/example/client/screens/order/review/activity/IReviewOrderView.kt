@@ -14,4 +14,5 @@ interface IReviewOrderView: IBaseView {
     fun toOrderDetailScreen(orderCode: String)
     fun updateTotalPrice(cart: CartModel)
     fun updatePaymentMethod(paymentMethod: Constants.PaymentMethod, amount: Double)
+    fun updatePromotion(cart: CartModel)
 }

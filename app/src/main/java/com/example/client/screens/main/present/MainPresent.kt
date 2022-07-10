@@ -1,13 +1,11 @@
 package com.example.client.screens.main.present
 
-import android.util.Log
 import com.example.client.app.Constants
 import com.example.client.app.Preferences
 import com.example.client.app.RxBus
 import com.example.client.base.BasePresenterMVP
 import com.example.client.models.cart.CartProductModel
 import com.example.client.models.order.OrderModel
-import com.example.client.models.order.toOrders
 import com.example.client.screens.main.activity.IMainView
 import com.example.client.usecase.OrderUseCase
 import com.example.client.usecase.ProfileUseCase
@@ -119,13 +117,13 @@ class MainPresent(mView: IMainView) : BasePresenterMVP<IMainView>(mView), IMainP
         add(RxBus.newInstance().subscribe {
             when (it.key) {
                 Constants.EventKey.UPDATE_CART -> {
-                    Log.d("Duong", "onCompositedEventAdded: ")
                     getCart()
                 }
                 Constants.EventKey.UPDATE_STATUS_ORDER -> {
                     getOrder()
                     getCountOrder()
                 }
+                Constants.EventKey.UPDATE_LOCATION_WHEN_RUN_APP -> if (preferences.branch == null) mView?.toBranchScreen()
             }
         })
     }

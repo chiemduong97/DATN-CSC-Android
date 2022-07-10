@@ -2,7 +2,6 @@ package com.example.client.usecase
 
 import com.example.client.api.ApiClient
 import com.example.client.api.service.ProductService
-import com.example.client.models.category.CategoryModel
 import com.example.client.models.product.ProductResponse
 import com.example.client.models.response.BaseResponse
 import io.reactivex.Observable
@@ -13,12 +12,12 @@ class ProductUseCase {
         fun newInstance() = ProductUseCase()
     }
 
-    fun getProducts(category_id: Int, branch_id: Int, page: Int, limit: Int): Observable<BaseResponse<List<ProductResponse>>> {
-        return productService.getByCategory(category_id, branch_id, page, limit)
+    fun getProducts(category_id: Int, page: Int, limit: Int): Observable<BaseResponse<List<ProductResponse>>> {
+        return productService.getByCategory(category_id, page, limit)
     }
 
-    fun filterProducts(branch_id: Int,query: String, page: Int, limit: Int): Observable<BaseResponse<List<ProductResponse>>> {
-        return productService.filter(branch_id, query, page, limit)
+    fun filterProducts(query: String, page: Int, limit: Int): Observable<BaseResponse<List<ProductResponse>>> {
+        return productService.filter(query, page, limit)
     }
 
 }

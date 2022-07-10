@@ -54,7 +54,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
     override fun bindComponent() {
         Glide.with(this).asBitmap().placeholder(R.drawable.subject_default)
                 .load(productModel.avatar)
-                .into(imv_avatar)
+                .into(view_icon)
         tv_title.text = productModel.name
         tv_name.text = productModel.name
         tv_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(productModel.price)

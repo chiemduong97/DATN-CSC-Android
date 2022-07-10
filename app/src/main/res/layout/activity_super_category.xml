@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".screens.category.parent.SuperCategoryActivity">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -37,24 +38,26 @@
                 android:textSize="@dimen/text_16" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
+
     <SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_48"
         android:layout_below="@id/toolbar"
         android:layout_marginHorizontal="@dimen/dimen_10"
-        android:background="@drawable/border_round"
+        android:background="@drawable/border_item_gray_10"
         android:iconifiedByDefault="false"
         android:queryBackground="@android:color/transparent"
         android:queryHint="@string/title_search_view"
         tools:ignore="UnusedAttribute" />
+
     <LinearLayout
         android:id="@+id/lnl_super_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/search_view"
         android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_below="@id/search_view">
+        android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -68,10 +71,11 @@
                 android:id="@+id/imv_more"
                 android:layout_width="@dimen/dimen_60"
                 android:layout_height="@dimen/dimen_60"
+                android:background="@drawable/border_item_gray_dark"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_see_more"
-                android:background="@drawable/border_item_gray_dark"/>
+                android:src="@drawable/ic_see_more" />
         </androidx.cardview.widget.CardView>
+
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
@@ -84,30 +88,42 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_60"
             android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dimen_10"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_super_category"
-            android:layout_marginEnd="@dimen/dimen_10" />
+            tools:listitem="@layout/item_super_category" />
 
     </LinearLayout>
+
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_10"
-        android:background="@color/gray_light"
-        android:layout_below="@id/lnl_super_category"/>
+        android:layout_below="@id/lnl_super_category"
+        android:background="@color/gray_light" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/view">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_products"/>
+            tools:listitem="@layout/item_products" />
     </androidx.core.widget.NestedScrollView>
+
+    <ImageView
+        android:id="@+id/imv_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view"
+        android:src="@drawable/list_empty"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:id="@+id/rll_cart"
         android:layout_width="wrap_content"
@@ -151,6 +167,7 @@
         </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rll_loading"
         android:layout_width="match_parent"

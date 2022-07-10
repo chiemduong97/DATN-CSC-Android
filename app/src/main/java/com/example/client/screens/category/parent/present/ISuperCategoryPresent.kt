@@ -5,8 +5,9 @@ import com.example.client.models.cart.CartProductModel
 import com.example.client.models.category.CategoryModel
 
 interface ISuperCategoryPresent: IBasePresenter {
-    fun bindData()
-    fun onClickSuperCategory(categoryModel: CategoryModel)
+    fun getSuperCategories()
+    fun getCategories(category_id: Int)
+    fun onClickSuperCategory(category: CategoryModel)
     fun addToCart(cartProduct: CartProductModel)
     fun getCartFromRes()
 }

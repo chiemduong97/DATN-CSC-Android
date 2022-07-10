@@ -17,7 +17,7 @@ class ProductDetailPresent(mView: IProductDetailView) : BasePresenterMVP<IProduc
 
     override fun loadDataByCategory(category_id: Int) {
         mView?.showLoading()
-        subscribe(productUseCase.getProducts(category_id, Preferences.newInstance().branch.id, 1, 10), {
+        subscribe(productUseCase.getProducts(category_id, 1, 10), {
             mView?.run {
                 hideLoading()
                 if (it.is_error || it.data.isEmpty()) {

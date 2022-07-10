@@ -1,17 +1,23 @@
 package com.example.client.screens.main.activity
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.client.R
 import com.example.client.base.BaseActivityMVP
 import com.example.client.models.order.OrderModel
+import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.cart.activity.CartActivity
 import com.example.client.screens.home.fragment.HomeFragment
 import com.example.client.screens.main.present.IMainPresent
 import com.example.client.screens.main.present.MainPresent
+import com.example.client.screens.map.activity.MapsActivity
 import com.example.client.screens.payment.PaymentActivity
 import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.order.history.activity.OrderHistoryActivity
@@ -46,7 +52,11 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
 
     override fun bindData() {
         presenter.run {
-            updateCurrentLocation()
+            if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                updateCurrentLocation()
+            } else {
+                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), MapsActivity.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+            }
             bindData()
         }
     }
@@ -133,12 +143,27 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
         startActivity(OrderDetailActivity.newInstance(this@MainActivity, orderCode))
     }
 
+    override fun toBranchScreen() {
+        startActivity(Intent(this, BranchActivity::class.java))
+    }
+
     override fun onClick(v: View) {
         when (v.id) {
             R.id.imv_notification -> startActivity(Intent(this, PaymentActivity::class.java))
             R.id.cv_cart_place -> startActivity(Intent(this, CartActivity::class.java))
             R.id.tv_see_more -> startActivity(OrderHistoryActivity.newInstance(this))
             R.id.tv_see_order -> presenter.navigateToOrderDetail()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            MapsActivity.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    presenter.updateCurrentLocation()
+                }
+            }
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
 

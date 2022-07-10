@@ -91,10 +91,15 @@ class UpdateInfoFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.OnCli
             }
             R.id.imv_back -> NavigatorProfile.popFragment()
             R.id.et_birthday -> {
-                val calendar = Calendar.getInstance()
+                val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                val calendar = Calendar.getInstance().apply {
+                    simpleDateFormat.parse(et_birthday.text.toString())?.let {
+                        time = it
+                    }
+                }
+
                 val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
                     calendar[year, month] = dayOfMonth
-                    val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                     et_birthday.setText(simpleDateFormat.format(calendar.time))
                 }, calendar[Calendar.YEAR], calendar[Calendar.MONTH], calendar[Calendar.DAY_OF_MONTH])
                 datePickerDialog.show()

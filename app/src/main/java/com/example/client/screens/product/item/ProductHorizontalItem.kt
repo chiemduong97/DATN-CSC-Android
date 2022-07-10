@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -87,7 +86,7 @@ class ProductHorizontalItem(
 }
 
 open class ProductItemHorizontalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val imvAvatar: ImageView? = itemView.findViewById(R.id.imv_avatar)
+    val imvAvatar: ImageView? = itemView.findViewById(R.id.view_icon)
     val tvName: TextView? = itemView.findViewById(R.id.tv_name)
     val tvPrice: TextView? = itemView.findViewById(R.id.tv_price)
     val tvQuantity: TextView? = itemView.findViewById(R.id.tv_quantity)

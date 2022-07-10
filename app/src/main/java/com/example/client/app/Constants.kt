@@ -29,9 +29,11 @@ object Constants {
         const val UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER"
         const val UPDATE_ORDER = "UPDATE_ORDER"
         const val UPDATE_LOCATION = "UPDATE_LOCATION"
+        const val UPDATE_LOCATION_WHEN_RUN_APP = "UPDATE_LOCATION_WHEN_RUN_APP"
         const val LOGIN_SUCCESS = "LOGIN_SUCCESS"
         const val RESET_SUCCESS = "RESET_SUCCESS"
         const val CHANGE_PAYMENT_METHOD = "CHANGE_PAYMENT_METHOD"
+        const val UPDATE_PROMOTION = "UPDATE_PROMOTION"
     }
 
     enum class Transaction {

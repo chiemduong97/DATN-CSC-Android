@@ -56,7 +56,7 @@ class ManagerProfileFragment : BaseFragmentMVP<IManagerProfilePresent>(), IManag
                     data?.let {
                         it.extras?.run {
                             val bitmap = this["data"] as Bitmap
-                            imv_avatar.setImageBitmap(bitmap)
+                            view_icon.setImageBitmap(bitmap)
                             presenter.updateAvatar(bitmap)
                         } ?: kotlin.run {
                             val uri = it.data ?: return@let
@@ -65,7 +65,7 @@ class ManagerProfileFragment : BaseFragmentMVP<IManagerProfilePresent>(), IManag
                             } else {
                                 MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
                             }
-                            imv_avatar.setImageBitmap(bitmap)
+                            view_icon.setImageBitmap(bitmap)
                             presenter.updateAvatar(bitmap)
                         }
                     }
@@ -82,7 +82,7 @@ class ManagerProfileFragment : BaseFragmentMVP<IManagerProfilePresent>(), IManag
                 .asBitmap()
                 .placeholder(R.drawable.avatar_default)
                 .load(profileModel.avatar)
-                .into(imv_avatar)
+                .into(view_icon)
         tv_full_name.text = profileModel.fullname
         tv_email.text = profileModel.email
         tv_birthday.text = if (profileModel.birthday.isEmpty()) getString(R.string.manager_profile_empty_info) else profileModel.birthday

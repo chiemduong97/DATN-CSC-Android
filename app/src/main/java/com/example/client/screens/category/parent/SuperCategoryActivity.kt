@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.activity_super_category.recycler_view
 import kotlinx.android.synthetic.main.activity_super_category.rll_cart
 import kotlinx.android.synthetic.main.activity_super_category.rll_loading
 import kotlinx.android.synthetic.main.activity_super_category.tv_cart_quantity
-import kotlinx.android.synthetic.main.fragment_product_detail.*
 
 class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCategoryView, View.OnClickListener, OptionAddToCartListener {
 
@@ -47,10 +46,15 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_super_category)
         mCategoryModel = intent.getSerializableExtra(Constants.BundleKey.CATEGORY_MODEL) as CategoryModel
+        mCategoryModel?.id?.let { presenter.getCategories(it) }
     }
 
     override fun bindData() {
-        presenter.bindData()
+        presenter.run {
+            getSuperCategories()
+            getCartFromRes()
+        }
+
     }
 
     override fun bindEvent() {
@@ -91,7 +95,9 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
         recycler_view_super_category.adapter = item
     }
 
-    override fun showProducts(items: List<CategoryModel>) {
+    override fun showCategories(items: List<CategoryModel>) {
+        imv_empty.visibility = View.GONE
+        recycler_view.visibility = View.VISIBLE
         val manager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recycler_view.layoutManager = manager
         val item = ProductsItem(
@@ -116,6 +122,11 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
 
     override fun hideCart() {
         rll_cart.visibility = View.GONE
+    }
+
+    override fun showEmptyData() {
+        imv_empty.visibility = View.VISIBLE
+        recycler_view.visibility = View.GONE
     }
 
     override fun showLoading() {
@@ -148,7 +159,11 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
         super.onNewIntent(intent)
         setIntent(intent)
         mCategoryModel = intent?.getSerializableExtra(Constants.BundleKey.CATEGORY_MODEL) as CategoryModel
-        presenter.bindData()
+        presenter.run {
+            getSuperCategories()
+            mCategoryModel?.id?.let { getCategories(it) }
+            getCartFromRes()
+        }
     }
 
     private fun showAddToCartDialog(category: CategoryModel, product: ProductModel) {

@@ -15,6 +15,10 @@ class CategoryUseCase {
         return categoryService.superCategories
     }
 
+    fun getCategories(category_id: Int): Observable<BaseResponse<List<CategoryResponse>>> {
+        return categoryService.getCategories(category_id)
+    }
+
     fun getCategory(id: Int): Observable<BaseResponse<CategoryResponse>> {
         return categoryService.getById(id)
     }

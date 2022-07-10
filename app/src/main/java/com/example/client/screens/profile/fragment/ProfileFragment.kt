@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.client.R
-import com.example.client.app.Constants
 import com.example.client.base.BaseFragmentMVP
 import com.example.client.dialog.PrimaryDialog
-import com.example.client.models.event.Event
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.login.activity.LoginEmailActivity
 import com.example.client.screens.message.activity.MessageActivity
@@ -68,7 +66,7 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
                 .asBitmap()
                 .placeholder(R.drawable.avatar_default)
                 .load(profile.avatar)
-                .into(imv_avatar)
+                .into(view_icon)
     }
 
     override fun showErrorMessage(errMessage: Int) {

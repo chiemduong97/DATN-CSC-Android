@@ -10,14 +10,12 @@ interface ProductService {
     @GET("api/product/product_getAll.php")
     fun getByCategory(
             @Query("category_id") category_id: Int,
-            @Query("branch_id") branch_id: Int,
             @Query("page") page: Int,
             @Query("limit") limit: Int,
     ): Observable<BaseResponse<List<ProductResponse>>>
 
     @GET("api/product/product_search.php")
     fun filter(
-            @Query("branch_id") branch_id: Int,
             @Query("query") query: String,
             @Query("page") page: Int,
             @Query("limit") limit: Int,

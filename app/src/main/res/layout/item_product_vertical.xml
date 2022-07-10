@@ -15,7 +15,7 @@
         app:cardElevation="@dimen/dimen_1">
 
         <ImageView
-            android:id="@+id/imv_avatar"
+            android:id="@+id/view_icon"
             android:layout_width="@dimen/dimen_100"
             android:layout_height="@dimen/dimen_80"
             android:scaleType="fitXY"

@@ -32,6 +32,7 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
             showBranch(preferences.branch)
             showUser(preferences.profile)
             getCartFromRes()
+            updatePromotion(cart)
         }
     }
 
@@ -90,6 +91,15 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
         })
     }
 
+    override fun removePromotion() {
+        preferences.cart = preferences.cart.apply {
+            promotion_id = null
+            promotion_code = null
+            promotion_value = null
+        }
+        mView?.updatePromotion(preferences.cart)
+    }
+
     private fun saveCart(cartProduct: CartProductModel) {
         preferences.cart = cart
         RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
@@ -100,7 +110,9 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
     private fun generationOrderRequest(cart: CartModel) = OrderRequest(
             preferences.profile.id,
             preferences.branch.id,
-            null,
+            cart.promotion_id,
+            cart.promotion_code,
+            cart.promotion_value,
             cart.order_lat,
             cart.order_lng,
             cart.order_address,
@@ -119,13 +131,14 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
             when (it.key) {
                 Constants.EventKey.CHANGE_BRANCH -> mView?.run {
                     showBranch(preferences.branch)
-                    updateTotalPrice(preferences.cart)
+                    showCartProduct(preferences.cart)
                 }
                 Constants.EventKey.UPDATE_LOCATION -> mView?.run {
                     showUser(preferences.profile)
-                    updateTotalPrice(preferences.cart)
+                    showCartProduct(preferences.cart)
                 }
                 Constants.EventKey.CHANGE_PAYMENT_METHOD -> mView?.updatePaymentMethod(preferences.paymentMethod, preferences.profile.wallet)
+                Constants.EventKey.UPDATE_PROMOTION -> mView?.updatePromotion(preferences.cart)
             }
         })
     }

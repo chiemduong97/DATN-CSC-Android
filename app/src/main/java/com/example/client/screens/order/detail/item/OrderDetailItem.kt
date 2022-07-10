@@ -11,7 +11,10 @@ import com.example.client.models.order.OrderDetailModel
 import java.text.NumberFormat
 import java.util.*
 
-class OrderDetailItem(var context: Context, var items: List<OrderDetailModel>) : RecyclerView.Adapter<OrderDetailItemViewHolder>() {
+class OrderDetailItem(
+        private val context: Context,
+        private val items: List<OrderDetailModel>,
+) : RecyclerView.Adapter<OrderDetailItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderDetailItemViewHolder {
         return OrderDetailItemViewHolder(LayoutInflater.from(context).inflate(R.layout.item_order_detail, null))
     }

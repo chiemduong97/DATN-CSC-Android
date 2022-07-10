@@ -17,8 +17,6 @@ class HomePresent(mView: IHomeView) : BasePresenterMVP<IHomeView>(mView), IHomeP
             showProfile(preferences.profile)
             preferences.branch?.let {
                 showBranch(it)
-            } ?: kotlin.run {
-                toBranchScreen()
             }
         }
     }

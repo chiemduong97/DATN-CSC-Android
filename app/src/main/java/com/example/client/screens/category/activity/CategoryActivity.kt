@@ -14,7 +14,6 @@ import com.example.client.screens.category.parent.SuperCategoryActivity
 import com.example.client.screens.category.present.CategoryPresent
 import com.example.client.screens.category.present.ICategoryPresent
 import com.example.client.screens.category.item.HomeCategoryItem
-import com.example.client.screens.product.activity.ProductActivity
 import kotlinx.android.synthetic.main.activity_category.*
 
 class CategoryActivity : BaseActivityMVP<ICategoryPresent>(), ICategoryView, SwipeRefreshLayout.OnRefreshListener {
@@ -37,7 +36,7 @@ class CategoryActivity : BaseActivityMVP<ICategoryPresent>(), ICategoryView, Swi
     }
 
     override fun bindData() {
-        presenter.getCategories()
+        presenter.getSuperCategories()
     }
 
     override val presenter: ICategoryPresent
@@ -75,6 +74,6 @@ class CategoryActivity : BaseActivityMVP<ICategoryPresent>(), ICategoryView, Swi
 
     override fun onBackPress() {}
     override fun onRefresh() {
-        presenter.getCategories()
+        presenter.getSuperCategories()
     }
 }

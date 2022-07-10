@@ -30,14 +30,35 @@
         android:textSize="@dimen/text_16"
         tools:text="@string/branch_name_default" />
 
+    <ImageView
+        android:id="@+id/imv_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/tv_address"
+        android:layout_alignTop="@+id/tv_distance"
+        android:layout_alignBottom="@+id/tv_distance"
+        android:src="@drawable/ic_location_point" />
+
+    <TextView
+        android:id="@+id/tv_distance"
+        style="@style/regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_toEndOf="@id/imv_location"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_14"
+        tools:text="10.5 km" />
+
     <TextView
         android:id="@+id/tv_address"
         style="@style/regular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_name"
+        android:layout_below="@+id/imv_location"
         android:layout_alignStart="@+id/tv_name"
         android:textSize="@dimen/text_14"
         tools:text="@string/branch_address_default" />
+
 
 </RelativeLayout>

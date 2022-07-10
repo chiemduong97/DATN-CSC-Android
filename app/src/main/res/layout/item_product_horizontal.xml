@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imv_avatar"
+                android:id="@+id/view_icon"
                 android:layout_width="@dimen/dimen_120"
                 android:layout_height="@dimen/dimen_100"
                 android:scaleType="fitXY"

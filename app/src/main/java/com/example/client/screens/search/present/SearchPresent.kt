@@ -51,7 +51,7 @@ class SearchPresent(mView: ISearchView) : BaseCollectionPresenter<ISearchView>(m
 
     private fun getProducts(query: String, page: Int, loadingMode: LoadingMode) {
         mView?.showLoading()
-        subscribe(productUseCase.filterProducts(preferences.branch.id, query, page, limit), {
+        subscribe(productUseCase.filterProducts(query, page, limit), {
             mView?.run {
                 hideLoading()
                 if (it.is_error) {

@@ -31,7 +31,7 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
 
     private fun getProducts(category_id: Int, page: Int, loadingMode: LoadingMode) {
         if (loadingMode == LoadingMode.LOAD) mView?.showLoading()
-        subscribe(productUseCase.getProducts(category_id, preferences.branch.id, page, limit), {
+        subscribe(productUseCase.getProducts(category_id, page, limit), {
             mView?.run {
                 hideLoading()
                 if (it.is_error) {

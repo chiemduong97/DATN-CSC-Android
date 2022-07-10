@@ -3,8 +3,8 @@ package com.example.client.models.profile
 import com.example.client.base.BaseModel
 
 data class ProfileModel(
-        var id: Int,
-        var email: String,
+        val id: Int,
+        val email: String,
         var avatar: String,
         var fullname: String,
         var birthday: String,
@@ -14,12 +14,12 @@ data class ProfileModel(
         var wallet: Double,
         var lat: Double,
         var lng: Double,
-        var address: String
+        var address: String,
 )
 
 data class ProfileResponse(
-        var id: Int?,
-        var email: String?,
+        val id: Int?,
+        val email: String?,
         var avatar: String?,
         var fullname: String?,
         var birthday: String?,
@@ -29,7 +29,7 @@ data class ProfileResponse(
         var csc_point: Double?,
         var lat: Double?,
         var lng: Double?,
-        var address: String?
+        var address: String?,
 ) : BaseModel() {
     fun toProfileModel() = ProfileModel(
             id = id ?: -1,

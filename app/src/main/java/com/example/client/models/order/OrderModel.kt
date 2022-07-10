@@ -4,24 +4,22 @@ import com.example.client.app.Constants
 import com.example.client.base.BaseModel
 
 data class OrderModel(
-        var order_code: String,
+        val order_code: String,
         var status: Int,
-        var amount: Double,
-        var address: String,
-        var shipping_fee: Double,
-        var promotion_code: String,
-        var promotion_value: Double,
-        var user_id: Int,
-        var branch_id: Int,
-        var promotion_id: Int,
-        var created_at: String,
-        var branch_address: String,
-        var phone: String,
-        var payment_method: Constants.PaymentMethod,
+        val amount: Double,
+        val address: String,
+        val shipping_fee: Double,
+        val promotion_code: String,
+        val promotion_value: Double,
+        val user_id: Int,
+        val branch_id: Int,
+        val promotion_id: Int,
+        val created_at: String,
+        val branch_address: String,
+        val phone: String,
+        val payment_method: Constants.PaymentMethod,
 ) {
-    fun getTotalPrice() : Double {
-        return amount + shipping_fee - promotion_value
-    }
+    fun getTotalPrice() = amount + shipping_fee - if (promotion_value < 1) amount * promotion_value else promotion_value
     fun isWaiting() = status == 0
     fun isConfirm() = status == 1
     fun isDelivery() = status == 2
@@ -42,21 +40,21 @@ data class OrderModel(
 }
 
 data class OrderResponse(
-        var order_code: String?,
-        var status: Int?,
-        var amount: Double?,
-        var address: String?,
-        var shipping_fee: Double?,
-        var promotion_code: String?,
-        var promotion_value: Double?,
-        var user_id: Int?,
-        var branch_id: Int?,
-        var promotion_id: Int?,
-        var created_at: String?,
-        var branch_address: String?,
-        var phone: String?,
-        var payment_method: Constants.PaymentMethod?
-): BaseModel() {
+        val order_code: String?,
+        val status: Int?,
+        val amount: Double?,
+        val address: String?,
+        val shipping_fee: Double?,
+        val promotion_code: String?,
+        val promotion_value: Double?,
+        val user_id: Int?,
+        val branch_id: Int?,
+        val promotion_id: Int?,
+        val created_at: String?,
+        val branch_address: String?,
+        val phone: String?,
+        val payment_method: Constants.PaymentMethod?,
+) : BaseModel() {
     fun toOrderModel() = OrderModel(
             order_code = order_code.orEmpty(),
             status = status ?: 0,
@@ -79,6 +77,8 @@ data class OrderRequest(
         var user_id: Int,
         var branch_id: Int,
         var promotion_id: Int?,
+        var promotion_code: String?,
+        var promotion_value: Double?,
         var lat: Double,
         var lng: Double,
         var address: String,
@@ -88,16 +88,10 @@ data class OrderRequest(
         var branch_address: String,
         var shipping_fee: Double,
         var phone: String,
-        var payment_method: Constants.PaymentMethod
+        var payment_method: Constants.PaymentMethod,
 )
 
-fun List<OrderResponse>.toOrders(): List<OrderModel> {
-    val orders = arrayListOf<OrderModel>()
-    forEach {
-        orders.add(it.toOrderModel())
-    }
-    return orders
-}
+fun List<OrderResponse>.toOrders() = map { it.toOrderModel() }
 
-data class DataOrderResponse(var order_code: String)
-data class DataCountOrder(var count: Int)
+data class DataOrderResponse(val order_code: String)
+data class DataCountOrder(val count: Int)

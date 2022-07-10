@@ -99,7 +99,7 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
                     .asBitmap()
                     .placeholder(R.drawable.avatar_default)
                     .load(it.avatar)
-                    .into(imv_avatar)
+                    .into(view_icon)
             tv_order_address.text = it.address
         }
     }

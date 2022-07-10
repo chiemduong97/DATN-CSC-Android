@@ -1,10 +1,8 @@
 package com.example.client.base
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.annotation.SuppressLint
 import android.location.Geocoder
 import android.util.Log
-import androidx.core.content.ContextCompat
 import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.app.Preferences
@@ -58,34 +56,33 @@ open class BasePresenterMVP<V : IBaseView>(view: V) : IBasePresenter {
         onCompositedEventAdded()
     }
 
+    @SuppressLint("MissingPermission")
     override fun updateCurrentLocation() {
         mView?.showLoading()
         Res.context?.let {
-            if (ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                val fused = LocationServices.getFusedLocationProviderClient(it)
-                fused.lastLocation.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val lastLocation = task.result ?: return@addOnCompleteListener
-                        val geoCoder = Geocoder(it, Locale.getDefault())
-                        val addresses = geoCoder.getFromLocation(lastLocation.latitude, lastLocation.longitude, 1);
-                        val address = addresses[0].getAddressLine(0)
-                        preferences.profile = preferences.profile.apply {
-                            this.lat = lastLocation.latitude
-                            this.lng = lastLocation.longitude
-                            this.address = address
-                        }
-                        subscribe(profileUseCase.updateLocation(preferences.profile.email, lastLocation.latitude, lastLocation.longitude, address), { res ->
-                            if (!res.is_error) RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_LOCATION))
-                            mView?.hideLoading()
-                        }, { err ->
-                            err.printStackTrace()
-                            mView?.hideLoading()
-                        })
-
-                    } else {
-                        Log.d("Duong", "Current location is null. Using defaults.")
-                        Log.e("Duong", "Exception: %s", task.exception)
+            val fused = LocationServices.getFusedLocationProviderClient(it)
+            fused.lastLocation.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val lastLocation = task.result ?: return@addOnCompleteListener
+                    val geoCoder = Geocoder(it, Locale.getDefault())
+                    val addresses = geoCoder.getFromLocation(lastLocation.latitude, lastLocation.longitude, 1);
+                    val address = addresses[0].getAddressLine(0)
+                    preferences.profile = preferences.profile.apply {
+                        this.lat = lastLocation.latitude
+                        this.lng = lastLocation.longitude
+                        this.address = address
                     }
+                    subscribe(profileUseCase.updateLocation(preferences.profile.email, lastLocation.latitude, lastLocation.longitude, address), { res ->
+                        if (!res.is_error) RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_LOCATION_WHEN_RUN_APP))
+                        mView?.hideLoading()
+                    }, { err ->
+                        err.printStackTrace()
+                        mView?.hideLoading()
+                    })
+
+                } else {
+                    Log.d("Duong", "Current location is null. Using defaults.")
+                    Log.e("Duong", "Exception: %s", task.exception)
                 }
             }
         }

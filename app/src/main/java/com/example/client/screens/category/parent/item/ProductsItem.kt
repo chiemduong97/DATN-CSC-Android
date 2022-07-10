@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.client.R
-import com.example.client.app.Preferences
 import com.example.client.models.category.CategoryModel
 import com.example.client.models.product.ProductModel
 import com.example.client.models.product.toProducts
@@ -42,7 +41,7 @@ class ProductsItem(
             }
             rllLoading?.visibility = View.VISIBLE
             compositeDisposable.add(
-                    productUseCase.getProducts(category.id, Preferences.newInstance().branch.id, 1, 10)
+                    productUseCase.getProducts(category.id, 1, 10)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ response ->

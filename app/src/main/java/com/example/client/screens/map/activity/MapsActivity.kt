@@ -44,7 +44,6 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
     private var fused: FusedLocationProviderClient? = null
     private var lastLocation = Location("")
     private var locationPermissionGranted = false
-    private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION by lazy { 999 }
     private val DEFAULT_ZOOM by lazy { 12 }
     private var defaultLocation = LatLng(10.8529727, 106.6295453)
 
@@ -59,6 +58,7 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
         fun newInstance(from: Activity): Intent {
             return Intent(from, MapsActivity::class.java)
         }
+        val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION by lazy { 999 }
     }
 
     override val presenter: IMapsPresent

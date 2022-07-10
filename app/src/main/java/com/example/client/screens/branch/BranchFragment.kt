@@ -4,7 +4,6 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.client.R
 import com.example.client.base.BaseCollectionFragment
-import com.example.client.base.IBaseCollectionPresenter
 import com.example.client.models.branch.BranchModel
 import com.example.client.screens.branch.item.BranchItem
 import com.example.client.screens.branch.present.BranchPresent
@@ -36,7 +35,7 @@ class BranchFragment: BaseCollectionFragment<IBranchPresent>(), IBranchView, Vie
     override fun showData(items: List<BranchModel>, selected: Int) {
         recycler_view.visibility = View.VISIBLE
         imv_empty.visibility = View.GONE
-        val item = BranchItem(context, items, selected) {
+        val item = BranchItem(requireContext(), items, selected) {
             presenter.saveBranch(it)
         }
         recycler_view.layoutManager = manager

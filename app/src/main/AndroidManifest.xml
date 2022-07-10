@@ -24,6 +24,7 @@
         android:theme="@style/Theme.Client"
         tools:replace="android:theme"
         tools:targetApi="n">
+        <activity android:name=".screens.promotion.activity.PromotionActivity" />
         <activity android:name=".screens.payment.PaymentActivity" />
         <activity
             android:name=".screens.category.parent.SuperCategoryActivity"

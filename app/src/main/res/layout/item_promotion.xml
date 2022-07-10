@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_promotion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_15"
+        android:layout_marginVertical="@dimen/dimen_10"
+        android:background="@drawable/border_item_gray_10"
+        android:paddingVertical="@dimen/dimen_10">
+
+        <View
+            android:id="@+id/view_icon"
+            android:layout_width="@dimen/dimen_40"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_marginStart="@dimen/dimen_10"
+            android:background="@drawable/ic_promotion_percent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_value"
+            style="@style/regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_14"
+            app:layout_constraintStart_toEndOf="@id/view_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Giảm 50.000đ cho đơn hàng đầu tiên" />
+
+        <TextView
+            android:id="@+id/tv_code"
+            style="@style/regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_10"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_14"
+            app:layout_constraintStart_toEndOf="@id/view_icon"
+            app:layout_constraintTop_toBottomOf="@id/tv_value"
+            tools:text="PROMOTION" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_14"
+            app:layout_constraintStart_toEndOf="@id/view_icon"
+            app:layout_constraintTop_toBottomOf="@id/tv_code"
+            tools:text="Hạn đến ngày 20 - 07 - 2022" />
+
+        <TextView
+            android:id="@+id/tv_use"
+            style="@style/bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/promotion_text_use"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guide_line"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_checked"
+            android:layout_width="@dimen/dimen_24"
+            android:layout_height="@dimen/dimen_24"
+            android:background="@drawable/ic_checkbox_green_checked"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guide_line"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="@dimen/dimen_20"
+            android:layout_height="@dimen/dimen_40"
+            android:background="@drawable/dotted_line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_line"
+            app:layout_constraintStart_toStartOf="@id/guide_line"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.82" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view_remove"
+        android:layout_width="@dimen/dimen_16"
+        android:layout_height="@dimen/dimen_16"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_marginEnd="@dimen/dimen_10"
+        android:background="@drawable/ic_close_search"
+        android:visibility="gone"
+        tools:visibility="visible" />
+</RelativeLayout>

@@ -12,8 +12,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface CategoryService {
-    @GET("api/category/category_getAll.php")
-    Call<List<CategoryModel>> getAll();
     @GET("api/category/category_getById.php")
     Observable<BaseResponse<CategoryResponse>> getById(@Query("id") int id);
 

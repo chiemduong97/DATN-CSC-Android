@@ -13,7 +13,11 @@ import com.example.client.models.product.ProductModel
 import java.text.NumberFormat
 import java.util.*
 
-class ProductVerticalItem(var context: Context, var items: List<ProductModel>, var onClickItem: (item: ProductModel) -> Unit) : RecyclerView.Adapter<ProductItemVerticalViewHolder>() {
+class ProductVerticalItem(
+        private val context: Context,
+        private val items: List<ProductModel>,
+        private val onClickItem: (item: ProductModel) -> Unit,
+) : RecyclerView.Adapter<ProductItemVerticalViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductItemVerticalViewHolder {
         return ProductItemVerticalViewHolder(LayoutInflater.from(context).inflate(R.layout.item_product_vertical, null))
     }
@@ -51,7 +55,7 @@ class ProductVerticalItem(var context: Context, var items: List<ProductModel>, v
 }
 
 class ProductItemVerticalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val imvAvatar: ImageView? = itemView.findViewById(R.id.imv_avatar)
+    val imvAvatar: ImageView? = itemView.findViewById(R.id.view_icon)
     val tvProductName: TextView? = itemView.findViewById(R.id.tv_name)
     val tvProductPrice: TextView? = itemView.findViewById(R.id.tv_price)
     val tvProductQuantity: TextView? = itemView.findViewById(R.id.tv_quantity)

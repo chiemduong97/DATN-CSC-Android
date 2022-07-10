@@ -3,17 +3,17 @@ package com.example.client.models.order
 import com.example.client.base.BaseModel
 
 data class OrderDetailModel(
-        var quantity: Int,
-        var product_id: Int,
-        var price: Double,
-        var name: String
+        val quantity: Int,
+        val product_id: Int,
+        val price: Double,
+        val name: String
 ) : BaseModel()
 
 data class OrderDetailResponse(
-        var quantity: Int?,
-        var product_id: Int?,
-        var price: Double?,
-        var name: String?
+        val quantity: Int?,
+        val product_id: Int?,
+        val price: Double?,
+        val name: String?
 ) : BaseModel() {
     fun toOrderDetailModel() = OrderDetailModel(
             quantity = quantity ?: 0,
@@ -23,10 +23,4 @@ data class OrderDetailResponse(
     )
 }
 
-fun List<OrderDetailResponse>.toOrderDetails(): List<OrderDetailModel> {
-    val products = arrayListOf<OrderDetailModel>()
-    forEach {
-        products.add(it.toOrderDetailModel())
-    }
-    return products
-}
+fun List<OrderDetailResponse>.toOrderDetails() = map { it.toOrderDetailModel() }

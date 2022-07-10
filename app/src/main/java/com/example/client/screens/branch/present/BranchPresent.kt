@@ -9,8 +9,9 @@ import com.example.client.models.branch.toBranches
 import com.example.client.models.event.Event
 import com.example.client.screens.branch.IBranchView
 import com.example.client.usecase.BranchUseCase
+import com.google.android.gms.maps.model.LatLng
 
-class BranchPresent(mView: IBranchView): BaseCollectionPresenter<IBranchView>(mView), IBranchPresent {
+class BranchPresent(mView: IBranchView) : BaseCollectionPresenter<IBranchView>(mView), IBranchPresent {
     private val branchUseCase by lazy { BranchUseCase.newInstance() }
     private val preferences by lazy { Preferences.newInstance() }
     override fun binData() {
@@ -26,10 +27,10 @@ class BranchPresent(mView: IBranchView): BaseCollectionPresenter<IBranchView>(mV
                     showEmptyData()
                     return@subscribe
                 }
-                Preferences.newInstance().branch?.let { branch ->
-                    showData(it.data.toBranches(), branch.id)
+                preferences.branch?.let { branch ->
+                    showData(it.data.toBranches(LatLng(preferences.profile.lat, preferences.profile.lng)).sortedByDescending { it.distance }.reversed(), branch.id)
                 } ?: kotlin.run {
-                    showData(it.data.toBranches(), -1)
+                    showData(it.data.toBranches(LatLng(preferences.profile.lat, preferences.profile.lng)).sortedByDescending { it.distance }.reversed(), -1)
                 }
             }
         }, {

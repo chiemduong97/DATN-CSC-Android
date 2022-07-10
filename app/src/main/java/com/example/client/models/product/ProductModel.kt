@@ -4,14 +4,14 @@ import com.example.client.base.BaseModel
 import com.example.client.models.cart.CartModel
 
 data class ProductModel(
-        var id: Int,
-        var name: String,
-        var avatar: String,
-        var description: String,
-        var price: Double,
-        var created_at: String,
-        var quantity: Int,
-        var category_id: Int,
+        val id: Int,
+        val name: String,
+        val avatar: String,
+        val description: String,
+        val price: Double,
+        val created_at: String,
+        val quantity: Int,
+        val category_id: Int,
         var addToCart: Int,
 ) : BaseModel() {
     fun checkAddToCart(cart: CartModel) = apply {
@@ -36,14 +36,14 @@ data class ProductModel(
 }
 
 data class ProductResponse(
-        var id: Int?,
-        var name: String?,
-        var avatar: String?,
-        var description: String?,
-        var price: Double?,
-        var created_at: String?,
-        var quantity: Int?,
-        var category_id: Int?,
+        val id: Int?,
+        val name: String?,
+        val avatar: String?,
+        val description: String?,
+        val price: Double?,
+        val created_at: String?,
+        val quantity: Int?,
+        val category_id: Int?,
 ) : BaseModel() {
     fun toProductModel() = ProductModel(
             id = id ?: -1,
@@ -58,16 +58,6 @@ data class ProductResponse(
     )
 }
 
-fun List<ProductResponse>.toProducts(): List<ProductModel> {
-    val products = arrayListOf<ProductModel>()
-    forEach {
-        products.add(it.toProductModel())
-    }
-    return products
-}
+fun List<ProductResponse>.toProducts() = map { it.toProductModel() }
 
-fun List<ProductModel>.checkCart(cart: CartModel): List<ProductModel> {
-    return map {
-        it.checkAddToCart(cart)
-    }
-}
+fun List<ProductModel>.checkCart(cart: CartModel) = map { it.checkAddToCart(cart) }

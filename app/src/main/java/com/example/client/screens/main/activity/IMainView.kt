@@ -1,7 +1,9 @@
 package com.example.client.screens.main.activity
 
+import android.content.Intent
 import com.example.client.base.IBaseView
 import com.example.client.models.order.OrderModel
+import com.example.client.screens.branch.BranchActivity
 
 interface IMainView: IBaseView {
     fun showCart(quantity: Int)
@@ -12,4 +14,5 @@ interface IMainView: IBaseView {
     fun showOrder(order: OrderModel)
     fun hideOrder()
     fun navigateToOrderDetail(orderCode: String)
+    fun toBranchScreen()
 }

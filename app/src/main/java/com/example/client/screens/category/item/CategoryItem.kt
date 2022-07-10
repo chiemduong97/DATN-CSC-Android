@@ -65,7 +65,7 @@ class HomeCategoryItem(
 }
 
 open class HomeCategoryItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val imvAvatar: ImageView? = itemView.findViewById(R.id.imv_avatar)
+    val imvAvatar: ImageView? = itemView.findViewById(R.id.view_icon)
     val tvName: TextView? = itemView.findViewById(R.id.tv_name)
 }
 

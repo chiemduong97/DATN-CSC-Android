@@ -48,6 +48,6 @@ private fun setBackground(holder: SuperCategoryItemViewHolder, isSelected: Boole
 
 class SuperCategoryItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val lnlSuperCategory: LinearLayout? = itemView.findViewById(R.id.lnl_super_category)
-    val imvAvatar: ImageView? = itemView.findViewById(R.id.imv_avatar)
+    val imvAvatar: ImageView? = itemView.findViewById(R.id.view_icon)
     val tvName: TextView? = itemView.findViewById(R.id.tv_name)
 }

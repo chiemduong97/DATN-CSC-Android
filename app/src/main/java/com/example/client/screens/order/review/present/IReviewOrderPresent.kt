@@ -8,4 +8,5 @@ interface IReviewOrderPresent: IBasePresenter {
     fun minus(cartProduct: CartProductModel)
     fun plus(cartProduct: CartProductModel)
     fun createOrder()
+    fun removePromotion()
 }

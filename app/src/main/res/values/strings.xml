@@ -171,6 +171,11 @@
     <string name="payment_amount">Số dư: %s</string>
     <string name="payment_paid">(Đã thanh toán)</string>
     <string name="payment_refund">(Đã hoàn tiền)</string>
-    <string name="delilvery_address">Giao đến: %s</string>
+    <string name="delivery_address">Giao đến: %s</string>
+    <string name="branch_distance">%.1f km</string>
+    <string name="promotion_text_use">Dùng</string>
+    <string name="promotion_value"><![CDATA[Giảm <b>%s</b> cho đơn hàng]]></string>
+    <string name="promotion_end">Hạn dùng đến %s</string>
+    <string name="promotion_hint_search">Nhập mã khuyến mãi của bạn tại đây</string>
 
 </resources>

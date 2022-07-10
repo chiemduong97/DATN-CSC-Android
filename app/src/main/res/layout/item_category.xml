@@ -16,10 +16,10 @@
         app:cardElevation="0dp">
 
         <ImageView
-            android:id="@+id/imv_avatar"
+            android:id="@+id/view_icon"
             android:layout_width="@dimen/dimen_60"
             android:layout_height="@dimen/dimen_60"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             android:src="@drawable/ic_category_default"
             android:background="@drawable/border_item_gray_dark"/>
     </androidx.cardview.widget.CardView>

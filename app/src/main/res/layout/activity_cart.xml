@@ -137,7 +137,7 @@
                     app:cardCornerRadius="@dimen/dimen_21">
 
                     <ImageView
-                        android:id="@+id/imv_avatar"
+                        android:id="@+id/view_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"

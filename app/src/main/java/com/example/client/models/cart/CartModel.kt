@@ -14,6 +14,7 @@ class CartModel(
         var branch_lat: Double,
         var branch_lng: Double,
         var branch_address: String,
+        var promotion_id: Int?,
         var promotion_code: String?,
         var promotion_value: Double?,
         var payment_method: Constants.PaymentMethod = Constants.PaymentMethod.COD,
@@ -26,6 +27,7 @@ class CartModel(
             branch_lat = 0.0,
             branch_lng = 0.0,
             branch_address = "",
+            promotion_id = null,
             promotion_code = null,
             promotion_value = null,
             payment_method = Constants.PaymentMethod.COD

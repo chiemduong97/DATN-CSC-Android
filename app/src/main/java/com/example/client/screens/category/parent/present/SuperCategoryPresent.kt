@@ -16,12 +16,7 @@ class SuperCategoryPresent(mView: ISuperCategoryView) : BasePresenterMVP<ISuperC
     private val categoryUseCase by lazy { CategoryUseCase.newInstance() }
     private val preferences by lazy { Preferences.newInstance() }
 
-    override fun bindData() {
-        getSuperCategories()
-        getCartFromRes()
-    }
-
-    private fun getSuperCategories() {
+    override fun getSuperCategories() {
         mView?.showLoading()
         subscribe(categoryUseCase.getSuperCategories(), {
             mView?.run {
@@ -30,12 +25,11 @@ class SuperCategoryPresent(mView: ISuperCategoryView) : BasePresenterMVP<ISuperC
                     it.is_error -> {
                         showErrorMessage(getErrorMessage(it.code))
                     }
-                    it.data.isNullOrEmpty() -> {
+                    it.data.isEmpty() -> {
                         showErrorMessage(getErrorMessage(1001))
                     }
                     else -> {
                         showSuperCategories(it.data.toCategories())
-                        showProducts(it.data.toCategories())
                     }
                 }
             }
@@ -48,7 +42,34 @@ class SuperCategoryPresent(mView: ISuperCategoryView) : BasePresenterMVP<ISuperC
         })
     }
 
-    override fun onClickSuperCategory(categoryModel: CategoryModel) {
+    override fun getCategories(category_id: Int) {
+        mView?.showLoading()
+        subscribe(categoryUseCase.getCategories(category_id), {
+            mView?.run {
+                hideLoading()
+                when {
+                    it.is_error -> {
+                        showErrorMessage(getErrorMessage(it.code))
+                    }
+                    it.data.isEmpty() -> {
+                        showEmptyData()
+                    }
+                    else -> {
+                        showCategories(it.data.toCategories())
+                    }
+                }
+            }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                showErrorMessage(getErrorMessage(1001))
+            }
+        })
+    }
+
+    override fun onClickSuperCategory(category: CategoryModel) {
+        getCategories(category.id)
     }
 
     override fun addToCart(cartProduct: CartProductModel) {
