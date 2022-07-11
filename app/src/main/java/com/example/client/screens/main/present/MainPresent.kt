@@ -19,9 +19,9 @@ class MainPresent(mView: IMainView) : BasePresenterMVP<IMainView>(mView), IMainP
         private var orderModel: OrderModel? = null
     }
 
-    override fun setUserActive(email: String) {
+    override fun getUserActive() {
         mView?.showLoading()
-        subscribe(profileUseCase.getUserByEmail(email), {
+        subscribe(profileUseCase.getUserByEmail(preferences.profile.email), {
             mView?.run {
                 if (it.is_error) {
                     hideLoading()

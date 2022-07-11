@@ -22,15 +22,16 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
             if (preferences.paymentMethod == null) preferences.paymentMethod = Constants.PaymentMethod.COD
             updatePaymentMethod(preferences.paymentMethod, preferences.profile.wallet)
             preferences.cart = preferences.cart.apply {
-                this.order_lat = preferences.profile.lat
-                this.order_lng = preferences.profile.lng
-                this.order_address = preferences.profile.address
+                this.order_lat = preferences.orderLocation.lat
+                this.order_lng = preferences.orderLocation.lng
+                this.order_address = preferences.orderLocation.address
                 this.branch_lat = preferences.branch.lat
                 this.branch_lng = preferences.branch.lng
                 this.branch_address = preferences.branch.address
             }
             showBranch(preferences.branch)
             showUser(preferences.profile)
+            showOrderLocation(preferences.orderLocation)
             getCartFromRes()
             updatePromotion(cart)
         }
@@ -138,7 +139,7 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
                     showCartProduct(preferences.cart)
                 }
                 Constants.EventKey.UPDATE_LOCATION -> mView?.run {
-                    showUser(preferences.profile)
+                    showOrderLocation(preferences.orderLocation)
                     showCartProduct(preferences.cart)
                 }
                 Constants.EventKey.CHANGE_PAYMENT_METHOD -> mView?.updatePaymentMethod(preferences.paymentMethod, preferences.profile.wallet)

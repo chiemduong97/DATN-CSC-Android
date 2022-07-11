@@ -62,9 +62,8 @@ open class BasePresenterMVP<V : IBaseView>(view: V) : IBasePresenter {
         Res.context?.let {
             LocationServices.getFusedLocationProviderClient(it).lastLocation.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-
+                    mView?.hideLoading()
                     if (task.result == null) {
-                        mView?.hideLoading()
                         RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_LOCATION_WHEN_RUN_APP))
                         return@addOnCompleteListener
                     }
@@ -72,19 +71,13 @@ open class BasePresenterMVP<V : IBaseView>(view: V) : IBasePresenter {
                     val lastLocation = task.result
                     val geoCoder = Geocoder(it, Locale.getDefault())
                     val addresses = geoCoder.getFromLocation(lastLocation.latitude, lastLocation.longitude, 1);
-                    val address = addresses[0].getAddressLine(0)
-                    preferences.profile = preferences.profile.apply {
-                        this.lat = lastLocation.latitude
-                        this.lng = lastLocation.longitude
-                        this.address = address
+                    val lastAddress = addresses[0].getAddressLine(0)
+                    preferences.orderLocation = preferences.orderLocation.apply {
+                        lat = lastLocation.latitude
+                        lng = lastLocation.longitude
+                        address = lastAddress
                     }
-                    subscribe(profileUseCase.updateLocation(preferences.profile.email, lastLocation.latitude, lastLocation.longitude, address), { res ->
-                        if (!res.is_error) RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_LOCATION_WHEN_RUN_APP))
-                        mView?.hideLoading()
-                    }, { err ->
-                        err.printStackTrace()
-                        mView?.hideLoading()
-                    })
+                    RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_LOCATION_WHEN_RUN_APP))
 
                 } else {
                     Log.d("Duong", "Current location is null. Using defaults.")

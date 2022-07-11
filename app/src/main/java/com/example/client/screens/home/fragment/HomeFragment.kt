@@ -12,6 +12,7 @@ import com.example.client.R
 import com.example.client.base.BaseFragmentMVP
 import com.example.client.models.branch.BranchModel
 import com.example.client.models.category.CategoryModel
+import com.example.client.models.order.OrderLocation
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.category.activity.CategoryActivity
@@ -100,8 +101,11 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
                     .placeholder(R.drawable.avatar_default)
                     .load(it.avatar)
                     .into(view_icon)
-            tv_order_address.text = it.address
         }
+    }
+
+    override fun showOrderLocation(orderLocation: OrderLocation) {
+        tv_order_address.text = orderLocation.address
     }
 
     override fun toBranchScreen() {

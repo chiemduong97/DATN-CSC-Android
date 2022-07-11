@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.example.client.models.branch.BranchModel;
 import com.example.client.models.cart.CartModel;
+import com.example.client.models.order.OrderLocation;
 import com.example.client.models.profile.ProfileModel;
 import com.google.gson.Gson;
 
@@ -20,6 +21,8 @@ public class Preferences {
     private static final String BRANCH_MODEL = "BRANCH_MODEL";
     private static final String CART_MODEL = "CART_MODEL";
     private static final String PAYMENT_METHOD = "PAYMENT_METHOD";
+    private static final String ORDER_LOCATION = "ORDER_LOCATION";
+
 
     private static Preferences preferences;
     private final SharedPreferences sharePreferences;
@@ -202,6 +205,44 @@ public class Preferences {
         }
     }
 
+    public OrderLocation getOrderLocation()
+    {
+        String json = sharePreferences.getString(ORDER_LOCATION, "");
+        if (TextUtils.isEmpty(json))
+            return new OrderLocation();
+
+        Gson gson = new Gson();
+        try
+        {
+            return gson.fromJson(json, OrderLocation.class);
+        } catch (Exception e)
+        {
+            return new OrderLocation();
+        }
+    }
+
+    public void setOrderLocation(OrderLocation orderLocation)
+    {
+        Editor editor = sharePreferences.edit();
+
+        Gson gson = new Gson();
+        String json = "";
+        try
+        {
+            json = gson.toJson(orderLocation);
+        } catch (Exception ignored)
+        {
+        }
+        editor.putString(ORDER_LOCATION, json);
+        editor.apply();
+    }
+
+    public void deleteOrderLocation() {
+        Editor editor = sharePreferences.edit();
+        editor.remove(ORDER_LOCATION);
+        editor.apply();
+    }
+
     public void deleteCart() {
         Editor editor = sharePreferences.edit();
         editor.remove(CART_MODEL);
@@ -213,5 +254,6 @@ public class Preferences {
         deleteProfile();
         deleteAccessToken();
         deleteCart();
+        deleteOrderLocation();
     }
 }

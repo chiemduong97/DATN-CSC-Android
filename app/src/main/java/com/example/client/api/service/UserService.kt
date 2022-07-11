@@ -41,15 +41,6 @@ interface UserService {
     fun updateAvatar(@Body profileRequest: ProfileRequest): Observable<BaseResponse<DataProfileResponse>>
 
     @FormUrlEncoded
-    @POST("api/user/updateLocation.php")
-    fun updateLocation(
-            @Field("email") email: String,
-            @Field("lat") lat: Double,
-            @Field("lng") lng: Double,
-            @Field("address") address: String,
-    ): Observable<BaseResponse<DataProfileResponse>>
-
-    @FormUrlEncoded
     @POST("api/user/updateDeviceToken.php")
     fun updateDeviceToken(
             @Field("email") email: String,

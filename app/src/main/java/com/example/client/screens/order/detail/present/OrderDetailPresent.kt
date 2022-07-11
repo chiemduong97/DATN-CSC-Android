@@ -51,7 +51,7 @@ class OrderDetailPresent(mView: IOrderDetailView) : BasePresenterMVP<IOrderDetai
                     showErrorMessage(getErrorMessage(it.code))
                     return@subscribe
                 }
-                showBranch(it.data.toBranchModel(LatLng(Preferences.newInstance().profile.lat, Preferences.newInstance().profile.lng)))
+                showBranch(it.data.toBranchModel(LatLng(Preferences.newInstance().orderLocation.lat, Preferences.newInstance().orderLocation.lng)))
             }
         }, {
             it.printStackTrace()

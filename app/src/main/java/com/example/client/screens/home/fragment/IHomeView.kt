@@ -4,6 +4,7 @@ import com.example.client.base.IBaseView
 import com.example.client.models.category.CategoryModel
 import com.example.client.models.banner.BannerModel
 import com.example.client.models.branch.BranchModel
+import com.example.client.models.order.OrderLocation
 import com.example.client.models.profile.ProfileModel
 
 interface IHomeView : IBaseView {
@@ -11,6 +12,7 @@ interface IHomeView : IBaseView {
     fun hideCategories()
     fun showBranch(branch: BranchModel)
     fun showProfile(profile: ProfileModel)
+    fun showOrderLocation(orderLocation: OrderLocation)
     fun toBranchScreen()
     fun showErrorMessage(errMessage: Int)
 }

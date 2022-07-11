@@ -11,10 +11,7 @@ data class ProfileModel(
         var phone: String,
         var csc_point: Double,
         var first_order: Boolean,
-        var wallet: Double,
-        var lat: Double,
-        var lng: Double,
-        var address: String,
+        var wallet: Double
 )
 
 data class ProfileResponse(
@@ -26,10 +23,7 @@ data class ProfileResponse(
         var phone: String?,
         var first_order: Boolean?,
         var wallet: Double?,
-        var csc_point: Double?,
-        var lat: Double?,
-        var lng: Double?,
-        var address: String?,
+        var csc_point: Double?
 ) : BaseModel() {
     fun toProfileModel() = ProfileModel(
             id = id ?: -1,
@@ -38,12 +32,9 @@ data class ProfileResponse(
             fullname = fullname.orEmpty(),
             birthday = birthday.orEmpty(),
             phone = phone.orEmpty(),
-            first_order = first_order ?: false,
-            wallet = wallet ?: 0.0,
             csc_point = csc_point ?: 0.0,
-            lat = lat ?: 0.0,
-            lng = lng ?: 0.0,
-            address = address.orEmpty()
+            first_order = first_order ?: false,
+            wallet = wallet ?: 0.0
     )
 }
 

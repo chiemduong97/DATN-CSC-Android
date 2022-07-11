@@ -63,10 +63,6 @@ class ProfileUseCase {
         return userService.updateAvatar(profileRequest)
     }
 
-    fun updateLocation(email: String, lat: Double, lng: Double, address: String): Observable<BaseResponse<DataProfileResponse>> {
-        return userService.updateLocation(email, lat, lng, address)
-    }
-
     fun updateDeviceToken(email: String, device_token: String): Observable<BaseResponse<DataProfileResponse>> {
         return userService.updateDeviceToken(email, device_token)
     }

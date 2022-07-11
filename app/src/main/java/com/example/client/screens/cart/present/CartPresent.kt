@@ -15,9 +15,9 @@ class CartPresent(mView: ICartView): BasePresenterMVP<ICartView>(mView), ICartPr
     override fun bindData() {
         mView?.run {
             preferences.cart = preferences.cart.apply {
-                this.order_lat = preferences.profile.lat
-                this.order_lng = preferences.profile.lng
-                this.order_address = preferences.profile.address
+                this.order_lat = preferences.orderLocation.lat
+                this.order_lng = preferences.orderLocation.lng
+                this.order_address = preferences.orderLocation.address
                 this.branch_lat = preferences.branch.lat
                 this.branch_lng = preferences.branch.lng
                 this.branch_address = preferences.branch.address

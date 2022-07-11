@@ -13,6 +13,7 @@ import com.example.client.base.BaseActivityMVP
 import com.example.client.dialog.PrimaryDialog
 import com.example.client.models.branch.BranchModel
 import com.example.client.models.cart.CartModel
+import com.example.client.models.order.OrderLocation
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.cart.item.CartProductItem
@@ -96,8 +97,11 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
 
     override fun showUser(profile: ProfileModel) {
         tv_profile_name.text = profile.fullname
-        tv_order_address.text = profile.address
         Glide.with(this).asBitmap().placeholder(R.drawable.avatar_default).load(profile.avatar).into(imv_profile_avatar)
+    }
+
+    override fun showOrderLocation(orderLocation: OrderLocation) {
+        tv_order_address.text = orderLocation.address
     }
 
     override fun showBranch(branch: BranchModel) {

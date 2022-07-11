@@ -1,17 +1,13 @@
 package com.example.client.screens.main.activity
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.example.client.R
 import com.example.client.base.BaseActivityMVP
-import com.example.client.dialog.PrimaryDialog
 import com.example.client.models.order.OrderModel
 import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.cart.activity.CartActivity
@@ -19,9 +15,9 @@ import com.example.client.screens.home.fragment.HomeFragment
 import com.example.client.screens.main.present.IMainPresent
 import com.example.client.screens.main.present.MainPresent
 import com.example.client.screens.map.activity.MapsActivity
-import com.example.client.screens.payment.PaymentActivity
 import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.order.history.activity.OrderHistoryActivity
+import com.example.client.screens.payment.PaymentActivity
 import com.example.client.screens.product.activity.ProductActivity
 import com.example.client.screens.profile.fragment.ProfileFragment
 import com.example.client.screens.wallet.fragment.WalletFragment
@@ -200,9 +196,7 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
         when (requestCode) {
             LocationUtils.REQUEST_LOCATION -> when (resultCode) {
                 RESULT_OK -> {
-                    if (LocationUtils.isEnableGPS(this)) {
-                        requestLocationPermission()
-                    }
+                    requestLocationPermission()
                 }
                 else -> showErrorMessage(R.string.GPS_not_found)
             }

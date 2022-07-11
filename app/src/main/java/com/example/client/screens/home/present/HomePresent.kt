@@ -15,6 +15,7 @@ class HomePresent(mView: IHomeView) : BasePresenterMVP<IHomeView>(mView), IHomeP
     override fun binData() {
         mView?.run {
             showProfile(preferences.profile)
+            showOrderLocation(preferences.orderLocation)
             preferences.branch?.let {
                 showBranch(it)
             }
@@ -55,8 +56,14 @@ class HomePresent(mView: IHomeView) : BasePresenterMVP<IHomeView>(mView), IHomeP
         add(RxBus.newInstance().subscribe {
             when (it.key) {
                 Constants.EventKey.CHANGE_BRANCH -> mView?.showBranch(preferences.branch)
-                Constants.EventKey.UPDATE_PROFILE_AVATAR, Constants.EventKey.UPDATE_LOCATION, Constants.EventKey.UPDATE_PROFILE_INFO -> mView?.showProfile(preferences.profile)
-                Constants.EventKey.UPDATE_LOCATION_WHEN_RUN_APP -> preferences.branch?.let { mView?.showBranch(it) }
+                Constants.EventKey.UPDATE_PROFILE_AVATAR, Constants.EventKey.UPDATE_PROFILE_INFO -> mView?.showProfile(preferences.profile)
+                Constants.EventKey.UPDATE_LOCATION -> mView?.showOrderLocation(preferences.orderLocation)
+                Constants.EventKey.UPDATE_LOCATION_WHEN_RUN_APP -> {
+                    mView?.showOrderLocation(preferences.orderLocation)
+                    preferences.branch?.run {
+                        mView?.showBranch(this)
+                    }
+                }
             }
         })
     }
