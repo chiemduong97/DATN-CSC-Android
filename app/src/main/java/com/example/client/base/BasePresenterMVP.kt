@@ -60,10 +60,16 @@ open class BasePresenterMVP<V : IBaseView>(view: V) : IBasePresenter {
     override fun updateCurrentLocation() {
         mView?.showLoading()
         Res.context?.let {
-            val fused = LocationServices.getFusedLocationProviderClient(it)
-            fused.lastLocation.addOnCompleteListener { task ->
+            LocationServices.getFusedLocationProviderClient(it).lastLocation.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val lastLocation = task.result ?: return@addOnCompleteListener
+
+                    if (task.result == null) {
+                        mView?.hideLoading()
+                        RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_LOCATION_WHEN_RUN_APP))
+                        return@addOnCompleteListener
+                    }
+
+                    val lastLocation = task.result
                     val geoCoder = Geocoder(it, Locale.getDefault())
                     val addresses = geoCoder.getFromLocation(lastLocation.latitude, lastLocation.longitude, 1);
                     val address = addresses[0].getAddressLine(0)

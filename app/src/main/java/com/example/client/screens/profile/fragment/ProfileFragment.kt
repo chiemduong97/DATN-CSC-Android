@@ -33,6 +33,7 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
         tv_update_info.setOnClickListener(this)
         lnl_logout.setOnClickListener(this)
         lnl_order_history.setOnClickListener(this)
+        swipe_refresh.setOnRefreshListener { hideLoading() }
     }
 
     override fun bindComponent() {

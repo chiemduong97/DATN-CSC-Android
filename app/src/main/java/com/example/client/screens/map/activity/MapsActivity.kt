@@ -30,11 +30,9 @@ import java.util.*
 class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.OnClickListener, GoogleMap.OnMyLocationButtonClickListener, IMapsView, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private lateinit var mMap: GoogleMap
-    private var fused: FusedLocationProviderClient? = null
     private var lastLocation = Location("")
     private var locationPermissionGranted = false
-    private val DEFAULT_ZOOM by lazy { 12 }
-    private var defaultLocation = LatLng(10.8529727, 106.6295453)
+    private val defaultLocation = LatLng(10.8529727, 106.6295453)
 
     companion object {
         fun newInstance(from: Activity): Intent {
@@ -42,6 +40,7 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
         }
 
         val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION by lazy { 999 }
+        private val DEFAULT_ZOOM by lazy { 12 }
     }
 
     override val presenter: IMapsPresent
@@ -50,7 +49,6 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        fused = LocationServices.getFusedLocationProviderClient(this)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -73,26 +71,28 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
         mMap.setOnMyLocationButtonClickListener(this)
         tv_get_location.setOnClickListener(this)
         imv_back.setOnClickListener(this)
-        requestLocationPermission()
-        if (locationPermissionGranted) {
-            updateLocationUI()
-            presenter.getCurrentLocation().let {
-                mMap.clear()
-                lastLocation.apply {
-                    latitude = it.latitude
-                    longitude = it.longitude
-                }
-                val geoCoder = Geocoder(this@MapsActivity, Locale.getDefault())
-                val addresses = geoCoder.getFromLocation(it.latitude, it.longitude, 1);
-                val address = addresses[0].getAddressLine(0)
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, DEFAULT_ZOOM.toFloat()))
-                mMap.addMarker(MarkerOptions().position(it).title(address))
+        presenter.getCurrentLocation().let {
+            mMap.clear()
+            lastLocation = lastLocation.apply {
+                latitude = it.latitude
+                longitude = it.longitude
             }
+            val geoCoder = Geocoder(this@MapsActivity, Locale.getDefault())
+            val addresses = geoCoder.getFromLocation(it.latitude, it.longitude, 1);
+            val address = addresses[0].getAddressLine(0)
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, DEFAULT_ZOOM.toFloat()))
+            mMap.addMarker(MarkerOptions().position(it).title(address))
         }
+
+        if (LocationUtils.isEnableGPS(this) && LocationUtils.isEnablePermission(this)) {
+            locationPermissionGranted = true
+        }
+        updateLocationUI()
+
         mMap.setOnMapClickListener {
             try {
                 mMap.clear()
-                lastLocation.apply {
+                lastLocation = lastLocation.apply {
                     latitude = it.latitude
                     longitude = it.longitude
                 }
@@ -193,11 +193,10 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
          */
         try {
             if (locationPermissionGranted) {
-                val locationResult = fused?.lastLocation
-                locationResult?.addOnCompleteListener(this) { task ->
+                LocationServices.getFusedLocationProviderClient(this).lastLocation.addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Set the map's camera position to the current location of the device.
-                        lastLocation = task.result
+                        lastLocation = task.result ?: return@addOnCompleteListener
                         lastLocation.let {
                             mMap.clear()
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), DEFAULT_ZOOM.toFloat()))

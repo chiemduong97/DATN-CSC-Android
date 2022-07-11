@@ -54,6 +54,8 @@ object LocationUtils {
         }
     }
 
+    fun isEnablePermission(activity: Activity) = ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
     fun isEnableGPS(context: Context): Boolean {
         val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         var enabledGPS = false

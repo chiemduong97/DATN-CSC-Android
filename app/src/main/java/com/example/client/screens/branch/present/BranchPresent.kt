@@ -28,9 +28,9 @@ class BranchPresent(mView: IBranchView) : BaseCollectionPresenter<IBranchView>(m
                     return@subscribe
                 }
                 preferences.branch?.let { branch ->
-                    showData(it.data.toBranches(LatLng(preferences.profile.lat, preferences.profile.lng)).sortedByDescending { it.distance }.reversed(), branch.id)
+                    showData(it.data.toBranches(LatLng(preferences.profile.lat, preferences.profile.lng)).sortedBy { it.distance }, branch.id)
                 } ?: kotlin.run {
-                    showData(it.data.toBranches(LatLng(preferences.profile.lat, preferences.profile.lng)).sortedByDescending { it.distance }.reversed(), -1)
+                    showData(it.data.toBranches(LatLng(preferences.profile.lat, preferences.profile.lng)).sortedBy { it.distance }, -1)
                 }
             }
         }, {
