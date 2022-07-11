@@ -52,7 +52,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
     }
 
     override fun bindComponent() {
-        Glide.with(this).asBitmap().placeholder(R.drawable.subject_default)
+        Glide.with(this).asBitmap().placeholder(R.drawable.ic_category_default)
                 .load(productModel.avatar)
                 .into(view_icon)
         tv_title.text = productModel.name

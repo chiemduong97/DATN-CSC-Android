@@ -25,6 +25,7 @@ import com.example.client.screens.promotion.activity.PromotionActivity
 import kotlinx.android.synthetic.main.activity_review_order.*
 import java.text.NumberFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrderView, View.OnClickListener {
 
@@ -165,7 +166,7 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
             tv_promotion_code.text = cart.promotion_code
             tv_promotion_value.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(
                     cart.promotion_value?.let {
-                        if (it < 1) cart.getAmount() * it else it
+                        if (it < 1) (cart.getAmount() * it / 1000).roundToInt() * 1000.0 else it
                     }
             )
         } ?: kotlin.run {

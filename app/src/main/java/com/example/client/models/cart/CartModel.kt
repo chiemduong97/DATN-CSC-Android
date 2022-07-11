@@ -1,9 +1,6 @@
 package com.example.client.models.cart
 
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
 
 class CartModel(
         var cartProducts: ArrayList<CartProductModel>,
@@ -54,7 +51,7 @@ class CartModel(
         return radius * c
     }
 
-    private fun getShippingFee() = getDistance() * 5000.0
+    private fun getShippingFee() = (getDistance() * 5000.0 / 1000).roundToInt() * 1000.0
 
     fun getShippingFeeExpect(): Double {
         var fee = 0.0
@@ -65,7 +62,7 @@ class CartModel(
     }
 
     fun getTotalPrice() = getAmount() + getShippingFeeExpect() - (promotion_value?.let {
-        if (it < 1) getAmount() * it else it
+        if (it < 1) (getAmount() * it / 1000).roundToInt() * 1000.0 else it
     } ?: kotlin.run {
         0.0
     })

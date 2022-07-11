@@ -88,7 +88,7 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
 
         product?.run {
             imvProductAvatar?.run {
-                Glide.with(requireContext()).asBitmap().placeholder(R.drawable.subject_default).load(avatar).into(this)
+                Glide.with(requireContext()).asBitmap().placeholder(R.drawable.ic_category_default).load(avatar).into(this)
             }
 
             tvName?.text = name

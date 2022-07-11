@@ -2,6 +2,7 @@ package com.example.client.models.order
 
 import com.example.client.app.Constants
 import com.example.client.base.BaseModel
+import kotlin.math.roundToInt
 
 data class OrderModel(
         val order_code: String,
@@ -19,7 +20,7 @@ data class OrderModel(
         val phone: String,
         val payment_method: Constants.PaymentMethod,
 ) {
-    fun getTotalPrice() = amount + shipping_fee - if (promotion_value < 1) amount * promotion_value else promotion_value
+    fun getTotalPrice() = amount + shipping_fee - if (promotion_value < 1) (amount * promotion_value / 1000).roundToInt() * 1000.0 else promotion_value
     fun isWaiting() = status == 0
     fun isConfirm() = status == 1
     fun isDelivery() = status == 2

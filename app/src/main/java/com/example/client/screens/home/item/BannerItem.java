@@ -31,7 +31,7 @@ public class BannerItem extends FragmentStateAdapter {
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.item_banner,null);
             ImageView banner = view.findViewById(R.id.banner);
-            Glide.with(getContext()).asBitmap().placeholder(R.drawable.subject_default)
+            Glide.with(getContext()).asBitmap().placeholder(R.drawable.ic_category_default)
                     .load(item.getLink()).into(banner);
             return view;
         }

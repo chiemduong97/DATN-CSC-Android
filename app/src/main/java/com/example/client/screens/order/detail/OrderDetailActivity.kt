@@ -22,6 +22,7 @@ import com.example.client.screens.order.detail.present.OrderDetailPresent
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import java.text.NumberFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetailView, View.OnClickListener {
 
@@ -66,12 +67,12 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
         tv_order_destroy.setOnClickListener(this)
     }
 
-    private fun bindPaymentMethod(paymentMethod: Pair<Int,Int>) {
+    private fun bindPaymentMethod(paymentMethod: Pair<Int, Int>) {
         imv_payment_method.setImageDrawable(ContextCompat.getDrawable(this, paymentMethod.first))
         tv_payment_method.text = getString(paymentMethod.second)
     }
 
-    private fun getPaymentMethod(paymentMethod: Constants.PaymentMethod): Pair<Int, Int> = when(paymentMethod) {
+    private fun getPaymentMethod(paymentMethod: Constants.PaymentMethod): Pair<Int, Int> = when (paymentMethod) {
         Constants.PaymentMethod.COD -> paymentMethods[0]
         Constants.PaymentMethod.MOMO -> paymentMethods[1]
         Constants.PaymentMethod.WALLET -> paymentMethods[2]
@@ -95,7 +96,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
             rll_promotion.visibility = View.VISIBLE
             tv_promotion_code.text = order.promotion_code
             tv_promotion_value.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(
-                    if (order.promotion_value < 1) order.amount * order.promotion_value else order.promotion_value
+                    if (order.promotion_value < 1) (order.amount * order.promotion_value / 1000).roundToInt() * 1000.0 else order.promotion_value
             )
         }
         tv_order_code.text = getString(R.string.text_order_code, order.order_code)

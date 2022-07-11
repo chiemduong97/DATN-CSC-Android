@@ -138,10 +138,9 @@
             android:layout_width="@dimen/dimen_56"
             android:layout_height="@dimen/dimen_56"
             android:layout_margin="@dimen/dimen_15"
-            android:elevation="4dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            tools:targetApi="lollipop">
+            app:cardCornerRadius="@dimen/dimen_6"
+            app:cardElevation="@dimen/dimen_4">
 
             <ImageView
                 android:layout_width="wrap_content"

@@ -26,7 +26,7 @@ class ProductVerticalItem(
         viewholder.apply {
             val item: ProductModel = items[position]
             imvAvatar?.let {
-                Glide.with(context).asBitmap().placeholder(R.drawable.subject_default).load(item.avatar).into(it)
+                Glide.with(context).asBitmap().placeholder(R.drawable.ic_category_default).load(item.avatar).into(it)
             }
             tvProductName?.text = item.name
             tvProductPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.price)
