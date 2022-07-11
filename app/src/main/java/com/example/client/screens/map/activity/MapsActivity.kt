@@ -131,7 +131,6 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
         if (LocationUtils.isEnableGPS(this)) {
             LocationUtils.requestLocationPermission(this) {
                 locationPermissionGranted = true
-                getDeviceLocation()
                 updateLocationUI()
             }
         } else {
@@ -151,7 +150,6 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     locationPermissionGranted = true
-                    getDeviceLocation()
                     updateLocationUI()
                 } else {
                     PrimaryDialog({
@@ -175,6 +173,7 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
             if (locationPermissionGranted) {
                 mMap.isMyLocationEnabled = true
                 mMap.uiSettings.isMyLocationButtonEnabled = true
+                getDeviceLocation()
             } else {
                 mMap.isMyLocationEnabled = false
                 mMap.uiSettings.isMyLocationButtonEnabled = false
@@ -251,7 +250,10 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
         when (requestCode) {
             LocationUtils.REQUEST_LOCATION -> when (resultCode) {
                 RESULT_OK -> {
-                    requestLocationPermission()
+                    finish()
+                    overridePendingTransition(0, 0)
+                    startActivity(intent)
+                    overridePendingTransition(0, 0)
                 }
                 else -> {
                     PrimaryDialog({
