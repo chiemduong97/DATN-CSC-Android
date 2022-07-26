@@ -32,7 +32,7 @@ class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView,
 
     override fun onRefresh() {
         super.onRefresh()
-        categoryModel?.let { presenter.binData(it) }
+        bindData()
     }
 
     override fun bindData() {

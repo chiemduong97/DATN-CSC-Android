@@ -39,7 +39,7 @@
 
             <TextView
                 android:id="@+id/tv_order_destroy"
-                style="@style/regular"
+                style="@style/normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -146,7 +146,7 @@
 
                 <TextView
                     android:id="@+id/tv_order_address"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_order_location"
@@ -211,7 +211,7 @@
 
                 <TextView
                     android:id="@+id/tv_branch_address"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_branch_name"
@@ -290,7 +290,7 @@
 
                 <TextView
                     android:id="@+id/tv_shipping_fee"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_shipping_fee"
@@ -321,7 +321,7 @@
 
                 <TextView
                     android:id="@+id/tv_promotion_code"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_accepted_promotion"
@@ -379,7 +379,7 @@
 
                 <TextView
                     android:id="@+id/tv_payment_method"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/imv_payment_method"
@@ -418,7 +418,7 @@
 
         <TextView
             android:id="@+id/tv_text_total"
-            style="@style/regular"
+            style="@style/normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -428,7 +428,7 @@
 
         <TextView
             android:id="@+id/tv_status_payment"
-            style="@style/regular"
+            style="@style/normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

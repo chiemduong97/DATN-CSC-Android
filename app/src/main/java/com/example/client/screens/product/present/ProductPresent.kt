@@ -8,6 +8,7 @@ import com.example.client.models.cart.CartModel
 import com.example.client.models.category.CategoryModel
 import com.example.client.models.event.ValueEvent
 import com.example.client.models.loading.LoadingMode
+import com.example.client.models.product.HomeSectionModel
 import com.example.client.models.product.ProductModel
 import com.example.client.models.product.checkCart
 import com.example.client.models.product.toProducts
@@ -26,7 +27,45 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
 
     override fun binData(categoryModel: CategoryModel) {
         mCategoryModel = categoryModel
-        getProducts(categoryModel.id, page, LoadingMode.LOAD)
+        if (categoryModel is HomeSectionModel) getProductsByUrl(categoryModel.url, page, LoadingMode.LOAD)
+        else getProducts(categoryModel.id, page, LoadingMode.LOAD)
+    }
+
+    private fun getProductsByUrl(url: String, page: Int, loadingMode: LoadingMode) {
+        if (loadingMode == LoadingMode.LOAD) mView?.showLoading()
+        subscribe(productUseCase.getProductsByUrl(url, page, limit), {
+            mView?.run {
+                hideLoading()
+                if (it.is_error) {
+                    showEmptyData()
+                    onLoadMoreComplete()
+                    return@subscribe
+                }
+                when (loadingMode) {
+                    LoadingMode.LOAD -> {
+                        if (it.data.isEmpty()) showEmptyData()
+                        else {
+                            showData(it.data.toProducts().checkCart(preferences.cart))
+                            loadMore = it.load_more
+                        }
+                    }
+                    LoadingMode.LOAD_MORE -> {
+                        showMoreData(it.data.toProducts().checkCart(preferences.cart))
+                        loadMore = it.load_more
+                        onLoadMoreComplete()
+                    }
+                }
+            }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                if (loadingMode == LoadingMode.LOAD) {
+                    showEmptyData()
+                }
+            }
+            onLoadMoreComplete()
+        })
     }
 
     private fun getProducts(category_id: Int, page: Int, loadingMode: LoadingMode) {
@@ -58,7 +97,9 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
             it.printStackTrace()
             mView?.run {
                 hideLoading()
-                showEmptyData()
+                if (loadingMode == LoadingMode.LOAD) {
+                    showEmptyData()
+                }
             }
             onLoadMoreComplete()
         })
@@ -74,7 +115,10 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
 
     override fun invokeLoadMore(page: Int) {
         super.invokeLoadMore(page)
-        mCategoryModel?.let { getProducts(it.id, page, LoadingMode.LOAD_MORE) }
+        mCategoryModel?.let {
+            if (it is HomeSectionModel) getProductsByUrl(it.url, page, LoadingMode.LOAD_MORE)
+            else getProducts(it.id, page, LoadingMode.LOAD_MORE)
+        }
     }
 
     override fun onCompositedEventAdded() {

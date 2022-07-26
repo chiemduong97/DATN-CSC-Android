@@ -3,6 +3,7 @@ package com.example.client.screens.search.fragment
 import android.text.TextUtils
 import android.view.View
 import android.widget.SearchView
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.client.R
 import com.example.client.base.BaseCollectionFragment
@@ -15,10 +16,7 @@ import com.example.client.screens.search.present.ISearchPresent
 import com.example.client.screens.search.present.SearchPresent
 import com.jakewharton.rxbinding2.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.fragment_search.imv_back
-import kotlinx.android.synthetic.main.fragment_search.imv_empty
-import kotlinx.android.synthetic.main.fragment_search.recycler_view
-import kotlinx.android.synthetic.main.fragment_search.search_view
+import kotlinx.android.synthetic.main.fragment_search.*
 import java.util.concurrent.TimeUnit
 
 class SearchFragment : BaseCollectionFragment<ISearchPresent>(), ISearchView, SearchView.OnQueryTextListener {
@@ -31,6 +29,10 @@ class SearchFragment : BaseCollectionFragment<ISearchPresent>(), ISearchView, Se
     private var mItems = arrayListOf<ProductModel>()
     private val manager by lazy { LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) }
 
+    override fun bindComponent() {
+        val searchTextId = search_view.context.resources.getIdentifier("android:id/search_src_text", null, null)
+        TextViewCompat.setTextAppearance(search_view.findViewById(searchTextId), R.style.search_text)
+    }
 
     override fun bindEvent() {
         search_view.setOnQueryTextListener(this)

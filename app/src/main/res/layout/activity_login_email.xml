@@ -30,7 +30,7 @@
             android:textSize="@dimen/text_14" />
 
         <TextView
-            style="@style/regular"
+            style="@style/normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen_20"
@@ -77,7 +77,7 @@
 
             <TextView
                 android:id="@+id/tv_error"
-                style="@style/regular"
+                style="@style/normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_20"
@@ -123,7 +123,7 @@
                 android:background="@color/black" />
 
             <TextView
-                style="@style/regular"
+                style="@style/normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_email_or" />

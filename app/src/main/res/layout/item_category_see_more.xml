@@ -23,7 +23,7 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        style="@style/regular"
+        style="@style/normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/dimen_2"

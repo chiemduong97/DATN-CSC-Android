@@ -103,7 +103,7 @@
 
                 <TextView
                     android:id="@+id/tv_order_address"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_order_location"
@@ -183,7 +183,7 @@
 
                 <TextView
                     android:id="@+id/tv_branch_address"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_branch_name"
@@ -254,7 +254,7 @@
 
                 <TextView
                     android:id="@+id/tv_profile_name"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/cv_profile_avatar"
@@ -295,7 +295,7 @@
 
                 <TextView
                     android:id="@+id/tv_shipping_fee"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_shipping_fee"
@@ -325,7 +325,7 @@
 
                 <TextView
                     android:id="@+id/tv_promotion_code"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_accepted_promotion"
@@ -397,7 +397,7 @@
 
                 <TextView
                     android:id="@+id/tv_payment_method"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/imv_payment_method"
@@ -412,7 +412,7 @@
 
                 <TextView
                     android:id="@+id/tv_amount"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_payment_method"
@@ -451,7 +451,7 @@
 
         <TextView
             android:id="@+id/tv_text_total"
-            style="@style/regular"
+            style="@style/normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -560,12 +560,10 @@
 
         <ImageView
             android:id="@+id/imv_remove_promotion"
-            android:layout_width="@dimen/dimen_16"
-            android:layout_height="@dimen/dimen_16"
+            android:layout_width="@dimen/dimen_20"
+            android:layout_height="@dimen/dimen_20"
             android:layout_below="@+id/tv_text_total"
             android:layout_alignStart="@id/rll_send_order"
-            android:layout_marginStart="@dimen/dimen_2"
-            android:layout_marginTop="@dimen/dimen_2"
             android:src="@drawable/ic_close_search"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -589,7 +587,7 @@
             android:theme="@style/CProgressbar.Red" />
 
         <TextView
-            style="@style/regular"
+            style="@style/normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/progress_bar"

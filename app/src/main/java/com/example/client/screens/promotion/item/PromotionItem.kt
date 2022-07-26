@@ -18,6 +18,7 @@ class PromotionItem(
         private val context: Context,
         private val items: List<PromotionModel>,
         private val promotionId: Int,
+        private val onShowDetail: (promotion: PromotionModel) -> Unit,
         private val onUse: (promotion: PromotionModel) -> Unit,
         private val onRemove: () -> Unit,
 ) : RecyclerView.Adapter<PromotionItemViewHolder>() {
@@ -27,25 +28,19 @@ class PromotionItem(
     override fun onBindViewHolder(viewHolder: PromotionItemViewHolder, position: Int) {
         viewHolder.apply {
             val item = items[position]
-            if (item.value < 1) {
-                tvValue?.text = HtmlCompat.fromHtml(context.getString(
-                        R.string.promotion_value,
-                        "${(item.value * 100).toInt()}%"),
-                        HtmlCompat.FROM_HTML_MODE_LEGACY
-                )
-            } else {
-                tvValue?.text = HtmlCompat.fromHtml(context.getString(
-                        R.string.promotion_value,
-                        NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.value)),
-                        HtmlCompat.FROM_HTML_MODE_LEGACY
-                )
-            }
-
-
+            tvValue?.text = HtmlCompat.fromHtml(context.getString(
+                    R.string.promotion_value,
+                    if (item.value < 1) "${(item.value * 100).toInt()}%"
+                    else NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.value)),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
             tvCode?.text = item.code
             tvTime?.text = context.getString(R.string.promotion_end, item.end)
             tvUse?.setOnClickListener {
                 onUse.invoke(item)
+            }
+            ctlPromotion?.setOnClickListener {
+                onShowDetail.invoke(item)
             }
             if (promotionId == item.id) {
                 viewChecked?.visibility = View.VISIBLE

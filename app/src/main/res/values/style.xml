@@ -15,7 +15,11 @@
     <style name="italic" parent="@android:style/TextAppearance.Small">
         <item name="android:fontFamily">@font/source_sans_pro_lt</item>
     </style>
-    <style name="regular" parent="@android:style/TextAppearance.Small">
+    <style name="normal" parent="@android:style/TextAppearance.Small">
         <item name="android:fontFamily">@font/source_sans_pro_regular</item>
+    </style>
+    <style name="search_text" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/source_sans_pro_regular</item>
+        <item name="android:textSize">@dimen/text_16</item>
     </style>
 </resources>

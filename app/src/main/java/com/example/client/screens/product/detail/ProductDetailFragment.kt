@@ -47,7 +47,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
     }
 
     override fun bindData() {
-        presenter.loadDataByCategory(productModel.category_id)
+        categoryModel?.let { presenter.loadDataByCategory(it) }
         presenter.getCartFromRes()
     }
 

@@ -66,7 +66,7 @@
 
         <RadioButton
             android:id="@+id/radio_cod"
-            style="@style/regular"
+            style="@style/normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/checkbox_layout"
@@ -77,7 +77,7 @@
 
         <RadioButton
             android:id="@+id/radio_momo"
-            style="@style/regular"
+            style="@style/normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/checkbox_layout"
@@ -88,7 +88,7 @@
 
         <RadioButton
             android:id="@+id/radio_wallet"
-            style="@style/regular"
+            style="@style/normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/checkbox_layout"

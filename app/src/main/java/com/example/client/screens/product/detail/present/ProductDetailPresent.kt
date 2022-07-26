@@ -5,8 +5,10 @@ import com.example.client.app.Preferences
 import com.example.client.app.RxBus
 import com.example.client.base.BasePresenterMVP
 import com.example.client.models.cart.CartProductModel
+import com.example.client.models.category.CategoryModel
 import com.example.client.models.event.Event
 import com.example.client.models.event.ValueEvent
+import com.example.client.models.product.HomeSectionModel
 import com.example.client.models.product.toProducts
 import com.example.client.screens.product.detail.IProductDetailView
 import com.example.client.usecase.ProductUseCase
@@ -15,7 +17,32 @@ class ProductDetailPresent(mView: IProductDetailView) : BasePresenterMVP<IProduc
     private val productUseCase by lazy { ProductUseCase.newInstance() }
     private val preferences by lazy { Preferences.newInstance() }
 
-    override fun loadDataByCategory(category_id: Int) {
+    override fun loadDataByCategory(categoryModel: CategoryModel) {
+        if (categoryModel is HomeSectionModel) getProductsByUrl(categoryModel.url)
+        else getProductsByCategory(categoryModel.id)
+    }
+
+    private fun getProductsByUrl(url: String) {
+        mView?.showLoading()
+        subscribe(productUseCase.getProductsByUrl(url, 1, 10), {
+            mView?.run {
+                hideLoading()
+                if (it.is_error || it.data.isEmpty()) {
+                    showEmptyData()
+                    return@subscribe
+                }
+                showListProduct(it.data.toProducts())
+            }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                showEmptyData()
+            }
+        })
+    }
+
+    private fun getProductsByCategory(category_id: Int) {
         mView?.showLoading()
         subscribe(productUseCase.getProducts(category_id, 1, 10), {
             mView?.run {

@@ -11,9 +11,9 @@ class PromotionUseCase {
     companion object {
         fun newInstance() = PromotionUseCase()
     }
-    fun getPromotions(): Observable<BaseResponse<List<PromotionResponse>>> {
-        return promotionService.getPromotions()
-    }
+    fun getPromotions(): Observable<BaseResponse<List<PromotionResponse>>> = promotionService.getPromotions()
+
+    fun getPromotion(code: String): Observable<BaseResponse<PromotionResponse>> = promotionService.getPromotion(code)
 
 
 }

@@ -149,7 +149,7 @@
                     android:layout_toStartOf="@+id/rll_next"
                     tools:text="@string/branch_address_default"
                     android:textSize="@dimen/text_14"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:maxLines="1"
                     android:ellipsize="end"/>
 
@@ -188,30 +188,35 @@
                 app:spanCount="4"
                 tools:listitem="@layout/item_category"/>
 
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/dimen_10"-->
+<!--                android:background="@color/gray_light" />-->
+
+<!--            <androidx.viewpager2.widget.ViewPager2-->
+<!--                android:id="@+id/view_pager_banner"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/dimen_200" />-->
+
+<!--            <com.google.android.material.tabs.TabLayout-->
+<!--                android:id="@+id/tab_dot"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/dimen_24"-->
+<!--                android:layout_marginTop="@dimen/dimen_5"-->
+<!--                android:layout_marginBottom="@dimen/dimen_10"-->
+<!--                app:tabBackground="@drawable/tab_selector"-->
+<!--                app:tabGravity="center"-->
+<!--                app:tabIndicatorHeight="0dp" />-->
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_10"
                 android:background="@color/gray_light" />
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager_banner"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_section"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_200" />
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_dot"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_5"
-                android:layout_marginBottom="@dimen/dimen_10"
-                app:tabBackground="@drawable/tab_selector"
-                app:tabGravity="center"
-                app:tabIndicatorHeight="0dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_10"
-                android:background="@color/gray_light" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

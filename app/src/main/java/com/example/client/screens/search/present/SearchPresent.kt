@@ -78,7 +78,9 @@ class SearchPresent(mView: ISearchView) : BaseCollectionPresenter<ISearchView>(m
             it.printStackTrace()
             mView?.run {
                 hideLoading()
-                showEmptyData()
+                if (loadingMode == LoadingMode.LOAD) {
+                    showEmptyData()
+                }
             }
             onLoadMoreComplete()
         })

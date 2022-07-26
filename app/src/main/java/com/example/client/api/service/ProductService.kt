@@ -5,6 +5,7 @@ import com.example.client.models.response.BaseResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface ProductService {
     @GET("api/product/product_getAll.php")
@@ -20,4 +21,10 @@ interface ProductService {
             @Query("page") page: Int,
             @Query("limit") limit: Int,
     ): Observable<BaseResponse<List<ProductResponse>>>
+
+    @GET
+    fun getProductsByUrl(@Url url: String,
+                         @Query("page") page: Int,
+                         @Query("limit") limit: Int,
+                         @Query("user_id") user_id: Int): Observable<BaseResponse<List<ProductResponse>>>
 }

@@ -74,6 +74,8 @@ class ProductsItem(
                             }, {
                                 it.printStackTrace()
                                 rllLoading?.visibility = View.GONE
+                                imvEmpty?.visibility = View.VISIBLE
+                                recyclerView?.visibility = View.GONE
                             })
             )
 

@@ -53,7 +53,9 @@ class OrderHistoryPresent(mView: IOrderHistoryView) : BaseCollectionPresenter<IO
             it.printStackTrace()
             mView?.run {
                 hideLoading()
-                showErrorMessage(getErrorMessage(1001))
+                if (loadingMode == LoadingMode.LOAD) {
+                    showErrorMessage(getErrorMessage(1001))
+                }
             }
         })
     }

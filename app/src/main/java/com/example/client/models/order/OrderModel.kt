@@ -1,6 +1,8 @@
 package com.example.client.models.order
 
+import com.example.client.R
 import com.example.client.app.Constants
+import com.example.client.app.Res
 import com.example.client.base.BaseModel
 import kotlin.math.roundToInt
 
@@ -19,7 +21,7 @@ data class OrderModel(
         val branch_address: String,
         val phone: String,
         val payment_method: Constants.PaymentMethod,
-) {
+) : BaseModel() {
     fun getTotalPrice() = amount + shipping_fee - if (promotion_value < 1) (amount * promotion_value / 1000).roundToInt() * 1000.0 else promotion_value
     fun isWaiting() = status == 0
     fun isConfirm() = status == 1
@@ -29,11 +31,11 @@ data class OrderModel(
 
     fun getStatusString(): String {
         return when {
-            isWaiting() -> "Chờ xử lý"
-            isConfirm() -> "Đã nhận đơn"
-            isDelivery() -> "Đang giao"
-            isComplete() -> "Hoàn thành"
-            isDestroy() -> "Đã hủy"
+            isWaiting() -> Res.context?.getString(R.string.order_status_0).orEmpty()
+            isConfirm() -> Res.context?.getString(R.string.order_status_1).orEmpty()
+            isDelivery() -> Res.context?.getString(R.string.order_status_2).orEmpty()
+            isComplete() -> Res.context?.getString(R.string.order_status_3).orEmpty()
+            isDestroy() -> Res.context?.getString(R.string.order_status_4).orEmpty()
             else -> ""
         }
     }

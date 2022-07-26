@@ -34,7 +34,7 @@
 
                 <TextView
                     android:id="@+id/tv_description"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="@dimen/dimen_5"

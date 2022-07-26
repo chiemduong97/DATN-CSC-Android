@@ -6,9 +6,12 @@ object Constants {
         const val PRODUCT_MODEL = "PRODUCT_MODEL"
         const val ORDER_CODE = "ORDER_CODE"
         const val EMAIL = "EMAIL"
+        const val PROMOTION_MODEL = "PROMOTION_MODEL"
+
     }
 
     const val SHOW_PRODUCT_DETAIL = "SHOW_PRODUCT_DETAIL"
+    const val SHOW_PROMOTION_DETAIL = "SHOW_PROMOTION_DETAIL"
 
     object MORE {
         const val CATEGORY = "CATEGORY"

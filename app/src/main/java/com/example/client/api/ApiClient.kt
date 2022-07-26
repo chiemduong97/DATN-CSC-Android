@@ -12,17 +12,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiClient {
     @JvmStatic
     fun newInstance(): Retrofit {
-        val baseUrl = "http://192.168.1.9:8585/"
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        val builder = OkHttpClient.Builder().addInterceptor(Interceptor { chain: Interceptor.Chain ->
+        val baseUrl = "http://192.168.1.10:8585/"
+
+        val builder = OkHttpClient.Builder().addInterceptor(Interceptor { chain ->
             val request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer ${Preferences.newInstance().accessToken}")
                     .build()
             chain.proceed(request)
         })
         if (BuildConfig.DEBUG) {
-            builder.addInterceptor(loggingInterceptor)
+            builder.addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
         }
         return Retrofit.Builder()
                 .client(builder.build())

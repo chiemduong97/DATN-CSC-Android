@@ -131,7 +131,7 @@
 
                     <TextView
                         android:id="@+id/tv_change_info"
-                        style="@style/regular"
+                        style="@style/normal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -150,7 +150,7 @@
 
                 <TextView
                     android:id="@+id/tv_full_name"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/imv_ic_user"
@@ -171,7 +171,7 @@
 
                 <TextView
                     android:id="@+id/tv_email"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/imv_ic_mail"
@@ -192,7 +192,7 @@
 
                 <TextView
                     android:id="@+id/tv_birthday"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/imv_ic_birthday"
@@ -212,7 +212,7 @@
 
                 <TextView
                     android:id="@+id/tv_phone"
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/imv_ic_phone"
@@ -244,7 +244,7 @@
                     android:src="@drawable/ic_password" />
 
                 <TextView
-                    style="@style/regular"
+                    style="@style/normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"

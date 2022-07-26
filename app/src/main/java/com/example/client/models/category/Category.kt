@@ -3,12 +3,14 @@ package com.example.client.models.category
 import com.example.client.base.BaseModel
 
 
-data class CategoryModel(
+open class CategoryModel(
         val id: Int,
-        val name: String,
+        var name: String,
         val avatar: String,
         var selected: Boolean,
-) : BaseModel()
+) : BaseModel() {
+    constructor() : this(-1,"","", false)
+}
 
 data class CategoryResponse(
         val id: Int?,

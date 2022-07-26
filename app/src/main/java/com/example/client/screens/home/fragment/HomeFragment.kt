@@ -6,28 +6,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.bumptech.glide.Glide
 import com.example.client.R
 import com.example.client.base.BaseFragmentMVP
+import com.example.client.dialog.AddToCartDialog
+import com.example.client.dialog.OptionAddToCartListener
 import com.example.client.models.branch.BranchModel
+import com.example.client.models.cart.CartProductModel
 import com.example.client.models.category.CategoryModel
 import com.example.client.models.order.OrderLocation
+import com.example.client.models.product.HomeSectionModel
+import com.example.client.models.product.ProductModel
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.category.activity.CategoryActivity
-import com.example.client.screens.category.parent.SuperCategoryActivity
 import com.example.client.screens.category.item.HomeCategoryItem
+import com.example.client.screens.category.parent.SuperCategoryActivity
+import com.example.client.screens.category.parent.item.ProductsItem
+import com.example.client.screens.home.item.HomeSectionItem
 import com.example.client.screens.home.present.HomePresent
 import com.example.client.screens.home.present.IHomePresent
 import com.example.client.screens.map.activity.MapsActivity
+import com.example.client.screens.product.activity.ProductActivity
 import com.example.client.screens.profile.manager_info.activity.ManagerProfileActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHomeView, OnRefreshListener {
+class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHomeView, OnRefreshListener, OptionAddToCartListener {
 
     companion object {
         @JvmStatic
@@ -41,6 +50,7 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
     override fun bindData() {
         presenter.binData()
         presenter.getCategories()
+        presenter.getHomeSections()
     }
 
     override fun bindEvent() {
@@ -116,6 +126,23 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
         showToastMessage(getString(errMessage))
     }
 
+    override fun showHomeSections(items: List<HomeSectionModel>) {
+        recycler_view_section.visibility = View.VISIBLE
+        val manager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recycler_view_section.layoutManager = manager
+        val item = HomeSectionItem(requireContext(), items, {
+                startActivity(ProductActivity.newInstance(requireActivity(), it))
+            },
+            { cate: CategoryModel, prod: ProductModel ->
+                startActivity(ProductActivity.newInstance(requireActivity(), cate, prod, true))
+            },
+            { cate: CategoryModel, prod: ProductModel ->
+                showAddToCartDialog(cate, prod)
+            }
+        )
+        recycler_view_section.adapter = item
+    }
+
     override fun showLoading() {
         swipe_refresh.isRefreshing = true
     }
@@ -135,5 +162,19 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
 
     override fun onRefresh() {
         bindData()
+    }
+
+    private fun showAddToCartDialog(category: CategoryModel, product: ProductModel) {
+        val dialog = AddToCartDialog.newInstance(category, product)
+        dialog.setListener(this)
+        dialog.show(childFragmentManager)
+    }
+
+    override fun addToCart(cartProduct: CartProductModel) {
+        presenter.addToCart(cartProduct)
+    }
+
+    override fun showProductDetail(category: CategoryModel, product: ProductModel) {
+        startActivity(ProductActivity.newInstance(requireActivity(), category, product, true))
     }
 }

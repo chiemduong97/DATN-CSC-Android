@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/tv_created_at"
-        style="@style/regular"
+        style="@style/normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@id/tv_order_code"
@@ -65,7 +65,7 @@
 
     <TextView
         android:id="@+id/tv_payment_method"
-        style="@style/regular"
+        style="@style/normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/imv_payment_method"
@@ -81,7 +81,7 @@
 
     <TextView
         android:id="@+id/tv_address"
-        style="@style/regular"
+        style="@style/normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/imv_payment_method"

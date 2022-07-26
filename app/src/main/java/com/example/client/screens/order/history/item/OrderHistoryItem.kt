@@ -27,7 +27,7 @@ class OrderHistoryItem(
             val item = orders[position]
             tvOrderCode?.text = context.getString(R.string.text_order_code, item.order_code)
             tvCreatedAt?.text = item.created_at
-            tvAddress?.text = context.getString(R.string.delivery_address, item.branch_address)
+            tvAddress?.text = context.getString(R.string.delivery_address, item.address)
             tvTotal?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.getTotalPrice())
             when {
                 item.isWaiting() -> {

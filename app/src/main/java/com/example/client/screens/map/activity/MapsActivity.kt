@@ -173,7 +173,6 @@ class MapsActivity : BaseActivityMVP<IMapsPresent>(), OnMapReadyCallback, View.O
             if (locationPermissionGranted) {
                 mMap.isMyLocationEnabled = true
                 mMap.uiSettings.isMyLocationButtonEnabled = true
-                getDeviceLocation()
             } else {
                 mMap.isMyLocationEnabled = false
                 mMap.uiSettings.isMyLocationButtonEnabled = false

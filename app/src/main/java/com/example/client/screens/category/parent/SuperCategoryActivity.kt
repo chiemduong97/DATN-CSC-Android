@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.client.R
@@ -23,12 +24,6 @@ import com.example.client.screens.category.parent.present.SuperCategoryPresent
 import com.example.client.screens.product.activity.ProductActivity
 import com.example.client.screens.search.activity.SearchActivity
 import kotlinx.android.synthetic.main.activity_super_category.*
-import kotlinx.android.synthetic.main.activity_super_category.cv_cart_place
-import kotlinx.android.synthetic.main.activity_super_category.imv_back
-import kotlinx.android.synthetic.main.activity_super_category.recycler_view
-import kotlinx.android.synthetic.main.activity_super_category.rll_cart
-import kotlinx.android.synthetic.main.activity_super_category.rll_loading
-import kotlinx.android.synthetic.main.activity_super_category.tv_cart_quantity
 
 class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCategoryView, View.OnClickListener, OptionAddToCartListener {
 
@@ -47,6 +42,11 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
         setContentView(R.layout.activity_super_category)
         mCategoryModel = intent.getSerializableExtra(Constants.BundleKey.CATEGORY_MODEL) as CategoryModel
         mCategoryModel?.id?.let { presenter.getCategories(it) }
+    }
+
+    override fun bindComponent() {
+        val searchTextId = search_view.context.resources.getIdentifier("android:id/search_src_text", null, null)
+        TextViewCompat.setTextAppearance(search_view.findViewById(searchTextId), R.style.search_text)
     }
 
     override fun bindData() {

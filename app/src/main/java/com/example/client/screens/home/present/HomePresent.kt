@@ -4,8 +4,11 @@ import com.example.client.app.Constants
 import com.example.client.app.Preferences
 import com.example.client.app.RxBus
 import com.example.client.base.BasePresenterMVP
+import com.example.client.models.cart.CartProductModel
 import com.example.client.models.category.MAX_ITEM_CATEGORY
 import com.example.client.models.category.toCategories
+import com.example.client.models.event.Event
+import com.example.client.models.product.HomeSectionModel
 import com.example.client.screens.home.fragment.IHomeView
 import com.example.client.usecase.CategoryUseCase
 
@@ -49,6 +52,25 @@ class HomePresent(mView: IHomeView) : BasePresenterMVP<IHomeView>(mView), IHomeP
                 hideCategories()
             }
         })
+    }
+
+    override fun getHomeSections() {
+        mView?.showHomeSections(HomeSectionModel.HOME_SECTION)
+    }
+
+    override fun addToCart(cartProduct: CartProductModel) {
+        preferences.cart = preferences.cart.apply {
+            cartProducts = cartProducts.apply here@{
+                map {
+                    if (it.product.id == cartProduct.product.id) {
+                        it.quantity += cartProduct.quantity
+                        return@here
+                    }
+                }
+                add(cartProduct)
+            }
+        }
+        RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
     }
 
     override fun onCompositedEventAdded() {
