@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.client.R
 import com.example.client.app.Constants
+import com.example.client.app.Momo
 import com.example.client.base.BaseActivityMVP
 import com.example.client.dialog.PrimaryDialog
 import com.example.client.models.branch.BranchModel
@@ -23,6 +24,7 @@ import com.example.client.screens.order.review.present.IReviewOrderPresent
 import com.example.client.screens.order.review.present.ReviewOrderPresent
 import com.example.client.screens.payment.PaymentActivity
 import com.example.client.screens.promotion.activity.PromotionActivity
+import com.example.client.utils.MomoCallBack
 import kotlinx.android.synthetic.main.activity_review_order.*
 import java.text.NumberFormat
 import java.util.*
@@ -46,6 +48,8 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
                 Pair(R.drawable.ic_payment_wallet, R.string.payment_method_wallet)
         )
     }
+
+    private var paymentMethod = Constants.PaymentMethod.COD
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +91,13 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
         when (v.id) {
             R.id.imv_back, R.id.tv_change_product -> onBackPressed()
             R.id.tv_change_branch -> startActivity(BranchActivity.newInstance(this))
-            R.id.tv_send_order -> presenter.createOrder()
+            R.id.tv_send_order -> {
+                when (paymentMethod) {
+                    Constants.PaymentMethod.COD -> presenter.createOrder()
+                    Constants.PaymentMethod.WALLET -> presenter.createOrderWithWallet()
+                    Constants.PaymentMethod.MOMO -> presenter.requestMomo()
+                }
+            }
             R.id.tv_change_order_location -> startActivity(MapsActivity.newInstance(this))
             R.id.tv_change_payment -> startActivity(PaymentActivity.newInstance(this))
             R.id.lnl_add_promotion -> startActivity(PromotionActivity.newInstance(this))
@@ -145,9 +155,15 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
                 .show(supportFragmentManager)
     }
 
-    override fun toOrderDetailScreen(orderCode: String) {
-        finish()
-        startActivity(OrderDetailActivity.newInstance(this, orderCode))
+    override fun createOrderSuccess(orderCode: String) {
+        PrimaryDialog({
+            finish()
+            startActivity(OrderDetailActivity.newInstance(this, orderCode))
+        }, { })
+                .showBtnCancel(false)
+                .setDescription(getString(R.string.create_order_success))
+                .show(supportFragmentManager)
+
     }
 
     override fun onBackPress() {
@@ -160,6 +176,7 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
 
     override fun updatePaymentMethod(paymentMethod: Constants.PaymentMethod, amount: Double) {
         bindPaymentMethod(getPaymentMethod(paymentMethod), amount)
+        this.paymentMethod = paymentMethod
     }
 
     override fun updatePromotion(cart: CartModel) {
@@ -181,4 +198,21 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
         updateTotalPrice(cart)
     }
 
+    override fun requestMomo(cart: CartModel) {
+        Momo.newInstance().requestMoMo(this, cart.getTotalPrice().toInt())
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) Momo.newInstance().callbackResult(requestCode, data, object : MomoCallBack {
+            override fun onSuccess(data: String, userPhone: String) {
+                presenter.createOrderWithMomo(userPhone, data)
+            }
+
+            override fun onError() {
+                showDialogErrorMessage(getString(R.string.err_code_1001))
+            }
+
+        })
+    }
 }

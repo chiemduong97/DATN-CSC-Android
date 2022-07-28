@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.example.client.R
 import com.example.client.app.Momo
 import com.example.client.base.BaseActivityMVP
+import com.example.client.dialog.PrimaryDialog
+import com.example.client.screens.profile.navigate.NavigatorProfile
 import com.example.client.screens.wallet.recharge.present.IRechargePresent
 import com.example.client.screens.wallet.recharge.present.RechargePresent
 import com.example.client.utils.MomoCallBack
@@ -47,6 +48,22 @@ class RechargeActivity : BaseActivityMVP<IRechargePresent>(), View.OnClickListen
         tv_section_thirst.setOnClickListener(this)
         imv_back.setOnClickListener(this)
         tv_submit.setOnClickListener(this)
+    }
+
+    override fun showToast() {
+        showToastMessage("Thành công")
+    }
+
+    override fun showErrorMessage(errorMessage: Int) {
+        showDialogErrorMessage(getString(errorMessage))
+    }
+
+    override fun rechargeSuccess() {
+        PrimaryDialog({
+            finish()
+        }, { })
+                .setDescription(getString(R.string.recharge_success))
+                .show(supportFragmentManager)
     }
 
 
@@ -111,16 +128,30 @@ class RechargeActivity : BaseActivityMVP<IRechargePresent>(), View.OnClickListen
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) Momo.newInstance().callbackResult(requestCode, data, object : MomoCallBack {
             override fun onSuccess(data: String, userPhone: String) {
-                showToastMessage("Thành công")
-                Log.d("Duong", "onSuccess: " + data + userPhone)
+                presenter.createRequest(amount, userPhone, data)
             }
 
             override fun onError() {
-                showToastMessage("Thất bại")
+                showDialogErrorMessage(getString(R.string.err_code_1001))
             }
 
         })
     }
 
 
+//    fun toHash(json: String):String  {
+//        var encoded = ""
+//        try {
+//            val publicBytes: ByteArray = Base64.decode(Constants.MoMoConstants.PUBLIC_KEY, Base64.DEFAULT)
+//            val keySpec = X509EncodedKeySpec(publicBytes)
+//            val keyFactory = KeyFactory.getInstance("RSA")
+//            val pubKey = keyFactory.generatePublic(keySpec)
+//            val cipher: Cipher = Cipher.getInstance("RSA/ECB/PKCS1PADDING") //or try with "RSA"
+//            cipher.init(Cipher.ENCRYPT_MODE, pubKey)
+//            encoded = Base64.encodeToString(cipher.doFinal(json.toByteArray()), Base64.DEFAULT)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//        return encoded
+//    }
 }

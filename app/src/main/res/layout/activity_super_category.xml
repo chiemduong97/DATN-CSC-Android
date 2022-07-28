@@ -39,23 +39,30 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <SearchView
-        android:id="@+id/search_view"
+    <TextView
+        android:id="@+id/tv_search"
+        style="@style/normal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_48"
         android:layout_below="@id/toolbar"
         android:layout_marginHorizontal="@dimen/dimen_10"
         android:background="@drawable/border_item_gray_10"
+        android:drawableStart="@drawable/places_ic_search"
+        android:drawablePadding="@dimen/dimen_5"
+        android:gravity="center_vertical"
+        android:hint="@string/title_search_view"
         android:iconifiedByDefault="false"
-        android:queryBackground="@android:color/transparent"
-        android:queryHint="@string/title_search_view"
-        tools:ignore="UnusedAttribute" />
+        android:padding="@dimen/dimen_10"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_16" />
 
     <LinearLayout
         android:id="@+id/lnl_super_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_view"
+        android:layout_below="@id/tv_search"
         android:background="@color/white"
         android:orientation="horizontal">
 

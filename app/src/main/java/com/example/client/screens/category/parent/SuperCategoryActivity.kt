@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.client.R
@@ -44,11 +43,6 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
         mCategoryModel?.id?.let { presenter.getCategories(it) }
     }
 
-    override fun bindComponent() {
-        val searchTextId = search_view.context.resources.getIdentifier("android:id/search_src_text", null, null)
-        TextViewCompat.setTextAppearance(search_view.findViewById(searchTextId), R.style.search_text)
-    }
-
     override fun bindData() {
         presenter.run {
             getSuperCategories()
@@ -61,12 +55,7 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
         imv_back.setOnClickListener(this)
         imv_more.setOnClickListener(this)
         cv_cart_place.setOnClickListener(this)
-        search_view.setOnQueryTextFocusChangeListener { _: View, hasFocus: Boolean ->
-            if (hasFocus) {
-                startActivity(SearchActivity.newInstance(this))
-                search_view.clearFocus()
-            }
-        }
+        tv_search.setOnClickListener(this)
     }
 
     override val presenter: ISuperCategoryPresent
@@ -151,6 +140,9 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
             }
             R.id.cv_cart_place -> {
                 startActivity(Intent(CartActivity.newInstance(this)))
+            }
+            R.id.tv_search -> {
+                startActivity(SearchActivity.newInstance(this))
             }
         }
     }

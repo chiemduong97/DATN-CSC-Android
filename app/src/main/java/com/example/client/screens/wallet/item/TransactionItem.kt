@@ -45,7 +45,7 @@ class TransactionItem(
                     tvAmount?.setTextColor(Color.GREEN)
                 }
                 itemView.setOnClickListener {
-                    onShowOrderDetail.invoke(item.ordercode)
+//                    onShowOrderDetail.invoke(item.ordercode)
                 }
             }
         }

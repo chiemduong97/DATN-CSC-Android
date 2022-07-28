@@ -2,6 +2,7 @@ package com.example.client.screens.wallet.present
 
 import com.example.client.app.Constants
 import com.example.client.app.Preferences
+import com.example.client.app.RxBus
 import com.example.client.base.BaseCollectionPresenter
 import com.example.client.screens.wallet.fragment.IWalletView
 
@@ -38,6 +39,15 @@ class WalletPresent(mView: IWalletView) : BaseCollectionPresenter<IWalletView>(m
 //                }
 //            })
 //        }
+    }
+
+    override fun onCompositedEventAdded() {
+        super.onCompositedEventAdded()
+        add(RxBus.newInstance().subscribe{
+            when (it.key) {
+                Constants.EventKey.RECHARGE_SUCCESS -> getProfile()
+            }
+        })
     }
 
 }

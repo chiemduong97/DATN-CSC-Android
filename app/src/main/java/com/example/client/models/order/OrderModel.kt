@@ -92,6 +92,9 @@ data class OrderRequest(
         var shipping_fee: Double,
         var phone: String,
         var payment_method: Constants.PaymentMethod,
+        var customerNumber: String? = null,
+        var appData: String? = null,
+        var amount: Double? = null
 )
 
 fun List<OrderResponse>.toOrders() = map { it.toOrderModel() }

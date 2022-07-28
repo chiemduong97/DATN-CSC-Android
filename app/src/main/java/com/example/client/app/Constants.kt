@@ -38,6 +38,7 @@ object Constants {
         const val RESET_SUCCESS = "RESET_SUCCESS"
         const val CHANGE_PAYMENT_METHOD = "CHANGE_PAYMENT_METHOD"
         const val UPDATE_PROMOTION = "UPDATE_PROMOTION"
+        const val RECHARGE_SUCCESS = "RECHARGE_SUCCESS"
     }
 
     enum class Transaction {
@@ -64,12 +65,6 @@ object Constants {
 
     enum class RequestType {
         REGISTER, RESET_PASSWORD
-    }
-
-    object Method {
-        const val CATEGORY = "CATEGORY"
-        const val HIGHLIGHT = "HIGHLIGHT"
-        const val NEW = "NEW"
     }
 
     object MoMoConstants {

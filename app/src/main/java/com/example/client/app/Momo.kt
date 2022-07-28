@@ -27,8 +27,8 @@ class Momo {
         eventValue[MoMoParameterNamePayment.MERCHANT_CODE] = Constants.MoMoConstants.MERCHANT_CODE
         eventValue[MoMoParameterNamePayment.AMOUNT] = amount
         eventValue[MoMoParameterNamePayment.DESCRIPTION] = Constants.MoMoConstants.DESCRIPTION
-        eventValue["orderId"] = "CSCMomoPay" + System.currentTimeMillis()
-        eventValue["orderLabel"] = "CSCMomoPay" + System.currentTimeMillis()
+//        eventValue["orderId"] = "CSCMomoPay" + System.currentTimeMillis()
+//        eventValue["orderLabel"] = "Mã đơn hàng"
         eventValue[MoMoParameterNamePayment.FEE] = 0
         eventValue[MoMoParameterNamePayment.MERCHANT_NAME_LABEL] = Constants.MoMoConstants.MERCHANT_NAME_LABEL
         AppMoMoLib.getInstance().requestMoMoCallBack(activity, eventValue)

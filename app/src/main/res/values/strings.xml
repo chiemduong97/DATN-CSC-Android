@@ -15,6 +15,7 @@
     <string name="err_code_1013">Vui lòng nhập đủ dữ liệu!</string>
     <string name="err_code_1014">Đơn hàng đã nhận không thể hủy!</string>
     <string name="err_code_1015">Số điện thoại đã được đăng ký!</string>
+    <string name="err_code_1016">Thanh toán momo thất bại!</string>
 
     <string name="reset_text_description_code">Mail reset mật khẩu đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
     <string name="dialog_verification_description">Mail đăng ký tài khoản đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
@@ -182,5 +183,7 @@
     <string name="promotion_detail_time">Thời gian áp dụng</string>
     <string name="promotion_detail_info">Thông tin khuyến mãi</string>
     <string name="promotion_detail_use">Sử dụng ngay</string>
+    <string name="recharge_success">Nạp tiền thành công</string>
+    <string name="create_order_success">Đặt hàng thành công</string>
 
 </resources>

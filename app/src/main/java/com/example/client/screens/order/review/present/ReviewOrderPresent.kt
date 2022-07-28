@@ -1,5 +1,6 @@
 package com.example.client.screens.order.review.present
 
+import android.util.Log
 import com.example.client.app.Constants
 import com.example.client.app.Preferences
 import com.example.client.app.RxBus
@@ -12,6 +13,7 @@ import com.example.client.models.event.ValueEvent
 import com.example.client.models.order.OrderRequest
 import com.example.client.screens.order.review.activity.IReviewOrderView
 import com.example.client.usecase.OrderUseCase
+import com.google.gson.Gson
 
 class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrderView>(mView), IReviewOrderPresent {
     private val orderUseCase by lazy { OrderUseCase.newInstance() }
@@ -69,6 +71,60 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
         }
     }
 
+    override fun createOrderWithMomo(customerNumber: String, appData: String) {
+        mView?.showLoading()
+        subscribe(orderUseCase.createOrder(generationOrderRequest(cart).apply {
+            this.customerNumber = customerNumber
+            this.appData = appData
+            this.amount = preferences.cart.getTotalPrice()
+        }), {
+            mView?.run {
+                hideLoading()
+                if (it.is_error) {
+                    showErrorMessage(getErrorMessage(it.code))
+                    return@subscribe
+                }
+                createOrderSuccess(it.data.order_code)
+                preferences.deleteCart()
+                RxBus.newInstance().onNext(Event(Constants.EventKey.DELETE_CART))
+                RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
+                RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_STATUS_ORDER))
+            }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                showErrorMessage(getErrorMessage(1001))
+            }
+        })
+    }
+
+    override fun createOrderWithWallet() {
+        mView?.showLoading()
+        subscribe(orderUseCase.createOrder(generationOrderRequest(cart).apply { this.amount = preferences.cart.getTotalPrice() }), {
+            mView?.run {
+                hideLoading()
+                if (it.is_error) {
+                    showErrorMessage(getErrorMessage(it.code))
+                    return@subscribe
+                }
+                createOrderSuccess(it.data.order_code)
+                preferences.profile = preferences.profile.apply { wallet -= preferences.cart.getTotalPrice() }
+                Log.d("Duong", "createOrderWithWallet: " + Gson().toJson(preferences.profile))
+                preferences.deleteCart()
+                RxBus.newInstance().onNext(Event(Constants.EventKey.DELETE_CART))
+                RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
+                RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_STATUS_ORDER))
+            }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                showErrorMessage(getErrorMessage(1001))
+            }
+        })    }
+
+
     override fun createOrder() {
         mView?.showLoading()
         subscribe(orderUseCase.createOrder(generationOrderRequest(cart)), {
@@ -78,7 +134,7 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
                     showErrorMessage(getErrorMessage(it.code))
                     return@subscribe
                 }
-                toOrderDetailScreen(it.data.order_code)
+                createOrderSuccess(it.data.order_code)
                 preferences.deleteCart()
                 RxBus.newInstance().onNext(Event(Constants.EventKey.DELETE_CART))
                 RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
@@ -100,6 +156,10 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
             promotion_value = null
         }
         mView?.updatePromotion(preferences.cart)
+    }
+
+    override fun requestMomo() {
+        mView?.requestMomo(preferences.cart)
     }
 
     private fun saveCart(cartProduct: CartProductModel) {

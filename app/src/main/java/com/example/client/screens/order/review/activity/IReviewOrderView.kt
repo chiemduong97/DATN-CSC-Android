@@ -13,8 +13,9 @@ interface IReviewOrderView: IBaseView {
     fun showBranch(branch: BranchModel)
     fun showCartProduct(cart: CartModel)
     fun showErrorMessage(errMessage: Int)
-    fun toOrderDetailScreen(orderCode: String)
+    fun createOrderSuccess(orderCode: String)
     fun updateTotalPrice(cart: CartModel)
     fun updatePaymentMethod(paymentMethod: Constants.PaymentMethod, amount: Double)
     fun updatePromotion(cart: CartModel)
+    fun requestMomo(cart: CartModel)
 }
