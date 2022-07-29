@@ -11,16 +11,10 @@ class CategoryUseCase {
     companion object {
         fun newInstance() = CategoryUseCase()
     }
-    fun getSuperCategories(): Observable<BaseResponse<List<CategoryResponse>>> {
-        return categoryService.superCategories
-    }
+    fun getSuperCategories() =  categoryService.getSuperCategories()
 
-    fun getCategories(category_id: Int): Observable<BaseResponse<List<CategoryResponse>>> {
-        return categoryService.getCategories(category_id)
-    }
+    fun getCategories(category_id: Int) = categoryService.getCategories(category_id)
 
-    fun getCategory(id: Int): Observable<BaseResponse<CategoryResponse>> {
-        return categoryService.getById(id)
-    }
+    fun getCategory(id: Int) = categoryService.getById(id)
 
 }

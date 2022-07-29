@@ -1,5 +1,7 @@
 package com.example.client.app
 
+import com.google.gson.annotations.SerializedName
+
 object Constants {
     object BundleKey {
         const val CATEGORY_MODEL = "CATEGORY_MODEL"
@@ -65,6 +67,15 @@ object Constants {
 
     enum class RequestType {
         REGISTER, RESET_PASSWORD
+    }
+
+    enum class TransactionType {
+        @SerializedName("recharge")
+        RECHARGE,
+        @SerializedName("paid")
+        PAID,
+        @SerializedName("refund")
+        REFUND,
     }
 
     object MoMoConstants {

@@ -4,50 +4,104 @@ import com.example.client.app.Constants
 import com.example.client.app.Preferences
 import com.example.client.app.RxBus
 import com.example.client.base.BaseCollectionPresenter
+import com.example.client.models.loading.LoadingMode
+import com.example.client.models.product.checkCart
+import com.example.client.models.product.toProducts
+import com.example.client.models.transaction.toTransactions
 import com.example.client.screens.wallet.fragment.IWalletView
+import com.example.client.usecase.ProfileUseCase
+import com.example.client.usecase.TransactionUseCase
 
-class WalletPresent(mView: IWalletView) : BaseCollectionPresenter<IWalletView>(mView),IWalletPresent {
+class WalletPresent(mView: IWalletView) : BaseCollectionPresenter<IWalletView>(mView), IWalletPresent {
 
     private val preferences by lazy { Preferences.newInstance() }
+    private val profileUseCase by lazy { ProfileUseCase.newInstance() }
+    private val transactionUseCase by lazy { TransactionUseCase.newInstance() }
 
-    override fun getProfile() {
-        mView?.showWallet(preferences.profile)
+    companion object {
+        var currentType = Constants.Transaction.RECHARGE
     }
 
-    override fun getTransactions(label: Constants.Transaction, user: Int) {
-//        if (label == Constants.TRANSACTION.INPUT) {
-//            val service = newInstance().create(RechargeService::class.java)
-//            service.getByUser(user).enqueue(object : Callback<List<TransactionModel?>?> {
-//                override fun onResponse(call: Call<List<TransactionModel?>?>, response: Response<List<TransactionModel?>?>) {
-//                    wView.showTransactions(response.body(), Constants.TRANSACTION.INPUT)
-//                }
-//
-//                override fun onFailure(call: Call<List<TransactionModel?>?>, t: Throwable) {
-//                    wView.showTransactions(ArrayList(), Constants.TRANSACTION.INPUT)
-//                }
-//            })
-//        }
-//        if (label == Constants.TRANSACTION.OUPUT) {
-//            val service = newInstance().create(TransactionService::class.java)
-//            service.getByUser(user).enqueue(object : Callback<List<TransactionModel?>?> {
-//                override fun onResponse(call: Call<List<TransactionModel?>?>, response: Response<List<TransactionModel?>?>) {
-//                    wView.showTransactions(response.body(), Constants.TRANSACTION.OUPUT)
-//                }
-//
-//                override fun onFailure(call: Call<List<TransactionModel?>?>, t: Throwable) {
-//                    wView.showTransactions(ArrayList(), Constants.TRANSACTION.OUPUT)
-//                }
-//            })
-//        }
+    override fun getProfile() {
+        mView?.showLoading()
+        subscribe(profileUseCase.getUserByEmail(preferences.profile.email), {
+            mView?.run {
+                hideLoading()
+                if (it.is_error) {
+                    showErrorMessage(getErrorMessage(it.code))
+                    return@subscribe
+                }
+                preferences.profile = it.data.toProfileModel()
+                mView?.showWallet(preferences.profile)
+            }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                showErrorMessage(getErrorMessage(1001))
+            }
+        })
+    }
+
+    override fun bindData(type: Constants.Transaction) {
+        currentType = type
+        getTransactions(currentType, page, LoadingMode.LOAD)
+    }
+
+    private fun getTransactions(type: Constants.Transaction, page: Int, loadingMode: LoadingMode) {
+        if (loadingMode == LoadingMode.LOAD) mView?.showLoading()
+        subscribe(transactionUseCase.getTransactions(
+            preferences.profile.id,
+            type.name,
+            page,
+            limit
+        ), {
+            mView?.run {
+                hideLoading()
+                if (it.is_error) {
+                    showEmptyData()
+                    onLoadMoreComplete()
+                    return@subscribe
+                }
+                when (loadingMode) {
+                    LoadingMode.LOAD -> {
+                        if (it.data.isEmpty()) showEmptyData()
+                        else {
+                            showData(it.data.toTransactions())
+                            loadMore = it.load_more
+                        }
+                    }
+                    LoadingMode.LOAD_MORE -> {
+                        showMoreData(it.data.toTransactions())
+                        loadMore = it.load_more
+                        onLoadMoreComplete()
+                    }
+                }
+            }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                if (loadingMode == LoadingMode.LOAD) {
+                    showEmptyData()
+                }
+            }
+            onLoadMoreComplete()
+        })
     }
 
     override fun onCompositedEventAdded() {
         super.onCompositedEventAdded()
-        add(RxBus.newInstance().subscribe{
+        add(RxBus.newInstance().subscribe {
             when (it.key) {
                 Constants.EventKey.RECHARGE_SUCCESS -> getProfile()
             }
         })
+    }
+
+    override fun invokeLoadMore(page: Int) {
+        super.invokeLoadMore(page)
+        getTransactions(currentType, page, LoadingMode.LOAD_MORE)
     }
 
 }

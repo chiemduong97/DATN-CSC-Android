@@ -7,10 +7,10 @@ import com.example.client.base.BasePresenterMVP
 import com.example.client.models.event.Event
 import com.example.client.models.payment.MomoRequest
 import com.example.client.screens.wallet.recharge.IRechargeView
-import com.example.client.usecase.PaymentUseCase
+import com.example.client.usecase.TransactionUseCase
 
 class RechargePresent(mView: IRechargeView) : BasePresenterMVP<IRechargeView>(mView), IRechargePresent {
-    private val paymentUseCase by lazy { PaymentUseCase.newInstance() }
+    private val paymentUseCase by lazy { TransactionUseCase.newInstance() }
     private val preferences by lazy { Preferences.newInstance() }
     override fun createRequest(amount: Double, customerNumber: String, appData: String) {
         mView?.showLoading()

@@ -10,7 +10,6 @@
         android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1"
-        android:layout_marginBottom="@dimen/dimen_10"
         android:background="@color/gray_dark" />
 
     <TextView
@@ -20,17 +19,43 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/view_line"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/dimen_10"
         android:layout_toStartOf="@id/tv_amount"
         android:textColor="@color/black"
         android:textSize="@dimen/text_14"
-        tools:text="Nạp tiền" />
+        tools:text="Nạp tiền vào ví" />
+
+    <ImageView
+        android:id="@+id/imv_payment_method"
+        android:layout_width="@dimen/dimen_20"
+        android:layout_height="@dimen/dimen_20"
+        android:layout_below="@id/tv_label"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/dimen_5"
+        android:src="@drawable/ic_payment_momo" />
+
+    <TextView
+        android:id="@+id/tv_payment_method"
+        style="@style/normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imv_payment_method"
+        android:layout_alignBottom="@id/imv_payment_method"
+        android:layout_marginStart="@dimen/dimen_5"
+        android:layout_toEndOf="@id/imv_payment_method"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="@string/payment_method_momo"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_14" />
 
     <TextView
         android:id="@+id/tv_order_code"
         style="@style/normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_label"
+        android:layout_below="@id/imv_payment_method"
         android:layout_marginTop="@dimen/dimen_5"
         android:textSize="@dimen/text_14"
         tools:text="#ABCDEFGH" />
@@ -44,26 +69,17 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="@dimen/dimen_10"
         android:textSize="@dimen/text_14"
-        tools:text="20/01/2022" />
+        tools:text="20-01-2022" />
 
     <TextView
         android:id="@+id/tv_amount"
         style="@style/normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/view_line"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/dimen_10"
         android:textSize="@dimen/text_14"
         tools:text="1.000.000 đ" />
-
-    <TextView
-        android:id="@+id/tv_status"
-        style="@style/normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_amount"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="5dp"
-        android:textSize="@dimen/text_14"
-        tools:text="Đã xong" />
 
 </RelativeLayout>
