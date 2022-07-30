@@ -31,6 +31,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private var tag = HomeFragment::class.java.name
+    private var showOrderCount = false
+    private var showOrder = false
+    private var showCart = false
 
     companion object {
         @JvmStatic
@@ -82,9 +85,10 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
             if (!item.isChecked) {
                 when (item.itemId) {
                     R.id.menu_home -> showHomeScreen()
-                    R.id.menu_wallet -> showNotificationScreen()
+                    R.id.menu_wallet -> showWalletScreen()
                     R.id.menu_profile -> showProfileScreen()
                 }
+                showOrderInfo()
             }
             true
         }
@@ -99,7 +103,7 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
         ActivityUtils.addFragmentToActivity(supportFragmentManager, HomeFragment.newInstance(), R.id.frame_layout, tag)
     }
 
-    private fun showNotificationScreen() {
+    private fun showWalletScreen() {
         tag = WalletFragment::class.java.simpleName
         ActivityUtils.addFragmentToActivity(supportFragmentManager, WalletFragment.newInstance(), R.id.frame_layout, tag)
     }
@@ -109,12 +113,26 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
         ActivityUtils.addFragmentToActivity(supportFragmentManager, ProfileFragment.newInstance(), R.id.frame_layout, tag)
     }
 
+    fun showOrderInfo() {
+        if (tag == HomeFragment::class.java.simpleName) {
+            cv_cart_place.visibility = if (showCart) View.VISIBLE else View.GONE
+            rll_count_order.visibility = if (showOrderCount) View.VISIBLE else View.GONE
+            rll_order.visibility = if (showOrder) View.VISIBLE else View.GONE
+        } else {
+            cv_cart_place.visibility = View.GONE
+            rll_count_order.visibility = View.GONE
+            rll_order.visibility = View.GONE
+        }
+    }
+
     override fun showCart(quantity: Int) {
+        showCart = true
         cv_cart_place.visibility = View.VISIBLE
-        tv_quantity.text = quantity.toString()
+        tv_cart_quantity.text = quantity.toString()
     }
 
     override fun hideCart() {
+        showCart = false
         cv_cart_place.visibility = View.GONE
     }
 
@@ -137,20 +155,24 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
     }
 
     override fun showOrderCount(count: Int) {
+        showOrderCount = true
         rll_count_order.visibility = View.VISIBLE
         tv_count_order.text = getString(R.string.text_count_order, count)
     }
 
     override fun hideOrderCount() {
+        showOrderCount = false
         rll_count_order.visibility = View.GONE
     }
 
     override fun showOrder(order: OrderModel) {
+        showOrder = true
         rll_order.visibility = View.VISIBLE
         tv_order_description.text = order.getStatusString().plus("\n").plus(getString(R.string.main_delivery_to)).plus(order.address)
     }
 
     override fun hideOrder() {
+        showOrder = false
         rll_order.visibility = View.GONE
     }
 

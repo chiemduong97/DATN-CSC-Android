@@ -5,8 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.base.BaseCollectionFragment
+import com.example.client.models.order.OrderModel
 import com.example.client.models.profile.ProfileModel
 import com.example.client.models.transaction.TransactionModel
+import com.example.client.screens.main.activity.MainActivity
 import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.wallet.item.TransactionItem
 import com.example.client.screens.wallet.present.IWalletPresent
@@ -96,8 +98,21 @@ class WalletFragment : BaseCollectionFragment<IWalletPresent>(), IWalletView, Vi
         recycler_view.visibility = View.GONE
     }
 
+    override fun refreshOrderInfo() {
+        if (requireActivity() is MainActivity) {
+            (requireActivity() as MainActivity).showOrderInfo()
+        }
+        onRefresh()
+    }
+
     override fun showErrorMessage(errorMessage: Int) {
         showToastMessage(getString(errorMessage))
+    }
+
+    override fun updateData(orderModel: OrderModel) {
+        val index = mItems.indexOfFirst { it.order_code == orderModel.order_code }
+        mItems[index] =  mItems[index].apply { if (orderModel.status == 4) type = Constants.TransactionType.REFUND }
+        recycler_view.adapter?.notifyItemChanged(index)
     }
 
     override fun onBackPress() {

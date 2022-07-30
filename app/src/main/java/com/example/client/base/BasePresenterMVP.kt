@@ -108,6 +108,8 @@ open class BasePresenterMVP<V : IBaseView>(view: V) : IBasePresenter {
             Constants.ErrorCode.ERROR_1013 -> errMessage = R.string.err_code_1013
             Constants.ErrorCode.ERROR_1014 -> errMessage = R.string.err_code_1014
             Constants.ErrorCode.ERROR_1015 -> errMessage = R.string.err_code_1015
+            Constants.ErrorCode.ERROR_1016 -> errMessage = R.string.err_code_1016
+            Constants.ErrorCode.ERROR_1017 -> errMessage = R.string.err_code_1017
         }
         return errMessage
     }

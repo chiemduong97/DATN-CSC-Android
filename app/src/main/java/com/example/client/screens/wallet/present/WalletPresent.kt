@@ -5,8 +5,6 @@ import com.example.client.app.Preferences
 import com.example.client.app.RxBus
 import com.example.client.base.BaseCollectionPresenter
 import com.example.client.models.loading.LoadingMode
-import com.example.client.models.product.checkCart
-import com.example.client.models.product.toProducts
 import com.example.client.models.transaction.toTransactions
 import com.example.client.screens.wallet.fragment.IWalletView
 import com.example.client.usecase.ProfileUseCase
@@ -32,13 +30,14 @@ class WalletPresent(mView: IWalletView) : BaseCollectionPresenter<IWalletView>(m
                     return@subscribe
                 }
                 preferences.profile = it.data.toProfileModel()
-                mView?.showWallet(preferences.profile)
+                showWallet(preferences.profile)
             }
         }, {
             it.printStackTrace()
             mView?.run {
                 hideLoading()
                 showErrorMessage(getErrorMessage(1001))
+                showWallet(preferences.profile)
             }
         })
     }
@@ -95,6 +94,7 @@ class WalletPresent(mView: IWalletView) : BaseCollectionPresenter<IWalletView>(m
         add(RxBus.newInstance().subscribe {
             when (it.key) {
                 Constants.EventKey.RECHARGE_SUCCESS -> getProfile()
+                Constants.EventKey.UPDATE_STATUS_ORDER -> mView?.refreshOrderInfo()
             }
         })
     }

@@ -63,6 +63,9 @@ object Constants {
         const val ERROR_1013 = 1013
         const val ERROR_1014 = 1014
         const val ERROR_1015 = 1015
+        const val ERROR_1016 = 1016
+        const val ERROR_1017 = 1017
+
     }
 
     enum class RequestType {

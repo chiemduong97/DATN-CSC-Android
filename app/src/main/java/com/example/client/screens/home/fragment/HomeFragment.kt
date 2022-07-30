@@ -24,7 +24,6 @@ import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.category.activity.CategoryActivity
 import com.example.client.screens.category.item.HomeCategoryItem
 import com.example.client.screens.category.parent.SuperCategoryActivity
-import com.example.client.screens.category.parent.item.ProductsItem
 import com.example.client.screens.home.item.HomeSectionItem
 import com.example.client.screens.home.present.HomePresent
 import com.example.client.screens.home.present.IHomePresent

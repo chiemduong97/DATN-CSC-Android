@@ -1,6 +1,5 @@
 package com.example.client.screens.order.review.present
 
-import android.util.Log
 import com.example.client.app.Constants
 import com.example.client.app.Preferences
 import com.example.client.app.RxBus
@@ -13,7 +12,6 @@ import com.example.client.models.event.ValueEvent
 import com.example.client.models.order.OrderRequest
 import com.example.client.screens.order.review.activity.IReviewOrderView
 import com.example.client.usecase.OrderUseCase
-import com.google.gson.Gson
 
 class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrderView>(mView), IReviewOrderPresent {
     private val orderUseCase by lazy { OrderUseCase.newInstance() }
@@ -100,6 +98,12 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
     }
 
     override fun createOrderWithWallet() {
+
+        if (preferences.profile.wallet < preferences.cart.getTotalPrice()) {
+            mView?.showErrorMessage(getErrorMessage(1017))
+            return
+        }
+
         mView?.showLoading()
         subscribe(orderUseCase.createOrder(generationOrderRequest(cart).apply { this.amount = preferences.cart.getTotalPrice() }), {
             mView?.run {
@@ -110,7 +114,6 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
                 }
                 createOrderSuccess(it.data.order_code)
                 preferences.profile = preferences.profile.apply { wallet -= preferences.cart.getTotalPrice() }
-                Log.d("Duong", "createOrderWithWallet: " + Gson().toJson(preferences.profile))
                 preferences.deleteCart()
                 RxBus.newInstance().onNext(Event(Constants.EventKey.DELETE_CART))
                 RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
