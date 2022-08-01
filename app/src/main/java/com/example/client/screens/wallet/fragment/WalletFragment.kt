@@ -13,19 +13,16 @@ import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.wallet.item.TransactionItem
 import com.example.client.screens.wallet.present.IWalletPresent
 import com.example.client.screens.wallet.present.WalletPresent
+import com.example.client.screens.wallet.present.WalletPresent.Companion.currentType
 import com.example.client.screens.wallet.recharge.RechargeActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import kotlinx.android.synthetic.main.fragment_product.*
 import kotlinx.android.synthetic.main.fragment_wallet.*
-import kotlinx.android.synthetic.main.fragment_wallet.imv_empty
-import kotlinx.android.synthetic.main.fragment_wallet.recycler_view
 import java.text.NumberFormat
 import java.util.*
 
 class WalletFragment : BaseCollectionFragment<IWalletPresent>(), IWalletView, View.OnClickListener {
     private var mItems = arrayListOf<TransactionModel>()
-    private var currentType = Constants.Transaction.RECHARGE
 
     companion object {
         @JvmStatic
@@ -59,7 +56,7 @@ class WalletFragment : BaseCollectionFragment<IWalletPresent>(), IWalletView, Vi
                 } else {
                     Constants.Transaction.TRANSACTION
                 }
-                presenter.bindData(currentType)
+                onRefresh()
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
@@ -81,11 +78,6 @@ class WalletFragment : BaseCollectionFragment<IWalletPresent>(), IWalletView, Vi
         }
         recycler_view.layoutManager = manager
         recycler_view.adapter = item
-    }
-
-    override fun onRefresh() {
-        super.onRefresh()
-        bindData()
     }
 
     override fun showMoreData(items: List<TransactionModel>) {

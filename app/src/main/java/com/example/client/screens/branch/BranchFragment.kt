@@ -20,10 +20,6 @@ class BranchFragment: BaseCollectionFragment<IBranchPresent>(), IBranchView, Vie
     override val presenter: BranchPresent
         get() = BranchPresent(this)
 
-    override fun onRefresh() {
-        presenter.binData()
-    }
-
     override fun bindData() {
         presenter.binData()
     }

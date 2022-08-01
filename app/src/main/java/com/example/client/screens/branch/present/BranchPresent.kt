@@ -53,4 +53,9 @@ class BranchPresent(mView: IBranchView) : BaseCollectionPresenter<IBranchView>(m
         mView?.onBackPress()
     }
 
+    override fun onRefresh() {
+        super.onRefresh()
+        binData()
+    }
+
 }

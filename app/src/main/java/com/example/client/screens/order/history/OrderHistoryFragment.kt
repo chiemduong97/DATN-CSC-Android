@@ -24,11 +24,6 @@ class OrderHistoryFragment: BaseCollectionFragment<IOrderHistoryPresent>(), IOrd
     override val presenter: IOrderHistoryPresent
         get() = OrderHistoryPresent(this)
 
-    override fun onRefresh() {
-        super.onRefresh()
-        bindData()
-    }
-
     override fun bindData() {
         presenter.bindData()
     }

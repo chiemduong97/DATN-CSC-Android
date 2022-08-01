@@ -135,4 +135,9 @@ class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView
             }
         })
     }
+
+    override fun onRefresh() {
+        super.onRefresh()
+        mCategoryModel?.let { binData(it) }
+    }
 }

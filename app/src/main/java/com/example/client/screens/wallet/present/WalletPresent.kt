@@ -104,4 +104,10 @@ class WalletPresent(mView: IWalletView) : BaseCollectionPresenter<IWalletView>(m
         getTransactions(currentType, page, LoadingMode.LOAD_MORE)
     }
 
+    override fun onRefresh() {
+        super.onRefresh()
+        getProfile()
+        bindData(currentType)
+    }
+
 }

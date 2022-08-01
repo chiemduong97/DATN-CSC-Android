@@ -81,4 +81,9 @@ class OrderHistoryPresent(mView: IOrderHistoryView) : BaseCollectionPresenter<IO
         })
     }
 
+    override fun onRefresh() {
+        super.onRefresh()
+        bindData()
+    }
+
 }

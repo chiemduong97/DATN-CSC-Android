@@ -30,11 +30,6 @@ class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView,
     override val presenter: ProductPresent
         get() = ProductPresent(this)
 
-    override fun onRefresh() {
-        super.onRefresh()
-        bindData()
-    }
-
     override fun bindData() {
         categoryModel?.let { presenter.binData(it) }
     }
