@@ -17,7 +17,8 @@
     <string name="err_code_1015">Số điện thoại đã được đăng ký!</string>
     <string name="err_code_1016">Thanh toán momo thất bại!</string>
     <string name="err_code_1017">Số tiền trong ví không đủ, vui lòng nạp thêm!</string>
-
+    <string name="err_code_1018">Đã xảy ra lỗi khi hoàn tiền, vui lòng thử lại sau!</string>
+    <string name="err_code_1019">Không tìm thấy giao dịch, vui lòng thử lại sau!</string>
 
     <string name="reset_text_description_code">Mail reset mật khẩu đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
     <string name="dialog_verification_description">Mail đăng ký tài khoản đã được gửi, vui lòng kiểm tra mail và nhập mã xác nhận.</string>
@@ -188,5 +189,6 @@
     <string name="create_order_success">Đặt hàng thành công</string>
     <string name="transaction_label_recharge">NẠP TIỀN</string>
     <string name="transaction_label_other">GIAO DỊCH</string>
+    <string name="text_re_order">Đặt lại</string>
 
 </resources>

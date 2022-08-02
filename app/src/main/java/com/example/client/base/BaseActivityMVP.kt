@@ -22,8 +22,8 @@ abstract class BaseActivityMVP<P : IBasePresenter?> : BaseActivity() {
     }
 
     override fun onDestroy() {
-        mPresenter?.onDestroy()
         super.onDestroy()
+        mPresenter?.onDestroy()
     }
 
     protected abstract val presenter: P

@@ -10,68 +10,114 @@ import com.example.client.models.cart.toOrderDetails
 import com.example.client.models.event.Event
 import com.example.client.models.event.ValueEvent
 import com.example.client.models.order.OrderRequest
+import com.example.client.models.order.toCartProducts
+import com.example.client.models.order.toOrderDetails
 import com.example.client.screens.order.review.activity.IReviewOrderView
 import com.example.client.usecase.OrderUseCase
 
 class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrderView>(mView), IReviewOrderPresent {
     private val orderUseCase by lazy { OrderUseCase.newInstance() }
     private val preferences by lazy { Preferences.newInstance() }
-    private var cart = preferences.cart
-    override fun binData() {
-        mView?.run {
-            if (preferences.paymentMethod == null) preferences.paymentMethod = Constants.PaymentMethod.COD
-            updatePaymentMethod(preferences.paymentMethod, preferences.profile.wallet)
-            preferences.cart = preferences.cart.apply {
-                this.order_lat = preferences.orderLocation.lat
-                this.order_lng = preferences.orderLocation.lng
-                this.order_address = preferences.orderLocation.address
-                this.branch_lat = preferences.branch.lat
-                this.branch_lng = preferences.branch.lng
-                this.branch_address = preferences.branch.address
+    override fun binData(isReOrder: Boolean, orderCode: String) {
+
+        if (isReOrder && orderCode.isNotEmpty()) {
+            binDataForReOrder(orderCode)
+        } else {
+            mView?.run {
+                if (preferences.paymentMethod == null) preferences.paymentMethod = Constants.PaymentMethod.COD
+                updatePaymentMethod(preferences.paymentMethod, preferences.profile.wallet)
+                preferences.cart = preferences.cart.apply {
+                    this.order_lat = preferences.orderLocation.lat
+                    this.order_lng = preferences.orderLocation.lng
+                    this.order_address = preferences.orderLocation.address
+                    this.branch_lat = preferences.branch.lat
+                    this.branch_lng = preferences.branch.lng
+                    this.branch_address = preferences.branch.address
+                }
+                showBranch(preferences.branch)
+                showUser(preferences.profile)
+                showOrderLocation(preferences.orderLocation)
+                getCartFromRes()
+                updatePromotion(preferences.cart)
             }
-            showBranch(preferences.branch)
-            showUser(preferences.profile)
-            showOrderLocation(preferences.orderLocation)
-            getCartFromRes()
-            updatePromotion(cart)
         }
+    }
+
+    private fun binDataForReOrder(orderCode: String) {
+        mView?.showLoading()
+        subscribe(orderUseCase.getOrderDetails(orderCode), {
+            mView?.run {
+                hideLoading()
+                if (it.is_error) {
+                    showErrorMessage(getErrorMessage(it.code))
+                    return@subscribe
+                }
+
+                preferences.cart = preferences.cart.apply {
+                    cartProducts = it.data.toOrderDetails().toCartProducts() as ArrayList<CartProductModel>
+                }
+                if (preferences.paymentMethod == null) preferences.paymentMethod = Constants.PaymentMethod.COD
+                updatePaymentMethod(preferences.paymentMethod, preferences.profile.wallet)
+                preferences.cart = preferences.cart.apply {
+                    this.order_lat = preferences.orderLocation.lat
+                    this.order_lng = preferences.orderLocation.lng
+                    this.order_address = preferences.orderLocation.address
+                    this.branch_lat = preferences.branch.lat
+                    this.branch_lng = preferences.branch.lng
+                    this.branch_address = preferences.branch.address
+                }
+                showBranch(preferences.branch)
+                showUser(preferences.profile)
+                showOrderLocation(preferences.orderLocation)
+                getCartFromRes()
+                updatePromotion(preferences.cart)
+                RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
+            }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                showErrorMessage(getErrorMessage(1001))
+            }
+        })
     }
 
     private fun getCartFromRes() {
-        cart.cartProducts.let {
-            cart.cartProducts = it.filter { cartProductModel -> cartProductModel.quantity > 0 } as ArrayList<CartProductModel>
+        preferences.cart = preferences.cart.apply {
+            cartProducts = cartProducts.filter { cartProductModel -> cartProductModel.quantity > 0 } as ArrayList<CartProductModel>
         }
-        mView?.showCartProduct(cart)
+        mView?.showCartProduct(preferences.cart)
     }
 
     override fun minus(cartProduct: CartProductModel) {
-        cart.cartProducts.let { list ->
-            list.map {
+        var updateUI = false
+        preferences.cart = preferences.cart.apply {
+            cartProducts.map {
                 if (it.product.id == cartProduct.product.id) {
                     it.quantity--
-                    saveCart(cartProduct)
-                    if (it.quantity <= 0) {
-                        getCartFromRes()
-                    }
+                    updateUI = it.quantity == 0
                 }
             }
         }
+        if (updateUI) getCartFromRes()
+        saveCart(cartProduct)
     }
 
+
     override fun plus(cartProduct: CartProductModel) {
-        cart.cartProducts.let { list ->
-            list.map {
+        preferences.cart = preferences.cart.apply {
+            cartProducts.map {
                 if (it.product.id == cartProduct.product.id) {
                     it.quantity++
-                    saveCart(cartProduct)
                 }
             }
         }
+        saveCart(cartProduct)
     }
 
     override fun createOrderWithMomo(customerNumber: String, appData: String) {
         mView?.showLoading()
-        subscribe(orderUseCase.createOrder(generationOrderRequest(cart).apply {
+        subscribe(orderUseCase.createOrder(generationOrderRequest(preferences.cart).apply {
             this.customerNumber = customerNumber
             this.appData = appData
             this.amount = preferences.cart.getTotalPrice()
@@ -105,7 +151,7 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
         }
 
         mView?.showLoading()
-        subscribe(orderUseCase.createOrder(generationOrderRequest(cart).apply { this.amount = preferences.cart.getTotalPrice() }), {
+        subscribe(orderUseCase.createOrder(generationOrderRequest(preferences.cart).apply { this.amount = preferences.cart.getTotalPrice() }), {
             mView?.run {
                 hideLoading()
                 if (it.is_error) {
@@ -125,12 +171,13 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
                 hideLoading()
                 showErrorMessage(getErrorMessage(1001))
             }
-        })    }
+        })
+    }
 
 
     override fun createOrder() {
         mView?.showLoading()
-        subscribe(orderUseCase.createOrder(generationOrderRequest(cart)), {
+        subscribe(orderUseCase.createOrder(generationOrderRequest(preferences.cart)), {
             mView?.run {
                 hideLoading()
                 if (it.is_error) {
@@ -166,12 +213,11 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
     }
 
     private fun saveCart(cartProduct: CartProductModel) {
-        preferences.cart = cart
         RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
-        RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product.checkAddToCart(cart)))
+        RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product.checkAddToCart(preferences.cart)))
         mView?.run {
-            updateTotalPrice(cart)
-            updatePromotion(cart)
+            updateTotalPrice(preferences.cart)
+            updatePromotion(preferences.cart)
         }
     }
 

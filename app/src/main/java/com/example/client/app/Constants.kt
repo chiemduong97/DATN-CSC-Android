@@ -9,7 +9,7 @@ object Constants {
         const val ORDER_CODE = "ORDER_CODE"
         const val EMAIL = "EMAIL"
         const val PROMOTION_MODEL = "PROMOTION_MODEL"
-
+        const val REORDER = "REORDER"
     }
 
     const val SHOW_PRODUCT_DETAIL = "SHOW_PRODUCT_DETAIL"
@@ -65,7 +65,8 @@ object Constants {
         const val ERROR_1015 = 1015
         const val ERROR_1016 = 1016
         const val ERROR_1017 = 1017
-
+        const val ERROR_1018 = 1018
+        const val ERROR_1019 = 1019
     }
 
     enum class RequestType {

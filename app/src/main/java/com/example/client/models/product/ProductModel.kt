@@ -4,11 +4,11 @@ import com.example.client.base.BaseModel
 import com.example.client.models.cart.CartModel
 
 data class ProductModel(
-        val id: Int,
-        val name: String,
+        var id: Int,
+        var name: String,
         val avatar: String,
         val description: String,
-        val price: Double,
+        var price: Double,
         val created_at: String,
         val quantity: Int,
         val category_id: Int,

@@ -11,7 +11,6 @@ import com.example.client.screens.cart.activity.ICartView
 
 class CartPresent(mView: ICartView): BasePresenterMVP<ICartView>(mView), ICartPresent {
     private val preferences by lazy { Preferences.newInstance() }
-    private var cart = preferences.cart
     override fun bindData() {
         mView?.run {
             preferences.cart = preferences.cart.apply {
@@ -29,42 +28,42 @@ class CartPresent(mView: ICartView): BasePresenterMVP<ICartView>(mView), ICartPr
     }
 
     private fun getCartFromRes() {
-        cart.cartProducts.let {
-            cart.cartProducts = it.filter { cartProductModel -> cartProductModel.quantity > 0 } as ArrayList<CartProductModel>
+        preferences.cart = preferences.cart.apply {
+            cartProducts = cartProducts.filter { cartProductModel -> cartProductModel.quantity > 0 } as ArrayList<CartProductModel>
         }
-        mView?.showCartProduct(cart)
+        mView?.showCartProduct(preferences.cart)
     }
 
     override fun minus(cartProduct: CartProductModel) {
-        cart.cartProducts.let { list ->
-            list.map {
+        var updateUI = false
+        preferences.cart = preferences.cart.apply {
+            cartProducts.map {
                 if (it.product.id == cartProduct.product.id) {
                     it.quantity--
-                    saveCart(cartProduct)
-                    if (it.quantity <= 0) {
-                        getCartFromRes()
-                    }
+                    updateUI = it.quantity == 0
                 }
             }
         }
+        if (updateUI) getCartFromRes()
+        saveCart(cartProduct)
     }
 
+
     override fun plus(cartProduct: CartProductModel) {
-        cart.cartProducts.let { list ->
-            list.map {
+        preferences.cart = preferences.cart.apply {
+            cartProducts.map {
                 if (it.product.id == cartProduct.product.id) {
                     it.quantity++
-                    saveCart(cartProduct)
                 }
             }
         }
+        saveCart(cartProduct)
     }
 
     private fun saveCart(cartProduct: CartProductModel) {
-        preferences.cart = cart
         RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
-        RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product.checkAddToCart(cart)))
-        mView?.updateTotalPrice(cart)
+        RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product.checkAddToCart(preferences.cart)))
+        mView?.updateTotalPrice(preferences.cart)
     }
 
     override fun onCompositedEventAdded() {

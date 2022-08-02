@@ -450,7 +450,38 @@
             android:textColor="@color/black"
             android:textSize="@dimen/text_14"
             tools:text="@string/item_product_price" />
+
+        <LinearLayout
+            android:id="@+id/rll_re_order"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_48"
+            android:layout_below="@id/tv_total_price"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:background="@drawable/bg_btn_blue"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imv_re_order"
+                android:layout_width="@dimen/dimen_18"
+                android:layout_height="@dimen/dimen_18"
+                android:src="@drawable/ic_reload" />
+
+            <TextView
+                android:id="@+id/tv_order"
+                style="@style/bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_5"
+                android:text="@string/text_re_order"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_14" />
+        </LinearLayout>
+
     </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/rll_loading"

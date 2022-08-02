@@ -4,7 +4,7 @@ import com.example.client.base.IBasePresenter
 import com.example.client.models.cart.CartProductModel
 
 interface IReviewOrderPresent: IBasePresenter {
-    fun binData()
+    fun binData(isReOrder: Boolean, orderCode: String)
     fun minus(cartProduct: CartProductModel)
     fun plus(cartProduct: CartProductModel)
     fun createOrderWithMomo(customerNumber: String, appData: String)

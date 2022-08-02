@@ -33,13 +33,25 @@ import kotlin.math.roundToInt
 class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrderView, View.OnClickListener {
 
     companion object {
-        fun newInstance(context: Context?): Intent {
+        fun newInstance(context: Context): Intent {
             return Intent(context, ReviewOrderActivity::class.java)
         }
+
+        fun newInstance(context: Context, isReOrder: Boolean, orderCode: String) = Intent(context, ReviewOrderActivity::class.java).apply {
+            val bundle = Bundle().apply {
+                putBoolean(Constants.BundleKey.REORDER, isReOrder)
+                putString(Constants.BundleKey.ORDER_CODE, orderCode)
+            }
+            putExtras(bundle)
+        }
+
     }
 
     override val presenter: IReviewOrderPresent
         get() = ReviewOrderPresent(this)
+
+    private val isReOrder by lazy { intent.getBooleanExtra(Constants.BundleKey.REORDER, false) }
+    private val orderCode by lazy { intent.getStringExtra(Constants.BundleKey.ORDER_CODE).orEmpty() }
 
     private val paymentMethods by lazy {
         arrayListOf(
@@ -57,7 +69,7 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
     }
 
     override fun bindData() {
-        presenter.binData()
+        presenter.binData(isReOrder, orderCode)
     }
 
     private fun bindPaymentMethod(paymentMethod: Pair<Int, Int>, amount: Double) {
@@ -126,7 +138,6 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
         cart.cartProducts.let {
             if (it.isEmpty()) {
                 onBackPressed()
-                finish()
                 return
             }
             val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

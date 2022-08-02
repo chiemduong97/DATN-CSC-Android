@@ -19,6 +19,7 @@ import com.example.client.models.order.OrderModel
 import com.example.client.screens.order.detail.item.OrderDetailItem
 import com.example.client.screens.order.detail.present.IOrderDetailPresent
 import com.example.client.screens.order.detail.present.OrderDetailPresent
+import com.example.client.screens.order.review.activity.ReviewOrderActivity
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import java.text.NumberFormat
 import java.util.*
@@ -27,13 +28,11 @@ import kotlin.math.roundToInt
 class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetailView, View.OnClickListener {
 
     companion object {
-        fun newInstance(context: Context, orderCode: String): Intent {
-            return Intent(context, OrderDetailActivity::class.java).apply {
-                val bundle = Bundle().apply {
-                    putString(Constants.BundleKey.ORDER_CODE, orderCode)
-                }
-                putExtras(bundle)
+        fun newInstance(context: Context, orderCode: String) = Intent(context, OrderDetailActivity::class.java).apply {
+            val bundle = Bundle().apply {
+                putString(Constants.BundleKey.ORDER_CODE, orderCode)
             }
+            putExtras(bundle)
         }
     }
 
@@ -65,6 +64,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
     override fun bindEvent() {
         imv_back.setOnClickListener(this)
         tv_order_destroy.setOnClickListener(this)
+        rll_re_order.setOnClickListener(this)
     }
 
     private fun bindPaymentMethod(paymentMethod: Pair<Int, Int>) {
@@ -113,6 +113,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
                 status_order_done.visibility = View.VISIBLE
                 status_order_destroy.visibility = View.GONE
                 sb_layout.visibility = View.GONE
+                rll_re_order.visibility = View.VISIBLE
             }
             order.isDestroy() -> {
                 if (order.payment_method != Constants.PaymentMethod.COD) {
@@ -124,6 +125,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
                 status_order_done.visibility = View.GONE
                 status_order_destroy.visibility = View.VISIBLE
                 sb_layout.visibility = View.GONE
+                rll_re_order.visibility = View.VISIBLE
             }
             else -> {
                 status_order_done.visibility = View.GONE
@@ -188,6 +190,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
                         .setDescription(getString(R.string.destroy_order_sure))
                         .show(supportFragmentManager)
             }
+            R.id.rll_re_order -> startActivity(ReviewOrderActivity.newInstance(this, true, orderCode))
         }
     }
 

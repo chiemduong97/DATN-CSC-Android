@@ -1,6 +1,8 @@
 package com.example.client.models.order
 
 import com.example.client.base.BaseModel
+import com.example.client.models.cart.CartProductModel
+import com.example.client.models.product.ProductModel
 
 data class OrderDetailModel(
         val quantity: Int,
@@ -24,3 +26,12 @@ data class OrderDetailResponse(
 }
 
 fun List<OrderDetailResponse>.toOrderDetails() = map { it.toOrderDetailModel() }
+
+fun List<OrderDetailModel>.toCartProducts() = map {
+    CartProductModel(ProductModel().apply {
+        id = it.product_id
+        name = it.name
+        price = it.price
+        addToCart = it.quantity
+    }, it.quantity)
+}

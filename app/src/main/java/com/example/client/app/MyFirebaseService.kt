@@ -40,8 +40,7 @@ class MyFirebaseService : FirebaseMessagingService() {
 
     private fun sendRegistrationToServer(token: String) {
         preferences.deviceToken = token
-        mEmail ?: return
-        compositeDisposable.add(profileUseCase.updateDeviceToken(mEmail!!, device_token = token)
+        compositeDisposable.add(profileUseCase.updateDeviceToken(mEmail ?: return, device_token = token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -55,43 +54,34 @@ class MyFirebaseService : FirebaseMessagingService() {
     }
 
     private fun sendNotification(data: Map<*, *>) {
-        val user = Preferences.newInstance().profile
-        var pendingIntent: PendingIntent? = null
-        val intent: Intent? = if (user == null) {
-            packageManager.getLaunchIntentForPackage("com.example.client")
-        } else {
-            Intent(this, NotificationActivity::class.java)
-        }
-        intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-        val action = data["action"] as String
-        val description = data["description"] as String
-        val channelId = getString(R.string.app_name)
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        var notificationBuilder: NotificationCompat.Builder? = null
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            notificationBuilder = NotificationCompat.Builder(this, channelId)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val user = Preferences.newInstance().profile
+            val intent = user?.let {
+                packageManager.getLaunchIntentForPackage("com.example.client")
+            } ?: kotlin.run {
+                Intent(this, NotificationActivity::class.java)
+            }.apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            }
+            val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+            val channelId = getString(R.string.app_name)
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            val notificationBuilder = NotificationCompat.Builder(this, channelId)
                     .setSmallIcon(R.drawable.ic_noti)
                     .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_noti))
-                    .setContentTitle(action)
-                    .setContentText(description)
+                    .setContentTitle(data["action"] as String)
+                    .setContentText(data["description"] as String)
                     .setAutoCancel(true)
-                    .setSound(defaultSoundUri)
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                     .setContentIntent(pendingIntent)
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setPriority(NotificationManager.IMPORTANCE_HIGH)
-        }
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                     channelId,
-                    "Channel human readable title",
+                    "CSC channel",
                     NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager.createNotificationChannel(channel)
-        }
-        notificationBuilder?.let {
-            notificationManager.notify(Random().nextInt(), it.build())
+            notificationManager.notify(Random().nextInt(), notificationBuilder.build())
         }
     }
 

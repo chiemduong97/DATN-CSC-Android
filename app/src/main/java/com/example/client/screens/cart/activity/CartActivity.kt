@@ -22,7 +22,7 @@ import java.util.*
 
 class CartActivity : BaseActivityMVP<ICartPresent>(), ICartView, View.OnClickListener {
     companion object{
-        fun newInstance(context: Context?) : Intent{
+        fun newInstance(context: Context) : Intent{
             return Intent(context, CartActivity::class.java)
         }
     }
