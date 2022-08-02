@@ -83,27 +83,29 @@ class OrderDetailPresent(mView: IOrderDetailView) : BasePresenterMVP<IOrderDetai
     }
 
     override fun destroyOrder(orderCode: String) {
-        orderModel ?: return
-        mView?.showLoading()
-        subscribe(orderUseCase.destroyOrder(orderCode, orderModel!!.status), {
-            mView?.run {
-                hideLoading()
-                if (it.is_error) {
-                    showErrorMessage(getErrorMessage(it.code))
-                    return@subscribe
-                }
-                onRefresh()
-                RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_STATUS_ORDER))
-                RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ORDER, orderModel!!.apply { status = 4 }))
+        orderModel?.let { order ->
+            mView?.showLoading()
+            subscribe(orderUseCase.destroyOrder(orderCode, order.status), {
+                mView?.run {
+                    hideLoading()
+                    if (it.is_error) {
+                        showErrorMessage(getErrorMessage(it.code))
+                        return@subscribe
+                    }
+                    getOrder(order.order_code)
+                    RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_STATUS_ORDER))
+                    RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ORDER, order.apply { status = 4 }))
 
-            }
-        }, {
-            it.printStackTrace()
-            mView?.run {
-                hideLoading()
-                showErrorMessage(getErrorMessage(1001))
-            }
-        })
+                }
+            }, {
+                it.printStackTrace()
+                mView?.run {
+                    hideLoading()
+                    showErrorMessage(getErrorMessage(1001))
+                }
+            })
+        }
+
     }
 
 }

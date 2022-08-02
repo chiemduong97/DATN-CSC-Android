@@ -11,5 +11,4 @@ interface IOrderDetailView: IBaseView {
     fun showBranch(branch: BranchModel)
     fun showErrorMessage(errMessage: Int)
     fun showProducts(products: List<OrderDetailModel>)
-    fun onRefresh()
 }

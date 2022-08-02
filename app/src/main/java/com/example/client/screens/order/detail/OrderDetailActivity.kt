@@ -173,10 +173,6 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
         recyclerView.adapter = item
     }
 
-    override fun onRefresh() {
-        bindData()
-    }
-
     override fun onClick(v: View) {
         when (v.id) {
             R.id.imv_back -> {
