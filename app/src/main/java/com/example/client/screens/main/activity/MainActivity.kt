@@ -127,8 +127,9 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
 
     override fun showCart(quantity: Int) {
         showCart = true
-        cv_cart_place.visibility = View.VISIBLE
         tv_cart_quantity.text = quantity.toString()
+        if (tag != HomeFragment::class.java.simpleName) return
+        cv_cart_place.visibility = View.VISIBLE
     }
 
     override fun hideCart() {
@@ -156,8 +157,9 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
 
     override fun showOrderCount(count: Int) {
         showOrderCount = true
-        rll_count_order.visibility = View.VISIBLE
         tv_count_order.text = getString(R.string.text_count_order, count)
+        if (tag != HomeFragment::class.java.simpleName) return
+        rll_count_order.visibility = View.VISIBLE
     }
 
     override fun hideOrderCount() {
@@ -167,8 +169,9 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
 
     override fun showOrder(order: OrderModel) {
         showOrder = true
-        rll_order.visibility = View.VISIBLE
         tv_order_description.text = order.getStatusString().plus("\n").plus(getString(R.string.main_delivery_to)).plus(order.address)
+        if (tag != HomeFragment::class.java.simpleName) return
+        rll_order.visibility = View.VISIBLE
     }
 
     override fun hideOrder() {
