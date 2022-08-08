@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Client</string>
+    <string name="app_name">CSC</string>
     <string name="err_code_1001">Đã xảy ra lỗi, vui lòng thử lại!</string>
     <string name="err_code_1002">Email chưa được đăng ký, vui lòng thử lại!</string>
     <string name="err_code_1003">Email đã được đăng ký!</string>
