@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Client"
         tools:replace="android:theme"
-        tools:targetApi="n">
+        tools:targetApi="n"
+        tools:ignore="AllowBackup">
         <activity android:name=".screens.promotion.activity.PromotionActivity" />
         <activity android:name=".screens.payment.PaymentActivity" />
         <activity
