@@ -27,6 +27,7 @@ import com.example.client.screens.category.parent.SuperCategoryActivity
 import com.example.client.screens.home.item.HomeSectionItem
 import com.example.client.screens.home.present.HomePresent
 import com.example.client.screens.home.present.IHomePresent
+import com.example.client.screens.main.activity.MainActivity
 import com.example.client.screens.map.activity.MapsActivity
 import com.example.client.screens.product.activity.ProductActivity
 import com.example.client.screens.profile.manager_info.activity.ManagerProfileActivity
@@ -161,6 +162,7 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
 
     override fun onRefresh() {
         bindData()
+        if (requireActivity() is MainActivity) (requireActivity() as MainActivity).onRefreshOrder()
     }
 
     private fun showAddToCartDialog(category: CategoryModel, product: ProductModel) {

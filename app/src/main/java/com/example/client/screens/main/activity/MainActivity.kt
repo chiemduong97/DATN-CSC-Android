@@ -18,7 +18,6 @@ import com.example.client.screens.map.activity.MapsActivity
 import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.order.history.activity.OrderHistoryActivity
 import com.example.client.screens.payment.PaymentActivity
-import com.example.client.screens.product.activity.ProductActivity
 import com.example.client.screens.profile.fragment.ProfileFragment
 import com.example.client.screens.wallet.fragment.WalletFragment
 import com.example.client.utils.ActivityUtils
@@ -37,7 +36,7 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
 
     companion object {
         @JvmStatic
-        fun newInstance(from: Activity): Intent = Intent(from, ProductActivity::class.java)
+        fun newInstance(from: Activity): Intent = Intent(from, MainActivity::class.java)
     }
 
     override val presenter: IMainPresent
@@ -226,6 +225,10 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
                 else -> showErrorMessage(R.string.GPS_not_found)
             }
         }
+    }
+
+    fun onRefreshOrder() {
+        bindData()
     }
 
 }

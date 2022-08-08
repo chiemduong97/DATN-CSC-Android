@@ -40,6 +40,7 @@ class MainPresent(mView: IMainView) : BasePresenterMVP<IMainView>(mView), IMainP
     }
 
     override fun bindData() {
+        getUserActive()
         getCart()
         getCountOrder()
         getOrder()
