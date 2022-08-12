@@ -26,10 +26,6 @@ class OrderUseCase {
         return orderService.getOrder(orderCode)
     }
 
-    fun getOrderDetails(orderCode: String): Observable<BaseResponse<List<OrderDetailResponse>>> {
-        return orderService.getOrderDetails(orderCode)
-    }
-
     fun destroyOrder(orderCode: String, status: Int): Observable<BaseResponse<DataOrderResponse>> {
         return orderService.destroy(orderCode, status)
     }

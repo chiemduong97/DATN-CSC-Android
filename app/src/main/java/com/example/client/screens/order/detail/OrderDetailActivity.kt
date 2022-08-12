@@ -20,6 +20,8 @@ import com.example.client.screens.order.detail.item.OrderDetailItem
 import com.example.client.screens.order.detail.present.IOrderDetailPresent
 import com.example.client.screens.order.detail.present.OrderDetailPresent
 import com.example.client.screens.order.review.activity.ReviewOrderActivity
+import com.example.client.screens.rating.community.CommunityActivity
+import com.example.client.screens.rating.post.PostRatingActivity
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import java.text.NumberFormat
 import java.util.*
@@ -43,9 +45,9 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
 
     private val paymentMethods by lazy {
         arrayListOf(
-                Pair(R.drawable.ic_payment_cod, R.string.payment_method_cod),
-                Pair(R.drawable.ic_payment_momo, R.string.payment_method_momo),
-                Pair(R.drawable.ic_payment_wallet, R.string.payment_method_wallet)
+            Pair(R.drawable.ic_payment_cod, R.string.payment_method_cod),
+            Pair(R.drawable.ic_payment_momo, R.string.payment_method_momo),
+            Pair(R.drawable.ic_payment_wallet, R.string.payment_method_wallet)
         )
     }
 
@@ -55,10 +57,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
     }
 
     override fun bindData() {
-        presenter.run {
-            getOrder(orderCode)
-            getOrderDetails(orderCode)
-        }
+        presenter.getOrder(orderCode)
     }
 
     override fun bindEvent() {
@@ -89,6 +88,16 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
     }
 
     override fun showOrderDetail(order: OrderModel) {
+        view_rating.bind(
+            order.rating.id != -1, order.rating.rating,
+            {
+                startActivity(PostRatingActivity.newInstance(this, orderCode))
+            },
+            {
+                startActivity(CommunityActivity.newInstance(this, order.rating, true))
+            }
+        )
+        showBranch(order.branch)
         tv_order_address.text = order.address
         tv_branch_address.text = order.branch_address
         tv_shipping_fee_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(order.shipping_fee)
@@ -101,6 +110,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
         }
         tv_order_code.text = getString(R.string.text_order_code, order.order_code)
         tv_title.text = getString(R.string.text_title_order_detail, order.order_code)
+        showProducts(order.order_details)
         tv_total_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(order.getTotalPrice())
         if (order.payment_method != Constants.PaymentMethod.COD) {
             tv_status_payment.text = getString(R.string.payment_paid)
@@ -114,6 +124,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
                 status_order_destroy.visibility = View.GONE
                 sb_layout.visibility = View.GONE
                 rll_re_order.visibility = View.VISIBLE
+                view_rating.visibility = View.VISIBLE
             }
             order.isDestroy() -> {
                 if (order.payment_method != Constants.PaymentMethod.COD) {
@@ -126,11 +137,13 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
                 status_order_destroy.visibility = View.VISIBLE
                 sb_layout.visibility = View.GONE
                 rll_re_order.visibility = View.VISIBLE
+                view_rating.visibility = View.GONE
             }
             else -> {
                 status_order_done.visibility = View.GONE
                 status_order_destroy.visibility = View.GONE
                 sb_layout.visibility = View.VISIBLE
+                view_rating.visibility = View.GONE
                 initSeekBar(order.status, order.getStatusString())
             }
         }
@@ -143,7 +156,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
 
     }
 
-    override fun showBranch(branch: BranchModel) {
+    private fun showBranch(branch: BranchModel) {
         tv_branch_name.text = branch.name
         tv_branch_address.text = branch.address
     }
@@ -166,7 +179,11 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
                 .show(supportFragmentManager)
     }
 
-    override fun showProducts(products: List<OrderDetailModel>) {
+    override fun showReviewOrder(order: OrderModel) {
+        startActivity(ReviewOrderActivity.newInstance(this, true, order))
+    }
+
+    private fun showProducts(products: List<OrderDetailModel>) {
         val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val item = OrderDetailItem(this, products)
         recyclerView.layoutManager = manager
@@ -186,7 +203,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
                         .setDescription(getString(R.string.destroy_order_sure))
                         .show(supportFragmentManager)
             }
-            R.id.rll_re_order -> startActivity(ReviewOrderActivity.newInstance(this, true, orderCode))
+            R.id.rll_re_order -> presenter.reOrder()
         }
     }
 

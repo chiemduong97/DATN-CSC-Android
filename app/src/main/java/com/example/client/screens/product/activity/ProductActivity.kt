@@ -42,9 +42,9 @@ class ProductActivity : BaseActivity(), INavigateProduct {
     override fun bindComponent() {
         val showProductDetail = intent.getBooleanExtra(Constants.SHOW_PRODUCT_DETAIL, false)
         if (showProductDetail) addFragment(ProductDetailFragment.newInstance(intent?.extras
-                ?: Bundle()), ProductDetailFragment::class.simpleName ?: "")
+                ?: Bundle()), ProductDetailFragment::class.java.simpleName)
         else addFragment(ProductFragment.newInstance(intent?.extras
-                ?: Bundle()), ProductFragment::class.simpleName ?: "")
+                ?: Bundle()), ProductFragment::class.java.simpleName)
     }
 
     override fun onBackPressed() {

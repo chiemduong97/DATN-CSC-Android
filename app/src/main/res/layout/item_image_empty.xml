@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="@dimen/dimen_100"
+        android:layout_height="@dimen/dimen_100"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:layout_marginEnd="@dimen/dimen_12"
+        android:background="@drawable/bg_white_radius_10_dashed_5dp" />
+</FrameLayout>

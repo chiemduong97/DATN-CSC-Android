@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/dimen_10">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/dimen_15"
+        app:cardCornerRadius="@dimen/dimen_16"
+        app:cardElevation="0dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imv_avatar"
+            android:layout_width="@dimen/dimen_32"
+            android:layout_height="@dimen/dimen_32"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/avatar_default" />
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/tv_full_name"
+        style="@style/bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_5"
+        android:layout_marginEnd="@dimen/dimen_15"
+        android:layout_toEndOf="@id/cv_avatar"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_16"
+        tools:text="Đỗ Chiếm Dương" />
+
+    <TextView
+        android:id="@+id/tv_created_at"
+        style="@style/normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/dimen_15"
+        android:layout_toEndOf="@id/tv_full_name"
+        android:gravity="end"
+        android:textColor="@color/gray_dark"
+        android:textSize="@dimen/text_16"
+        tools:text="2022/08/12 13:11" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imv_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_full_name"
+        android:layout_marginStart="@dimen/dimen_5"
+        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_toEndOf="@+id/cv_avatar"
+        tools:src="@drawable/ic_rating_good" />
+
+    <TextView
+        android:id="@+id/tv_rating"
+        style="@style/normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imv_rating"
+        android:layout_alignBottom="@id/imv_rating"
+        android:layout_marginStart="@dimen/dimen_5"
+        android:layout_marginEnd="@dimen/dimen_15"
+        android:layout_toEndOf="@id/imv_rating"
+        android:gravity="center"
+        tools:textColor="@color/orange"
+        android:textSize="@dimen/text_16"
+        tools:text="Hài lòng" />
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imv_rating"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/dimen_5"
+        android:layout_marginTop="@dimen/dimen_8"
+        android:layout_marginEnd="@dimen/dimen_15"
+        android:layout_toEndOf="@id/cv_avatar">
+
+        <TextView
+            android:id="@+id/tv_content"
+            style="@style/normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_16"
+            tools:text="Giao hàng nhanh vkl mọi người ạ heheheheh.. Giao hàng nhanh vkl mọi người ạ heheheheh.. Giao hàng nhanh vkl mọi người ạ heheheheh.." />
+    </FrameLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fl_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/dimen_5"
+        android:layout_marginTop="@dimen/dimen_8"
+        android:layout_marginEnd="@dimen/dimen_15"
+        android:layout_toEndOf="@id/cv_avatar">
+
+        <LinearLayout
+            android:id="@+id/lnl_images"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_10"
+        android:layout_below="@id/scroll_view"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:background="@color/gray_light" />
+</RelativeLayout>

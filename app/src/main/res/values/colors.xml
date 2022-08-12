@@ -14,7 +14,8 @@
     <color name="gray_light">#F6F6F6</color>
     <color name="blue">#001FE8</color>
     <color name="background_loading">#A6000000</color>
-    <color name="orange">#FF9800</color>
+    <color name="orange">#F5A623</color>
+    <color name="purple">#A975D4</color>
     <color name="green">#36E605</color>
 
 </resources>

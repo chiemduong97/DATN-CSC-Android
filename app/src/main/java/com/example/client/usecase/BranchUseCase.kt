@@ -17,8 +17,4 @@ class BranchUseCase {
         return branchService.getBranches()
     }
 
-    fun getBranch(id: Int): Observable<BaseResponse<BranchResponse>> {
-        return branchService.getBranch(id)
-    }
-
 }

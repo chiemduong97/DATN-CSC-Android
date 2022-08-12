@@ -12,9 +12,6 @@ interface OrderService {
     @GET("api/order/order_getByOrderCode.php")
     fun getOrder(@Query("order_code") orderCode: String): Observable<BaseResponse<OrderResponse>>
 
-    @GET("api/order_detail/order_detail_getByOrderCode.php")
-    fun getOrderDetails(@Query("order_code") orderCode: String): Observable<BaseResponse<List<OrderDetailResponse>>>
-
     @GET("api/order/order_getByUser.php")
     fun getOrdersByUser(
             @Query("user_id") user_id: Int,

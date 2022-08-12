@@ -17,7 +17,6 @@ import com.example.client.screens.main.present.MainPresent
 import com.example.client.screens.map.activity.MapsActivity
 import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.order.history.activity.OrderHistoryActivity
-import com.example.client.screens.payment.PaymentActivity
 import com.example.client.screens.profile.fragment.ProfileFragment
 import com.example.client.screens.wallet.fragment.WalletFragment
 import com.example.client.utils.ActivityUtils
@@ -188,8 +187,8 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.imv_notification -> startActivity(Intent(this, PaymentActivity::class.java))
-            R.id.cv_cart_place -> startActivity(Intent(this, CartActivity::class.java))
+            R.id.imv_notification -> {}
+            R.id.cv_cart_place -> startActivity(CartActivity.newInstance(this))
             R.id.tv_see_more -> startActivity(OrderHistoryActivity.newInstance(this))
             R.id.tv_see_order -> presenter.navigateToOrderDetail()
         }

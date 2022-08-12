@@ -4,23 +4,28 @@ import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.app.Res
 import com.example.client.base.BaseModel
+import com.example.client.models.branch.BranchModel
+import com.example.client.models.rating.RatingModel
 import kotlin.math.roundToInt
 
 data class OrderModel(
-        val order_code: String,
-        var status: Int,
-        val amount: Double,
-        val address: String,
-        val shipping_fee: Double,
-        val promotion_code: String,
-        val promotion_value: Double,
-        val user_id: Int,
-        val branch_id: Int,
-        val promotion_id: Int,
-        val created_at: String,
-        val branch_address: String,
-        val phone: String,
-        val payment_method: Constants.PaymentMethod,
+    val order_code: String,
+    var status: Int,
+    val amount: Double,
+    val address: String,
+    val shipping_fee: Double,
+    val promotion_code: String,
+    val promotion_value: Double,
+    val user_id: Int,
+    val branch_id: Int,
+    val promotion_id: Int,
+    val created_at: String,
+    val branch_address: String,
+    val phone: String,
+    val payment_method: Constants.PaymentMethod,
+    val branch: BranchModel,
+    val rating: RatingModel,
+    val order_details: List<OrderDetailModel>
 ) : BaseModel() {
     fun getTotalPrice() = amount + shipping_fee - if (promotion_value < 1) (amount * promotion_value / 1000).roundToInt() * 1000.0 else promotion_value
     fun isWaiting() = status == 0
@@ -57,6 +62,9 @@ data class OrderResponse(
         val branch_address: String?,
         val phone: String?,
         val payment_method: Constants.PaymentMethod?,
+        val branch: BranchModel?,
+        val rating: RatingModel?,
+        val order_details: List<OrderDetailModel>?
 ) : BaseModel() {
     fun toOrderModel() = OrderModel(
             order_code = order_code.orEmpty(),
@@ -72,7 +80,10 @@ data class OrderResponse(
             created_at = created_at.orEmpty(),
             branch_address = branch_address.orEmpty(),
             phone = phone.orEmpty(),
-            payment_method = payment_method ?: Constants.PaymentMethod.COD
+            payment_method = payment_method ?: Constants.PaymentMethod.COD,
+            branch = branch ?: BranchModel(),
+            rating = rating ?: RatingModel(),
+            order_details = order_details.orEmpty()
     )
 }
 

@@ -9,19 +9,17 @@ import com.example.client.models.cart.CartProductModel
 import com.example.client.models.cart.toOrderDetails
 import com.example.client.models.event.Event
 import com.example.client.models.event.ValueEvent
-import com.example.client.models.order.OrderRequest
-import com.example.client.models.order.toCartProducts
-import com.example.client.models.order.toOrderDetails
+import com.example.client.models.order.*
 import com.example.client.screens.order.review.activity.IReviewOrderView
 import com.example.client.usecase.OrderUseCase
 
 class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrderView>(mView), IReviewOrderPresent {
     private val orderUseCase by lazy { OrderUseCase.newInstance() }
     private val preferences by lazy { Preferences.newInstance() }
-    override fun binData(isReOrder: Boolean, orderCode: String) {
+    override fun binData(isReOrder: Boolean, order: OrderModel?) {
 
-        if (isReOrder && orderCode.isNotEmpty()) {
-            binDataForReOrder(orderCode)
+        if (isReOrder && order != null) {
+            binDataForReOrder(order.order_details)
         } else {
             mView?.run {
                 if (preferences.paymentMethod == null) preferences.paymentMethod = Constants.PaymentMethod.COD
@@ -43,43 +41,28 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
         }
     }
 
-    private fun binDataForReOrder(orderCode: String) {
-        mView?.showLoading()
-        subscribe(orderUseCase.getOrderDetails(orderCode), {
-            mView?.run {
-                hideLoading()
-                if (it.is_error) {
-                    showErrorMessage(getErrorMessage(it.code))
-                    return@subscribe
-                }
-
-                preferences.cart = preferences.cart.apply {
-                    cartProducts = it.data.toOrderDetails().toCartProducts() as ArrayList<CartProductModel>
-                }
-                if (preferences.paymentMethod == null) preferences.paymentMethod = Constants.PaymentMethod.COD
-                updatePaymentMethod(preferences.paymentMethod, preferences.profile.wallet)
-                preferences.cart = preferences.cart.apply {
-                    this.order_lat = preferences.orderLocation.lat
-                    this.order_lng = preferences.orderLocation.lng
-                    this.order_address = preferences.orderLocation.address
-                    this.branch_lat = preferences.branch.lat
-                    this.branch_lng = preferences.branch.lng
-                    this.branch_address = preferences.branch.address
-                }
-                showBranch(preferences.branch)
-                showUser(preferences.profile)
-                showOrderLocation(preferences.orderLocation)
-                getCartFromRes()
-                updatePromotion(preferences.cart)
-                RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
+    private fun binDataForReOrder(orderDetails: List<OrderDetailModel>) {
+        mView?.apply {
+            preferences.cart = preferences.cart.apply {
+                cartProducts = orderDetails.toCartProducts() as ArrayList<CartProductModel>
             }
-        }, {
-            it.printStackTrace()
-            mView?.run {
-                hideLoading()
-                showErrorMessage(getErrorMessage(1001))
+            if (preferences.paymentMethod == null) preferences.paymentMethod = Constants.PaymentMethod.COD
+            updatePaymentMethod(preferences.paymentMethod, preferences.profile.wallet)
+            preferences.cart = preferences.cart.apply {
+                this.order_lat = preferences.orderLocation.lat
+                this.order_lng = preferences.orderLocation.lng
+                this.order_address = preferences.orderLocation.address
+                this.branch_lat = preferences.branch.lat
+                this.branch_lng = preferences.branch.lng
+                this.branch_address = preferences.branch.address
             }
-        })
+            showBranch(preferences.branch)
+            showUser(preferences.profile)
+            showOrderLocation(preferences.orderLocation)
+            getCartFromRes()
+            updatePromotion(preferences.cart)
+            RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
+        }
     }
 
     private fun getCartFromRes() {

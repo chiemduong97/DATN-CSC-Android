@@ -8,12 +8,12 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 data class BranchModel(
-        val id: Int,
-        val name: String,
-        val lng: Double,
-        val lat: Double,
-        val address: String,
-        val distance: Double,
+        val id: Int = -1,
+        val name: String = "",
+        val lng: Double = 0.0,
+        val lat: Double = 0.0,
+        val address: String = "",
+        val distance: Double = 0.0,
 ) : BaseModel()
 
 data class BranchResponse(

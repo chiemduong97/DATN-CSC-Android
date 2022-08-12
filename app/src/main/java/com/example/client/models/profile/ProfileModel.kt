@@ -3,16 +3,16 @@ package com.example.client.models.profile
 import com.example.client.base.BaseModel
 
 data class ProfileModel(
-        val id: Int,
-        val email: String,
-        var avatar: String,
-        var fullname: String,
-        var birthday: String,
-        var phone: String,
-        var csc_point: Double,
-        var first_order: Boolean,
-        var wallet: Double
-)
+        val id: Int = -1,
+        val email: String = "",
+        var avatar: String = "",
+        var fullname: String = "",
+        var birthday: String = "",
+        var phone: String = "",
+        var csc_point: Double = 0.0,
+        var first_order: Boolean = false,
+        var wallet: Double = 0.0
+): BaseModel()
 
 data class ProfileResponse(
         val id: Int?,
@@ -38,7 +38,7 @@ data class ProfileResponse(
     )
 }
 
-data class DataProfileResponse(var access_token: String)
+data class DataProfileResponse(val access_token: String)
 
 data class ProfileRequest(
         var email: String? = null,

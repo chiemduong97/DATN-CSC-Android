@@ -15,6 +15,7 @@ import com.example.client.dialog.PrimaryDialog
 import com.example.client.models.branch.BranchModel
 import com.example.client.models.cart.CartModel
 import com.example.client.models.order.OrderLocation
+import com.example.client.models.order.OrderModel
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.branch.BranchActivity
 import com.example.client.screens.cart.item.CartProductItem
@@ -37,10 +38,10 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
             return Intent(context, ReviewOrderActivity::class.java)
         }
 
-        fun newInstance(context: Context, isReOrder: Boolean, orderCode: String) = Intent(context, ReviewOrderActivity::class.java).apply {
+        fun newInstance(context: Context, isReOrder: Boolean, order: OrderModel) = Intent(context, ReviewOrderActivity::class.java).apply {
             val bundle = Bundle().apply {
-                putBoolean(Constants.BundleKey.REORDER, isReOrder)
-                putString(Constants.BundleKey.ORDER_CODE, orderCode)
+                putBoolean(Constants.REORDER, isReOrder)
+                putExtra(Constants.BundleKey.ORDER, order)
             }
             putExtras(bundle)
         }
@@ -50,8 +51,8 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
     override val presenter: IReviewOrderPresent
         get() = ReviewOrderPresent(this)
 
-    private val isReOrder by lazy { intent.getBooleanExtra(Constants.BundleKey.REORDER, false) }
-    private val orderCode by lazy { intent.getStringExtra(Constants.BundleKey.ORDER_CODE).orEmpty() }
+    private val isReOrder by lazy { intent.getBooleanExtra(Constants.REORDER, false) }
+    private val order by lazy { intent.getSerializableExtra(Constants.BundleKey.ORDER) as? OrderModel }
 
     private val paymentMethods by lazy {
         arrayListOf(
@@ -69,7 +70,7 @@ class ReviewOrderActivity : BaseActivityMVP<IReviewOrderPresent>(), IReviewOrder
     }
 
     override fun bindData() {
-        presenter.binData(isReOrder, orderCode)
+        presenter.binData(isReOrder, order)
     }
 
     private fun bindPaymentMethod(paymentMethod: Pair<Int, Int>, amount: Double) {

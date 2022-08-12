@@ -22,9 +22,11 @@
         android:roundIcon="@mipmap/ic_launcher_csc_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Client"
+        tools:ignore="AllowBackup"
         tools:replace="android:theme"
-        tools:targetApi="n"
-        tools:ignore="AllowBackup">
+        tools:targetApi="n">
+        <activity android:name=".screens.rating.community.CommunityActivity"></activity>
+        <activity android:name=".screens.rating.post.PostRatingActivity" />
         <activity android:name=".screens.promotion.activity.PromotionActivity" />
         <activity android:name=".screens.payment.PaymentActivity" />
         <activity

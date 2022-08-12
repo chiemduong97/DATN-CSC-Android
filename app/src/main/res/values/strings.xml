@@ -192,5 +192,19 @@
     <string name="text_re_order">Đặt lại</string>
     <string name="text_project_name">CONVENIENT STORE CHAIN</string>
     <string name="text_wellcome">Chào mừng bạn đến với Convenient Store Chain</string>
+    <string name="rating_title">Đánh giá đơn hàng %s</string>
+    <string name="rating_hint">Đánh giá của bạn</string>
+    <string name="rating_save">Lưu đánh giá</string>
+    <string name="rating_good">Hài lòng</string>
+    <string name="rating_bad">Không hài lòng</string>
+    <string name="add_photo">Thêm ảnh</string>
+    <string name="rating_dailog_show_limit">Bạn chỉ có thể chọn tối đa 4 ảnh</string>
+    <string name="rating_dialog_sure_remove">Bạn có chắc là xóa ảnh này?</string>
+    <string name="rating_header_description">Cảm ơn bạn đã sử dụng dịch vụ của CSC. Những đánh giá của bạn sẽ đóng góp 1 phần cho cộng đồng CSC và giúp chúng tôi góp phần cải thiện dịch vụ tốt hơn.</string>
+    <string name="widget_rating_text_rating">Chia sẻ cảm nhận</string>
+    <string name="dialog_rating_success">Cảm ơn bạn đã đánh giá!</string>
+    <string name="community_csc">Cộng đồng CSC</string>
+    <string name="rating_detail_title">Chi tiết đánh giá</string>
+    <string name="widget_rating_show_rating">Xem đánh giá</string>
 
 </resources>

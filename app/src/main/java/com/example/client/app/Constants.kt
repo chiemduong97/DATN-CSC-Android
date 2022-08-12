@@ -6,14 +6,18 @@ object Constants {
     object BundleKey {
         const val CATEGORY_MODEL = "CATEGORY_MODEL"
         const val PRODUCT_MODEL = "PRODUCT_MODEL"
+        const val ORDER = "ORDER"
         const val ORDER_CODE = "ORDER_CODE"
         const val EMAIL = "EMAIL"
         const val PROMOTION_MODEL = "PROMOTION_MODEL"
-        const val REORDER = "REORDER"
+        const val RATING_MODEL = "RATING_MODEL"
+
     }
 
+    const val REORDER = "REORDER"
     const val SHOW_PRODUCT_DETAIL = "SHOW_PRODUCT_DETAIL"
     const val SHOW_PROMOTION_DETAIL = "SHOW_PROMOTION_DETAIL"
+    const val SHOW_RATING_DETAIL = "SHOW_RATING_DETAIL"
 
     object MORE {
         const val CATEGORY = "CATEGORY"
@@ -41,6 +45,7 @@ object Constants {
         const val CHANGE_PAYMENT_METHOD = "CHANGE_PAYMENT_METHOD"
         const val UPDATE_PROMOTION = "UPDATE_PROMOTION"
         const val RECHARGE_SUCCESS = "RECHARGE_SUCCESS"
+        const val RATING_SUCCESS = "RATING_SUCCESS"
     }
 
     enum class Transaction {

@@ -16,6 +16,7 @@ import com.example.client.screens.order.history.activity.OrderHistoryActivity
 import com.example.client.screens.profile.manager_info.activity.ManagerProfileActivity
 import com.example.client.screens.profile.present.IProfilePresent
 import com.example.client.screens.profile.present.ProfilePresent
+import com.example.client.screens.rating.community.CommunityActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.OnClickListener {
@@ -33,6 +34,7 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
         tv_update_info.setOnClickListener(this)
         lnl_logout.setOnClickListener(this)
         lnl_order_history.setOnClickListener(this)
+        lnl_community.setOnClickListener(this)
         swipe_refresh.setOnRefreshListener { hideLoading() }
     }
 
@@ -52,6 +54,7 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
             }
             R.id.lnl_order_history -> startActivity(OrderHistoryActivity.newInstance(requireActivity()))
             R.id.lnl_contact -> presenter.navigateToContact()
+            R.id.lnl_community -> startActivity(CommunityActivity.newInstance(requireActivity()))
         }
     }
 

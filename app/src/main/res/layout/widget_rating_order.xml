@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/dimen_10">
+
+    <TextView
+        android:id="@+id/tv_rating"
+        style="@style/bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_gray_light_radius_10"
+        android:paddingHorizontal="@dimen/dimen_10"
+        android:paddingVertical="@dimen/dimen_5"
+        android:text="@string/widget_rating_text_rating"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_16" />
+
+    <RelativeLayout
+        android:id="@+id/lnl_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_rating">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imv_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            tools:src="@drawable/ic_rating_good" />
+
+        <TextView
+            android:id="@+id/tv_rating_type"
+            style="@style/bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dimen_5"
+            android:layout_toStartOf="@id/tv_view_rating"
+            android:layout_toEndOf="@id/imv_rating"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_16"
+            tools:text="@string/rating_good" />
+
+        <TextView
+            android:id="@+id/tv_view_rating"
+            style="@style/bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/widget_rating_show_rating"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/text_16" />
+    </RelativeLayout>
+</RelativeLayout>

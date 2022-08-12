@@ -1,6 +1,6 @@
 package com.example.client.screens.cart.activity
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -22,8 +22,8 @@ import java.util.*
 
 class CartActivity : BaseActivityMVP<ICartPresent>(), ICartView, View.OnClickListener {
     companion object{
-        fun newInstance(context: Context) : Intent{
-            return Intent(context, CartActivity::class.java)
+        fun newInstance(from: Activity) : Intent{
+            return Intent(from, CartActivity::class.java)
         }
     }
 

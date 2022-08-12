@@ -157,7 +157,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
                 categoryModel?.let { showAddToCartDialog(it, productModel) }
             }
             R.id.cv_cart_place -> {
-                startActivity(Intent(CartActivity.newInstance(requireContext())))
+                startActivity(CartActivity.newInstance(requireActivity()))
             }
             R.id.tv_more -> {
                 NavigatorProduct.showProductScreen(arguments?.apply {

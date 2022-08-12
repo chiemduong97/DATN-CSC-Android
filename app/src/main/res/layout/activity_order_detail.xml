@@ -221,6 +221,13 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14"
                     tools:text="@string/branch_address_default" />
+                <com.example.client.screens.order.review.widget.RatingOrderView
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:background="@drawable/line_top_item"
+                    android:id="@+id/view_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_branch_address"/>
             </RelativeLayout>
 
             <View

@@ -9,7 +9,4 @@ import retrofit2.http.Query
 interface BranchService {
     @GET("api/branch/branch_getAll.php")
     fun getBranches(): Observable<BaseResponse<List<BranchResponse>>>
-
-    @GET("api/branch/branch_getByID.php")
-    fun getBranch(@Query("id") id: Int): Observable<BaseResponse<BranchResponse>>
 }

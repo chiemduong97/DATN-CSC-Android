@@ -7,7 +7,6 @@ import com.example.client.base.BasePresenterMVP
 import com.example.client.models.event.Event
 import com.example.client.models.event.ValueEvent
 import com.example.client.models.order.OrderModel
-import com.example.client.models.order.toOrderDetails
 import com.example.client.screens.order.detail.IOrderDetailView
 import com.example.client.usecase.BranchUseCase
 import com.example.client.usecase.OrderUseCase
@@ -25,53 +24,13 @@ class OrderDetailPresent(mView: IOrderDetailView) : BasePresenterMVP<IOrderDetai
         mView?.showLoading()
         subscribe(orderUseCase.getOrder(orderCode), {
             mView?.run {
+                hideLoading()
                 if (it.is_error) {
-                    hideLoading()
                     showErrorMessage(getErrorMessage(it.code))
                     return@subscribe
                 }
                 orderModel = it.data.toOrderModel()
                 showOrderDetail(it.data.toOrderModel())
-                getBranch(orderModel!!.branch_id)
-            }
-        }, {
-            it.printStackTrace()
-            mView?.run {
-                hideLoading()
-                showErrorMessage(getErrorMessage(1001))
-            }
-        })
-    }
-
-    private fun getBranch(id: Int) {
-        subscribe(branchUseCase.getBranch(id), {
-            mView?.run {
-                hideLoading()
-                if (it.is_error) {
-                    showErrorMessage(getErrorMessage(it.code))
-                    return@subscribe
-                }
-                showBranch(it.data.toBranchModel(LatLng(Preferences.newInstance().orderLocation.lat, Preferences.newInstance().orderLocation.lng)))
-            }
-        }, {
-            it.printStackTrace()
-            mView?.run {
-                hideLoading()
-                showErrorMessage(getErrorMessage(1001))
-            }
-        })
-    }
-
-    override fun getOrderDetails(orderCode: String) {
-        mView?.showLoading()
-        subscribe(orderUseCase.getOrderDetails(orderCode), {
-            mView?.run {
-                hideLoading()
-                if (it.is_error) {
-                    showErrorMessage(getErrorMessage(it.code))
-                    return@subscribe
-                }
-                showProducts(it.data.toOrderDetails())
             }
         }, {
             it.printStackTrace()
@@ -106,6 +65,19 @@ class OrderDetailPresent(mView: IOrderDetailView) : BasePresenterMVP<IOrderDetai
             })
         }
 
+    }
+
+    override fun reOrder() {
+        orderModel?.let { mView?.showReviewOrder(it) }
+    }
+
+    override fun onCompositedEventAdded() {
+        super.onCompositedEventAdded()
+        add(RxBus.newInstance().subscribe {
+            when (it.key) {
+                Constants.EventKey.RATING_SUCCESS -> orderModel?.let { order -> getOrder(order.order_code) }
+            }
+        })
     }
 
 }
