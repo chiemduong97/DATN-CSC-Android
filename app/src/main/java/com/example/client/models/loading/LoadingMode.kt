@@ -1,6 +1,5 @@
-package com.example.client.models.loading;
+package com.example.client.models.loading
 
-public enum LoadingMode
-{
+enum class LoadingMode {
     LOAD_MORE, LOAD
 }

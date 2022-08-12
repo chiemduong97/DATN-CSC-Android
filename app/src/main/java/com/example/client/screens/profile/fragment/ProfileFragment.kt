@@ -35,6 +35,7 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
         lnl_logout.setOnClickListener(this)
         lnl_order_history.setOnClickListener(this)
         lnl_community.setOnClickListener(this)
+        lnl_contact.setOnClickListener(this)
         swipe_refresh.setOnRefreshListener { hideLoading() }
     }
 

@@ -24,7 +24,7 @@ class RatingItem(
         viewHolder.apply {
             val item = items[position]
             imvAvatar?.let {
-                Glide.with(context).asBitmap().placeholder(R.drawable.ic_category_default).load(item.user.avatar).into(it)
+                Glide.with(context).asBitmap().placeholder(R.drawable.avatar_default).load(item.user.avatar).into(it)
             }
             tvFullName?.text = item.user.fullname
             tvCreatedAt?.text = item.created_at

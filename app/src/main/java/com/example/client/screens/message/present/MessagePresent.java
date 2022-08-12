@@ -1,21 +1,10 @@
 package com.example.client.screens.message.present;
 
-import com.example.client.models.message.MessageModel;
 import com.example.client.models.message.MessengerModel;
 import com.example.client.screens.message.activity.IMessageView;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Response;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
-import okio.ByteString;
 
 public class MessagePresent implements IMessagePresent{
     private IMessageView mView;
