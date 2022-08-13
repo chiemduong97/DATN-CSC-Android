@@ -8,7 +8,7 @@ import com.example.client.models.cart.CartProductModel
 import com.example.client.models.category.MAX_ITEM_CATEGORY
 import com.example.client.models.category.toCategories
 import com.example.client.models.event.Event
-import com.example.client.models.product.HomeSectionModel
+import com.example.client.models.category.HomeSectionModel
 import com.example.client.screens.home.fragment.IHomeView
 import com.example.client.usecase.CategoryUseCase
 

@@ -24,7 +24,7 @@ class RatingOrderView: FrameLayout {
         addView(view)
     }
 
-    fun bind(isRated: Boolean, rating: RatingType, onRating: () -> Unit, showRatingDetail: () -> Unit) {
+    fun bind(isRated: Boolean, rating: RatingType?, onRating: () -> Unit, showRatingDetail: () -> Unit) {
         if (isRated) {
             tv_rating.visibility = View.GONE
             lnl_rating.visibility = View.VISIBLE

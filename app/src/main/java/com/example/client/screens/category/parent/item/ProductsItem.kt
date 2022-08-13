@@ -23,8 +23,8 @@ class ProductsItem(
         private val context: Context,
         private val items: List<CategoryModel>,
         private val onClickMore: (category: CategoryModel) -> Unit,
-        private val onClickProduct: (category: CategoryModel, product: ProductModel) -> Unit,
-        private val onAddToCart: (category: CategoryModel, product: ProductModel) -> Unit,
+        private val onClickProduct: (product: ProductModel) -> Unit,
+        private val onAddToCart: (product: ProductModel) -> Unit,
 ) : RecyclerView.Adapter<ProductsItemViewHolder>() {
     private val compositeDisposable = CompositeDisposable()
     private val productUseCase by lazy { ProductUseCase.newInstance() }
@@ -59,10 +59,10 @@ class ProductsItem(
                                                 context, response.data.toProducts() + ProductModel(),
                                                 category,
                                                 { prod ->
-                                                    onClickProduct.invoke(category, prod)
+                                                    onClickProduct.invoke(prod)
                                                 },
                                                 { prod ->
-                                                    onAddToCart.invoke(category, prod)
+                                                    onAddToCart.invoke(prod)
                                                 },
                                                 {
                                                     onClickMore.invoke(category)

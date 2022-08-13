@@ -1,17 +1,18 @@
 package com.example.client.models.rating
 
 import com.example.client.base.BaseModel
+import com.example.client.models.order.OrderModel
 import com.example.client.models.profile.ProfileModel
 import com.google.gson.annotations.SerializedName
 
 data class RatingModel(
-    val id: Int = -1,
-    val rating: RatingType = RatingType.RATING_GOOD,
-    val content: String = "",
-    val created_at: String = "",
-    val images: List<String> = emptyList(),
-    val user: ProfileModel = ProfileModel(),
-    val order_code: String = "",
+        val id: Int = -1,
+        val rating: RatingType = RatingType.RATING_GOOD,
+        val content: String = "",
+        val created_at: String = "",
+        val images: List<String> = emptyList(),
+        val user: ProfileModel = ProfileModel(),
+        val order: OrderModel = OrderModel(),
 ): BaseModel() {
     fun toImageModels() = images.map { ImageModel(path = it) }
 }
@@ -23,7 +24,7 @@ data class RatingResponse(
     val created_at: String?,
     val images: List<String>?,
     val user: ProfileModel?,
-    val order_code: String?
+    val order: OrderModel?
 ) : BaseModel() {
     fun toRatingModel() = RatingModel(
         id = id ?: -1,
@@ -32,7 +33,7 @@ data class RatingResponse(
         created_at = created_at.orEmpty(),
         images = images.orEmpty(),
         user = user ?: ProfileModel(),
-        order_code = order_code.orEmpty()
+        order = order ?: OrderModel()
     )
 }
 

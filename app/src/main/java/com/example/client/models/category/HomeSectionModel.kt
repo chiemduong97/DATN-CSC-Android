@@ -1,6 +1,4 @@
-package com.example.client.models.product
-
-import com.example.client.models.category.CategoryModel
+package com.example.client.models.category
 
 class HomeSectionModel(
         val title: String,

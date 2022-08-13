@@ -8,7 +8,7 @@ import com.example.client.models.cart.CartModel
 import com.example.client.models.category.CategoryModel
 import com.example.client.models.event.ValueEvent
 import com.example.client.models.loading.LoadingMode
-import com.example.client.models.product.HomeSectionModel
+import com.example.client.models.category.HomeSectionModel
 import com.example.client.models.product.ProductModel
 import com.example.client.models.product.checkCart
 import com.example.client.models.product.toProducts

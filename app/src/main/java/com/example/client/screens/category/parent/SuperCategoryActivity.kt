@@ -94,11 +94,11 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
                 {
                     startActivity(ProductActivity.newInstance(this, it))
                 },
-                { cate: CategoryModel, prod: ProductModel ->
-                    startActivity(ProductActivity.newInstance(this, cate, prod, true))
+                { prod ->
+                    startActivity(ProductActivity.newInstance(this, prod, true))
                 },
-                { cate: CategoryModel, prod: ProductModel ->
-                    showAddToCartDialog(cate, prod)
+                { prod ->
+                    showAddToCartDialog(prod)
                 }
         )
         recycler_view.adapter = item
@@ -158,8 +158,8 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
         }
     }
 
-    private fun showAddToCartDialog(category: CategoryModel, product: ProductModel) {
-        val dialog = AddToCartDialog.newInstance(category, product)
+    private fun showAddToCartDialog(product: ProductModel) {
+        val dialog = AddToCartDialog.newInstance(product)
         dialog.setListener(this)
         dialog.show(supportFragmentManager)
     }
@@ -171,8 +171,8 @@ class SuperCategoryActivity : BaseActivityMVP<ISuperCategoryPresent>(), ISuperCa
         }
     }
 
-    override fun showProductDetail(category: CategoryModel, product: ProductModel) {
-        startActivity(ProductActivity.newInstance(this, category, product, true))
+    override fun showProductDetail(product: ProductModel) {
+        startActivity(ProductActivity.newInstance(this, product, true))
     }
 
 }

@@ -26,16 +26,16 @@ class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView,
         }
     }
 
-    private val categoryModel by lazy { arguments?.getSerializable(Constants.BundleKey.CATEGORY_MODEL) as? CategoryModel }
+    private val category by lazy { arguments?.getSerializable(Constants.BundleKey.CATEGORY_MODEL) as? CategoryModel }
     override val presenter: ProductPresent
         get() = ProductPresent(this)
 
     override fun bindData() {
-        categoryModel?.let { presenter.binData(it) }
+        category?.let { presenter.binData(it) }
     }
 
     override fun bindComponent() {
-        tv_title.text = categoryModel?.name
+        tv_title.text = category?.name
     }
 
     override fun bindEvent() {
@@ -70,7 +70,6 @@ class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView,
     override fun navigateToProductDetailScreen(productModel: ProductModel) {
         NavigatorProduct.showProductDetailScreen(arguments?.apply {
             putSerializable(Constants.BundleKey.PRODUCT_MODEL, productModel)
-            putSerializable(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
         })
     }
 

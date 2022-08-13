@@ -31,7 +31,7 @@ class SearchPresent(mView: ISearchView) : BaseCollectionPresenter<ISearchView>(m
 
     override fun onClickItem(product: ProductModel) {
         mView?.showLoading()
-        subscribe(categoryUseCase.getCategory(product.category_id), {
+        subscribe(categoryUseCase.getCategory(product.category.id), {
             mView?.run {
                 hideLoading()
                 if (it.is_error) {

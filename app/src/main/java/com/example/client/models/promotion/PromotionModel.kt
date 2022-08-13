@@ -3,14 +3,14 @@ package com.example.client.models.promotion
 import com.example.client.base.BaseModel
 
 data class PromotionModel(
-        val id: Int,
-        val avatar: String,
-        val description: String,
-        val code: String,
-        val value: Double,
-        val created_at: String,
-        val start: String,
-        val end: String,
+        val id: Int = -1,
+        val avatar: String = "",
+        val description: String = "",
+        val code: String = "",
+        val value: Double = 0.0,
+        val created_at: String = "",
+        val start: String = "",
+        val end: String = "",
 ) : BaseModel()
 
 data class PromotionResponse(

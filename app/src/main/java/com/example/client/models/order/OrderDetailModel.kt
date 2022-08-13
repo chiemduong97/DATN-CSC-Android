@@ -6,22 +6,19 @@ import com.example.client.models.product.ProductModel
 
 data class OrderDetailModel(
         val quantity: Int,
-        val product_id: Int,
         val price: Double,
-        val name: String
+        val product: ProductModel,
 ) : BaseModel()
 
 data class OrderDetailResponse(
         val quantity: Int?,
-        val product_id: Int?,
         val price: Double?,
-        val name: String?
+        val product: ProductModel?,
 ) : BaseModel() {
     fun toOrderDetailModel() = OrderDetailModel(
             quantity = quantity ?: 0,
-            product_id = product_id ?: -1,
             price = price ?: 0.0,
-            name = name.orEmpty()
+            product = product ?: ProductModel()
     )
 }
 
@@ -29,8 +26,8 @@ fun List<OrderDetailResponse>.toOrderDetails() = map { it.toOrderDetailModel() }
 
 fun List<OrderDetailModel>.toCartProducts() = map {
     CartProductModel(ProductModel().apply {
-        id = it.product_id
-        name = it.name
+        id = it.product.id
+        name = it.product.name
         price = it.price
         addToCart = it.quantity
     }, it.quantity)

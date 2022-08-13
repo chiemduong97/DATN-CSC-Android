@@ -10,4 +10,4 @@ data class CartProductModel(
     fun getPrice() = product.price * quantity
 }
 
-fun List<CartProductModel>.toOrderDetails() = map { OrderDetailModel(it.quantity, it.product.id, it.product.price, it.product.name) }
+fun List<CartProductModel>.toOrderDetails() = map { OrderDetailModel(it.quantity, it.product.price, it.product) }

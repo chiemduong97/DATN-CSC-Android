@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.example.client.R
 import com.example.client.app.Constants
 import com.example.client.models.cart.CartProductModel
-import com.example.client.models.category.CategoryModel
 import com.example.client.models.product.ProductModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.NumberFormat
@@ -21,7 +20,6 @@ import java.util.*
 
 class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
     private var product: ProductModel? = null
-    private var category: CategoryModel? = null
     private var listener: OptionAddToCartListener? = null
     private var quantity = 1
     private var imvBack: ImageView? = null
@@ -36,10 +34,9 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
     private var rltProduct: RelativeLayout? = null
 
     companion object {
-        fun newInstance(category: CategoryModel,product: ProductModel): AddToCartDialog {
+        fun newInstance(product: ProductModel): AddToCartDialog {
             return AddToCartDialog().apply {
                 arguments = Bundle().apply {
-                    putSerializable(Constants.BundleKey.CATEGORY_MODEL, category)
                     putSerializable(Constants.BundleKey.PRODUCT_MODEL, product)
                 }
             }
@@ -51,9 +48,6 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
         arguments?.run {
             getSerializable(Constants.BundleKey.PRODUCT_MODEL)?.let {
                 product = it as ProductModel
-            }
-            getSerializable(Constants.BundleKey.CATEGORY_MODEL)?.let {
-                category = it as CategoryModel
             }
         }
     }
@@ -139,7 +133,7 @@ class AddToCartDialog : BottomSheetDialogFragment(), View.OnClickListener {
             R.id.rlt_product -> {
                 dismiss()
                 product?.let {
-                    category?.run { listener?.showProductDetail(this, it) }
+                    listener?.showProductDetail(it)
                 }
             }
         }

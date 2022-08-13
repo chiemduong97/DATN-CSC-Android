@@ -17,7 +17,7 @@ import com.example.client.models.branch.BranchModel
 import com.example.client.models.cart.CartProductModel
 import com.example.client.models.category.CategoryModel
 import com.example.client.models.order.OrderLocation
-import com.example.client.models.product.HomeSectionModel
+import com.example.client.models.category.HomeSectionModel
 import com.example.client.models.product.ProductModel
 import com.example.client.models.profile.ProfileModel
 import com.example.client.screens.branch.BranchActivity
@@ -133,11 +133,11 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
         val item = HomeSectionItem(requireContext(), items, {
                 startActivity(ProductActivity.newInstance(requireActivity(), it))
             },
-            { cate: CategoryModel, prod: ProductModel ->
-                startActivity(ProductActivity.newInstance(requireActivity(), cate, prod, true))
+            { prod ->
+                startActivity(ProductActivity.newInstance(requireActivity(), prod, true))
             },
-            { cate: CategoryModel, prod: ProductModel ->
-                showAddToCartDialog(cate, prod)
+            { prod ->
+                showAddToCartDialog(prod)
             }
         )
         recycler_view_section.adapter = item
@@ -165,8 +165,8 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
         if (requireActivity() is MainActivity) (requireActivity() as MainActivity).onRefreshOrder()
     }
 
-    private fun showAddToCartDialog(category: CategoryModel, product: ProductModel) {
-        val dialog = AddToCartDialog.newInstance(category, product)
+    private fun showAddToCartDialog(product: ProductModel) {
+        val dialog = AddToCartDialog.newInstance(product)
         dialog.setListener(this)
         dialog.show(childFragmentManager)
     }
@@ -175,7 +175,7 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
         presenter.addToCart(cartProduct)
     }
 
-    override fun showProductDetail(category: CategoryModel, product: ProductModel) {
-        startActivity(ProductActivity.newInstance(requireActivity(), category, product, true))
+    override fun showProductDetail(product: ProductModel) {
+        startActivity(ProductActivity.newInstance(requireActivity(), product, true))
     }
 }

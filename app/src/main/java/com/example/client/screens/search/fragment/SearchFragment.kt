@@ -72,7 +72,7 @@ class SearchFragment : BaseCollectionFragment<ISearchPresent>(), ISearchView, Se
     }
 
     override fun toProductDetailScreen(cate: CategoryModel, prod: ProductModel) {
-        startActivity(ProductActivity.newInstance(requireActivity(), cate, prod, true))
+        startActivity(ProductActivity.newInstance(requireActivity(), prod, true))
     }
 
     override fun showErrorMessage(errMessage: Int) {

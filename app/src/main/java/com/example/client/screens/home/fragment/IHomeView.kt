@@ -4,7 +4,7 @@ import com.example.client.base.IBaseView
 import com.example.client.models.category.CategoryModel
 import com.example.client.models.branch.BranchModel
 import com.example.client.models.order.OrderLocation
-import com.example.client.models.product.HomeSectionModel
+import com.example.client.models.category.HomeSectionModel
 import com.example.client.models.profile.ProfileModel
 
 interface IHomeView : IBaseView {

@@ -5,29 +5,26 @@ import com.example.client.app.Constants
 import com.example.client.app.Res
 import com.example.client.base.BaseModel
 import com.example.client.models.branch.BranchModel
+import com.example.client.models.profile.ProfileModel
+import com.example.client.models.promotion.PromotionModel
 import com.example.client.models.rating.RatingModel
 import kotlin.math.roundToInt
 
 data class OrderModel(
-    val order_code: String,
-    var status: Int,
-    val amount: Double,
-    val address: String,
-    val shipping_fee: Double,
-    val promotion_code: String,
-    val promotion_value: Double,
-    val user_id: Int,
-    val branch_id: Int,
-    val promotion_id: Int,
-    val created_at: String,
-    val branch_address: String,
-    val phone: String,
-    val payment_method: Constants.PaymentMethod,
-    val branch: BranchModel,
-    val rating: RatingModel,
-    val order_details: List<OrderDetailModel>
+        val order_code: String = "",
+        var status: Int = 0,
+        val amount: Double = 0.0,
+        val address: String = "",
+        val shipping_fee: Double = 0.0,
+        val created_at: String = "",
+        val payment_method: Constants.PaymentMethod = Constants.PaymentMethod.COD,
+        val user: ProfileModel = ProfileModel(),
+        val branch: BranchModel = BranchModel(),
+        val rating: RatingModel? = null,
+        val order_details: List<OrderDetailModel> = arrayListOf(),
+        val promotion: PromotionModel = PromotionModel(),
 ) : BaseModel() {
-    fun getTotalPrice() = amount + shipping_fee - if (promotion_value < 1) (amount * promotion_value / 1000).roundToInt() * 1000.0 else promotion_value
+    fun getTotalPrice() = amount + shipping_fee - if (promotion.value < 1) (amount * promotion.value / 1000).roundToInt() * 1000.0 else promotion.value
     fun isWaiting() = status == 0
     fun isConfirm() = status == 1
     fun isDelivery() = status == 2
@@ -53,18 +50,14 @@ data class OrderResponse(
         val amount: Double?,
         val address: String?,
         val shipping_fee: Double?,
-        val promotion_code: String?,
-        val promotion_value: Double?,
-        val user_id: Int?,
-        val branch_id: Int?,
-        val promotion_id: Int?,
         val created_at: String?,
-        val branch_address: String?,
         val phone: String?,
         val payment_method: Constants.PaymentMethod?,
+        val user: ProfileModel?,
         val branch: BranchModel?,
         val rating: RatingModel?,
-        val order_details: List<OrderDetailModel>?
+        val order_details: List<OrderDetailModel>?,
+        val promotion: PromotionModel?,
 ) : BaseModel() {
     fun toOrderModel() = OrderModel(
             order_code = order_code.orEmpty(),
@@ -72,18 +65,13 @@ data class OrderResponse(
             amount = amount ?: 0.0,
             address = address.orEmpty(),
             shipping_fee = shipping_fee ?: 0.0,
-            promotion_code = promotion_code.orEmpty(),
-            promotion_value = promotion_value ?: 0.0,
-            user_id = user_id ?: -1,
-            branch_id = branch_id ?: -1,
-            promotion_id = promotion_id ?: -1,
             created_at = created_at.orEmpty(),
-            branch_address = branch_address.orEmpty(),
-            phone = phone.orEmpty(),
             payment_method = payment_method ?: Constants.PaymentMethod.COD,
+            user = user ?: ProfileModel(),
             branch = branch ?: BranchModel(),
-            rating = rating ?: RatingModel(),
-            order_details = order_details.orEmpty()
+            rating = rating,
+            order_details = order_details.orEmpty(),
+            promotion = promotion ?: PromotionModel()
     )
 }
 
@@ -91,21 +79,15 @@ data class OrderRequest(
         var user_id: Int,
         var branch_id: Int,
         var promotion_id: Int?,
-        var promotion_code: String?,
-        var promotion_value: Double?,
-        var lat: Double,
-        var lng: Double,
         var address: String,
         var order_details: List<OrderDetailModel>,
-        var branch_lat: Double,
-        var branch_lng: Double,
-        var branch_address: String,
         var shipping_fee: Double,
         var phone: String,
+        var distance: Double,
         var payment_method: Constants.PaymentMethod,
         var customerNumber: String? = null,
         var appData: String? = null,
-        var amount: Double? = null
+        var amount: Double? = null,
 )
 
 fun List<OrderResponse>.toOrders() = map { it.toOrderModel() }

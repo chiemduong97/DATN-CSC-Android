@@ -1,6 +1,5 @@
 package com.example.client.screens.product.detail
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import com.example.client.base.BaseFragmentMVP
 import com.example.client.dialog.AddToCartDialog
 import com.example.client.dialog.OptionAddToCartListener
 import com.example.client.models.cart.CartProductModel
-import com.example.client.models.category.CategoryModel
 import com.example.client.models.product.ProductModel
 import com.example.client.screens.cart.activity.CartActivity
 import com.example.client.screens.product.detail.present.IProductDetailPresent
@@ -36,8 +34,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         }
     }
 
-    private val productModel by lazy { arguments?.getSerializable(Constants.BundleKey.PRODUCT_MODEL) as ProductModel }
-    private val categoryModel by lazy { arguments?.getSerializable(Constants.BundleKey.CATEGORY_MODEL) as? CategoryModel }
+    private val product by lazy { arguments?.getSerializable(Constants.BundleKey.PRODUCT_MODEL) as ProductModel }
 
     override val presenter: IProductDetailPresent
         get() = ProductDetailPresent(this)
@@ -47,22 +44,22 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
     }
 
     override fun bindData() {
-        categoryModel?.let { presenter.loadDataByCategory(it) }
+        presenter.loadDataByCategory(product.category)
         presenter.getCartFromRes()
     }
 
     override fun bindComponent() {
         Glide.with(this).asBitmap().placeholder(R.drawable.ic_category_default)
-                .load(productModel.avatar)
+                .load(product.avatar)
                 .into(view_icon)
-        tv_title.text = productModel.name
-        tv_name.text = productModel.name
-        tv_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(productModel.price)
-        tv_description.text = productModel.description
-        if (productModel.quantity > 1) {
+        tv_title.text = product.name
+        tv_name.text = product.name
+        tv_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(product.price)
+        tv_description.text = product.description
+        if (product.quantity > 1) {
             tv_add_to_cart.isEnabled = true
             tv_add_to_cart.setBackgroundResource(R.drawable.bg_btn)
-            tv_quantity.text = getString(R.string.text_product_quantity, productModel.quantity)
+            tv_quantity.text = getString(R.string.text_product_quantity, product.quantity)
         } else {
             tv_add_to_cart.isEnabled = false
             tv_add_to_cart.setBackgroundResource(R.drawable.bg_btn_disable)
@@ -100,27 +97,24 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         imv_empty.visibility = View.GONE
         val manager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recycler_view.layoutManager = manager
-        val item = categoryModel?.let { category ->
-            ProductHorizontalItem(
-                    requireContext(), items.filter { item -> item.id != productModel.id } + ProductModel(),
-                    category,
-                    {
-                        NavigatorProduct.popFragment()
-                        NavigatorProduct.showProductDetailScreen(arguments?.apply {
-                            putSerializable(Constants.BundleKey.PRODUCT_MODEL, it)
-                            putSerializable(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
-                        })
-                    },
-                    {
-                        categoryModel?.run { showAddToCartDialog(this, it) }
-                    },
-                    {
-                        NavigatorProduct.showProductScreen(arguments?.apply {
-                            putSerializable(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
-                        })
-                    }
-            )
-        }
+        val item = ProductHorizontalItem(
+                requireContext(), items.filter { item -> item.id != product.id } + ProductModel(),
+                product.category,
+                {
+                    NavigatorProduct.popFragment()
+                    NavigatorProduct.showProductDetailScreen(arguments?.apply {
+                        putSerializable(Constants.BundleKey.PRODUCT_MODEL, it)
+                    })
+                },
+                {
+                    showAddToCartDialog(it)
+                },
+                {
+                    NavigatorProduct.showProductScreen(arguments?.apply {
+                        putSerializable(Constants.BundleKey.CATEGORY_MODEL, product.category)
+                    })
+                }
+        )
         recycler_view.adapter = item
     }
 
@@ -154,14 +148,14 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         when (v.id) {
             R.id.imv_back -> requireActivity().onBackPressed()
             R.id.tv_add_to_cart -> {
-                categoryModel?.let { showAddToCartDialog(it, productModel) }
+                showAddToCartDialog(product)
             }
             R.id.cv_cart_place -> {
                 startActivity(CartActivity.newInstance(requireActivity()))
             }
             R.id.tv_more -> {
                 NavigatorProduct.showProductScreen(arguments?.apply {
-                    putSerializable(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
+                    putSerializable(Constants.BundleKey.CATEGORY_MODEL, product.category)
                 })
             }
         }
@@ -175,16 +169,15 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
         }
     }
 
-    override fun showProductDetail(category: CategoryModel, product: ProductModel) {
+    override fun showProductDetail(product: ProductModel) {
         NavigatorProduct.popFragment()
         NavigatorProduct.showProductDetailScreen(arguments?.apply {
             putSerializable(Constants.BundleKey.PRODUCT_MODEL, product)
-            putSerializable(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
         })
     }
 
-    private fun showAddToCartDialog(category: CategoryModel, product: ProductModel) {
-        val dialog = AddToCartDialog.newInstance(category, product)
+    private fun showAddToCartDialog(product: ProductModel) {
+        val dialog = AddToCartDialog.newInstance(product)
         dialog.setListener(this)
         dialog.show(childFragmentManager)
     }

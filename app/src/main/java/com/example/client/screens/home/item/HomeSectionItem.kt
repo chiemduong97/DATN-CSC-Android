@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.client.R
-import com.example.client.models.category.CategoryModel
-import com.example.client.models.product.HomeSectionModel
+import com.example.client.models.category.HomeSectionModel
 import com.example.client.models.product.ProductModel
+import com.example.client.models.product.applyHomeSection
 import com.example.client.models.product.toProducts
 import com.example.client.screens.category.parent.item.ProductsItemViewHolder
 import com.example.client.screens.product.item.ProductHorizontalItem
@@ -22,8 +22,8 @@ class HomeSectionItem(
         private val context: Context,
         private val items: List<HomeSectionModel>,
         private val onClickMore: (homeSection: HomeSectionModel) -> Unit,
-        private val onClickProduct: (category: CategoryModel, product: ProductModel) -> Unit,
-        private val onAddToCart: (category: CategoryModel, product: ProductModel) -> Unit,
+        private val onClickProduct: (product: ProductModel) -> Unit,
+        private val onAddToCart: (product: ProductModel) -> Unit,
 ) : RecyclerView.Adapter<ProductsItemViewHolder>() {
     private val compositeDisposable = CompositeDisposable()
     private val productUseCase by lazy { ProductUseCase.newInstance() }
@@ -54,13 +54,13 @@ class HomeSectionItem(
                             recyclerView?.let {
                                 it.layoutManager = manager
                                 val item = ProductHorizontalItem(
-                                    context, response.data.toProducts() + ProductModel(),
+                                    context, response.data.applyHomeSection(homeSection) + ProductModel(),
                                     homeSection,
                                     { prod ->
-                                        onClickProduct.invoke(homeSection, prod)
+                                        onClickProduct.invoke(prod)
                                     },
                                     { prod ->
-                                        onAddToCart.invoke(homeSection, prod)
+                                        onAddToCart.invoke(prod)
                                     },
                                     { cate ->
                                         onClickMore.invoke(cate as HomeSectionModel)

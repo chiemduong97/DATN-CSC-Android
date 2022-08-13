@@ -89,23 +89,23 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
 
     override fun showOrderDetail(order: OrderModel) {
         view_rating.bind(
-            order.rating.id != -1, order.rating.rating,
+            order.rating == null, order.rating?.rating,
             {
                 startActivity(PostRatingActivity.newInstance(this, orderCode))
             },
             {
-                startActivity(CommunityActivity.newInstance(this, order.rating, true))
+                startActivity(order.rating?.let { CommunityActivity.newInstance(this, it, true) })
             }
         )
         showBranch(order.branch)
         tv_order_address.text = order.address
-        tv_branch_address.text = order.branch_address
+        tv_branch_address.text = order.branch.address
         tv_shipping_fee_price.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(order.shipping_fee)
-        if (order.promotion_id != -1) {
+        if (order.promotion.id != -1) {
             rll_promotion.visibility = View.VISIBLE
-            tv_promotion_code.text = order.promotion_code
+            tv_promotion_code.text = order.promotion.code
             tv_promotion_value.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(
-                    if (order.promotion_value < 1) (order.amount * order.promotion_value / 1000).roundToInt() * 1000.0 else order.promotion_value
+                    if (order.promotion.value < 1) (order.amount * order.promotion.value / 1000).roundToInt() * 1000.0 else order.promotion.value
             )
         }
         tv_order_code.text = getString(R.string.text_order_code, order.order_code)

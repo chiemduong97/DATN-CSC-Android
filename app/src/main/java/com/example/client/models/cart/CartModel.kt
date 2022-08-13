@@ -40,7 +40,7 @@ class CartModel(
     }
 
 
-    private fun getDistance(): Double {
+    fun getDistance(): Double {
         val radius = 6371.0
         val dLat: Double = (branch_lat - order_lat) * (Math.PI / 180)
         val dLon: Double = (branch_lng - order_lng) * (Math.PI / 180)
@@ -61,7 +61,9 @@ class CartModel(
         return fee
     }
 
-    fun getTotalPrice() = getAmount() + getShippingFeeExpect() - (promotion_value?.let {
+    fun getTotalPrice() = getAmount() + getShippingFeeExpect() - getPromotionValue()
+
+    fun getPromotionValue() = (promotion_value?.let {
         if (it < 1) (getAmount() * it / 1000).roundToInt() * 1000.0 else it
     } ?: kotlin.run {
         0.0

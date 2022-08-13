@@ -208,17 +208,11 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
             preferences.profile.id,
             preferences.branch.id,
             cart.promotion_id,
-            cart.promotion_code,
-            cart.promotion_value,
-            cart.order_lat,
-            cart.order_lng,
             cart.order_address,
             cart.cartProducts.toOrderDetails(),
-            cart.branch_lat,
-            cart.branch_lng,
-            cart.branch_address,
             cart.getShippingFeeExpect(),
             preferences.profile.phone,
+            cart.getDistance(),
             preferences.paymentMethod
     )
 

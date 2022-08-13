@@ -26,8 +26,7 @@ class ProductActivity : BaseActivity(), INavigateProduct {
         }
 
         @JvmStatic
-        fun newInstance(from: Activity, categoryModel: CategoryModel, productModel: ProductModel, showProductDetail: Boolean) = Intent(from, ProductActivity::class.java).apply {
-            putExtra(Constants.BundleKey.CATEGORY_MODEL, categoryModel)
+        fun newInstance(from: Activity, productModel: ProductModel, showProductDetail: Boolean) = Intent(from, ProductActivity::class.java).apply {
             putExtra(Constants.BundleKey.PRODUCT_MODEL, productModel)
             putExtra(Constants.SHOW_PRODUCT_DETAIL, showProductDetail)
         }
