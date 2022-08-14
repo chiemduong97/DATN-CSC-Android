@@ -6,5 +6,4 @@ import com.example.client.models.loading.LoadingMode
 interface IOrderHistoryPresent: IBaseCollectionPresenter {
     fun bindData()
     fun getOrders(page: Int, loadingMode: LoadingMode)
-    fun onClickItem(orderCode: String)
 }

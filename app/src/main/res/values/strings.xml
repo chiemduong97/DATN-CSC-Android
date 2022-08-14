@@ -81,6 +81,13 @@
     <string name="order_status_2">Đang giao</string>
     <string name="order_status_3">Hoàn thành</string>
     <string name="order_status_4">Đã hủy</string>
+    <string name="order_status_description_0">Cảm ơn bạn đã cho CSC cơ hội được phục vụ. Trong vòng 15 phút nhân viên sẽ gọi điện thoại để xác nhận đơn hàng.</string>
+    <string name="order_status_description_1">Cảm ơn bạn đã cho CSC cơ hội được phục vụ. Đơn hàng đã được nhận và đang chuẩn bị, trong 15 phút sẽ bắt đầu giao đến cho bạn</string>
+    <string name="order_status_description_2">Cảm ơn bạn đã cho CSC cơ hội được phục vụ. Đơn hàng đang được giao vui lòng đợi tài xế liên hệ khi đến nơi.</string>
+    <string name="order_status_description_3">Cảm ơn bạn đã cho CSC cơ hội được phục vụ. CSC biết bạn có nhiều sự lựa chọn, cảm ơn vì đã chọn CSC hôm nay.</string>
+    <string name="order_status_description_4">Đơn hàng của bạn đã được hủy, mong bạn tiếp tục ủng hộ CSC ở những lần sau. CSC chờ đợi cơ hội để phục vụ bạn.</string>
+
+
     <string name="text_order_history">Lịch sử đơn hàng</string>
     <string name="destroy_order_sure">Bạn có chắc chắn hủy đơn hàng này?</string>
     <string name="text_count_order">Bạn có %d đơn hàng chờ giao</string>
@@ -206,5 +213,6 @@
     <string name="community_csc">Cộng đồng CSC</string>
     <string name="rating_detail_title">Chi tiết đánh giá</string>
     <string name="widget_rating_show_rating">Xem đánh giá</string>
+    <string name="notify_title">Thông báo</string>
 
 </resources>

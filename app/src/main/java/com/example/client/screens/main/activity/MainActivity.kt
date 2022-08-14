@@ -15,6 +15,7 @@ import com.example.client.screens.home.fragment.HomeFragment
 import com.example.client.screens.main.present.IMainPresent
 import com.example.client.screens.main.present.MainPresent
 import com.example.client.screens.map.activity.MapsActivity
+import com.example.client.screens.notify.NotifyActivity
 import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.order.history.activity.OrderHistoryActivity
 import com.example.client.screens.profile.fragment.ProfileFragment
@@ -90,7 +91,7 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
             }
             true
         }
-        imv_notification.setOnClickListener(this)
+        imv_notify.setOnClickListener(this)
         cv_cart_place.setOnClickListener(this)
         tv_see_more.setOnClickListener(this)
         tv_see_order.setOnClickListener(this)
@@ -187,7 +188,7 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.imv_notification -> {}
+            R.id.imv_notify -> startActivity(NotifyActivity.newInstance(this))
             R.id.cv_cart_place -> startActivity(CartActivity.newInstance(this))
             R.id.tv_see_more -> startActivity(OrderHistoryActivity.newInstance(this))
             R.id.tv_see_order -> presenter.navigateToOrderDetail()

@@ -109,6 +109,17 @@
                 layout="@layout/item_status_order_destroy"
                 android:visibility="gone" />
 
+            <TextView
+                android:id="@+id/tv_status_description"
+                style="@style/normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/dimen_15"
+                android:paddingVertical="@dimen/dimen_10"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_14"
+                tools:text="@string/order_status_description_0" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_10"

@@ -1,7 +1,5 @@
 package com.example.client.screens.order.history.present
 
-import com.example.client.api.ApiClient
-import com.example.client.api.service.OrderService
 import com.example.client.app.Constants
 import com.example.client.app.Preferences
 import com.example.client.app.RxBus
@@ -10,11 +8,7 @@ import com.example.client.models.event.ValueEvent
 import com.example.client.models.loading.LoadingMode
 import com.example.client.models.order.OrderModel
 import com.example.client.models.order.toOrders
-import com.example.client.models.product.ProductModel
-import com.example.client.models.product.checkCart
-import com.example.client.models.product.toProducts
 import com.example.client.screens.order.history.activity.IOrderHistoryView
-import com.example.client.screens.product.present.ProductPresent
 import com.example.client.usecase.OrderUseCase
 
 class OrderHistoryPresent(mView: IOrderHistoryView) : BaseCollectionPresenter<IOrderHistoryView>(mView), IOrderHistoryPresent {
@@ -58,10 +52,6 @@ class OrderHistoryPresent(mView: IOrderHistoryView) : BaseCollectionPresenter<IO
                 }
             }
         })
-    }
-
-    override fun onClickItem(orderCode: String) {
-        mView?.goToOrderDetailScreen(orderCode)
     }
 
     override fun invokeLoadMore(page: Int) {

@@ -1,14 +1,16 @@
-package com.example.client.api.service;
+package com.example.client.api.service
 
-import com.example.client.models.noti.Notification;
+import com.example.client.models.notify.NotifyResponse
+import com.example.client.models.response.BaseResponse
+import io.reactivex.Observable
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
-
-public interface NotificationService {
-    @GET("views/noti/getByUser.php")
-    Call<List<Notification>> getByUser(@Query("user") int user);
+interface NotifyService {
+    @GET("api/notify/getAll.php")
+    fun getByUser(
+            @Query("user_id") user_id: Int,
+            @Query("page") page: Int,
+            @Query("limit") limit: Int,
+    ): Observable<BaseResponse<List<NotifyResponse>>>
 }

@@ -31,15 +31,22 @@ data class OrderModel(
     fun isComplete() = status == 3
     fun isDestroy() = status == 4
 
-    fun getStatusString(): String {
-        return when {
-            isWaiting() -> Res.context?.getString(R.string.order_status_0).orEmpty()
-            isConfirm() -> Res.context?.getString(R.string.order_status_1).orEmpty()
-            isDelivery() -> Res.context?.getString(R.string.order_status_2).orEmpty()
-            isComplete() -> Res.context?.getString(R.string.order_status_3).orEmpty()
-            isDestroy() -> Res.context?.getString(R.string.order_status_4).orEmpty()
-            else -> ""
-        }
+    fun getStatusString() = when {
+        isWaiting() -> Res.context?.getString(R.string.order_status_0).orEmpty()
+        isConfirm() -> Res.context?.getString(R.string.order_status_1).orEmpty()
+        isDelivery() -> Res.context?.getString(R.string.order_status_2).orEmpty()
+        isComplete() -> Res.context?.getString(R.string.order_status_3).orEmpty()
+        isDestroy() -> Res.context?.getString(R.string.order_status_4).orEmpty()
+        else -> ""
+    }
+
+    fun getStatusDescription() = when {
+        isWaiting() -> Res.context?.getString(R.string.order_status_description_0).orEmpty()
+        isConfirm() -> Res.context?.getString(R.string.order_status_description_1).orEmpty()
+        isDelivery() -> Res.context?.getString(R.string.order_status_description_2).orEmpty()
+        isComplete() -> Res.context?.getString(R.string.order_status_description_3).orEmpty()
+        isDestroy() -> Res.context?.getString(R.string.order_status_description_4).orEmpty()
+        else -> ""
     }
 
 }

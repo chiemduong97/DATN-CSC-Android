@@ -89,7 +89,7 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
 
     override fun showOrderDetail(order: OrderModel) {
         view_rating.bind(
-            order.rating == null, order.rating?.rating,
+            order.rating != null, order.rating?.rating,
             {
                 startActivity(PostRatingActivity.newInstance(this, orderCode))
             },
@@ -147,11 +147,15 @@ class OrderDetailActivity : BaseActivityMVP<IOrderDetailPresent>(), IOrderDetail
                 initSeekBar(order.status, order.getStatusString())
             }
         }
+
+        tv_status_description.text = order.getStatusDescription()
+
         if (order.isWaiting()) {
             tv_order_destroy.visibility = View.VISIBLE
         } else {
             tv_order_destroy.visibility = View.GONE
         }
+
         bindPaymentMethod(getPaymentMethod(order.payment_method))
 
     }

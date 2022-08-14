@@ -46,6 +46,7 @@ object Constants {
         const val UPDATE_PROMOTION = "UPDATE_PROMOTION"
         const val RECHARGE_SUCCESS = "RECHARGE_SUCCESS"
         const val RATING_SUCCESS = "RATING_SUCCESS"
+
     }
 
     enum class Transaction {
@@ -92,6 +93,16 @@ object Constants {
         const val MERCHANT_CODE: String = "MOMOSCN920220707"
         const val MERCHANT_NAME_LABEL = "Nhà cung cấp"
         const val DESCRIPTION = "Thanh toán dịch vụ CSC"
+    }
+
+    object NotifyAction {
+        const val NOTIFY = "NOTIFY"
+        const val ORDER_SUCCESS = "ORDER_SUCCESS"
+        const val ORDER_RECEIVED = "ORDER_RECEIVED"
+        const val ORDER_DELIVERY = "ORDER_DELIVERY"
+        const val ORDER_COMPLETE = "ORDER_COMPLETE"
+        const val ORDER_DESTROY = "ORDER_DESTROY"
+        const val RECHARGE_SUCCESS = "RECHARGE_SUCCESS"
     }
 
 }

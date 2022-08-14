@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rll_notify"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/dimen_15">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imv_logo"
+        android:layout_width="@dimen/dimen_100"
+        android:layout_height="@dimen/dimen_25"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_logo" />
+
+    <TextView
+        android:id="@+id/tv_created_at"
+        style="@style/normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imv_logo"
+        android:layout_alignBottom="@id/imv_logo"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/imv_logo"
+        android:gravity="end"
+        android:textColor="@color/gray_dark"
+        android:textSize="@dimen/text_16"
+        tools:text="2022/08/12 13:11" />
+
+    <TextView
+        android:id="@+id/tv_action"
+        style="@style/bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imv_logo"
+        android:layout_marginTop="@dimen/dimen_5"
+        android:textColor="@color/black"
+        tools:text="Đặt hàng thành công mã đơn #A5123C" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        style="@style/normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_action"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_16"
+        tools:text="Giao hàng nhanh vkl mọi người ạ heheheheh.. Giao hàng nhanh vkl mọi người ạ heheheheh.. Giao hàng nhanh vkl mọi người ạ heheheheh.." />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:layout_below="@id/tv_description"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:background="@color/gray_light" />
+</RelativeLayout>

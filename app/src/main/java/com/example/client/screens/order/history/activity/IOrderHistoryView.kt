@@ -8,6 +8,5 @@ interface IOrderHistoryView: IBaseCollectionView {
     fun showMoreData(items: List<OrderModel>)
     fun showEmptyData()
     fun showErrorMessage(errMessage: Int)
-    fun goToOrderDetailScreen(orderCode: String)
     fun updateData(orderModel: OrderModel)
 }

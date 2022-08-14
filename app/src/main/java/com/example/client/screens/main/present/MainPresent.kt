@@ -29,6 +29,27 @@ class MainPresent(mView: IMainView) : BasePresenterMVP<IMainView>(mView), IMainP
                     return@subscribe
                 }
                 preferences.profile = it.data.toProfileModel()
+                profileUseCase.resetFirebaseToken(preferences.profile.email)
+            }
+        }, {
+            it.printStackTrace()
+            mView?.run {
+                hideLoading()
+                showErrorMessage(getErrorMessage(1001))
+            }
+        })
+    }
+
+    private fun updateDeviceToken() {
+        subscribe(profileUseCase.updateDeviceToken(preferences.profile.email, preferences.deviceToken),{
+            mView?.run {
+                hideLoading()
+                if (it.is_error) {
+                    showErrorMessage(getErrorMessage(it.code))
+                    hideLoading()
+                    return@subscribe
+                }
+
             }
         }, {
             it.printStackTrace()
@@ -41,6 +62,7 @@ class MainPresent(mView: IMainView) : BasePresenterMVP<IMainView>(mView), IMainP
 
     override fun bindData() {
         getUserActive()
+        updateDeviceToken()
         getCart()
         getCountOrder()
         getOrder()
