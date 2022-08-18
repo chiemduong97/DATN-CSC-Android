@@ -20,10 +20,7 @@ import kotlinx.android.synthetic.main.fragment_product.*
 class ProductPresent(mView: IProductView) : BaseCollectionPresenter<IProductView>(mView), IProductPresent {
     private val productUseCase by lazy { ProductUseCase.newInstance() }
     private val preferences by lazy { Preferences.newInstance() }
-
-    companion object {
-        var mCategoryModel: CategoryModel? = null
-    }
+    private var mCategoryModel: CategoryModel? = null
 
     override fun binData(categoryModel: CategoryModel) {
         mCategoryModel = categoryModel

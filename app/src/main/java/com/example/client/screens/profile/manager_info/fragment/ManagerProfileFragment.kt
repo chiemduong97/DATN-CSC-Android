@@ -41,7 +41,7 @@ class ManagerProfileFragment : BaseFragmentMVP<IManagerProfilePresent>(), IManag
     }
 
     override fun bindData() {
-        presenter.bindData()
+        mPresenter?.bindData()
     }
 
     override fun bindEvent() {
@@ -57,7 +57,7 @@ class ManagerProfileFragment : BaseFragmentMVP<IManagerProfilePresent>(), IManag
                         it.extras?.run {
                             val bitmap = this["data"] as Bitmap
                             view_icon.setImageBitmap(bitmap)
-                            presenter.updateAvatar(bitmap)
+                            mPresenter?.updateAvatar(bitmap)
                         } ?: kotlin.run {
                             val uri = it.data ?: return@let
                             val bitmap = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
@@ -66,7 +66,7 @@ class ManagerProfileFragment : BaseFragmentMVP<IManagerProfilePresent>(), IManag
                                 MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
                             }
                             view_icon.setImageBitmap(bitmap)
-                            presenter.updateAvatar(bitmap)
+                            mPresenter?.updateAvatar(bitmap)
                         }
                     }
                 } catch (ex: Exception) {

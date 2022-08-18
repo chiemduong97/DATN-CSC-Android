@@ -49,7 +49,7 @@ class SearchFragment : BaseCollectionFragment<ISearchPresent>(), ISearchView, Se
         recycler_view.visibility = View.VISIBLE
         imv_empty.visibility = View.GONE
         val item = ProductVerticalItem(requireContext(), mItems) { product ->
-            presenter.onClickItem(product)
+            mPresenter?.onClickItem(product)
         }
         recycler_view.layoutManager = manager
         recycler_view.adapter = item
@@ -67,7 +67,8 @@ class SearchFragment : BaseCollectionFragment<ISearchPresent>(), ISearchView, Se
 
     override fun updateData(productModel: ProductModel) {
         val index = mItems.indexOfFirst { it.id == productModel.id }
-        mItems[index] = productModel
+        if (index == -1) return
+        mItems[index] = mItems[index].apply { addToCart = productModel.addToCart }
         recycler_view.adapter?.notifyItemChanged(index)
     }
 
@@ -84,7 +85,7 @@ class SearchFragment : BaseCollectionFragment<ISearchPresent>(), ISearchView, Se
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
-        presenter.searchProducts(query)
+        mPresenter?.searchProducts(query)
         return false
     }
 
@@ -95,7 +96,7 @@ class SearchFragment : BaseCollectionFragment<ISearchPresent>(), ISearchView, Se
                     .filter { str: CharSequence -> !TextUtils.isEmpty(str.toString().trim { it <= ' ' }) && str.toString().trim { it <= ' ' }.isNotEmpty() }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        presenter.searchProducts(it.toString())
+                        mPresenter?.searchProducts(it.toString())
                     }, {
                         it.printStackTrace()
                     })

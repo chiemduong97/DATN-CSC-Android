@@ -44,8 +44,10 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
     }
 
     override fun bindData() {
-        presenter.loadDataByCategory(product.category)
-        presenter.getCartFromRes()
+        mPresenter?.run {
+            loadDataByCategory(product.category)
+            getCartFromRes()
+        }
     }
 
     override fun bindComponent() {
@@ -163,7 +165,7 @@ class ProductDetailFragment : BaseFragmentMVP<IProductDetailPresent>(), IProduct
 
 
     override fun addToCart(cartProduct: CartProductModel) {
-        presenter.run {
+        mPresenter?.run {
             addToCart(cartProduct)
             getCartFromRes()
         }

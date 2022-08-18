@@ -28,7 +28,7 @@ class CommunityFragment : BaseCollectionFragment<ICommunityPresent>(), ICommunit
         get() = CommunityPresent(this)
 
     override fun bindData() {
-        presenter.bindData()
+        mPresenter?.bindData()
     }
 
     override fun bindComponent() {

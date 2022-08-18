@@ -82,8 +82,11 @@ class ReviewOrderPresent(mView: IReviewOrderView) : BasePresenterMVP<IReviewOrde
                 }
             }
         }
-        if (updateUI) getCartFromRes()
-        saveCart(cartProduct)
+        if (updateUI) {
+            getCartFromRes()
+            RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
+            RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product.apply { addToCart = 0 }))
+        } else saveCart(cartProduct)
     }
 
 

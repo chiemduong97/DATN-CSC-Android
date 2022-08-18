@@ -24,7 +24,7 @@ class NotifyFragment: BaseCollectionFragment<INotifyPresent>(), INotifyView, Vie
         get() = NotifyPresent(this)
 
     override fun bindData() {
-        presenter.bindData()
+        mPresenter?.bindData()
     }
 
     override fun bindEvent() {

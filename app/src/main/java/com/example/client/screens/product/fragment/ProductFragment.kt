@@ -31,7 +31,7 @@ class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView,
         get() = ProductPresent(this)
 
     override fun bindData() {
-        category?.let { presenter.binData(it) }
+        category?.let { mPresenter?.binData(it) }
     }
 
     override fun bindComponent() {
@@ -47,7 +47,7 @@ class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView,
         recycler_view.visibility = View.VISIBLE
         imv_empty.visibility = View.GONE
         val item = ProductVerticalItem(requireContext(), mItems) { product ->
-            presenter.onClickItem(product)
+            mPresenter?.onClickItem(product)
         }
         recycler_view.layoutManager = manager
         recycler_view.adapter = item
@@ -75,7 +75,8 @@ class ProductFragment : BaseCollectionFragment<IProductPresent>(), IProductView,
 
     override fun updateData(productModel: ProductModel) {
         val index = mItems.indexOfFirst { it.id == productModel.id }
-        mItems[index] = productModel
+        if (index == -1) return
+        mItems[index] = mItems[index].apply { addToCart = productModel.addToCart }
         recycler_view.adapter?.notifyItemChanged(index)
     }
 

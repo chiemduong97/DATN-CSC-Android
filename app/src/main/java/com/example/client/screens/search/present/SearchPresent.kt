@@ -17,10 +17,7 @@ class SearchPresent(mView: ISearchView) : BaseCollectionPresenter<ISearchView>(m
     private val productUseCase by lazy { ProductUseCase.newInstance() }
     private val categoryUseCase by lazy { CategoryUseCase.newInstance() }
     private val preferences by lazy { Preferences.newInstance() }
-
-    companion object {
-        private var mQuery: String? = null
-    }
+    private var mQuery: String? = null
 
     override fun searchProducts(query: String) {
         mQuery = query

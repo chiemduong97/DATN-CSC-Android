@@ -38,7 +38,7 @@ class PromotionFragment: BaseCollectionFragment<IPromotionPresent>(), IPromotion
     override fun shouldLoadMore() = false
 
     override fun bindData() {
-        presenter.getPromotions()
+        mPresenter?.getPromotions()
         search_view.inputType = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
         val searchTextId = search_view.context.resources.getIdentifier("android:id/search_src_text", null, null)
         TextViewCompat.setTextAppearance(search_view.findViewById(searchTextId), R.style.search_text)
@@ -49,7 +49,7 @@ class PromotionFragment: BaseCollectionFragment<IPromotionPresent>(), IPromotion
             requireActivity().onBackPressed()
         }
         swipe_refresh.setOnRefreshListener {
-            presenter.getPromotions()
+            mPresenter?.getPromotions()
         }
         search_view.setOnQueryTextListener(this)
         val searchCloseButtonId = search_view.context.resources.getIdentifier("android:id/search_close_btn", null, null)
@@ -69,9 +69,9 @@ class PromotionFragment: BaseCollectionFragment<IPromotionPresent>(), IPromotion
                 putSerializable(Constants.BundleKey.PROMOTION_MODEL, it)
             })
         }, {
-            presenter.usePromotion(it)
+            mPresenter?.usePromotion(it)
         }, {
-            presenter.removePromotion()
+            mPresenter?.removePromotion()
         })
         recycler_view.layoutManager = manager
         recycler_view.adapter = item
@@ -87,7 +87,7 @@ class PromotionFragment: BaseCollectionFragment<IPromotionPresent>(), IPromotion
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
-        presenter.getPromotion(query)
+        mPresenter?.getPromotion(query)
         return false
     }
 
@@ -98,7 +98,7 @@ class PromotionFragment: BaseCollectionFragment<IPromotionPresent>(), IPromotion
                     .filter { str: CharSequence -> !TextUtils.isEmpty(str.toString().trim { it <= ' ' }) && str.toString().trim { it <= ' ' }.isNotEmpty() }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        presenter.getPromotion(it.toString())
+                        mPresenter?.getPromotion(it.toString())
                     }, {
                         it.printStackTrace()
                     })

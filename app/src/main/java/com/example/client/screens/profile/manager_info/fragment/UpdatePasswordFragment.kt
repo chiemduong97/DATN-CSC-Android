@@ -155,7 +155,7 @@ class UpdatePasswordFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.O
                         imn.hideSoftInputFromWindow(it.windowToken, 0)
                     }
                 }
-                presenter.updatePassword(et_old_password.text.toString().trim(), et_new_password.text.toString().trim())
+                mPresenter?.updatePassword(et_old_password.text.toString().trim(), et_new_password.text.toString().trim())
             }
             R.id.imv_back -> NavigatorProfile.popFragment()
         }

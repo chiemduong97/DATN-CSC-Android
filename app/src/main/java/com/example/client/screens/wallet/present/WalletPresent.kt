@@ -15,10 +15,7 @@ class WalletPresent(mView: IWalletView) : BaseCollectionPresenter<IWalletView>(m
     private val preferences by lazy { Preferences.newInstance() }
     private val profileUseCase by lazy { ProfileUseCase.newInstance() }
     private val transactionUseCase by lazy { TransactionUseCase.newInstance() }
-
-    companion object {
-        var currentType = Constants.Transaction.RECHARGE
-    }
+    private var currentType = Constants.Transaction.RECHARGE
 
     override fun getProfile() {
         mView?.showLoading()
@@ -43,6 +40,7 @@ class WalletPresent(mView: IWalletView) : BaseCollectionPresenter<IWalletView>(m
     }
 
     override fun bindData(type: Constants.Transaction) {
+        page = 1
         currentType = type
         getTransactions(currentType, page, LoadingMode.LOAD)
     }

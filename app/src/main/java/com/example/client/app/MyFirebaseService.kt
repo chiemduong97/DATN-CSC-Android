@@ -69,10 +69,17 @@ class MyFirebaseService : FirebaseMessagingService() {
 
             val intent = user?.let {
                 when(notify.action) {
-                    Constants.NotifyAction.NOTIFY -> Intent(this, NotifyActivity::class.java)
-                    Constants.NotifyAction.RECHARGE_SUCCESS -> packageManager.getLaunchIntentForPackage("com.example.client")
-                    else -> Intent(this, OrderDetailActivity::class.java).apply {
-                        putExtra(Constants.BundleKey.ORDER_CODE, notify.order_code)
+                    Constants.NotifyAction.ORDER_DESTROY,
+                    Constants.NotifyAction.ORDER_COMPLETE,
+                    Constants.NotifyAction.ORDER_DELIVERY,
+                    Constants.NotifyAction.ORDER_RECEIVED,
+                    Constants.NotifyAction.ORDER_SUCCESS -> {
+                        Intent(this, OrderDetailActivity::class.java).apply {
+                            putExtra(Constants.BundleKey.ORDER_CODE, notify.order_code)
+                        }
+                    }
+                    else -> {
+                        Intent(this, NotifyActivity::class.java)
                     }
                 }
             } ?: kotlin.run {

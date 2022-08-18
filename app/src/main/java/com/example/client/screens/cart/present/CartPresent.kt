@@ -44,8 +44,13 @@ class CartPresent(mView: ICartView): BasePresenterMVP<ICartView>(mView), ICartPr
                 }
             }
         }
-        if (updateUI) getCartFromRes()
-        saveCart(cartProduct)
+        if (updateUI) {
+            getCartFromRes()
+            RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
+            RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product.apply { addToCart = 0 }))
+        } else {
+            saveCart(cartProduct)
+        }
     }
 
 
@@ -61,7 +66,6 @@ class CartPresent(mView: ICartView): BasePresenterMVP<ICartView>(mView), ICartPr
     }
 
     private fun saveCart(cartProduct: CartProductModel) {
-        RxBus.newInstance().onNext(Event(Constants.EventKey.UPDATE_CART))
         RxBus.newInstance().onNext(ValueEvent(Constants.EventKey.UPDATE_ADD_TO_CART_PRODUCT, cartProduct.product.checkAddToCart(preferences.cart)))
         mView?.updateTotalPrice(preferences.cart)
     }

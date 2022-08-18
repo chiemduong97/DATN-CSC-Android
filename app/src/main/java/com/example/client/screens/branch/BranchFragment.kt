@@ -21,7 +21,7 @@ class BranchFragment: BaseCollectionFragment<IBranchPresent>(), IBranchView, Vie
         get() = BranchPresent(this)
 
     override fun bindData() {
-        presenter.binData()
+        mPresenter?.binData()
     }
 
     override fun bindEvent() {
@@ -32,7 +32,7 @@ class BranchFragment: BaseCollectionFragment<IBranchPresent>(), IBranchView, Vie
         recycler_view.visibility = View.VISIBLE
         imv_empty.visibility = View.GONE
         val item = BranchItem(requireContext(), items, selected) {
-            presenter.saveBranch(it)
+            mPresenter?.saveBranch(it)
         }
         recycler_view.layoutManager = manager
         recycler_view.adapter = item

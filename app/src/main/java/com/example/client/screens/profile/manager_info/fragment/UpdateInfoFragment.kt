@@ -39,7 +39,7 @@ class UpdateInfoFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.OnCli
 
 
     override fun bindData() {
-        presenter.bindData()
+        mPresenter?.bindData()
     }
 
     override fun bindEvent() {
@@ -87,7 +87,7 @@ class UpdateInfoFragment : BaseFragmentMVP<IManagerProfilePresent>(), View.OnCli
                         imn.hideSoftInputFromWindow(it.windowToken, 0)
                     }
                 }
-                presenter.updateProfile(et_full_name.text.toString().trim(), et_birthday.text.toString().trim(), et_phone.text.toString().trim())
+                mPresenter?.updateProfile(et_full_name.text.toString().trim(), et_birthday.text.toString().trim(), et_phone.text.toString().trim())
             }
             R.id.imv_back -> NavigatorProfile.popFragment()
             R.id.et_birthday -> {

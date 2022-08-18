@@ -45,9 +45,6 @@ class MainActivity : BaseActivityMVP<IMainPresent>(), IMainView, View.OnClickLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-//        navigation.getOrCreateBadge(R.id.menu_noti).setVisible(true);
-//        navigation.getOrCreateBadge(R.id.menu).setNumber(99);
     }
 
     override fun bindComponent() {

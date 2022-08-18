@@ -13,7 +13,6 @@ import com.example.client.screens.order.detail.OrderDetailActivity
 import com.example.client.screens.wallet.item.TransactionItem
 import com.example.client.screens.wallet.present.IWalletPresent
 import com.example.client.screens.wallet.present.WalletPresent
-import com.example.client.screens.wallet.present.WalletPresent.Companion.currentType
 import com.example.client.screens.wallet.recharge.RechargeActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -39,9 +38,9 @@ class WalletFragment : BaseCollectionFragment<IWalletPresent>(), IWalletView, Vi
     }
 
     override fun bindData() {
-        presenter.run {
+        mPresenter?.run {
             getProfile()
-            bindData(currentType)
+            bindData(Constants.Transaction.RECHARGE)
         }
 
     }
@@ -51,12 +50,11 @@ class WalletFragment : BaseCollectionFragment<IWalletPresent>(), IWalletView, Vi
 
         tab_transaction.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                currentType = if (tab.position == 0) {
-                    Constants.Transaction.RECHARGE
+                if (tab.position == 0) {
+                    mPresenter?.bindData(Constants.Transaction.RECHARGE)
                 } else {
-                    Constants.Transaction.TRANSACTION
+                    mPresenter?.bindData(Constants.Transaction.TRANSACTION)
                 }
-                onRefresh()
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}

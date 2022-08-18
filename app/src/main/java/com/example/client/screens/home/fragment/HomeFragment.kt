@@ -48,9 +48,11 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
     }
 
     override fun bindData() {
-        presenter.binData()
-        presenter.getCategories()
-        presenter.getHomeSections()
+        mPresenter?.run {
+            binData()
+            getCategories()
+            getHomeSections()
+        }
     }
 
     override fun bindEvent() {
@@ -83,17 +85,6 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
     override fun hideCategories() {
         recycler_view_category.visibility = View.GONE
     }
-
-//    override fun showBanners(items: List<BannerModel>) {
-//        val item = activity?.let { BannerItem(it, items) }
-//        view_pager_banner.adapter = item
-//        TabLayoutMediator(tab_dot, view_pager_banner) { _: TabLayout.Tab?, _: Int -> }.attach()
-//    }
-//
-//    override fun hideBanner() {
-//        view_pager_banner.visibility = View.GONE
-//        tab_dot.visibility = View.GONE
-//    }
 
     override fun showBranch(branch: BranchModel) {
         tv_branch_name.text = branch.name
@@ -172,7 +163,7 @@ class HomeFragment : BaseFragmentMVP<IHomePresent>(), View.OnClickListener, IHom
     }
 
     override fun addToCart(cartProduct: CartProductModel) {
-        presenter.addToCart(cartProduct)
+        mPresenter?.addToCart(cartProduct)
     }
 
     override fun showProductDetail(product: ProductModel) {

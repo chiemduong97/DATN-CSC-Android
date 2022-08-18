@@ -25,7 +25,7 @@ class OrderHistoryFragment: BaseCollectionFragment<IOrderHistoryPresent>(), IOrd
         get() = OrderHistoryPresent(this)
 
     override fun bindData() {
-        presenter.bindData()
+        mPresenter?.bindData()
     }
 
     override fun bindEvent() {

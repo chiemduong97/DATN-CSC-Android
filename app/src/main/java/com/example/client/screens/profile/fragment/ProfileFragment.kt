@@ -40,7 +40,7 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
     }
 
     override fun bindComponent() {
-        presenter.bindData()
+        mPresenter?.bindData()
     }
 
     override fun onClick(v: View) {
@@ -48,13 +48,13 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
             R.id.tv_update_info -> startActivity(ManagerProfileActivity.newInstance(requireActivity()))
             R.id.lnl_logout -> {
                 PrimaryDialog({
-                    presenter.onLogout()
+                    mPresenter?.onLogout()
                 }, {})
                         .setDescription(getString(R.string.dialog_question_logout))
                         .show(childFragmentManager)
             }
             R.id.lnl_order_history -> startActivity(OrderHistoryActivity.newInstance(requireActivity()))
-            R.id.lnl_contact -> presenter.navigateToContact()
+            R.id.lnl_contact -> mPresenter?.navigateToContact()
             R.id.lnl_community -> startActivity(CommunityActivity.newInstance(requireActivity()))
         }
     }
