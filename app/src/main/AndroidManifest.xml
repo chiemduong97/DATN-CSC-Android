@@ -25,7 +25,7 @@
         tools:ignore="AllowBackup"
         tools:replace="android:theme"
         tools:targetApi="n">
-        <activity android:name=".screens.notify.NotifyActivity"></activity>
+        <activity android:name=".screens.notify.NotifyActivity" />
         <activity android:name=".screens.rating.community.CommunityActivity" />
         <activity android:name=".screens.rating.post.PostRatingActivity" />
         <activity android:name=".screens.promotion.activity.PromotionActivity" />
