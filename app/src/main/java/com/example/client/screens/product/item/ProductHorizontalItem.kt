@@ -46,7 +46,7 @@ class ProductHorizontalItem(
                     if (item.quantity > 0) {
                         tvQuantity?.text = context.getString(R.string.text_product_quantity, item.quantity)
                     } else {
-                        tvPrice?.text = context.getString(R.string.text_product_quantity_0)
+                        tvQuantity?.text = context.getString(R.string.text_product_quantity_0)
                     }
 
                     tvAddToCart?.setOnClickListener {

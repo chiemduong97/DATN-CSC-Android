@@ -33,7 +33,7 @@ class ProductVerticalItem(
             if (item.quantity > 0) {
                 tvProductQuantity?.text = context.getString(R.string.text_product_quantity, item.quantity)
             } else {
-                tvProductPrice?.text = context.getString(R.string.text_product_quantity_0)
+                tvProductQuantity?.text = context.getString(R.string.text_product_quantity_0)
             }
             tvQuantity?.run {
                 item.addToCart.let {
