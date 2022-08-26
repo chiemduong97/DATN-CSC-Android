@@ -78,9 +78,11 @@ class SuperCategoryPresent(mView: ISuperCategoryView) : BasePresenterMVP<ISuperC
                 map {
                     if (it.product.id == cartProduct.product.id) {
                         it.quantity += cartProduct.quantity
+                        if (it.quantity > it.product.quantity) it.quantity = it.product.quantity
                         return@here
                     }
                 }
+                if (cartProduct.quantity > cartProduct.product.quantity) cartProduct.quantity = cartProduct.product.quantity
                 add(cartProduct)
             }
         }

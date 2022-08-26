@@ -25,6 +25,7 @@ class CartProductItem(var context: Context, var items: List<CartProductModel>, v
             tvPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.getPrice())
             tvQuantity?.text = item.quantity.toString()
             btnPlus?.setOnClickListener {
+                if (item.quantity == item.product.quantity) return@setOnClickListener
                 item.quantity++
                 tvPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.getPrice())
                 tvQuantity?.text = item.quantity.toString()
