@@ -273,7 +273,7 @@
                     android:src="@drawable/ic_version" />
 
                 <TextView
-                    android:id="@+id/tvVersion"
+                    android:id="@+id/tv_version"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

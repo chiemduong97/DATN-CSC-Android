@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.example.client.BuildConfig
 import com.example.client.R
 import com.example.client.base.BaseFragmentMVP
 import com.example.client.dialog.PrimaryDialog
@@ -41,6 +42,7 @@ class ProfileFragment : BaseFragmentMVP<IProfilePresent>(), IProfileView, View.O
 
     override fun bindComponent() {
         mPresenter?.bindData()
+        tv_version.text = getString(R.string.text_version, BuildConfig.VERSION_NAME)
     }
 
     override fun onClick(v: View) {

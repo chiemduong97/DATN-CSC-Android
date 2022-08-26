@@ -115,7 +115,7 @@
     <string name="text_favorite_product">Sản phẩm ưa thích</string>
     <string name="text_question">Câu hỏi thường gặp</string>
     <string name="text_contact">Liên hệ với chúng tôi</string>
-    <string name="text_version">Phiên bản hiện tại</string>
+    <string name="text_version">Phiên bản hiện tại %s</string>
     <string name="text_logout">Đăng xuất</string>
     <string name="dialog_text_ok">OK</string>
     <string name="dialog_text_cancel">CANCEL</string>

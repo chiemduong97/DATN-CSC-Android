@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiClient {
     @JvmStatic
     fun newInstance(): Retrofit {
-        val baseUrl = "http://192.168.1.4:8585/"
+        val baseUrl = "http://192.168.102.69:8585/"
 
         val builder = OkHttpClient.Builder().addInterceptor(Interceptor { chain ->
             val request = chain.request().newBuilder()

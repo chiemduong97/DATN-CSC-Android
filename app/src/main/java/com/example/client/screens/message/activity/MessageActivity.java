@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -36,7 +37,6 @@ import okhttp3.WebSocketListener;
 import okio.ByteString;
 
 public class MessageActivity extends AppCompatActivity implements IMessageView, View.OnClickListener{
-    private ImageView back;
     private RecyclerView recyclerView;
     private EditText data;
     private MessagePresent mPresent;
@@ -47,15 +47,13 @@ public class MessageActivity extends AppCompatActivity implements IMessageView, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
-        back = findViewById(R.id.back);
+        ImageView back = findViewById(R.id.back);
         recyclerView = findViewById(R.id.recyclerView);
         data = findViewById(R.id.data);
 
         mPresent = new MessagePresent(this);
 
-        recyclerView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-            recyclerView.scrollToPosition(0);
-        });
+        recyclerView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> recyclerView.scrollToPosition(0));
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url("ws://192.168.1.3:8686/socket.php").build();
@@ -64,18 +62,13 @@ public class MessageActivity extends AppCompatActivity implements IMessageView, 
 
 
         data.setOnTouchListener((v, event) -> {
-            final int DRAWABLE_LEFT = 0;
-            final int DRAWABLE_TOP = 1;
-            final int DRAWABLE_RIGHT = 2;
-            final int DRAWABLE_BOTTOM = 3;
-
             if(event.getAction() == MotionEvent.ACTION_UP) {
-                if(event.getRawX() >= (data.getRight() - data.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                if(event.getRawX() >= (data.getRight() - data.getCompoundDrawables()[2].getBounds().width())) {
                     String dt = data.getText().toString();
-                    if(dt == null || dt.equals("")) {
+                    if(dt.equals("")) {
                         return false;
                     }
-                    DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                    DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
                     MessengerModel mm = new MessengerModel(getIntent().getIntExtra("user",-1), dt,
                             format.format(new Date()), true);
                     JSONObject object = new JSONObject();
@@ -111,7 +104,7 @@ public class MessageActivity extends AppCompatActivity implements IMessageView, 
 
         back.setOnClickListener(this);
     }
-    private WebSocketListener listener = new WebSocketListener() {
+    private final WebSocketListener listener = new WebSocketListener() {
         @Override
         public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
             super.onClosed(webSocket, code, reason);
@@ -192,11 +185,9 @@ public class MessageActivity extends AppCompatActivity implements IMessageView, 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.back:
-                finish();
-                onBackPressed();
-                break;
+        if (v.getId() == R.id.back) {
+            finish();
+            onBackPressed();
         }
     }
 }
