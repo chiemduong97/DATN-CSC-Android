@@ -31,10 +31,6 @@ class CommunityFragment : BaseCollectionFragment<ICommunityPresent>(), ICommunit
         mPresenter?.bindData()
     }
 
-    override fun bindComponent() {
-
-    }
-
     override fun bindEvent() {
         imv_back.setOnClickListener {
             requireActivity().onBackPressed()

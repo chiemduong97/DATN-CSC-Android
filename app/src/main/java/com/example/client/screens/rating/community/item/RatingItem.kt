@@ -42,6 +42,7 @@ class RatingItem(
             if (item.content.isEmpty()) flContent?.visibility = View.GONE
             if (item.images.isEmpty()) scrollView?.visibility = View.GONE
             tvContent?.text = item.content
+            lnlImages?.removeAllViews()
             item.toImageModels().forEach {
                 val imageRadius = ImageRadiusView(context).apply { bind(it) }
                 lnlImages?.addView(imageRadius)
