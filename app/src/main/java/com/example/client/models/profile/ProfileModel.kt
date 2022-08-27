@@ -10,7 +10,6 @@ data class ProfileModel(
         var birthday: String = "",
         var phone: String = "",
         var csc_point: Double = 0.0,
-        var first_order: Boolean = false,
         var wallet: Double = 0.0
 ): BaseModel()
 
@@ -21,7 +20,6 @@ data class ProfileResponse(
         var fullname: String?,
         var birthday: String?,
         var phone: String?,
-        var first_order: Boolean?,
         var wallet: Double?,
         var csc_point: Double?
 ) : BaseModel() {
@@ -33,7 +31,6 @@ data class ProfileResponse(
             birthday = birthday.orEmpty(),
             phone = phone.orEmpty(),
             csc_point = csc_point ?: 0.0,
-            first_order = first_order ?: false,
             wallet = wallet ?: 0.0
     )
 }
