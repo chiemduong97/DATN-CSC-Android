@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.client.R
@@ -45,8 +46,13 @@ class ProductHorizontalItem(
                     tvPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.price)
                     if (item.quantity > 0) {
                         tvQuantity?.text = context.getString(R.string.text_product_quantity, item.quantity)
+                        tvAddToCart?.isEnabled = false
+                        tvAddToCart?.setTextColor(ContextCompat.getColor(context, R.color.black))
+
                     } else {
                         tvQuantity?.text = context.getString(R.string.text_product_quantity_0)
+                        tvAddToCart?.isEnabled = false
+                        tvAddToCart?.setTextColor(ContextCompat.getColor(context, R.color.gray_dark))
                     }
 
                     tvAddToCart?.setOnClickListener {
