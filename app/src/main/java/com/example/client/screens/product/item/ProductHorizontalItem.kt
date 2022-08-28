@@ -46,7 +46,7 @@ class ProductHorizontalItem(
                     tvPrice?.text = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(item.price)
                     if (item.quantity > 0) {
                         tvQuantity?.text = context.getString(R.string.text_product_quantity, item.quantity)
-                        tvAddToCart?.isEnabled = false
+                        tvAddToCart?.isEnabled = true
                         tvAddToCart?.setTextColor(ContextCompat.getColor(context, R.color.black))
 
                     } else {
